@@ -1,0 +1,14 @@
+// app/signup/page.tsx
+"use client"
+
+import React from 'react';
+import SignupForm from '@/components/UserAuth/Signup/signup';
+
+export default function SignupPage() {
+  return (
+    <div>
+      <h1>Sign Up</h1>
+      <SignupForm />
+    </div>
+  );
+}
