@@ -1,0 +1,149 @@
+initial steps
+
+users can be either dev, designer, sales, finance, marketing, business owner or other (might consolidate other business roles idk yet )
+
+users can enter location, bio, profile pic, interests, job title, idk what else
+
+users can view existing projects, explore users, explore projects based on location
+
+users can create a project (with description, title, project image (pre-select or custom), people needed, idk what else)
+
+users can be in a project workspace to add documentation, chat with each other, perform project management tasks, idk what else
+
+
+Color Pallete
+1. light green: #99B898
+2. Nude:        #FECEA8
+3. Nude Pink:   #FF847C
+4. Red Pink:    #E84A5F
+5. Dark Green:  #2A363B
+
+
+1. setup db through supabase - Basic Done
+    - user table
+        - isOnboarded: bool
+        - username: string
+        - bio: string?
+        - interests: string
+        - background: string
+        - profileImage: url?
+        - isAuthenticated: bool
+    
+    - profiles table
+    - project table
+    - collaboration table
+        - 
+    - messages table
+    - notifications table
+
+2. setup bucket storage
+    - profile images
+    - project images
+
+3. setup auth through db - Basic Done
+    - login and signup basic functionality - DONE 
+    - forgot password via login screen
+    - reset password via settings page
+    - set up middleware auth to be used globally for individual content
+
+4. create an onboarding
+    - ask user for background (EG: developer, designer, finance, PM, Business Owner, etc)
+    - ask user for optional location (will be used to find projects and people near them)
+    - ask user for username
+    - ask user for optional profile picture, if they do not want a profile picture set a preselect image
+    - ask user for interests (sustainability, art, music, tec, etc)
+    - ask user for optional bio 100 words or less
+
+
+5. create dashboard (project explore page)
+    - have a search/filter to narrow a search based on requirements.
+    - have two sections:
+        1. explore projects 2x3 grid
+        2. explore users with similar interests 1x3 grid
+
+6. create project creation
+    - will be in the dashboard and possibly one other place
+    - the user will be required to enter:
+        1. title
+        2. description (200 words or less), 
+        3. project banner (optional) if not chosen then a pre set will be available
+        4. tags to best describe the project
+        5. roles needed (finance, developer, designer, PM, sales, etc)
+
+        
+7. create user explore page
+    - Search/filters based on interests, location, roles, and username
+    - display user cards in a 3x4 grid
+    - once a user clicks on a user card pull in an overlay card with more details on the usern
+    - in the user overlay there will be an option to send the user a message or collab request
+    - have a section where users can view project application requests
+    - have a section where users can check the status on their own applications
+
+8. create project dashboard
+    - idk the details yet but pretty much make it like slack and trello
+
+
+9. create messaging page
+
+
+1. Login/signup
+    1. Login
+        - login via email and password
+        - forgot password button 
+            - forgot password will take you to the forgot password page
+            - enter email 
+            - if email does not exist present error message
+            - if success then present email sent please check spam 
+
+    2. signup
+        - input fields:
+            1. firstname
+                - check for profanity
+                - check for spacing
+            2. email
+                - check for proper email format (@, extension(.com, edu, etc))
+            3. password
+                - must contain 8 characters
+                - must contain letters
+                - must contain 2 numbers
+                - must contain 2 special characters
+                - must re-enter the password 
+                - have a visibility check to check the user input the password correctly
+            4. accept terms and conditions and privacy policy
+                - two checkboxes
+                - two routers to each document
+
+2. create onboarding
+    - after signup or first time login firect users to onboarding (users.isOnboarded = false)
+    - obnoarding page flow:
+        1. ask for username and role
+        2. ask for location, and interests
+        3. ask for profile image and bio
+    - the user can go back pages to edit data without the data being cleared unless changed by the user
+    
+    - username requirements - REQUIRED
+        1. check to see if the username has been taken
+        2. check to see if there is any profanity
+        3. make it less than 10 characters
+    
+    - role requirements - REQUIRED
+        1. choose only 1 role
+        2. can clear the role
+
+    - location requirements - OPTIONAL
+        1. choose only 1 location
+    
+    - interests requirements - REQUIRED
+        1. choose 3 requirements no more no less
+        2. checkbox to remove or add 3 requirements
+
+    - profile image requirements - OPTIONAL
+        1. image size must be less than 2mb
+        2. image type must be jpeg/jpg or png
+    
+    - bio requirements - OPTIONAL
+        1. must be less than 150 words
+        2. must check for profanity
+        3. include a sample bio
+        4. format text for lists, bold, etc
+    

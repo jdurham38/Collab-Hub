@@ -1,17 +1,9 @@
-// components/SignupForm.tsx
 "use client"
 import React, { useState } from 'react';
-import { UserData } from '@/utils/interfaces';
+import { UserData, SignupResponse } from '@/utils/interfaces';
+import { signup } from '@/services/signup';
 
-// Define the expected shape of the API response
-interface SignupResponse {
-  message: string;
-  user?: {
-    id: string;
-    email: string;
-  };
-  error?: string;
-}
+import styles from './SignupForm.module.css'
 
 const SignupForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -28,25 +20,9 @@ const SignupForm: React.FC = () => {
     };
 
     try {
-      // Send signup request to the API route
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-
-      // Use the defined SignupResponse type to handle the response
-      const result: SignupResponse = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Failed to sign up');
-      }
-
+      const result: SignupResponse = await signup(userData);
       setSuccessMessage(`Signup successful: ${result.user?.email}`);
     } catch (error: unknown) {
-      // Ensure the error message handling is type-safe
       if (error instanceof Error) {
         setErrorMessage(error.message);
       } else {
@@ -56,8 +32,8 @@ const SignupForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSignup}>
-      <input
+<form onSubmit={handleSignup} className={styles.form}>
+        <input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}

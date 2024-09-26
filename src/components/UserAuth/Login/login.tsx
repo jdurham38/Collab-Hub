@@ -5,6 +5,9 @@ import React, { useState } from 'react';
 import { UserData } from '@/utils/interfaces';
 import supabase from '@/lib/supabaseClient/supabase';
 
+import styles from './LoginForm.module.css'
+
+
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,7 +33,7 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} className={styles.form}>
       <input
         type="email"
         value={email}

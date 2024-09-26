@@ -1,0 +1,18 @@
+/* Similar to LoginForm.module.css */
+.form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form input {
+    margin-bottom: 10px;
+    padding: 8px;
+    font-size: 16px;
+  }
+  
+  .form button[type="submit"] {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

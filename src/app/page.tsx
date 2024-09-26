@@ -1,8 +1,9 @@
+import AuthCard from "@/components/UserAuth/AuthCard/authCard";
 
 export default function Home() {
   return (
     <div>
-      Home page
+      <AuthCard />
     </div>
   );
 }
