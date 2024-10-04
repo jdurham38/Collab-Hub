@@ -1,4 +1,4 @@
-initial steps
+Name: CoDevelop
 
 users can be either dev, designer, sales, finance, marketing, business owner or other (might consolidate other business roles idk yet )
 
