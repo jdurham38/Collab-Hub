@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { UserData, SignupResponse } from '@/utils/interfaces';
 import { signup } from '@/services/signup';
 
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
+
 import styles from './SignupForm.module.css'
 
 const SignupForm: React.FC = () => {
@@ -10,6 +13,7 @@ const SignupForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,18 +44,30 @@ const SignupForm: React.FC = () => {
         placeholder="Email"
         required
       />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
+           <div className={styles.passwordInputWrapper}>
+        <input
+          type={showPassword ? 'text' : 'password'} // Toggle input type
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+      <button
+        type="button"
+        className={styles.passwordToggleButton}
+        onClick={() => setShowPassword(!showPassword)}
+        aria-label="Toggle password visibility"
+      >
+        {showPassword ? <FaEyeSlash /> : <FaEye />}
+      </button>
+      </div>
       <button type="submit">Sign Up</button>
       {errorMessage && <p>{errorMessage}</p>}
       {successMessage && <p>{successMessage}</p>}
     </form>
   );
+
+  
 };
 
 export default SignupForm;

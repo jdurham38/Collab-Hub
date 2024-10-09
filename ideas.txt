@@ -12,11 +12,11 @@ users can be in a project workspace to add documentation, chat with each other, 
 
 
 Color Pallete
-1. light green: #99B898
-2. Nude:        #FECEA8
-3. Nude Pink:   #FF847C
-4. Red Pink:    #E84A5F
-5. Dark Green:  #2A363B
+#ccd5ae
+#e9edc9
+#fefae0
+#faedcd
+#d4a373
 
 
 1. setup db through supabase - Basic Done

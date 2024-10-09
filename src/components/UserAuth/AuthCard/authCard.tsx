@@ -4,6 +4,9 @@ import LoginForm from '../Login/login';
 import SignupForm from '../Signup/signup';
 import styles from './AuthCard.module.css';
 
+import logo from './logo.png';
+import Image from 'next/image';
+
 const AuthCard: React.FC = () => {
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -17,8 +20,10 @@ const AuthCard: React.FC = () => {
         <div className={`${styles.card} ${styles.front}`}>
           <div className={styles.content}>
             <div className={styles.description}>
-              <h2>Welcome Back!</h2>
-              <p>Login to access your account.</p>
+              <h2 className={styles.heading} >Welcome Back!</h2>
+              <p className={styles.paragraph} >Login to start working on new projects</p>
+              <Image src={logo} alt="Logo" className={styles.logo} />
+
             </div>
             <div className={styles.formContainer}>
               <LoginForm />
@@ -37,8 +42,8 @@ const AuthCard: React.FC = () => {
               </button>
             </div>
             <div className={styles.description}>
-              <h2>Join Us!</h2>
-              <p>Sign up to get started.</p>
+              <h2 className={styles.heading} >Join Us!</h2>
+              <p className={styles.paragraph} >Sign up to get started.</p>
             </div>
           </div>
         </div>

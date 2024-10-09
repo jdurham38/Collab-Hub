@@ -5,12 +5,15 @@ import React, { useState } from 'react';
 import { UserData } from '@/utils/interfaces';
 import supabase from '@/lib/supabaseClient/supabase';
 
-import styles from './LoginForm.module.css'
+import styles from './LoginForm.module.css';
+
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // New state variable
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -41,14 +44,27 @@ const LoginForm: React.FC = () => {
         placeholder="Email"
         required
       />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Log In</button>
+
+      {/* Password Input with Toggle Button */}
+      <div className={styles.passwordInputWrapper}>
+        <input
+          type={showPassword ? 'text' : 'password'} // Toggle input type
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+      <button
+        type="button"
+        className={styles.passwordToggleButton}
+        onClick={() => setShowPassword(!showPassword)}
+        aria-label="Toggle password visibility"
+      >
+        {showPassword ? <FaEyeSlash /> : <FaEye />}
+      </button>
+      </div>
+
+      <button type="submit">Login Here</button>
       {errorMessage && <p>{errorMessage}</p>}
       {successMessage && <p>{successMessage}</p>}
     </form>

@@ -5,14 +5,52 @@
   }
   
   .form input {
-    margin-bottom: 10px;
-    padding: 8px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-bottom: 18px;
+    padding: 15px;
     font-size: 16px;
+    border-radius: 10px;
+    width: 100%;
   }
   
   .form button[type="submit"] {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     padding: 10px;
     font-size: 16px;
+    width: 200px;
     cursor: pointer;
+    background-color: #d4a373;
+    border-radius: 10px;
+    margin: 0 auto;
+    display: block;
   }
+
+  /* Hover Effect */
+.form button:hover {
+  text-decoration: underline;   /* Underline on hover */
+  color: #333;                  /* Darken text color on hover */
+}
+
+/* New styles for password input wrapper */
+.passwordInputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.passwordInputWrapper input {
+  padding-right: 60px; /* Adjust to make room for the button */
+}
+
+.passwordToggleButton {
+  position: absolute;
+  right: 15px; /* Position inside the input field */
+  top: 38%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333; /* Adjust color as needed */
+}
+
   
