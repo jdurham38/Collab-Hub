@@ -97,34 +97,36 @@ Color Pallete
 
     2. signup
         - input fields:
-            1. firstname
-                - check for profanity
-                - check for spacing
-            2. email
+            - username - DONE
+                1. check to see if the username has been taken
+                2. check to see if there is any profanity
+                3. make it less than 10 characters
+    
+            2. email - DONE
                 - check for proper email format (@, extension(.com, edu, etc))
-            3. password
+            3. password - DONE
                 - must contain 8 characters
                 - must contain letters
                 - must contain 2 numbers
                 - must contain 2 special characters
-                - must re-enter the password 
                 - have a visibility check to check the user input the password correctly
+
             4. accept terms and conditions and privacy policy
                 - two checkboxes
                 - two routers to each document
+            5. route user to onboarding - DONE
+                - set isOnboarded = false until onboarding is complete
+                
+
+        - Need to figure out user auth
+         - i have global auth kinda set up, needs work
 
 2. create onboarding
     - after signup or first time login firect users to onboarding (users.isOnboarded = false)
     - obnoarding page flow:
-        1. ask for username and role
-        2. ask for location, and interests
-        3. ask for profile image and bio
+        1. ask for role, location(optional), and interests
+        2. ask for profile image(optional) and bio(optional)
     - the user can go back pages to edit data without the data being cleared unless changed by the user
-    
-    - username requirements - REQUIRED
-        1. check to see if the username has been taken
-        2. check to see if there is any profanity
-        3. make it less than 10 characters
     
     - role requirements - REQUIRED
         1. choose only 1 role
@@ -146,4 +148,5 @@ Color Pallete
         2. must check for profanity
         3. include a sample bio
         4. format text for lists, bold, etc
+    - set isOnboarded = True
     

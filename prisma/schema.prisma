@@ -20,6 +20,7 @@ model User {
   username  String?  @unique // New username field, optional and unique
   dateModified DateTime? @default(now())
   location String? @unique
+  isOnboarded Boolean @default(false)
   createdAt DateTime? @default(now())
 
   @@map("users") // Maps to "users" table in your Supabase database

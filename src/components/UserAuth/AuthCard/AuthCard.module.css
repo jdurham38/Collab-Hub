@@ -15,8 +15,8 @@
 /* Card Container */
 .cardContainer {
   position: relative;
-  width: 800px;
-  height: 400px;
+  width: 900px;
+  height: 600px;
   perspective: 1000px;
 }
 
