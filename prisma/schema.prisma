@@ -18,10 +18,9 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   username  String?  @unique // New username field, optional and unique
-  dateModified DateTime @default(now())
+  dateModified DateTime? @default(now())
   location String? @unique
-  name      String?
-  createdAt DateTime @default(now())
+  createdAt DateTime? @default(now())
 
   @@map("users") // Maps to "users" table in your Supabase database
 }
