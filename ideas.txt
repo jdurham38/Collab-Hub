@@ -88,7 +88,10 @@ Color Pallete
 
 1. Login/signup
     1. Login
-        - login via email and password
+        - login via email and password - DONE
+        - Error saying login failed, either password or email is incorrect - DONE
+        - set Auth after login - DONE
+        - check if user is onboarded - DONE
         - forgot password button 
             - forgot password will take you to the forgot password page
             - enter email 
@@ -112,13 +115,13 @@ Color Pallete
                 - have a visibility check to check the user input the password correctly
 
             4. accept terms and conditions and privacy policy
-                - two checkboxes
+                - One checkbox
                 - two routers to each document
             5. route user to onboarding - DONE
                 - set isOnboarded = false until onboarding is complete
                 
 
-        - Need to figure out user auth
+        - Need to figure out user auth - DONE
          - i have global auth kinda set up, needs work
 
 2. create onboarding

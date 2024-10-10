@@ -150,6 +150,7 @@ const SignupForm: React.FC = () => {
       if (result) {
         toast.success('Signup successful!');
         setUser(result.user ? result.user : null);
+        console.log('User set:', result.user);
         setUserName('');
         setEmail('');
         setPassword('');

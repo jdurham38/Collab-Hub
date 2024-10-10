@@ -1,0 +1,24 @@
+/* Center the spinner */
+.spinnerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  /* Spinner styling */
+  .spinner {
+    border: 16px solid #f2dede; /* Light gray */
+    border-top: 16px solid #d4a373; /* Your primary color */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Spinner animation */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
