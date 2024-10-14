@@ -12,8 +12,8 @@ users can be in a project workspace to add documentation, chat with each other, 
 
 
 Color Pallete
-#ccd5ae
-#e9edc9
+#ccd5ae - dark green
+#e9edc9 - light green
 #fefae0
 #faedcd
 #d4a373
@@ -126,6 +126,7 @@ Color Pallete
     - create content for login, signup, password-resest, update-password
     - modify styling for checkbox for toc/privacy policy 
     - figure out why error messages are not displaying on signup for if a user tries to signup with an incorrect password ot not accepting the TOC checkbox
+    - figure out why favicon is not showing
 
 2. create onboarding
     - after signup or first time login firect users to onboarding (users.isOnboarded = false)

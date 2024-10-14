@@ -44,6 +44,8 @@ const AuthCard: React.FC = () => {
             <div className={styles.description}>
               <h2 className={styles.heading} >Join Us!</h2>
               <p className={styles.paragraph} >Sign up to get started.</p>
+              <Image src={logo} alt="Logo" className={styles.logo} />
+
             </div>
           </div>
         </div>
