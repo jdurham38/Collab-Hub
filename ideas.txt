@@ -42,11 +42,13 @@ Color Pallete
 
 3. setup auth through db - Basic Done
     - login and signup basic functionality - DONE 
-    - forgot password via login screen
+    - forgot password via login screen - DONE
     - reset password via settings page
-    - set up middleware auth to be used globally for individual content
+    - set up middleware auth to be used globally for individual content - DONE
+
 
 4. create an onboarding
+    - start implementing tanstack query
     - ask user for background (EG: developer, designer, finance, PM, Business Owner, etc)
     - ask user for optional location (will be used to find projects and people near them)
     - ask user for username
