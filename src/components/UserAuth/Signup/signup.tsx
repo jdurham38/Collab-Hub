@@ -168,14 +168,17 @@ const SignupForm: React.FC = () => {
         setPassword('');
         setPasswordSuccessMessage('');
       }
-
+      
       const isOnboarded = await checkOnboardStatus(result.user?.id || '');
-
+      
       if (!isOnboarded) {
         setRedirecting(true);
-        router.push('/onboard');
+        // Delay the redirect to allow the toast to display
+        setTimeout(() => {
+          router.push('/onboard');
+        }, 2000); // Adjust the delay as needed (e.g., 2000ms = 2 seconds)
       }
-
+      
       setErrorMessage('');
     } catch (error: unknown) {
       console.error('Error during signup:', error);
@@ -193,8 +196,7 @@ const SignupForm: React.FC = () => {
         </div>
       ) : (
         <>
-          <form onSubmit={handleSignup} className={styles.form}>
-            <input
+        <form onSubmit={handleSignup} className={styles.form} noValidate>            <input
               type="text"
               value={username}
               onChange={(e) => setUserName(e.target.value)}
@@ -246,28 +248,39 @@ const SignupForm: React.FC = () => {
             {passwordSuccessMessage && <p className={styles.success}>{passwordSuccessMessage}</p>}
 
             {/* Terms and Conditions Checkbox */}
-            <div className={styles.termsContainer}>
-              <input
-                type="checkbox"
-                id="acceptTerms"
-                checked={acceptTerms}
-                onChange={() => setAcceptTerms(!acceptTerms)}
-                required
-              />
-              <label htmlFor="acceptTerms">
-                By clicking this you agree to our{' '}
-                <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className={styles.link}>
-                  Terms and Conditions
-                </a>{' '}
-                and{' '}
-                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className={styles.link}>
-                  Privacy Policy
-                </a>.
-              </label>
-            </div>
+            <div className={styles.checkboxContainer}>
+            <input
+              type="checkbox"
+              id="acceptTerms"
+              checked={acceptTerms}
+              onChange={() => setAcceptTerms(!acceptTerms)}
+              required
+            />
+            <label htmlFor="acceptTerms">
+              By clicking this you agree to our{' '}
+              <a
+                href="/terms-and-conditions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.link}
+              >
+                Terms and Conditions
+              </a>{' '}
+              and{' '}
+              <a
+                href="/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.link}
+              >
+                Privacy Policy
+              </a>.
+            </label>
+          </div>
+
             {acceptTermsError && <p className={styles.error}>You must accept the Terms and Conditions and Privacy Policy to proceed.</p>}
 
-            <button type="submit" disabled={loading || usernameChecking || !isEmailValid || !isPasswordValid || !acceptTerms}>
+            <button type="submit" disabled={loading || usernameChecking}>
               {loading ? 'Signing Up...' : 'Sign Up'}
             </button>
             {errorMessage && <p className={styles.error}>{errorMessage}</p>}

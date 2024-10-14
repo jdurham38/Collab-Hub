@@ -25,62 +25,67 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-
+  
     const userData: UserData = {
       email,
       password,
     };
-
+  
     const { data, error } = await supabase.auth.signInWithPassword(userData);
-
+  
     if (error) {
       setErrorMessage('Login failed, either password or email is incorrect');
       setLoading(false);
       return;
     }
-
+  
     if (data && data.user) {
       const { user } = data;
-
+  
       // Extract the username from user_metadata
       const username = user.user_metadata?.username || '';
-
-      // Create your own User object matching your custom User interface
+  
       const currentUser: User = {
         id: user.id,
         email: user.email || '',
         username: username,
-        // Include other properties if required
       };
-
-      // Set the authenticated user in AuthContext
-      setUser(currentUser);
-
+  
       // Display success toast message
       toast.success('Login successful!');
-
-      // Check if the user is onboarded
-      try {
-        const isOnboarded = await checkOnboardStatus(user.id);
-        if (!isOnboarded) {
-          // Redirect to onboard page if not onboarded
-          router.push('/onboard');
-        } else {
-          // Redirect to dashboard if onboarded
-          router.push('/dashboard');
+  
+      // Stop loading to hide the spinner
+      setLoading(false);
+  
+      // Delay before redirecting
+      setTimeout(async () => {
+        // Show spinner again over the login form during redirect
+        setLoading(true);
+  
+        // Set the authenticated user in AuthContext
+        setUser(currentUser);
+  
+        // Redirect logic
+        try {
+          const isOnboarded = await checkOnboardStatus(user.id);
+          if (!isOnboarded) {
+            router.push('/onboard');
+          } else {
+            router.push('/dashboard');
+          }
+        } catch (error) {
+          console.error('Error checking onboard status:', error);
+          setErrorMessage('An error occurred during login');
+          setLoading(false);
         }
-      } catch (error) {
-        console.error('Error checking onboard status:', error);
-        setErrorMessage('An error occurred during login');
-      } finally {
-        // Stop loading after checking onboard status and redirecting
-        setLoading(false);
-      }
+      }, 1000); // Adjust delay as needed
     } else {
       setErrorMessage('An unexpected error occurred');
       setLoading(false);
     }
   };
+  
+    
 
   // Handle password reset
   const handleForgotPassword = async () => {
@@ -90,62 +95,64 @@ const LoginForm: React.FC = () => {
 
   return (
     <>
-      {loading ? (
-        <div className={styles.spinnerContainer}>
-          <div className={styles.spinner}></div>
-        </div>
-      ) : (
-        <>
-          <form onSubmit={handleLogin} className={styles.form}>
+      <div className={styles.formContainer}>
+        <form onSubmit={handleLogin} className={styles.form}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
+  
+          {/* Password Input with Toggle Button */}
+          <div className={styles.passwordInputWrapper}>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
+              type={showPassword ? 'text' : 'password'} // Toggle input type
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
               required
             />
-
-            {/* Password Input with Toggle Button */}
-            <div className={styles.passwordInputWrapper}>
-              <input
-                type={showPassword ? 'text' : 'password'} // Toggle input type
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-              <button
-                type="button"
-                className={styles.passwordToggleButton}
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label="Toggle password visibility"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
-
-            <button type="submit">Login Here</button>
             <button
               type="button"
-              className={styles.forgotPasswordButton}
-              onClick={handleForgotPassword}
+              className={styles.passwordToggleButton}
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label="Toggle password visibility"
             >
-              Forgot Password?
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
-            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-          </form>
-
-          {/* Toast Container */}
-          <ToastContainer
-            position="top-left"
-            autoClose={5000}
-            hideProgressBar={true}
-            theme="light"
-          />
-        </>
-      )}
+          </div>
+  
+          <button type="submit">Login Here</button>
+          <button
+            type="button"
+            className={styles.forgotPasswordButton}
+            onClick={handleForgotPassword}
+          >
+            Forgot Password?
+          </button>
+          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+        </form>
+  
+        {loading && (
+          <div className={styles.spinnerContainer}>
+            <div className={styles.spinner}></div>
+          </div>
+        )}
+      </div>
+  
+      {/* Toast Container */}
+      <ToastContainer
+        position="top-left"
+        autoClose={5000}
+        hideProgressBar={true}
+        theme="light"
+      />
     </>
   );
+  
 };
+
 
 export default LoginForm;
