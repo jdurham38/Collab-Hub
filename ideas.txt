@@ -92,11 +92,7 @@ Color Pallete
         - Error saying login failed, either password or email is incorrect - DONE
         - set Auth after login - DONE
         - check if user is onboarded - DONE
-        - forgot password button 
-            - forgot password will take you to the forgot password page
-            - enter email 
-            - if email does not exist present error message
-            - if success then present email sent please check spam 
+        
 
     2. signup
         - input fields:
@@ -119,6 +115,11 @@ Color Pallete
                 - two routers to each document
             5. route user to onboarding - DONE
                 - set isOnboarded = false until onboarding is complete
+    3. forgot password button 
+            - forgot password will take you to the forgot password page - DONE
+            - enter email  - DONE
+            - if email does not exist present error message
+            - if success then present email sent please check spam - DONE
                 
 
         - Need to figure out user auth - DONE

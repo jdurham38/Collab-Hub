@@ -23,6 +23,21 @@
     border-radius: 4px;
     font-size: 0.9rem;
   }
+
+  .warning {
+    color: #000000; /* Red color for errors */
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #fff57a; /* Light red background */
+    border: 1px solid #fff57a; /* Darker red border */
+    padding: 8px;
+    margin-bottom:10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  .alert{
+    width: 30px;
+    height: 30px;
+  }
   
   .success {
     color: #5cb85c; /* Green color for success */
@@ -75,9 +90,23 @@
   color: #333; /* Adjust color as needed */
 }
 
+/* Styling for the links */
+.link {
+  color: #007bff; /* Primary link color */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #0056b3; /* Darker on hover */
+  text-decoration: underline;
+}
+
 
 /* Center the spinner */
 .spinnerContainer {
+  background-color: #faedcd;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,6 +115,7 @@
 
 /* Spinner styling */
 .spinner {
+  background-color: #faedcd;
   border: 16px solid #f2dede; /* Light gray */
   border-top: 16px solid #d4a373; /* Blue or your primary color */
   border-radius: 50%;

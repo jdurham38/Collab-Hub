@@ -55,6 +55,7 @@
 
 /* Center the spinner */
 .spinnerContainer {
+  background-color: #faedcd;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -63,6 +64,7 @@
 
 /* Spinner styling */
 .spinner {
+  background-color: #faedcd;
   border: 16px solid #f2dede; /* Light gray */
   border-top: 16px solid #d4a373; /* Blue or your primary color */
   border-radius: 50%;

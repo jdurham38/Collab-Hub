@@ -84,24 +84,7 @@ const LoginForm: React.FC = () => {
 
   // Handle password reset
   const handleForgotPassword = async () => {
-    if (!email) {
-      setErrorMessage('Please enter your email to reset password');
-      return;
-    }
-
-    setLoading(true);
-    setErrorMessage('');
-
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'https://your-app-url.com/update-password', // Replace with your actual URL
-    });
-
-    if (error) {
-      setErrorMessage('Error sending password reset email');
-    } else {
-      setErrorMessage('Password reset email sent');
-    }
-
+   router.push('/reset-password')
     setLoading(false);
   };
 
