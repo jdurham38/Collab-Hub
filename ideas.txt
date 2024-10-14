@@ -97,33 +97,33 @@ Color Pallete
     2. signup
         - input fields:
             - username - DONE
-                1. check to see if the username has been taken
-                2. check to see if there is any profanity
-                3. make it less than 10 characters
+                1. check to see if the username has been taken - DONE
+                2. check to see if there is any profanity - DONE
     
             2. email - DONE
-                - check for proper email format (@, extension(.com, edu, etc))
+                - check for proper email format (@, extension(.com, edu, etc)) - DONE
             3. password - DONE
-                - must contain 8 characters
-                - must contain letters
-                - must contain 2 numbers
-                - must contain 2 special characters
-                - have a visibility check to check the user input the password correctly
+                - must contain 8 characters - DONE
+                - must contain letters - DONE
+                - must contain 2 numbers - DONE
+                - must contain 2 special characters - DONE
+                - have a visibility check to check the user input the password correctly - DONE
 
-            4. accept terms and conditions and privacy policy
-                - One checkbox
-                - two routers to each document
+            4. accept terms and conditions and privacy policy - DONE
+                - One checkbox - DONE
+                - two routers to each document - DONE
             5. route user to onboarding - DONE
-                - set isOnboarded = false until onboarding is complete
-    3. forgot password button 
+                - set isOnboarded = false until onboarding is complete - DONE
+    3. forgot password button - DONE
             - forgot password will take you to the forgot password page - DONE
             - enter email  - DONE
-            - if email does not exist present error message
+            - if email does not exist present error message - DONE
             - if success then present email sent please check spam - DONE
                 
 
-        - Need to figure out user auth - DONE
-         - i have global auth kinda set up, needs work
+    - create content for login, signup, password-resest, update-password
+    - modify styling for checkbox for toc/privacy policy 
+    - figure out why error messages are not displaying on signup for if a user tries to signup with an incorrect password ot not accepting the TOC checkbox
 
 2. create onboarding
     - after signup or first time login firect users to onboarding (users.isOnboarded = false)
