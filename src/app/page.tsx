@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import AuthCard from "@/components/UserAuth/AuthCard/authCard";
+import AuthCard from '@/components/UserAuth/AuthCard/authCard';
 import DashboardPage from './dashboard/page';
 import { checkOnboardStatus } from '@/services/signup';
-import styles from './Entry.module.css'; // Adjust the path to your CSS module
+import styles from './Entry.module.css';
 
 export default function Entry() {
   const { user } = useAuth();

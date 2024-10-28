@@ -124,9 +124,9 @@ Color Pallete
                 
 
     - create content for login, signup, password-resest, update-password
-    - modify styling for checkbox for toc/privacy policy 
-    - figure out why error messages are not displaying on signup for if a user tries to signup with an incorrect password ot not accepting the TOC checkbox
     - figure out why favicon is not showing
+    - add cookies only for keeping a user logged in
+    - convert email text to all lowercase
 
 2. create onboarding
     - after signup or first time login firect users to onboarding (users.isOnboarded = false)

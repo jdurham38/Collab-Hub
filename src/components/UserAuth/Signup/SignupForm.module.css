@@ -93,21 +93,23 @@
 }
 .checkboxContainer {
   display: flex;
-  align-items: center; /* Align items to the top */
-  margin-bottom: 20px;
-
+  align-items: center; /* Align items vertically */
+  margin: 10px; /* Adjust to reduce space below */
 }
 
 .checkboxContainer input[type="checkbox"] {
-  flex: 1;    
+  flex-shrink: 0; /* Prevent checkbox from shrinking */
+  margin-right: 10px; /* Reduce space between checkbox and label */
   width: 15px;
-  height: 15px;  
-  }
+  height: 15px;
+}
 
 .checkboxContainer label {
-  flex: 2;             /* Allows label to take up remaining space */
   font-size: small;
+  flex: 1; /* Allows label to take up remaining space */
+  margin: 0; /* Ensure no extra margin around label */
 }
+
 
 
 /* Styling for the links */

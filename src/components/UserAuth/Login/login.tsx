@@ -2,19 +2,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { UserData, User } from '@/utils/interfaces'; // Import your custom User interface
+import { UserData } from '@/utils/interfaces'; // Import your custom UserData interface
 import supabase from '@/lib/supabaseClient/supabase';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
 import { checkOnboardStatus } from '@/services/signup';
 import styles from './LoginForm.module.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
-import 'react-toastify/dist/ReactToastify.css'; // Import toastify CSS
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
-  const { setUser } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -25,71 +23,52 @@ const LoginForm: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage('');
-  
+
     const userData: UserData = {
       email,
       password,
     };
-  
+
     const { data, error } = await supabase.auth.signInWithPassword(userData);
-  
+
     if (error) {
       setErrorMessage('Login failed, either password or email is incorrect');
       setLoading(false);
       return;
     }
-  
-    if (data && data.user) {
-      const { user } = data;
-  
-      // Extract the username from user_metadata
-      const username = user.user_metadata?.username || '';
-  
-      const currentUser: User = {
-        id: user.id,
-        email: user.email || '',
-        username: username,
-      };
-  
-      // Display success toast message
-      toast.success('Login successful!');
-  
-      // Stop loading to hide the spinner
-      setLoading(false);
-  
-      // Delay before redirecting
-      setTimeout(async () => {
-        // Show spinner again over the login form during redirect
-        setLoading(true);
-  
-        // Set the authenticated user in AuthContext
-        setUser(currentUser);
-  
-        // Redirect logic
-        try {
-          const isOnboarded = await checkOnboardStatus(user.id);
+
+    // Display success toast message
+    toast.success('Login successful!');
+
+    // Stop loading to hide the spinner
+    setLoading(false);
+
+    // Delay before redirecting
+    setTimeout(async () => {
+      // Show spinner again over the login form during redirect
+      setLoading(true);
+
+      // Redirect logic
+      try {
+        if (data && data.user) {
+          const isOnboarded = await checkOnboardStatus(data.user.id);
           if (!isOnboarded) {
             router.push('/onboard');
           } else {
             router.push('/dashboard');
           }
-        } catch (error) {
-          console.error('Error checking onboard status:', error);
-          setErrorMessage('An error occurred during login');
-          setLoading(false);
         }
-      }, 1000); // Adjust delay as needed
-    } else {
-      setErrorMessage('An unexpected error occurred');
-      setLoading(false);
-    }
+      } catch (error) {
+        console.error('Error checking onboard status:', error);
+        setErrorMessage('An error occurred during login');
+        setLoading(false);
+      }
+    }, 1000); // Adjust delay as needed
   };
-  
-    
 
   // Handle password reset
   const handleForgotPassword = async () => {
-   router.push('/reset-password')
+    router.push('/reset-password');
     setLoading(false);
   };
 
@@ -104,7 +83,7 @@ const LoginForm: React.FC = () => {
             placeholder="Email"
             required
           />
-  
+
           {/* Password Input with Toggle Button */}
           <div className={styles.passwordInputWrapper}>
             <input
@@ -123,7 +102,7 @@ const LoginForm: React.FC = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
-  
+
           <button type="submit">Login Here</button>
           <button
             type="button"
@@ -134,14 +113,14 @@ const LoginForm: React.FC = () => {
           </button>
           {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         </form>
-  
+
         {loading && (
           <div className={styles.spinnerContainer}>
             <div className={styles.spinner}></div>
           </div>
         )}
       </div>
-  
+
       {/* Toast Container */}
       <ToastContainer
         position="top-left"
@@ -151,8 +130,6 @@ const LoginForm: React.FC = () => {
       />
     </>
   );
-  
 };
-
 
 export default LoginForm;
