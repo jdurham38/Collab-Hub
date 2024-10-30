@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import supabase from '@/lib/supabaseClient/supabase';
+import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import { useRouter } from 'next/navigation';
 import styles from './UpdatePassword.module.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -22,6 +22,8 @@ const UpdatePasswordPage: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
+    const supabase = getSupabaseClient();
+
     // Get the session to ensure the user is authenticated
     const getSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -47,6 +49,7 @@ const UpdatePasswordPage: React.FC = () => {
   };
 
   const handleUpdatePassword = async (e: React.FormEvent) => {
+    const supabase = getSupabaseClient();
     e.preventDefault();
 
     // Validate password format

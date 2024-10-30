@@ -112,12 +112,13 @@ const SignupForm: React.FC = () => {
     setPasswordError('');
     setAcceptTermsError(false);
 
-    // Validate email format
-    if (!isEmailValid) {
+    const emailLower = email.toLowerCase();
+
+    // Validate email format using the lowercase email
+    if (!emailRegex.test(emailLower)) {
       setErrorMessage('Invalid email format');
       formIsValid = false;
     }
-
     // Validate password format
     if (!isPasswordValid) {
       setPasswordError(
@@ -146,7 +147,7 @@ const SignupForm: React.FC = () => {
     setLoading(true);
 
     try {
-      const userExists = await checkUserExists(email);
+      const userExists = await checkUserExists(emailLower);
       if (userExists) {
         setErrorMessage('This email is already registered');
         setLoading(false);
@@ -154,7 +155,7 @@ const SignupForm: React.FC = () => {
       }
 
       const userData: UserData = {
-        email,
+        email: emailLower,
         password,
         username,
       };

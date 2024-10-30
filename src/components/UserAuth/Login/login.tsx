@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { UserData } from '@/utils/interfaces'; // Import your custom UserData interface
-import supabase from '@/lib/supabaseClient/supabase';
+import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import { useRouter } from 'next/navigation';
 import { checkOnboardStatus } from '@/services/signup';
 import styles from './LoginForm.module.css';
@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
+  const supabase = getSupabaseClient();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);

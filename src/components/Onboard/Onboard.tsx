@@ -2,10 +2,11 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import supabase from '@/lib/supabaseClient/supabase'; // Import your Supabase client
+import { getSupabaseClient } from '@/lib/supabaseClient/supabase'; // Import your Supabase client
 
 const Onboard: React.FC = () => {
   const router = useRouter();
+  const supabase = getSupabaseClient();
 
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();

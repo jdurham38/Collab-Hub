@@ -1,10 +1,41 @@
-// utils/supabaseClient.ts
-import { createClient } from '@supabase/supabase-js';
+// supabaseClient.ts
 
-// Ensure that these environment variables are prefixed with NEXT_PUBLIC_ if you need them on the client side
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import customStorage from '@/utils/customStorage';
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+let supabase: SupabaseClient | null = null;
 
-export default supabase;
+export const getSupabaseClient = (): SupabaseClient => {
+  if (!supabase) {
+    if (typeof window === 'undefined') {
+      // Server-side initialization
+      supabase = createClient(supabaseUrl, supabaseAnonKey, {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+          storage: {
+            getItem: () => null,
+            setItem: () => {},
+            removeItem: () => {},
+          },
+        },
+      });
+    } else {
+      // Client-side initialization
+      supabase = createClient(supabaseUrl, supabaseAnonKey, {
+        auth: {
+          storage: customStorage,
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true,
+        },
+      });
+    }
+  }
+  return supabase;
+};
+
+export default getSupabaseClient;

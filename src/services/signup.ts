@@ -1,13 +1,21 @@
 import { UserData, SignupResponse } from '@/utils/interfaces';
 
 // Signup function
+// Signup function
 export async function signup(userData: UserData): Promise<SignupResponse> {
+  // Convert the email to lowercase
+  const userDataLower = {
+    ...userData,
+    email: userData.email.toLowerCase(),
+  };
+
   const response = await fetch('/api/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(userData),
+    // Use the userData with lowercase email
+    body: JSON.stringify(userDataLower),
   });
 
   const result: SignupResponse = await response.json();
@@ -19,19 +27,26 @@ export async function signup(userData: UserData): Promise<SignupResponse> {
   return result;
 }
 
+
 // Check if the user already exists by email
-export const checkUserExists = async (email: string) => {
+// Check if the user already exists by email
+export const checkUserExists = async (email: string): Promise<boolean> => {
+  // Convert the email to lowercase
+  const emailLower = email.toLowerCase();
+
   const response = await fetch('/api/check-user', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email }),
+    // Use the lowercase email in the request body
+    body: JSON.stringify({ email: emailLower }),
   });
 
   const result = await response.json();
   return result.exists; // returns true if user exists, false otherwise
 };
+
 
 // Check if the username already exists
 export const checkUsernameExists = async (username: string) => {

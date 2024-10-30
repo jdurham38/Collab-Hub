@@ -36,4 +36,5 @@ export interface User {
   id: string;
   email: string;
   username: string;
+  cookieConsent?: boolean;
 }

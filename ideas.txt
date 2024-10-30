@@ -124,9 +124,7 @@ Color Pallete
                 
 
     - create content for login, signup, password-resest, update-password
-    - figure out why favicon is not showing
-    - add cookies only for keeping a user logged in
-    - convert email text to all lowercase
+    - ensure all auth pages and policies are mobile friendly
 
 2. create onboarding
     - after signup or first time login firect users to onboarding (users.isOnboarded = false)
