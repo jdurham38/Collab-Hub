@@ -28,6 +28,9 @@ const VerifyEmail: React.FC = () => {
       const { error } = await supabase.auth.resend({
         type: 'signup',
         email: emailLower,
+        options: {
+          emailRedirectTo: 'http://localhost:3000'
+        }
       });
 
       if (error) {

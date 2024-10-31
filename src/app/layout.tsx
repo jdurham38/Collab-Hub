@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Head from "next/head";
 import CookieBanner from "@/components/CookiesConsent/banner";
+import ErrorBoundary from "@/utils/ErrorBoundary";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -61,8 +62,11 @@ export default function RootLayout({
 // Create a separate client component for AuthProvider
 const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
   'use client';
-  return <AuthProvider>
+  return <ErrorBoundary>
+   <AuthProvider>
     {children}
     <CookieBanner />
-  </AuthProvider>;
+  </AuthProvider>
+  </ErrorBoundary>
+  
 };
