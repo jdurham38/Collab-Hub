@@ -4,6 +4,7 @@ import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import ProtectedComponent from '../ProtectedComponent/protected-page';
+import DiscoverProjects from './DiscoverProjects/discoverProjects';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
@@ -23,7 +24,8 @@ const Dashboard: React.FC = () => {
   return (
 <div>
   <ProtectedComponent />
-<h1>Dashboard Content</h1>
+<h1>Dashboard </h1>
+<DiscoverProjects />
 </div>
 );
 }

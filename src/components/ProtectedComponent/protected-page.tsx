@@ -28,7 +28,7 @@ const ProtectedComponent = () => {
   }
 
   // Once loading is complete and the user is logged in, display the protected content
-  return <div>Protected Content</div>;
+  return <></>;
 };
 
 export default ProtectedComponent;

@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -5,6 +6,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Head from "next/head";
 import CookieBanner from "@/components/CookiesConsent/banner";
 import ErrorBoundary from "@/utils/ErrorBoundary";
+import ClientAuthWrapper from "@/contexts/ClientAuthWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -62,10 +64,11 @@ export default function RootLayout({
 // Create a separate client component for AuthProvider
 const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
   'use client';
+
   return <ErrorBoundary>
    <AuthProvider>
-    {children}
-    <CookieBanner />
+   <ClientAuthWrapper>{children}</ClientAuthWrapper> {/* Use ClientAuthWrapper */}
+   <CookieBanner />
   </AuthProvider>
   </ErrorBoundary>
   
