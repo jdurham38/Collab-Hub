@@ -116,7 +116,7 @@ const SignupForm: React.FC = () => {
 
     // Validate email format using the lowercase email
     if (!emailRegex.test(emailLower)) {
-      setErrorMessage('Invalid email format');
+      setErrorMessage('Please enter a valid email address.');
       formIsValid = false;
     }
     // Validate password format
@@ -129,7 +129,7 @@ const SignupForm: React.FC = () => {
 
     // Check if username is available
     if (!usernameAvailable) {
-      setErrorMessage('Please choose a different username');
+      setErrorMessage('Sorry, this username is already taken. Please try another.');
       formIsValid = false;
     }
 
@@ -149,7 +149,7 @@ const SignupForm: React.FC = () => {
     try {
       const userExists = await checkUserExists(emailLower);
       if (userExists) {
-        setErrorMessage('This email is already registered');
+        setErrorMessage('This email is already registered. Try logging in instead.');
         setLoading(false);
         return;
       }
@@ -200,10 +200,10 @@ const SignupForm: React.FC = () => {
         />
         {usernameChecking && <p>Checking username availability...</p>}
         {!usernameChecking && username && usernameAvailable && (
-          <p className={styles.success}>Username is available!</p>
+          <p className={styles.success}>Great choice! Your username is available.</p>
         )}
         {!usernameChecking && username && !usernameAvailable && (
-          <p className={styles.error}>Username is not available</p>
+          <p className={styles.error}>Sorry, this username is already taken. Please try another.</p>
         )}
 
         <input
@@ -216,7 +216,7 @@ const SignupForm: React.FC = () => {
           placeholder="Email"
           required
         />
-        {!isEmailValid && <p className={styles.error}>Invalid email format</p>}
+        {!isEmailValid && <p className={styles.error}>Invalid email format. Please double-check your email address.</p>}
 
         <div className={styles.passwordInputWrapper}>
           <input

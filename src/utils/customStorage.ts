@@ -5,19 +5,13 @@ import { SupportedStorage } from '@supabase/auth-js';
 const customStorage: SupportedStorage = {
   getItem: (key: string): string | null => {
     if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
-      const consent = localStorage.getItem('cookieConsent');
-      if (consent === 'accepted') {
-        return localStorage.getItem(key);
-      }
+      return localStorage.getItem(key); // Removed consent check for testing
     }
     return null;
   },
   setItem: (key: string, value: string): void => {
     if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
-      const consent = localStorage.getItem('cookieConsent');
-      if (consent === 'accepted') {
-        localStorage.setItem(key, value);
-      }
+      localStorage.setItem(key, value); // Removed consent check for testing
     }
   },
   removeItem: (key: string): void => {
@@ -26,5 +20,6 @@ const customStorage: SupportedStorage = {
     }
   },
 };
+
 
 export default customStorage;

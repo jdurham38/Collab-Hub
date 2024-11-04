@@ -1,12 +1,11 @@
-// AuthContext.tsx
-
-'use client';
+"use client"
 
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from '@/utils/interfaces';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
 import { checkOnboardStatus } from '@/services/signup';
+import styles from './Auth.module.css';
 
 interface AuthContextType {
   user: User | null;
@@ -17,13 +16,22 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true); // Loading state to manage the session check
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const supabase = getSupabaseClient();
 
     const getUser = async () => {
+      // Check if the URL has the 'type=recovery' parameter or if we are on the update-password page
+      const urlParams = new URLSearchParams(window.location.search);
+      const type = urlParams.get('type');
+      if (type === 'recovery' || window.location.pathname === '/update-password') {
+        // If in recovery mode or on the update-password page, skip session check and redirection
+        setLoading(false);
+        return;
+      }
+
       const { data: { session }, error } = await supabase.auth.getSession();
 
       if (error) {
@@ -36,12 +44,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           email: userData.email || '',
           username: userData.user_metadata?.username || '',
         });
+
+        // Normal flow: check if the user is onboarded
+        const isOnboarded = await checkOnboardStatus(userData.id);
+        if (!isOnboarded) {
+          router.push('/onboard');
+        } else {
+          router.push('/dashboard');
+        }
       } else {
-        // Handle case where session is null (user signed out or deleted)
         setUser(null);
       }
 
-      setLoading(false); // Set loading to false after session check
+      setLoading(false);
     };
 
     getUser();
@@ -56,7 +71,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         };
         setUser(currentUser);
 
-        // Check if the user is onboarded if session and user data are valid
         const isOnboarded = await checkOnboardStatus(userData.id);
         if (!isOnboarded) {
           router.push('/onboard');
@@ -64,7 +78,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           router.push('/dashboard');
         }
       } else if (event === 'SIGNED_OUT') {
-        // Handle sign-out by clearing user state
         setUser(null);
         router.push('/');
       }
@@ -75,8 +88,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [router]);
 
-  // Show a loading state while checking the session
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className={styles.spinnerContainer}>
+        <div className={styles.spinner}></div>
+      </div>
+    );
+  }
 
   return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
 };

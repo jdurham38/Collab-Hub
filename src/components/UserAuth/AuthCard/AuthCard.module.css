@@ -102,11 +102,12 @@
 
 /* Media Query for Mobile Devices */
 @media (max-width: 768px) {
+
   /* Adjust Card Container */
   .cardContainer {
     width: 100%;
     max-width: 400px; /* Adjust as needed */
-    height: auto;
+    height: 100%;
     perspective: 1000px;
   }
 
@@ -114,17 +115,22 @@
     height: auto; /* Allow the card to adjust based on content */
   }
 
-  .front, .back {
-    height: auto; /* Ensure front and back have auto height */
-  }
+/* Front and Back */
+.front {
+  z-index: 2;
+}
 
-  .flipped .front {
-    transform: rotateX(180deg);
-  }
+.back {
+  transform: rotateY(180deg);
+}
 
-  .flipped .back {
-    transform: rotateX(360deg);
-  }
+.flipped .front {
+  transform: rotateY(180deg);
+}
+
+.flipped .back {
+  transform: rotateY(360deg);
+}
 
   /* Content Layout */
   .content {

@@ -59,9 +59,8 @@ const LoginForm: React.FC = () => {
             router.push('/dashboard');
           }
         }
-      } catch (error) {
-        console.error('Error checking onboard status:', error);
-        setErrorMessage('An error occurred during login');
+      } catch  {
+        setErrorMessage('An error occurred while logging in. Please check your details and try again.');
         setLoading(false);
       }
     }, 1000); // Adjust delay as needed

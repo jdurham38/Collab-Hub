@@ -13,8 +13,18 @@ export default function Entry() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   useEffect(() => {
+
+    // Check if the URL contains a password recovery hash
+    const hash = window.location.hash;
+    if (hash.includes('type=recovery')) {
+      setIsPasswordRecovery(true);
+      setLoading(false); // Stop loading as we don't need to check onboarding in this case
+      return;
+    }
+
     const handleOnboarding = async () => {
       if (!user) {
         // User is not logged in; stop loading to render AuthCard
@@ -26,25 +36,34 @@ export default function Entry() {
         // Check if the user is onboarded
         const onboarded = await checkOnboardStatus(user.id);
         setIsOnboarded(onboarded);
+
+        // If the user is not onboarded, redirect to the onboard page
+        if (!onboarded) {
+          router.push('/onboard');
+        }
       } catch (error) {
         console.error('Error checking onboard status:', error);
       } finally {
-        setLoading(false); // Stop loading after checking
+        setLoading(false); // Stop loading after the check
       }
     };
 
     handleOnboarding();
-  }, [user]);
+  }, [user, router]);
 
   useEffect(() => {
-    if (isOnboarded === false && user) {
-      // User is logged in but not onboarded; redirect to onboard page
+    // Prevent redirection if in password recovery mode
+    if (isPasswordRecovery) {
+      return;
+    }
+
+    if (user && isOnboarded === false) {
       router.push('/onboard');
     }
-  }, [isOnboarded, user, router]);
+  }, [user, isOnboarded, router, isPasswordRecovery]);
 
   if (loading) {
-    // Display the spinner while checking onboarding status
+    // Display a loading spinner while checking the onboarding status
     return (
       <div className={styles.spinnerContainer}>
         <div className={styles.spinner}></div>
@@ -53,7 +72,7 @@ export default function Entry() {
   }
 
   if (!user) {
-    // User is not logged in; render the AuthCard component
+    // If the user is not logged in, render the AuthCard component
     return (
       <div>
         <AuthCard />
@@ -62,7 +81,7 @@ export default function Entry() {
   }
 
   if (isOnboarded === false) {
-    // While redirecting, display the spinner to prevent dashboard flash
+    // While redirecting, display a spinner to prevent a flash of the dashboard
     return (
       <div className={styles.spinnerContainer}>
         <div className={styles.spinner}></div>
@@ -71,7 +90,7 @@ export default function Entry() {
   }
 
   if (isOnboarded === true) {
-    // User is logged in and onboarded; render the dashboard
+    // If the user is logged in and onboarded, render the DashboardPage
     return (
       <div>
         <h1>Welcome, {user.username}!</h1>
@@ -80,6 +99,6 @@ export default function Entry() {
     );
   }
 
-  // Default fallback
+  // Fallback in case of unexpected state
   return null;
 }

@@ -88,40 +88,6 @@ Color Pallete
 9. create messaging page
 
 
-1. Login/signup
-    1. Login
-        - login via email and password - DONE
-        - Error saying login failed, either password or email is incorrect - DONE
-        - set Auth after login - DONE
-        - check if user is onboarded - DONE
-        
-
-    2. signup
-        - input fields:
-            - username - DONE
-                1. check to see if the username has been taken - DONE
-                2. check to see if there is any profanity - DONE
-    
-            2. email - DONE
-                - check for proper email format (@, extension(.com, edu, etc)) - DONE
-            3. password - DONE
-                - must contain 8 characters - DONE
-                - must contain letters - DONE
-                - must contain 2 numbers - DONE
-                - must contain 2 special characters - DONE
-                - have a visibility check to check the user input the password correctly - DONE
-
-            4. accept terms and conditions and privacy policy - DONE
-                - One checkbox - DONE
-                - two routers to each document - DONE
-            5. route user to onboarding - DONE
-                - set isOnboarded = false until onboarding is complete - DONE
-    3. forgot password button - DONE
-            - forgot password will take you to the forgot password page - DONE
-            - enter email  - DONE
-            - if email does not exist present error message - DONE
-            - if success then present email sent please check spam - DONE
-                
 
     - create content for login, signup, password-resest, update-password
     - ensure all auth pages and policies are mobile friendly

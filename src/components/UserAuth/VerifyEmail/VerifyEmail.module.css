@@ -190,3 +190,37 @@
     }
   }
   
+  /* Existing Media Query for Mobile Devices */
+  @media (max-width: 768px) {
+    /* Adjust Card Container */
+    .cardContainer {
+        width: 100%;
+        max-width: 400px; /* Adjust as needed */
+        height: 100%;
+        perspective: 1000px;
+    }
+  
+    /* Adjust Card to be vertical */
+    .card {
+        height: 800px; /* Allow the card to adjust based on content */
+        flex-direction: column; /* Stack elements vertically */
+    }
+  
+    .content {
+        flex-direction: column;
+        height: 100%;
+    }
+  
+    .description,
+    .formContainer {
+        width: 100%;
+        height: 350px;
+        padding: 20px;
+    }
+  
+    /* Adjust Logo */
+    .logo {
+        max-width: 200px;
+    }
+  }
+  

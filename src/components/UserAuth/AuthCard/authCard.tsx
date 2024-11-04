@@ -21,7 +21,7 @@ const AuthCard: React.FC = () => {
           <div className={styles.content}>
             <div className={styles.description}>
               <h2 className={styles.heading} >Welcome Back!</h2>
-              <p className={styles.paragraph} >Login to start working on new projects</p>
+              <p className={styles.paragraph} >We’re glad to see you again! Enter your email and password to access your account and pick up right where you left off.</p>
               <Image src={logo} alt="Logo" className={styles.logo} />
 
             </div>
@@ -43,7 +43,7 @@ const AuthCard: React.FC = () => {
             </div>
             <div className={styles.description}>
               <h2 className={styles.heading} >Join Us!</h2>
-              <p className={styles.paragraph} >Sign up to get started.</p>
+              <p className={styles.paragraph} >Creating an account is quick and easy. Choose a unique username, enter your email, and create a secure password. Don&apos;t forget to accept our Terms and Conditions to get started. We&apos;ll walk you through every step to ensure your account is secure and ready.</p>
               <Image src={logo} alt="Logo" className={styles.logo} />
 
             </div>

@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import supabase from '@/lib/supabaseClient/supabase';
+import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import styles from './ResetPassword.module.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // Email validation regex
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const supabase = getSupabaseClient();
 
 const ResetPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -68,7 +69,7 @@ const ResetPasswordPage: React.FC = () => {
           <div className={styles.card}>
             <div className={styles.description}>
               <h2>Reset Your Password</h2>
-              <p>Enter your email to reset your password and get back to your projects.</p>
+              <p>We understand that forgetting a password can be stressful. Enter your email, and we’ll send you a link to securely reset your password so you can get back to what matters most.</p>
             </div>
             <div className={styles.formContainer}>
               <form onSubmit={handleResetPassword} className={styles.form}>
