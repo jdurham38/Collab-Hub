@@ -26,8 +26,8 @@ export const getSupabaseClient = (): SupabaseClient => {
     supabase = createClient(supabaseUrl, supabaseAnonKey, {
       auth: {
         storage: useInMemoryStorage ? inMemoryStorage : customStorage,
-        persistSession: !useInMemoryStorage, // Don't persist if using in-memory storage
-        autoRefreshToken: !useInMemoryStorage, // Disable auto-refresh if using in-memory storage
+        persistSession: !useInMemoryStorage,
+        autoRefreshToken: !useInMemoryStorage,
         detectSessionInUrl: true,
       },
     });

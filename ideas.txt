@@ -88,10 +88,6 @@ Color Pallete
 9. create messaging page
 
 
-
-    - create content for login, signup, password-resest, update-password
-    - ensure all auth pages and policies are mobile friendly
-
 2. create onboarding
     - after signup or first time login firect users to onboarding (users.isOnboarded = false)
     - obnoarding page flow:

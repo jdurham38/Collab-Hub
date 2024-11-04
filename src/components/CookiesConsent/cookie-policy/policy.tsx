@@ -33,15 +33,21 @@ const CookiesPolicy: React.FC = () => {
           how you interact with our website, helping us understand usage patterns and improve our
           services.
         </li>
-        <li>
-          <strong>Functionality Cookies:</strong> These cookies allow us to remember choices you make
-          on our website, providing a more personalized experience.
-        </li>
-        <li>
-          <strong>Advertising Cookies:</strong> These cookies are used to deliver advertisements that
-          are relevant to you and your interests.
-        </li>
+
       </ul>
+
+      <h2>User Sessions and Data Use</h2>
+      <p>
+        When you create an account or log in to our website, we store your session information to
+        authenticate your identity and provide secure access to your account. These user sessions are
+        temporary and will expire after a set period of inactivity, enhancing your security and
+        protecting your privacy.
+      </p>
+      <p>
+        <strong>If you decline cookies:</strong> We will still use your session information solely
+        for user authentication purposes. We will not store or use your personal information beyond
+        what is necessary for securely logging you in and managing your session.
+      </p>
 
       <h2>Your Choices Regarding Cookies</h2>
       <p>
@@ -69,9 +75,9 @@ const CookiesPolicy: React.FC = () => {
         If you have any questions or concerns about our use of cookies, please contact us at:
       </p>
       <p>
-        Email: <a href="mailto:your-email@example.com">your-email@example.com</a>
+        Email: <a href="mailto:joshswebdevelopment@gmail.com">joshswebdevelopment@gmail.com</a>
         <br />
-        Address: [Your Company Address]
+        
       </p>
     </div>
   );

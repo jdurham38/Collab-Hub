@@ -1,10 +1,10 @@
-"use client"
+'use client';
 
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from '@/utils/interfaces';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
-import { checkOnboardStatus } from '@/services/signup';
+import { useAuthStore } from '@/lib/useAuthStore';
 import styles from './Auth.module.css';
 
 interface AuthContextType {
@@ -15,78 +15,106 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const { isLoggedIn, setLoggedIn, setSession, session } = useAuthStore();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [initialCheckComplete, setInitialCheckComplete] = useState(false); // New flag
   const router = useRouter();
+  const supabase = getSupabaseClient();
 
   useEffect(() => {
-    const supabase = getSupabaseClient();
+    const initializeAuth = async () => {
+      try {
+        console.log('Initializing authentication...');
 
-    const getUser = async () => {
-      // Check if the URL has the 'type=recovery' parameter or if we are on the update-password page
-      const urlParams = new URLSearchParams(window.location.search);
-      const type = urlParams.get('type');
-      if (type === 'recovery' || window.location.pathname === '/update-password') {
-        // If in recovery mode or on the update-password page, skip session check and redirection
-        setLoading(false);
-        return;
-      }
+        // Use persisted session from Zustand if available
+        if (session && isLoggedIn) {
+          console.log('Using persisted session:', session);
+          const userData = session.user;
+          setUser({
+            id: userData.id,
+            email: userData.email || '',
+            username: userData.user_metadata?.username || '',
+          });
+          setLoading(false);
+          return;
+        }
 
-      const { data: { session }, error } = await supabase.auth.getSession();
+        // Check user session with Supabase
+        const { data: { session: freshSession }, error } = await supabase.auth.getSession();
 
-      if (error) {
-        console.error('Error getting session:', error);
+        if (error || !freshSession) {
+          console.log('No session found during initial check.');
+          // Delay marking as logged out until initial check is complete
+        } else {
+          console.log('Fresh session found:', freshSession);
+          setSession(freshSession);
+          const userData = freshSession.user;
+          setUser({
+            id: userData.id,
+            email: userData.email || '',
+            username: userData.user_metadata?.username || '',
+          });
+          setLoggedIn(true);
+        }
+      } catch (err) {
+        console.error('Unexpected error:', err);
         setUser(null);
-      } else if (session) {
+        setLoggedIn(false);
+      } finally {
+        setInitialCheckComplete(true); // Mark initial check as complete
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, [isLoggedIn, session, setLoggedIn, setSession, supabase]);
+
+  useEffect(() => {
+    // Only set logged out if initial check is complete and no session was found
+    if (initialCheckComplete && !session) {
+      setLoggedIn(false);
+      setUser(null);
+    }
+  }, [initialCheckComplete, session, setLoggedIn]);
+
+  // Listen for auth state changes
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth state change event:', event);
+      if (event === 'SIGNED_IN' && session) {
+        console.log('User signed in:', session);
+        setSession(session);
         const userData = session.user;
         setUser({
           id: userData.id,
           email: userData.email || '',
           username: userData.user_metadata?.username || '',
         });
-
-        // Normal flow: check if the user is onboarded
-        const isOnboarded = await checkOnboardStatus(userData.id);
-        if (!isOnboarded) {
-          router.push('/onboard');
-        } else {
-          router.push('/dashboard');
-        }
-      } else {
+        setLoggedIn(true);
+      } else if (event === 'SIGNED_OUT') {
+        console.log('User signed out');
+        setSession(null);
         setUser(null);
-      }
-
-      setLoading(false);
-    };
-
-    getUser();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session) {
+        setLoggedIn(false);
+        router.push('/');
+      } else if (event === 'INITIAL_SESSION' && session) {
+        console.log('Initial session detected:', session);
+        setSession(session);
         const userData = session.user;
-        const currentUser: User = {
+        setUser({
           id: userData.id,
           email: userData.email || '',
           username: userData.user_metadata?.username || '',
-        };
-        setUser(currentUser);
-
-        const isOnboarded = await checkOnboardStatus(userData.id);
-        if (!isOnboarded) {
-          router.push('/onboard');
-        } else {
-          router.push('/dashboard');
-        }
-      } else if (event === 'SIGNED_OUT') {
-        setUser(null);
-        router.push('/');
+        });
+        setLoggedIn(true);
       }
     });
 
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, [router]);
+  }, [setLoggedIn, setSession, supabase, router]);
 
   if (loading) {
     return (
@@ -96,7 +124,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
   }
 
-  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => {

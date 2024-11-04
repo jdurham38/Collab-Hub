@@ -1,11 +1,10 @@
-// components/LoginForm.tsx
 'use client';
 
 import React, { useState } from 'react';
 import { UserData } from '@/utils/interfaces'; // Import your custom UserData interface
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import { useRouter } from 'next/navigation';
-import { checkOnboardStatus } from '@/services/signup';
+import { useAuthStore } from '@/lib/useAuthStore'; // Import Zustand store
 import styles from './LoginForm.module.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
@@ -14,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const LoginForm: React.FC = () => {
   const router = useRouter();
   const supabase = getSupabaseClient();
+  const { setLoggedIn } = useAuthStore(); // Zustand state management
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -30,7 +30,7 @@ const LoginForm: React.FC = () => {
       password,
     };
 
-    const { data, error } = await supabase.auth.signInWithPassword(userData);
+    const { error } = await supabase.auth.signInWithPassword(userData);
 
     if (error) {
       setErrorMessage('Login failed, either password or email is incorrect');
@@ -41,28 +41,19 @@ const LoginForm: React.FC = () => {
     // Display success toast message
     toast.success('Login successful!');
 
+    // Update Zustand store to set the user as logged in
+    setLoggedIn(true);
+
     // Stop loading to hide the spinner
     setLoading(false);
 
     // Delay before redirecting
-    setTimeout(async () => {
+    setTimeout(() => {
       // Show spinner again over the login form during redirect
       setLoading(true);
 
-      // Redirect logic
-      try {
-        if (data && data.user) {
-          const isOnboarded = await checkOnboardStatus(data.user.id);
-          if (!isOnboarded) {
-            router.push('/onboard');
-          } else {
-            router.push('/dashboard');
-          }
-        }
-      } catch  {
-        setErrorMessage('An error occurred while logging in. Please check your details and try again.');
-        setLoading(false);
-      }
+      // Redirect to the dashboard
+      router.push('/dashboard');
     }, 1000); // Adjust delay as needed
   };
 

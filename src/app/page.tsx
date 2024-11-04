@@ -2,68 +2,40 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuthStore } from '@/lib/useAuthStore';
 import AuthCard from '@/components/UserAuth/AuthCard/authCard';
-import DashboardPage from './dashboard/page';
-import { checkOnboardStatus } from '@/services/signup';
 import styles from './Entry.module.css';
 
 export default function Entry() {
-  const { user } = useAuth();
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const [authInitialized, setAuthInitialized] = useState(false); // New state to check if auth is initialized
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
-  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
+  // Effect to determine when auth state is initialized
   useEffect(() => {
-
-    // Check if the URL contains a password recovery hash
-    const hash = window.location.hash;
-    if (hash.includes('type=recovery')) {
-      setIsPasswordRecovery(true);
-      setLoading(false); // Stop loading as we don't need to check onboarding in this case
-      return;
-    }
-
-    const handleOnboarding = async () => {
-      if (!user) {
-        // User is not logged in; stop loading to render AuthCard
-        setLoading(false);
-        return;
-      }
-
-      try {
-        // Check if the user is onboarded
-        const onboarded = await checkOnboardStatus(user.id);
-        setIsOnboarded(onboarded);
-
-        // If the user is not onboarded, redirect to the onboard page
-        if (!onboarded) {
-          router.push('/onboard');
-        }
-      } catch (error) {
-        console.error('Error checking onboard status:', error);
-      } finally {
-        setLoading(false); // Stop loading after the check
-      }
+    // Simulate an initialization delay or check if Zustand's state is set up
+    const initializeAuth = () => {
+      // Wait for a short time to ensure the auth state is updated
+      setTimeout(() => {
+        setAuthInitialized(true);
+      }, 500); // Adjust the delay as needed
     };
 
-    handleOnboarding();
-  }, [user, router]);
+    initializeAuth();
+  }, []);
 
   useEffect(() => {
-    // Prevent redirection if in password recovery mode
-    if (isPasswordRecovery) {
-      return;
+    if (authInitialized) {
+      if (isLoggedIn) {
+        router.push('/dashboard');
+      } else {
+        setLoading(false);
+      }
     }
-
-    if (user && isOnboarded === false) {
-      router.push('/onboard');
-    }
-  }, [user, isOnboarded, router, isPasswordRecovery]);
+  }, [isLoggedIn, authInitialized, router]);
 
   if (loading) {
-    // Display a loading spinner while checking the onboarding status
     return (
       <div className={styles.spinnerContainer}>
         <div className={styles.spinner}></div>
@@ -71,8 +43,7 @@ export default function Entry() {
     );
   }
 
-  if (!user) {
-    // If the user is not logged in, render the AuthCard component
+  if (!isLoggedIn) {
     return (
       <div>
         <AuthCard />
@@ -80,25 +51,5 @@ export default function Entry() {
     );
   }
 
-  if (isOnboarded === false) {
-    // While redirecting, display a spinner to prevent a flash of the dashboard
-    return (
-      <div className={styles.spinnerContainer}>
-        <div className={styles.spinner}></div>
-      </div>
-    );
-  }
-
-  if (isOnboarded === true) {
-    // If the user is logged in and onboarded, render the DashboardPage
-    return (
-      <div>
-        <h1>Welcome, {user.username}!</h1>
-        <DashboardPage />
-      </div>
-    );
-  }
-
-  // Fallback in case of unexpected state
   return null;
 }

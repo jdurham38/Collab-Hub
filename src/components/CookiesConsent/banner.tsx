@@ -1,70 +1,80 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
+import { useAuthStore } from '../../lib/useAuthStore';
 import styles from './CookieBanner.module.css';
 
 const CookieBanner: React.FC = () => {
-  const [showBanner, setShowBanner] = useState(false);
+  // Access Zustand store states and actions
+  const isCookieConsentGiven = useAuthStore((state) => state.isCookieConsentGiven);
+  const setCookieConsent = useAuthStore((state) => state.setCookieConsent);
 
+  // Check local storage on component mount and update state accordingly
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const consent = localStorage.getItem('cookieConsent');
-      if (!consent) {
-        setShowBanner(true);
-      } else if (consent === 'accepted') {
-        initializeAnalytics();
-      }
-    }
-  }, []);
-
-  const handleAcceptCookies = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cookieConsent', 'accepted');
-      setShowBanner(false);
+    const consent = localStorage.getItem('cookieConsent');
+    if (consent === 'accepted') {
+      setCookieConsent(true); // Set consent to true if previously accepted
       initializeAnalytics();
-    }
-  };
-
-  const handleDeclineCookies = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cookieConsent', 'declined');
-      setShowBanner(false);
+    } else if (consent === 'declined') {
+      setCookieConsent(false); // Set consent to false if previously declined
       removeAnalytics();
+    } else {
+      setCookieConsent(null); // Explicitly set to null if no preference found
     }
+  }, [setCookieConsent]);
+
+  // Handle accepting cookies
+  const handleAcceptCookies = () => {
+    localStorage.setItem('cookieConsent', 'accepted');
+    setCookieConsent(true);
+    initializeAnalytics();
   };
 
+  // Handle declining cookies
+  const handleDeclineCookies = () => {
+    localStorage.setItem('cookieConsent', 'declined');
+    setCookieConsent(false);
+    removeAnalytics();
+  };
+
+  // Placeholder for initializing analytics
   const initializeAnalytics = () => {
     console.log('Analytics initialized');
-    // Initialize analytics here
+    // Add your analytics initialization code here
   };
 
+  // Placeholder for removing analytics
   const removeAnalytics = () => {
     console.log('Analytics removed');
-    // Remove analytics here
+    // Add your analytics removal code here
   };
 
-  if (!showBanner) return null;
-
-  return (
-    <div className={styles.cookieBanner}>
-      <p className={styles.message}>
-        We use cookies for analytics and to remember your preferences. Read our{' '}
-        <Link href="/cookies-policy" className={styles.link}>
-        Cookies Policy
-        </Link>
-        . Do you accept the use of cookies?
-      </p>
-      <div className={styles.buttonContainer}>
-        <button onClick={handleAcceptCookies} className={styles.button}>
-          Accept
-        </button>
-        <button onClick={handleDeclineCookies} className={styles.button}>
-          Decline
-        </button>
+  // Show the banner only if consent has not been given (i.e., isCookieConsentGiven is null)
+  if (isCookieConsentGiven === null) {
+    return (
+      <div className={styles.cookieBanner}>
+        <p className={styles.message}>
+          We use cookies for analytics and to remember your preferences. Read our{' '}
+          <Link href="/cookies-policy" className={styles.link}>
+            Cookies Policy
+          </Link>
+          . Do you accept the use of cookies?
+        </p>
+        <div className={styles.buttonContainer}>
+          <button onClick={handleAcceptCookies} className={styles.button}>
+            Accept
+          </button>
+          <button onClick={handleDeclineCookies} className={styles.button}>
+            Decline
+          </button>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  // Return null to hide the banner if consent is given (either accepted or declined)
+  return null;
 };
 
 export default CookieBanner;

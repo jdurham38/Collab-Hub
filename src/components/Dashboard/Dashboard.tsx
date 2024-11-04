@@ -3,6 +3,7 @@
 import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
+import ProtectedComponent from '../ProtectedComponent/protected-page';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
@@ -19,7 +20,12 @@ const Dashboard: React.FC = () => {
     return null; // Prevent rendering if the user is not authenticated
   }
 
-  return (<div>Dashboard Content</div>);
+  return (
+<div>
+  <ProtectedComponent />
+<h1>Dashboard Content</h1>
+</div>
+);
 }
 
 export default Dashboard;
