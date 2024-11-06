@@ -1,15 +1,21 @@
-"use client"
+"use client";
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import styles from './navbar.module.css';
+import CreateProject from '../Projects/CreateProject/CreateProject';
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   return (
@@ -24,7 +30,9 @@ const Navbar = () => {
         <Link href="/discover-people" passHref>
           <span className={styles.navItem}>Discover People</span>
         </Link>
-        <button className={styles.createButton}>+</button>
+        <button className={styles.createButton} onClick={toggleModal}>
+          +
+        </button>
       </div>
       <div className={styles.rightSection}>
         <div className={styles.profile}>
@@ -33,11 +41,9 @@ const Navbar = () => {
           </span>
           {dropdownOpen && (
             <div className={styles.dropdown}>
-                        <Link href="/settings" passHref>
-
-              <span className={styles.dropdownItem}>Settings</span>
+              <Link href="/settings" passHref>
+                <span className={styles.dropdownItem}>Settings</span>
               </Link>
-
             </div>
           )}
           <Image
@@ -49,6 +55,16 @@ const Navbar = () => {
           />
         </div>
       </div>
+
+      {/* Modal for CreateProject */}
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <CreateProject />
+          <button className={styles.closeModalButton} onClick={toggleModal}>
+            Close
+          </button>
+        </div>
+      )}
     </nav>
   );
 };

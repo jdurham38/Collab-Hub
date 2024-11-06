@@ -25,10 +25,10 @@ const CreateProject: React.FC = () => {
       alert('You must be logged in to create a project.');
       return;
     }
-
+  
     try {
       const userId = session.user.id; // Extract user ID from session
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('projects')
         .insert([
           {
@@ -39,17 +39,22 @@ const CreateProject: React.FC = () => {
             roles,
             created_by: userId, // Use the user ID from the session
           },
-        ]);
-
+        ])
+        .select('id') // Select the ID of the newly created project
+  
       if (error) throw error;
-
+      if (!data || data.length === 0) throw new Error('Failed to retrieve project ID.');
+  
+      const newProjectId = data[0].id; // Get the ID of the newly created project
+  
       alert('Project created successfully!');
-      router.push('/projects'); // TODO - Should redirect to the project just created
+      router.push(`/projects/${newProjectId}`); // Redirect to the new project's page
     } catch (error) {
       console.error('Error creating project:', error);
       alert('Failed to create project. Please try again.');
     }
   };
+  
 
   // Handle tag and role selection
   const handleTagSelection = (tag: string) => {
