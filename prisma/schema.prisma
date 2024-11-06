@@ -1,28 +1,62 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  username  String?  @unique // New username field, optional and unique
-  dateModified DateTime? @default(now())
-  location String? @unique
-  isOnboarded Boolean @default(false)
-  createdAt DateTime? @default(now())
+  id              String               @id @default(uuid())
+  email           String               @unique
+  username        String?              @unique // New username field, optional and unique
+  dateModified    DateTime?            @default(now())
+  location        String?              @unique
+  createdAt       DateTime?            @default(now())
+  // Relations
+  projects        Project[]            @relation("UserProjects")
+  requests        ProjectRequest[]     @relation("UserRequests")
+  collaborations  ProjectCollaborator[] @relation("UserCollaborations")
 
   @@map("users") // Maps to "users" table in your Supabase database
 }
 
+model Project {
+  id          String               @id @default(uuid())
+  title       String
+  description String?
+  banner      String?
+  tags        String[]             @default([])
+  roles       String[]             @default([])
+  createdAt   DateTime             @default(now())
+  created_by  String               // Foreign key to User
+  createdBy   User                 @relation("UserProjects", fields: [created_by], references: [id])
+
+  // Relations
+  requests    ProjectRequest[]     @relation("ProjectRequests")
+  collaborators ProjectCollaborator[] @relation("ProjectCollaborators")
+}
+
+model ProjectRequest {
+  id         String     @id @default(uuid())
+  status     String     @default("pending") // Status of the request
+  requestedAt DateTime  @default(now())
+  userId     String
+  user       User       @relation("UserRequests", fields: [userId], references: [id])
+  projectId  String
+  project    Project    @relation("ProjectRequests", fields: [projectId], references: [id])
+}
+
+model ProjectCollaborator {
+  id         String     @id @default(uuid())
+  joinedAt   DateTime   @default(now())
+  userId     String
+  user       User       @relation("UserCollaborations", fields: [userId], references: [id])
+  projectId  String
+  project    Project    @relation("ProjectCollaborators", fields: [projectId], references: [id])
+}

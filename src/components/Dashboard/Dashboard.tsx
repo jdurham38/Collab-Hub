@@ -4,7 +4,7 @@ import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import ProtectedComponent from '../ProtectedComponent/protected-page';
-import DiscoverProjects from './DiscoverProjects/discoverProjects';
+import DiscoverProjects from '../Projects/DiscoverProjects/discoverProjects';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();

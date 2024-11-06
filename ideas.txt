@@ -47,21 +47,12 @@ Color Pallete
     - set up middleware auth to be used globally for individual content - DONE
 
 
-4. create an onboarding
-    - start implementing tanstack query
-    - ask user for background (EG: developer, designer, finance, PM, Business Owner, etc)
-    - ask user for optional location (will be used to find projects and people near them)
-    - ask user for username
-    - ask user for optional profile picture, if they do not want a profile picture set a preselect image
-    - ask user for interests (sustainability, art, music, tec, etc)
-    - ask user for optional bio 100 words or less
-
-
-5. create dashboard (project explore page)
+5. create dashboard (View Projects currently in (created/joined), view friends, view notifications/messages)
+  
+6. project discovery page
     - have a search/filter to narrow a search based on requirements.
     - have two sections:
         1. explore projects 2x3 grid
-        2. explore users with similar interests 1x3 grid
 
 6. create project creation
     - will be in the dashboard and possibly one other place
@@ -69,8 +60,8 @@ Color Pallete
         1. title
         2. description (200 words or less), 
         3. project banner (optional) if not chosen then a pre set will be available
-        4. tags to best describe the project
-        5. roles needed (finance, developer, designer, PM, sales, etc)
+        4. tags to best describe the project - added tags file
+        5. roles needed (finance, developer, designer, PM, sales, etc) - added roles file
 
         
 7. create user explore page
@@ -88,32 +79,3 @@ Color Pallete
 9. create messaging page
 
 
-2. create onboarding
-    - after signup or first time login firect users to onboarding (users.isOnboarded = false)
-    - obnoarding page flow:
-        1. ask for role, location(optional), and interests
-        2. ask for profile image(optional) and bio(optional)
-    - the user can go back pages to edit data without the data being cleared unless changed by the user
-    
-    - role requirements - REQUIRED
-        1. choose only 1 role
-        2. can clear the role
-
-    - location requirements - OPTIONAL
-        1. choose only 1 location
-    
-    - interests requirements - REQUIRED
-        1. choose 3 requirements no more no less
-        2. checkbox to remove or add 3 requirements
-
-    - profile image requirements - OPTIONAL
-        1. image size must be less than 2mb
-        2. image type must be jpeg/jpg or png
-    
-    - bio requirements - OPTIONAL
-        1. must be less than 150 words
-        2. must check for profanity
-        3. include a sample bio
-        4. format text for lists, bold, etc
-    - set isOnboarded = True
-    
