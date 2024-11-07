@@ -55,13 +55,19 @@ Color Pallete
         1. explore projects 2x3 grid
 
 6. create project creation
-    - will be in the dashboard and possibly one other place
+    - will be in the dashboard - DONE
     - the user will be required to enter:
-        1. title
-        2. description (200 words or less), 
+        1. title - Basic functionality Done
+        2. description (200 words or less),  - Basic functionality Done
         3. project banner (optional) if not chosen then a pre set will be available
-        4. tags to best describe the project - added tags file
-        5. roles needed (finance, developer, designer, PM, sales, etc) - added roles file
+        4. tags to best describe the project  - Basic functionality Done
+        5. roles needed (finance, developer, designer, PM, sales, etc) - Basic functionality Done
+
+        - need to style the project creation modal
+        - mobile styling
+        - description character limit
+        - profanity checker
+        - search/scroll for tags and roles
 
         
 7. create user explore page
