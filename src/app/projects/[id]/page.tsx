@@ -1,11 +1,7 @@
-// app/project/[id]/page.tsx
 "use client";
 
 import { useEffect, useState } from 'react';
-import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import styles from './project.module.css';
-
-const supabase = getSupabaseClient();
 
 interface Project {
   title: string;
@@ -20,13 +16,11 @@ const ProjectPage = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('title, created_by')
-          .eq('id', id)
-          .single();
-
-        if (error) throw error;
+        const response = await fetch(`/api/projects/${id}`);
+        if (!response.ok) {
+          throw new Error('Project not found');
+        }
+        const data = await response.json();
         setProject(data);
       } catch (error) {
         console.error('Error fetching project:', error);

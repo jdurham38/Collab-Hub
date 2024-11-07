@@ -43,14 +43,17 @@ model Project {
 }
 
 model ProjectRequest {
-  id         String     @id @default(uuid())
-  status     String     @default("pending") // Status of the request
-  requestedAt DateTime  @default(now())
-  userId     String
-  user       User       @relation("UserRequests", fields: [userId], references: [id])
-  projectId  String
-  project    Project    @relation("ProjectRequests", fields: [projectId], references: [id])
+  id          String     @id @default(uuid())
+  status      String     @default("pending") // Status of the request
+  requestedAt DateTime   @default(now())
+  userId      String
+  user        User       @relation("UserRequests", fields: [userId], references: [id])
+  projectId   String
+  project     Project    @relation("ProjectRequests", fields: [projectId], references: [id])
+
+  @@unique([userId, projectId]) // Ensures a user can only make one request per project
 }
+
 
 model ProjectCollaborator {
   id         String     @id @default(uuid())

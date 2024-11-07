@@ -3,15 +3,15 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/useAuthStore'; // Adjust the import as necessary
-import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import { projectRoles } from '@/utils/roles';
 import { projectTags } from '@/utils/tags'; // Import roles and tags from constants
 import styles from './CreateProject.module.css';
 
-const supabase = getSupabaseClient();
+interface CreateProjectProps {
+  onClose: () => void;
+}
 
-const CreateProject: React.FC = () => {
-  const router = useRouter();
+const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {  const router = useRouter();
   const { isLoggedIn, session } = useAuthStore(); // Get session from useAuthStore
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -27,33 +27,36 @@ const CreateProject: React.FC = () => {
     }
   
     try {
-      const userId = session.user.id; // Extract user ID from session
-      const { data, error } = await supabase
-        .from('projects')
-        .insert([
-          {
-            title,
-            description,
-            banner,
-            tags,
-            roles,
-            created_by: userId, // Use the user ID from the session
-          },
-        ])
-        .select('id') // Select the ID of the newly created project
+      const userId = session.user.id;
   
-      if (error) throw error;
-      if (!data || data.length === 0) throw new Error('Failed to retrieve project ID.');
+      const response = await fetch('/api/projects/create-project', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          description,
+          banner,
+          tags,
+          roles,
+          userId,
+        }),
+      });
   
-      const newProjectId = data[0].id; // Get the ID of the newly created project
+      if (!response.ok) {
+        const { error } = await response.json();
+        throw new Error(error || 'Failed to create project');
+      }
+  
+      const { projectId } = await response.json();
   
       alert('Project created successfully!');
-      router.push(`/projects/${newProjectId}`); // Redirect to the new project's page
+      router.push(`/projects/${projectId}`);
     } catch (error) {
       console.error('Error creating project:', error);
       alert('Failed to create project. Please try again.');
     }
   };
+  
   
 
   // Handle tag and role selection
@@ -74,9 +77,10 @@ const CreateProject: React.FC = () => {
       <div className={styles.createProjectContent}>
         <div className={styles.modalHeader}>
           <h1 className={styles.modalTitle}>Create a New Project</h1>
-          <button className={styles.closeButton} onClick={() => router.back()}>
-            &times;
-          </button>
+          <button className={styles.closeButton} onClick={onClose}>
+  {'\u00D7'}
+</button>
+
         </div>
         <input
           type="text"

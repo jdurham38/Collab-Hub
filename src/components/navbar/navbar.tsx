@@ -1,3 +1,4 @@
+// Navbar.tsx
 "use client";
 
 import Image from 'next/image';
@@ -47,7 +48,7 @@ const Navbar = () => {
             </div>
           )}
           <Image
-            src="/path/to/default-profile.jpg" // Placeholder path
+            src="/path/to/default-profile.jpg"
             alt="Profile Image"
             width={40}
             height={40}
@@ -59,10 +60,7 @@ const Navbar = () => {
       {/* Modal for CreateProject */}
       {isModalOpen && (
         <div className={styles.modalOverlay}>
-          <CreateProject />
-          <button className={styles.closeModalButton} onClick={toggleModal}>
-            Close
-          </button>
+          <CreateProject onClose={toggleModal} />
         </div>
       )}
     </nav>
