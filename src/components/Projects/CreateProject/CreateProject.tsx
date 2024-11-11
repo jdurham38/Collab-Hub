@@ -1,75 +1,81 @@
+// CreateProject.tsx
+
 'use client';
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/lib/useAuthStore'; // Adjust the import as necessary
-import { projectRoles } from '@/utils/roles';
-import { projectTags } from '@/utils/tags'; // Import roles and tags from constants
+import { useAuthStore } from '@/lib/useAuthStore';
 import styles from './CreateProject.module.css';
+import TagsSelector from './TagSelector/TagSelector';
+import RolesSelector from './RolesSelector/RolesSelector';
+import Description from './Description/Description';
+import Title from './Title/Title'; // Import the new Title component
+import BannerSelector from './Banner/BannerSelector';
 
 interface CreateProjectProps {
   onClose: () => void;
 }
 
-const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {  const router = useRouter();
-  const { isLoggedIn, session } = useAuthStore(); // Get session from useAuthStore
+const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
+  const router = useRouter();
+  const { isLoggedIn, session } = useAuthStore();
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [banner, setBanner] = useState('');
+  const [description, setDescription] = useState(''); // Rich text content (HTML)
+  const [bannerUrl, setBannerUrl] = useState('');
   const [tags, setTags] = useState<string[]>([]);
   const [roles, setRoles] = useState<string[]>([]);
+  const [titleError, setTitleError] = useState('');
 
-  // Handle form submission
   const handleCreateProject = async () => {
     if (!isLoggedIn || !session) {
       alert('You must be logged in to create a project.');
       return;
     }
-  
+
+    // Check for errors before submitting
+    if (title.trim() === '') {
+      alert('Please enter a project title.');
+      return;
+    }
+
+    if (titleError !== '') {
+      alert('Please fix the errors in the project title.');
+      return;
+    }
+    if (!bannerUrl) {
+      alert('Please select or upload a banner image for your project.');
+      return;
+    }
+    
+
     try {
       const userId = session.user.id;
-  
+
       const response = await fetch('/api/projects/create-project', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title,
-          description,
-          banner,
+          description, // Now contains HTML content
+          bannerUrl,
           tags,
           roles,
           userId,
         }),
       });
-  
+
       if (!response.ok) {
         const { error } = await response.json();
         throw new Error(error || 'Failed to create project');
       }
-  
+
       const { projectId } = await response.json();
-  
       alert('Project created successfully!');
       router.push(`/projects/${projectId}`);
     } catch (error) {
       console.error('Error creating project:', error);
       alert('Failed to create project. Please try again.');
     }
-  };
-  
-  
-
-  // Handle tag and role selection
-  const handleTagSelection = (tag: string) => {
-    setTags((prevTags) =>
-      prevTags.includes(tag) ? prevTags.filter((t) => t !== tag) : [...prevTags, tag]
-    );
-  };
-
-  const handleRoleSelection = (role: string) => {
-    setRoles((prevRoles) =>
-      prevRoles.includes(role) ? prevRoles.filter((r) => r !== role) : [...prevRoles, role]
-    );
   };
 
   return (
@@ -78,58 +84,35 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {  const ro
         <div className={styles.modalHeader}>
           <h1 className={styles.modalTitle}>Create a New Project</h1>
           <button className={styles.closeButton} onClick={onClose}>
-  {'\u00D7'}
-</button>
-
+            {'\u00D7'}
+          </button>
         </div>
-        <input
-          type="text"
-          placeholder="Project Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className={styles.input}
-        />
-        <textarea
-          placeholder="Project Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className={styles.textarea}
-        />
+
+        {/* Use Title Component */}
+        <Title title={title} setTitle={setTitle} setTitleError={setTitleError} />
+        {/* Use Description Component */}
+        <Description description={description} setDescription={setDescription} />
 
         <h3>Select a Banner</h3>
-        <div className={styles.bannerOptions}>
-          <button className={styles.bannerButton} onClick={() => setBanner('banner1.jpg')}>Banner 1</button>
-          <button className={styles.bannerButton} onClick={() => setBanner('banner2.jpg')}>Banner 2</button>
-          <button className={styles.bannerButton} onClick={() => setBanner('banner3.jpg')}>Banner 3</button>
-        </div>
+               {/* Use BannerSelector Component */}
+        <BannerSelector bannerUrl={bannerUrl} setBannerUrl={setBannerUrl} />
 
-        <h3>Select Tags</h3>
-        <div className={styles.tagsContainer}>
-          {projectTags.map((tag) => (
-            <button
-              key={tag}
-              className={`${styles.tagButton} ${tags.includes(tag) ? styles.selected : ''}`}
-              onClick={() => handleTagSelection(tag)}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
 
-        <h3>Select Roles Needed</h3>
-        <div className={styles.rolesContainer}>
-          {projectRoles.map((role) => (
-            <button
-              key={role}
-              className={`${styles.roleButton} ${roles.includes(role) ? styles.selected : ''}`}
-              onClick={() => handleRoleSelection(role)}
-            >
-              {role}
-            </button>
-          ))}
-        </div>
+        {/* Use TagsSelector Component */}
+        <TagsSelector selectedTags={tags} setSelectedTags={setTags} />
 
-        <button className={styles.createButton} onClick={handleCreateProject}>
+        {/* Use RolesSelector Component */}
+        <RolesSelector selectedRoles={roles} setSelectedRoles={setRoles} />
+
+        <button
+          className={styles.createButton}
+          onClick={handleCreateProject}
+          disabled={
+            titleError !== '' ||
+            title.trim() === '' ||
+            !bannerUrl // Disable if bannerUrl is empty
+          }
+        >
           Create Project
         </button>
       </div>

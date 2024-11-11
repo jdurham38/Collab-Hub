@@ -1,0 +1,126 @@
+/* Description.module.css */
+
+/* Rich Text Editor Container */
+.richTextEditor {
+    margin-bottom: 16px;
+  }
+  
+  /* Quill Editor Container */
+  .ql-container {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  
+  /* Quill Toolbar Styling */
+  .ql-toolbar {
+    border: 1px solid #ccc;
+    border-bottom: none;
+    background-color: #f9f9f9;
+    border-radius: 4px 4px 0 0;
+  }
+  
+  /* Quill Editor Styling */
+  .ql-editor {
+    min-height: 150px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-radius: 0 0 4px 4px;
+  }
+  
+  /* Focus Styles */
+  .ql-container.ql-snow {
+    border-color: #ccc;
+    transition: border-color 0.3s;
+  }
+  
+  .ql-container.ql-snow:focus-within {
+    border-color: #0070f3;
+  }
+  
+  .ql-toolbar.ql-snow {
+    border-color: #ccc;
+    transition: border-color 0.3s;
+  }
+  
+  .ql-toolbar.ql-snow:focus-within {
+    border-color: #0070f3;
+  }
+  
+  /* Adjust Quill Buttons */
+  .ql-toolbar button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .ql-toolbar button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .ql-toolbar button.ql-active {
+    background-color: #0070f3;
+    color: #fff;
+  }
+  
+  /* Remove default focus outline */
+  .ql-toolbar button:focus {
+    outline: none;
+  }
+  
+  /* Quill Dropdown Styling */
+  .ql-toolbar .ql-picker {
+    color: #333;
+  }
+  
+  .ql-toolbar .ql-picker-label:hover,
+  .ql-toolbar .ql-picker-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Quill Tooltip Styling */
+  .ql-tooltip {
+    border-radius: 4px;
+  }
+  
+  /* Scrollbar Styling in Editor */
+  .ql-editor::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .ql-editor::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .ql-editor::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 3px;
+  }
+  
+  .ql-editor::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+  
+  /* Description Info Container */
+.descriptionInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+  
+  /* Character Count Styling */
+  .charCount {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Error Message Styling */
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 4px;
+  }

@@ -55,21 +55,20 @@ Color Pallete
         1. explore projects 2x3 grid
 
 6. create project creation
-    - will be in the dashboard - DONE
-    - the user will be required to enter:
-        1. title - Basic functionality Done
-        2. description (200 words or less),  - Basic functionality Done
-        3. project banner (optional) if not chosen then a pre set will be available
-        4. tags to best describe the project  - Basic functionality Done
-        5. roles needed (finance, developer, designer, PM, sales, etc) - Basic functionality Done
-
         - need to style the project creation modal
         - mobile styling
-        - description character limit
-        - profanity checker
-        - search/scroll for tags and roles
+        - when adding a tag/role add it to a bar and there will be an 'x' to remove them
+        - limit of 5 roles/tags
+        - add error checking for all inputs
+        - add success message upon creation
+        - create 5 ai banners 
+        - create styling like the roles and tags in the slider window.
+        - have a view project button after all details are filled in
 
-        
+        new flow - enter project details -> View project -> continue editing or publish project.
+
+
+
 7. create user explore page
     - Search/filters based on interests, location, roles, and username
     - display user cards in a 3x4 grid

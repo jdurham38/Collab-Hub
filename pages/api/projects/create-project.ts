@@ -1,3 +1,5 @@
+// pages/api/projects/create-project.ts
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
@@ -22,8 +24,13 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { title, description, banner, tags, roles, userId } = req.body;
+  const { title, description, bannerUrl, tags, roles, userId } = req.body; // Changed 'banner' to 'bannerUrl'
   const projectId = generateUniqueId(); // Generate the unique ID for the project
+
+  // Optional: Input validation
+  if (!title || !description || !userId) {
+    return res.status(400).json({ error: 'Missing required fields.' });
+  }
 
   try {
     // Insert the project data into the 'projects' table
@@ -34,7 +41,7 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
           id: projectId, // Use the generated ID here
           title,
           description,
-          banner,
+          banner_url: bannerUrl, // Changed 'banner' to 'banner_url' and assigned 'bannerUrl'
           tags,
           roles,
           created_by: userId,
@@ -46,7 +53,7 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
 
     if (!data || data.length === 0) throw new Error('Failed to retrieve project ID.');
 
-    return res.status(200).json({ projectId });
+    return res.status(200).json({ projectId: data[0].id });
   } catch (error) {
     console.error('Error creating project:', error);
     return res.status(500).json({ error: 'Failed to create project' });
