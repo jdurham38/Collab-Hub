@@ -70,6 +70,35 @@
     margin-left: 8px;
     font-style: italic;
   }
+
+  .selectedTagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  .selectedTag {
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .removeTagButton {
+    background: none;
+    border: none;
+    color: #ff5a5a;
+    font-size: 16px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  
+  .removeTagButton:hover {
+    color: #ff0000;
+  }
+  
   
   /* Scrollbar Styling */
   .tagsContainer::-webkit-scrollbar {

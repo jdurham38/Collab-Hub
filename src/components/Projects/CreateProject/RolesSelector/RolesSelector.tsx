@@ -1,4 +1,3 @@
-// RolesSelector.tsx
 import React, { useState } from 'react';
 import styles from './RolesSelector.module.css';
 import { projectRoles } from '@/utils/roles';
@@ -13,9 +12,23 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
   const [selectedRoleCategory, setSelectedRoleCategory] = useState<string | null>(null);
 
   const handleRoleSelection = (role: string) => {
-    setSelectedRoles((prevRoles) =>
-      prevRoles.includes(role) ? prevRoles.filter((r) => r !== role) : [...prevRoles, role]
-    );
+    setSelectedRoles((prevRoles) => {
+      // If the role is already selected, remove it
+      if (prevRoles.includes(role)) {
+        return prevRoles.filter((r) => r !== role);
+      }
+      // If the user tries to add a role and has already selected 5 roles, do nothing
+      if (prevRoles.length >= 5) {
+        alert('You can only select up to 5 roles.');
+        return prevRoles;
+      }
+      // Otherwise, add the role without modifying the search input
+      return [...prevRoles, role];
+    });
+  };
+
+  const handleRoleRemove = (role: string) => {
+    setSelectedRoles((prevRoles) => prevRoles.filter((r) => r !== role));
   };
 
   const filteredRoles = Object.entries(projectRoles).flatMap(([category, rolesList]) =>
@@ -28,7 +41,20 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
 
   return (
     <div>
-      <h3>Select Roles Needed</h3>
+      <h3>Select Roles Needed (Limit of 5)</h3>
+
+      {/* Selected roles container */}
+      <div className={styles.selectedRolesContainer}>
+        {selectedRoles.map((role) => (
+          <div key={role} className={styles.selectedRole}>
+            {role}
+            <button onClick={() => handleRoleRemove(role)} className={styles.removeRoleButton}>
+              &times;
+            </button>
+          </div>
+        ))}
+      </div>
+
       <input
         type="text"
         placeholder="Search roles"
@@ -36,6 +62,7 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
         onChange={(e) => setRoleSearch(e.target.value)}
         className={styles.searchInput}
       />
+
       <select
         onChange={(e) => setSelectedRoleCategory(e.target.value || null)}
         className={styles.categorySelect}
@@ -47,6 +74,8 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
           </option>
         ))}
       </select>
+
+      {/* Filtered roles for selection */}
       <div className={styles.rolesContainer}>
         {filteredRoles.map(({ category, role }) => (
           <label key={`${category}-${role}`} className={styles.roleCheckboxLabel}>
@@ -54,6 +83,7 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
               type="checkbox"
               checked={selectedRoles.includes(role)}
               onChange={() => handleRoleSelection(role)}
+              disabled={!selectedRoles.includes(role) && selectedRoles.length >= 5} // Disable if max roles reached
             />
             {role} <span className={styles.roleCategoryLabel}>({category})</span>
           </label>

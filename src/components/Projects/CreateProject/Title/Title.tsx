@@ -28,8 +28,8 @@ const Title: React.FC<TitleProps> = ({ title, setTitle, setTitleError }) => {
     // Check for profanity
     if (profanity.exists(trimmedValue)) {
       setErrorMessage('Profanity detected in title.');
-    } else if (value.length > 30) {
-      setErrorMessage('Title cannot exceed 30 characters.');
+    } else if (value.length > 50) {
+      setErrorMessage('Title cannot exceed 50 characters.');
     } else {
       setErrorMessage('');
     }

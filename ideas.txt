@@ -19,7 +19,7 @@ Color Pallete
 #d4a373
 
 
-1. setup db through supabase - Basic Done
+
     - user table
         - isOnboarded: bool
         - username: string
@@ -38,13 +38,7 @@ Color Pallete
 
 2. setup bucket storage
     - profile images
-    - project images
 
-3. setup auth through db - Basic Done
-    - login and signup basic functionality - DONE 
-    - forgot password via login screen - DONE
-    - reset password via settings page
-    - set up middleware auth to be used globally for individual content - DONE
 
 
 5. create dashboard (View Projects currently in (created/joined), view friends, view notifications/messages)
@@ -55,17 +49,20 @@ Color Pallete
         1. explore projects 2x3 grid
 
 6. create project creation
-        - need to style the project creation modal
-        - mobile styling
-        - when adding a tag/role add it to a bar and there will be an 'x' to remove them
-        - limit of 5 roles/tags
-        - add error checking for all inputs
+
+
+styling/frontend
         - add success message upon creation
         - create 5 ai banners 
         - create styling like the roles and tags in the slider window.
-        - have a view project button after all details are filled in
+        - need to style the project creation modal
+        - mobile styling
 
-        new flow - enter project details -> View project -> continue editing or publish project.
+backend
+        - have a view project button after all details are filled in
+        - new flow - enter project details -> View project -> continue editing or publish project.
+        - after project creation prompt a success message via toast and display loading spinner. after the project has been fully created & the user has been redirected to the project page, close the create project modal.
+        - within this allow for a toggle switch to enable the notion/trello dup within a project. if not enabled, the slack dup will be enabled no matter what
 
 
 
