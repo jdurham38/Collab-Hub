@@ -1,5 +1,3 @@
-// pages/api/projects/create-project.ts
-
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
@@ -9,14 +7,32 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-// Function to generate a unique 16-character alphanumeric ID
-function generateUniqueId(length = 16) {
+// Async function to generate a unique 16-character alphanumeric ID
+async function generateUniqueId(length = 16): Promise<string> {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  let uniqueId = '';
+  let isUnique = false;
+
+  while (!isUnique) {
+    // Generate a random ID
+    uniqueId = '';
+    for (let i = 0; i < length; i++) {
+      uniqueId += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    // Check if the ID already exists in the 'projects' table
+    const { data } = await supabase
+      .from('projects')
+      .select('id')
+      .eq('id', uniqueId);
+
+    // If no data is returned, the ID is unique
+    if (!data || data.length === 0) {
+      isUnique = true;
+    }
   }
-  return result;
+
+  return uniqueId;
 }
 
 export default async function createProject(req: NextApiRequest, res: NextApiResponse) {
@@ -24,8 +40,7 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { title, description, bannerUrl, tags, roles, userId } = req.body; // Changed 'banner' to 'bannerUrl'
-  const projectId = generateUniqueId(); // Generate the unique ID for the project
+  const { title, description, bannerUrl, tags, roles, userId } = req.body;
 
   // Optional: Input validation
   if (!title || !description || !userId) {
@@ -33,15 +48,18 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
   }
 
   try {
+    // Generate a unique project ID
+    const projectId = await generateUniqueId();
+
     // Insert the project data into the 'projects' table
     const { data, error } = await supabase
       .from('projects')
       .insert([
         {
-          id: projectId, // Use the generated ID here
+          id: projectId, // Use the generated unique ID here
           title,
           description,
-          banner_url: bannerUrl, // Changed 'banner' to 'banner_url' and assigned 'bannerUrl'
+          banner_url: bannerUrl,
           tags,
           roles,
           created_by: userId,

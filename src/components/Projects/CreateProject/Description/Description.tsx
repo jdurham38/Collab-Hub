@@ -1,12 +1,11 @@
 // Description.tsx
 
 import React, { useState } from 'react';
-import dynamic from 'next/dynamic';
 import styles from './Description.module.css';
 
 // Dynamically import ReactQuill to prevent SSR issues
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 // Import the profanity checker
 import { profanity } from '@2toad/profanity';
@@ -50,6 +49,7 @@ const Description: React.FC<DescriptionProps> = ({ description, setDescription }
   };
 
   return (
+    <>
     <div className={styles.richTextEditor}>
       <ReactQuill
         value={description}
@@ -75,11 +75,13 @@ const Description: React.FC<DescriptionProps> = ({ description, setDescription }
           'image',
         ]}
       />
-      <div className={styles.descriptionInfo}>
-        <p className={styles.charCount}>{charCount}/200 characters</p>
-        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-      </div>
+
     </div>
+          <div className={styles.descriptionInfo}>
+          <p className={styles.charCount}>{charCount}/200 characters</p>
+          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+        </div>
+    </>
   );
 };
 

@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
-import { useAuthStore } from '@/lib/useAuthStore';
 import styles from './BannerSelector.module.css';
 import Image from 'next/image';
 
 interface BannerSelectorProps {
   bannerUrl: string;
   setBannerUrl: (url: string) => void;
-  setBannerFile: (file: File | null) => void; // New prop for setting the selected file
+  setBannerFile: (file: File | null) => void;
 }
 
 const BannerSelector: React.FC<BannerSelectorProps> = ({ bannerUrl, setBannerUrl, setBannerFile }) => {
   const supabase = getSupabaseClient();
-  const { session } = useAuthStore();
 
   const [errorMessage, setErrorMessage] = useState('');
   const [presetBanners, setPresetBanners] = useState<string[]>([]);
+  const [loadingBanners, setLoadingBanners] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
     const fetchPresetBanners = async () => {
@@ -70,9 +69,14 @@ const BannerSelector: React.FC<BannerSelectorProps> = ({ bannerUrl, setBannerUrl
     setErrorMessage('');
   };
 
+  const handleRemoveBanner = () => {
+    setBannerUrl('');
+    setBannerFile(null);
+  };
+
   return (
     <div className={styles.bannerSelector}>
-      <h3>Select a Banner</h3>
+      <h3 className={styles.title}>Select a Banner</h3>
       <div className={styles.presetBanners}>
         {presetBanners.map((url) => (
           <div
@@ -80,7 +84,16 @@ const BannerSelector: React.FC<BannerSelectorProps> = ({ bannerUrl, setBannerUrl
             className={`${styles.bannerOption} ${bannerUrl === url ? styles.selected : ''}`}
             onClick={() => handlePresetSelect(url)}
           >
-            <Image src={url} alt="Preset Banner" width={200} height={100} />
+            {loadingBanners[url] && <div className={styles.spinner}></div>}
+            <Image
+              src={url}
+              alt="Preset Banner"
+              width={200}
+              height={100}
+              onLoadingComplete={() => setLoadingBanners((prev) => ({ ...prev, [url]: false }))}
+              onLoad={() => setLoadingBanners((prev) => ({ ...prev, [url]: true }))}
+              className={loadingBanners[url] ? styles.hiddenImage : ''}
+            />
           </div>
         ))}
       </div>
@@ -100,8 +113,10 @@ const BannerSelector: React.FC<BannerSelectorProps> = ({ bannerUrl, setBannerUrl
       </div>
       {bannerUrl && (
         <div className={styles.preview}>
-          <h4>Selected Banner:</h4>
-          <Image src={bannerUrl} alt="Selected Banner" width={500} height={250} className={styles.previewImage} />
+          <Image src={bannerUrl} alt="Selected Banner" width={900} height={250} className={styles.previewImage} />
+          <button onClick={handleRemoveBanner} className={styles.removeBannerButton}>
+            Remove Banner
+          </button>
         </div>
       )}
     </div>

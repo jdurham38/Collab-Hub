@@ -1,0 +1,18 @@
+.rolesContainer {
+    margin-bottom: 16px;
+  }
+  
+  .rolesList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .role {
+    background-color: #444;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+  }
+  

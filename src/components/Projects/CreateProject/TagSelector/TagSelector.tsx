@@ -41,7 +41,7 @@ const TagsSelector: React.FC<TagsSelectorProps> = ({ selectedTags, setSelectedTa
 
   return (
     <div>
-      <h3>Select Tags (Limit of 5)</h3>
+      <h3 className={styles.title}>Select Tags (Limit of 5)</h3>
 
       {/* Selected tags container */}
       <div className={styles.selectedTagsContainer}>

@@ -30,46 +30,53 @@
   .categorySelect:focus {
     border-color: #0070f3;
   }
+/* Tags Container Styling */
+.tagsContainer {
+  display: grid;
+  grid-template-rows: repeat(4, auto); /* Creates 4 rows */
+  grid-auto-flow: column; /* Fills items into columns across the rows */
+  gap: 12px;
+  margin-bottom: 16px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.title{
+  font-size: 20px;
+  font-weight: bold;
+}
   
-  /* Tags Container Styling */
-  .tagsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  /* Checkbox Label Styling for Tags */
-  .tagCheckboxLabel {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    background-color: #f7f7f7;
-    border: 1px solid #ddd;
-  }
-  
-  .tagCheckboxLabel:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .tagCheckboxLabel input {
-    margin-right: 8px;
-  }
-  
-  /* Category Label for Each Tag */
-  .tagCategoryLabel {
-    font-size: 12px;
-    color: #666;
-    margin-left: 8px;
-    font-style: italic;
-  }
+/* Checkbox Label Styling for Tags */
+.tagCheckboxLabel {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px; /* Reduced padding for smaller tags */
+  border-radius: 3px;
+  font-size: 12px; /* Smaller font size */
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  max-width: 320px; /* Optional: Set a max width if you want tags to be more compact */
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.tagCheckboxLabel:hover {
+  background-color: #f0f0f0;
+}
+
+.tagCheckboxLabel input {
+  margin-right: 4px; /* Reduced margin for smaller spacing */
+}
+
+/* Category Label for Each Tag */
+.tagCategoryLabel {
+  font-size: 11px; /* Smaller font for category label */
+  color: #666;
+  margin-left: 4px;
+  font-style: italic;
+}
 
   .selectedTagsContainer {
     display: flex;
@@ -117,4 +124,6 @@
   .tagsContainer::-webkit-scrollbar-thumb:hover {
     background: #888;
   }
+
+  
   

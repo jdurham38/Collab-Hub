@@ -1,13 +1,17 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/useAuthStore';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './CreateProject.module.css';
 import TagsSelector from './TagSelector/TagSelector';
 import RolesSelector from './RolesSelector/RolesSelector';
 import Description from './Description/Description';
 import Title from './Title/Title';
 import BannerSelector from './Banner/BannerSelector';
+import PreviewProject from '../PreviewProject/PreviewProject';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
+import { useProjectStore } from '@/utils/useProjectStore';
 
 interface CreateProjectProps {
   onClose: () => void;
@@ -18,116 +22,139 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
   const supabase = getSupabaseClient();
   const { isLoggedIn, session } = useAuthStore();
 
-  // Form fields and error states
-  const [title, setTitle] = useState('');
-  const [titleError, setTitleError] = useState('');
-  const [description, setDescription] = useState('');
-  const [descriptionError, setDescriptionError] = useState('');
-  const [bannerUrl, setBannerUrl] = useState('');
-  const [bannerFile, setBannerFile] = useState<File | null>(null);
-  const [bannerError, setBannerError] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
-  const [tagsError, setTagsError] = useState('');
-  const [roles, setRoles] = useState<string[]>([]);
-  const [rolesError, setRolesError] = useState('');
+  // Zustand state and actions
+  const {
+    title,
+    description,
+    tags,
+    bannerUrl,
+    roles,
+    setTitle,
+    setDescription,
+    setTags,
+    setBannerUrl,
+    setRoles,
+    resetProject,
+  } = useProjectStore();
 
-  // Automatically clear tags and roles errors when their state changes
+  const [showPreview, setShowPreview] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [bannerFile, setBannerFile] = useState<File | null>(null);
+  const [errors, setErrors] = useState({
+    titleError: '',
+    descriptionError: '',
+    bannerError: '',
+    tagsError: '',
+    rolesError: '',
+  });
+  const handleOutsideClick = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).classList.contains(styles.createProjectModal)) {
+      handleClose();
+    }
+  };
+    // Clear title error as user types
+    useEffect(() => {
+      if (title) {
+        setErrors((prev) => ({ ...prev, titleError: '' }));
+      }
+    }, [title]);
+
+  // Clear description error as user types
+  useEffect(() => {
+    if (description) {
+      setErrors((prev) => ({ ...prev, descriptionError: '' }));
+    }
+  }, [description]);
+
+  // Clear tags, roles, or bannerUrl errors on change
   useEffect(() => {
     if (tags.length > 0 && tags.length <= 5) {
-      setTagsError('');
+      setErrors((prev) => ({ ...prev, tagsError: '' }));
     }
   }, [tags]);
 
   useEffect(() => {
     if (roles.length > 0 && roles.length <= 5) {
-      setRolesError('');
+      setErrors((prev) => ({ ...prev, rolesError: '' }));
     }
   }, [roles]);
 
-  // Updated set functions to clear errors on user input
-  const handleSetTitle = (value: string) => {
-    setTitle(value);
-    if (value.trim()) setTitleError(''); // Clear error if input is non-empty
-  };
+  useEffect(() => {
+    if (bannerUrl || bannerFile) {
+      setErrors((prev) => ({ ...prev, bannerError: '' }));
+    }
+  }, [bannerUrl, bannerFile]);
 
-  const handleSetDescription = (value: string) => {
-    setDescription(value);
-    if (value.trim()) setDescriptionError(''); // Clear error if input is non-empty
-  };
-
-  const handleSetBannerUrl = (url: string) => {
-    setBannerUrl(url);
-    setBannerError(''); // Clear error when a banner is selected
-  };
-
-  const handleSetBannerFile = (file: File | null) => {
-    setBannerFile(file);
-    setBannerError(''); // Clear error when a banner is uploaded
-  };
-
-  const handleSetTags = (newTags: SetStateAction<string[]>) => {
-    setTags((prevTags) => (typeof newTags === 'function' ? newTags(prevTags) : newTags));
-  };
-
-  const handleSetRoles = (newRoles: SetStateAction<string[]>) => {
-    setRoles((prevRoles) => (typeof newRoles === 'function' ? newRoles(prevRoles) : newRoles));
-  };
-
+  // Validation function
   const validateFields = () => {
-    let valid = true;
+    let isValid = true;
+    const newErrors = {
+      titleError: '',
+      descriptionError: '',
+      bannerError: '',
+      tagsError: '',
+      rolesError: '',
+    };
 
-    // Title validation
-    if (title.trim() === '') {
-      setTitleError('Project title is required.');
-      valid = false;
+    if (!title.trim()) {
+      newErrors.titleError = 'Project title is required.';
+      isValid = false;
     }
 
-    // Description validation
-    if (description.trim() === '') {
-      setDescriptionError('Project description is required.');
-      valid = false;
+    if (!description.trim()) {
+      newErrors.descriptionError = 'Project description is required.';
+      isValid = false;
     }
 
-    // Banner validation
     if (!bannerUrl && !bannerFile) {
-      setBannerError('Please select or upload a banner image for your project.');
-      valid = false;
+      newErrors.bannerError = 'Please select or upload a banner image for your project.';
+      isValid = false;
     }
 
-    // Tags validation
     if (tags.length === 0) {
-      setTagsError('Please select at least one tag.');
-      valid = false;
+      newErrors.tagsError = 'Please select at least one tag.';
+      isValid = false;
     } else if (tags.length > 5) {
-      setTagsError('You can select up to 5 tags only.');
-      valid = false;
+      newErrors.tagsError = 'You can select up to 5 tags only.';
+      isValid = false;
     }
 
-    // Roles validation
     if (roles.length === 0) {
-      setRolesError('Please select at least one role.');
-      valid = false;
+      newErrors.rolesError = 'Please select at least one role.';
+      isValid = false;
     } else if (roles.length > 5) {
-      setRolesError('You can select up to 5 roles only.');
-      valid = false;
+      newErrors.rolesError = 'You can select up to 5 roles only.';
+      isValid = false;
     }
 
-    return valid;
+    setErrors(newErrors);
+    return isValid;
   };
 
+  // Preview handling
+  const handlePreview = () => {
+    if (validateFields()) {
+      setShowPreview(true);
+    } else {
+      toast.error("Please fill out all required fields.");
+    }
+  };
+
+  // Project creation handler
   const handleCreateProject = async () => {
     if (!isLoggedIn || !session) {
-      alert('You must be logged in to create a project.');
+      toast.error('You must be logged in to create a project.');
       return;
     }
 
-    // Validate all fields before submission
     if (!validateFields()) return;
+
+    setLoading(true);
 
     try {
       let finalBannerUrl = bannerUrl;
 
-      // Upload the banner file if it exists
+      // Upload banner if a file is selected
       if (bannerFile) {
         const fileExt = bannerFile.name.split('.').pop();
         const fileName = `${Date.now()}.${fileExt}`;
@@ -173,51 +200,92 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
       }
 
       const { projectId } = await response.json();
-      alert('Project created successfully!');
+      toast.success('Project created successfully!');
+      resetProject(); // Clear state after successful creation
       router.push(`/projects/${projectId}`);
+      onClose();
     } catch (error) {
       console.error('Error creating project:', error);
-      alert('Failed to create project. Please try again.');
+      toast.error('Failed to create project. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Modal close handler with state reset
+  const handleClose = () => {
+    resetProject(); // Clear state when modal is closed
+    onClose();
+  };
+
+  if (showPreview) {
+    return (
+      <PreviewProject
+        onClosePreview={() => setShowPreview(false)}
+        onCreateProject={handleCreateProject}
+      />
+    );
+  }
+
   return (
-    <div className={styles.createProjectModal}>
+    <div className={styles.createProjectModal} onClick={handleOutsideClick}>
       <div className={styles.createProjectContent}>
         <div className={styles.modalHeader}>
           <h1 className={styles.modalTitle}>Create a New Project</h1>
-          <button className={styles.closeButton} onClick={onClose}>
+          <button className={styles.closeButton} onClick={handleClose}>
             {'\u00D7'}
           </button>
         </div>
-
-        {/* Title Input */}
-        <Title title={title} setTitle={handleSetTitle} setTitleError={setTitleError} />
-        {titleError && <p className={styles.error}>{titleError}</p>}
-
-        {/* Description Input */}
-        <Description description={description} setDescription={handleSetDescription} />
-        {descriptionError && <p className={styles.error}>{descriptionError}</p>}
-
-        {/* Banner Selector */}
-        <BannerSelector bannerUrl={bannerUrl} setBannerUrl={handleSetBannerUrl} setBannerFile={handleSetBannerFile} />
-        {bannerError && <p className={styles.error}>{bannerError}</p>}
-
-        {/* Tags Selector */}
-        <TagsSelector selectedTags={tags} setSelectedTags={handleSetTags} />
-        {tagsError && <p className={styles.error}>{tagsError}</p>}
-
-        {/* Roles Selector */}
-        <RolesSelector selectedRoles={roles} setSelectedRoles={handleSetRoles} />
-        {rolesError && <p className={styles.error}>{rolesError}</p>}
-
-        {/* Create Button */}
-        <button className={styles.createButton} onClick={handleCreateProject}>
-          Create Project
+  
+        {/* Title Field with Asterisk */}
+        <div className={styles.inputContainer}>
+          <span className={styles.asterisk}>*</span>
+          <Title title={title} setTitle={setTitle} />
+        </div>
+        {errors.titleError && <p className={styles.error}>{errors.titleError}</p>}
+  
+        {/* Description Field with Asterisk */}
+        <div className={styles.inputContainer}>
+          <span className={styles.asterisk}>*</span>
+          <Description description={description} setDescription={setDescription} />
+        </div>
+        {errors.descriptionError && <p className={styles.error}>{errors.descriptionError}</p>}
+  
+        {/* BannerSelector Field with Asterisk */}
+        <div className={styles.inputContainer}>
+          <span className={styles.asterisk}>*</span>
+          <BannerSelector bannerUrl={bannerUrl} setBannerUrl={setBannerUrl} setBannerFile={setBannerFile} />
+        </div>
+        {errors.bannerError && <p className={styles.error}>{errors.bannerError}</p>}
+  
+        {/* TagsSelector Field with Asterisk */}
+        <div className={styles.inputContainer}>
+          <span className={styles.asterisk}>*</span>
+          <TagsSelector selectedTags={tags} setSelectedTags={setTags} />
+        </div>
+        {errors.tagsError && <p className={styles.error}>{errors.tagsError}</p>}
+  
+        {/* RolesSelector Field with Asterisk */}
+        <div className={styles.inputContainer}>
+          <span className={styles.asterisk}>*</span>
+          <RolesSelector selectedRoles={roles} setSelectedRoles={setRoles} />
+        </div>
+        {errors.rolesError && <p className={styles.error}>{errors.rolesError}</p>}
+        <div className={styles.buttonContainer}>
+        <button className={styles.previewButton} onClick={handlePreview} disabled={loading}>
+          Preview Project
         </button>
+        </div>
+  
+        {loading && (
+          <div className={styles.spinnerContainer}>
+            <div className={styles.spinner}></div>
+            <p>Creating project...</p>
+          </div>
+        )}
       </div>
     </div>
   );
-};
+  };
 
 export default CreateProject;

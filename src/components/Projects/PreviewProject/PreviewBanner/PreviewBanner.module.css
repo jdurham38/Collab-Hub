@@ -1,0 +1,12 @@
+.bannerContainer {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .bannerImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  

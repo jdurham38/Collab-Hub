@@ -30,14 +30,15 @@
   .categorySelect:focus {
     border-color: #0070f3;
   }
-  
+
   /* Roles Container Styling */
   .rolesContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    display: grid;
+    grid-template-rows: repeat(4, auto); /* Creates 4 rows */
+    grid-auto-flow: column; /* Fills items into columns across the rows */
+    gap: 12px;
     margin-bottom: 16px;
-    max-height: 200px;
+    max-height: 400px;
     overflow-y: auto;
   }
   
@@ -45,14 +46,21 @@
   .roleCheckboxLabel {
     display: flex;
     align-items: center;
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 14px;
+    padding: 10px 14px; /* Reduced padding for smaller tags */
+    border-radius: 3px;
+    font-size: 12px; /* Smaller font size */
     color: #333;
     cursor: pointer;
     transition: background-color 0.3s;
     background-color: #f7f7f7;
     border: 1px solid #ddd;
+    max-width: 350px; /* Optional: Set a max width if you want tags to be more compact */
+    white-space: nowrap; /* Prevents text from wrapping */
+  }
+  
+  .title{
+    font-size: 20px;
+    font-weight: bold;
   }
   
   .roleCheckboxLabel:hover {
@@ -65,9 +73,9 @@
   
   /* Category Label for Each Role */
   .roleCategoryLabel {
-    font-size: 12px;
+    font-size: 11px; /* Smaller font for category label */
     color: #666;
-    margin-left: 8px;
+    margin-left: 4px;
     font-style: italic;
   }
   .selectedRolesContainer {

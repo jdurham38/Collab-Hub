@@ -41,7 +41,7 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
 
   return (
     <div>
-      <h3>Select Roles Needed (Limit of 5)</h3>
+      <h3 className={styles.title}>Select Roles Needed (Limit of 5)</h3>
 
       {/* Selected roles container */}
       <div className={styles.selectedRolesContainer}>

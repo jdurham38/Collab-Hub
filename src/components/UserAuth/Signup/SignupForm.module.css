@@ -27,8 +27,8 @@
   .warning {
     color: #000000; /* Red color for errors */
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: #fff57a; /* Light red background */
-    border: 1px solid #fff57a; /* Darker red border */
+    background-color: #fff57a; 
+    border: 1px solid #fff57a; 
     padding: 8px;
     margin-bottom:10px;
     border-radius: 4px;

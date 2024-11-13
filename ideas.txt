@@ -52,16 +52,13 @@ Color Pallete
 
 
 styling/frontend
-        - add success message upon creation
-        - create 5 ai banners 
-        - create styling like the roles and tags in the slider window.
         - need to style the project creation modal
+            - change the colors of the tags and roles label containers
+            - change the color of the selected tags and roles - also make the X bigger
+            
         - mobile styling
 
 backend
-        - have a view project button after all details are filled in
-        - new flow - enter project details -> View project -> continue editing or publish project.
-        - after project creation prompt a success message via toast and display loading spinner. after the project has been fully created & the user has been redirected to the project page, close the create project modal.
         - within this allow for a toggle switch to enable the notion/trello dup within a project. if not enabled, the slack dup will be enabled no matter what
 
 
