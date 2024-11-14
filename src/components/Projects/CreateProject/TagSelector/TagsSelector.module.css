@@ -53,17 +53,18 @@
   padding: 10px 14px; /* Reduced padding for smaller tags */
   border-radius: 3px;
   font-size: 12px; /* Smaller font size */
+  font-weight: bold;
   color: #333;
   cursor: pointer;
   transition: background-color 0.3s;
-  background-color: #f7f7f7;
+  background-color: #d6e9c6;
   border: 1px solid #ddd;
   max-width: 320px; /* Optional: Set a max width if you want tags to be more compact */
   white-space: nowrap; /* Prevents text from wrapping */
 }
 
 .tagCheckboxLabel:hover {
-  background-color: #f0f0f0;
+  background-color: #dff0d8;
 }
 
 .tagCheckboxLabel input {
@@ -85,8 +86,9 @@
   }
   
   .selectedTag {
-    background-color: #e0e0e0;
+    background-color: #d6e9c6;
     border-radius: 3px;
+    border: 1px solid #333;
     padding: 5px 10px;
     margin: 5px;
     display: flex;
@@ -97,7 +99,7 @@
     background: none;
     border: none;
     color: #ff5a5a;
-    font-size: 16px;
+    font-size: 25px;
     margin-left: 5px;
     cursor: pointer;
   }

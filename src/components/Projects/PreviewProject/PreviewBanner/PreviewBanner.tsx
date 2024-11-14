@@ -1,18 +1,34 @@
 import React from 'react';
 import styles from './PreviewBanner.module.css';
 import Image from 'next/image';
+import PreviewTitle from '../PreviewTitle/PreviewTitle'; // Adjust the import path as necessary
 
 interface PreviewBannerProps {
   bannerUrl: string;
+  title: string;
 }
 
-const PreviewBanner: React.FC<PreviewBannerProps> = ({ bannerUrl }) => (
+const PreviewBanner: React.FC<PreviewBannerProps> = ({ bannerUrl, title }) => (
   <div className={styles.bannerContainer}>
-    {bannerUrl ? (
-      <Image src={bannerUrl} alt="Project Banner" className={styles.bannerImage} width={200} height={200}/>
-    ) : (
-      <p>No banner selected</p>
-    )}
+{bannerUrl ? (
+  <Image
+    src={bannerUrl}
+    alt="Project Banner"
+    width={1024} // Replace with your image's width
+    height={1024} // Replace with your image's height
+    layout="responsive"
+    quality={90}
+    priority
+    className={styles.bannerImage}
+  />
+) : (
+  <p>No banner selected</p>
+)}
+
+    {/* Overlay the title */}
+    <div className={styles.titleOverlay}>
+      <PreviewTitle title={title} />
+    </div>
   </div>
 );
 

@@ -30,9 +30,9 @@
 
 
 .bannerOption {
-  width: 200px;
-  height: 140px;
-  border: 2px solid transparent;
+  width: auto;
+  height: auto;
+  border: 3px solid transparent;
   border-radius: 4px;
   cursor: pointer;
   overflow: hidden;
@@ -70,10 +70,10 @@
 
 .uploadSection {
   margin-top: 15px;
-
+  width: auto;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center-align the upload button */
+  align-self: center; /* Center-align the upload button */
   margin-top: 16px;
 }
 
@@ -131,4 +131,34 @@
 
 .removeBannerButton:hover {
   background-color: #ff5a5a;
+}
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+  .presetBanners {
+    max-width: auto; /* Allow full viewport width for horizontal scrolling */
+    padding: 10px 0;
+    overflow-x: auto;
+    display: flex;
+    align-self: center;
+
+  }
+
+  .bannerOption {
+    width: auto; /* Adjust width slightly to fit better on smaller screens */
+    height: auto; /* Adjust height accordingly */
+  }
+
+  .title {
+    font-size: 18px;
+    text-align: left; /* Ensures the title aligns nicely for mobile */
+    padding-left: 10px;
+  }
+
+  .uploadSection {
+    width: auto; /* Ensures the upload section spans the full width on mobile */
+    display: flex;
+    justify-content: center; /* Center-align the upload section */
+  }
+
 }

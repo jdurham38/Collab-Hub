@@ -1,75 +1,145 @@
+/* Remove background color to allow the banner to be visible */
 .previewContainer {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
-  
-  .createButton {
-    background-color: #0070f3;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .createButton:hover {
-    background-color: #005bb5;
-  }
-  
-  .createButton:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-   
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  background-color: #fff; 
+}
 
-  /* Spinner animation */
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+/* Set the banner z-index higher than other elements */
+.bannerWrapper {
+  position: absolute;
+  padding: 20px;
+  border-radius: 30px;
+  width: 50%;
+
+  overflow: hidden;
+  display: flex;
+  align-items: center; /* Center image vertically */
+  justify-content: center;
+  background-color: #005bb5; 
+
+
+}
+
+
+/* Header and Tabs */
+.previewHeader {
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  background-color: #0070f3;
+  margin-top: auto; /* Pushes content below the banner */
+}
+
+.tabContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  position: relative;
+}
+
+.tabButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.tabButton {
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  color: #0070f3;
+}
+
+.tabButton:hover {
+  background-color: rgba(0, 112, 243, 0.1);
+}
+
+.tabButton.active {
+  background-color: #0070f3;
+  color: #fff;
+}
+
+/* Tab Content */
+.tabContent {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Create and Edit Buttons */
+.editButton, .createButton {
+  background-color: #0070f3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.createButton:hover, .editButton:hover {
+  background-color: #005bb5;
+}
+
+.createButton:disabled, .editButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+
+/* Spinner animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* Center the spinner */
 .spinnerContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(250, 237, 205, 0.8); /* Semi-transparent background */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 10; /* Ensure it's above the form but below the toast */
-  }
-  
-  /* Spinner styling */
-  .spinner {
-    border: 16px solid #f2dede; /* Light gray */
-    border-top: 16px solid #d4a373; /* Primary color */
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite; /* Apply the spin animation */
-  }
-  
-  /* Bold and center the message text */
-  .spinnerMessage {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
-  }
-  
-  
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(250, 237, 205, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Spinner styling */
+.spinner {
+  border: 16px solid #f2dede;
+  border-top: 16px solid #d4a373;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+/* Spinner Message */
+.spinnerMessage {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+}

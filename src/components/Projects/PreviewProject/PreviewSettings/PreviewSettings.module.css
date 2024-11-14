@@ -1,0 +1,33 @@
+/* Project Settings Buttons */
+
+/* Settings and Messaging Containers */
+.settingsContainer {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.settingsContainer h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #0070f3;
+}
+.settingsButton {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    margin: 10px 0;
+    font-size: 16px;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+  }
+  
+  .settingsButton:hover {
+    background-color: #005bb5;
+  }

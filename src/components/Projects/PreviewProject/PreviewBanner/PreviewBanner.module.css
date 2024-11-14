@@ -1,12 +1,30 @@
 .bannerContainer {
-    margin-bottom: 16px;
-    display: flex;
-    justify-content: center;
-  }
+  position: relative;
+  display: flex;
+  align-self: center;
+  width: 60%;
+  height: 300px; /* Adjust as needed */
+  overflow: hidden;
+  border-radius: 20px;
+  margin-top: 20px;
   
-  .bannerImage {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
+}
+
+
+
+.titleOverlay {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for centering */
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  padding: 20px;
+  border-radius: 8px; /* Rounded corners */
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .titleOverlay {
+    padding: 10px;
   }
-  
+}

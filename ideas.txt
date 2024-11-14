@@ -50,17 +50,31 @@ Color Pallete
 
 6. create project creation
 
-
-styling/frontend
-        - need to style the project creation modal
-            - change the colors of the tags and roles label containers
-            - change the color of the selected tags and roles - also make the X bigger
-            
-        - mobile styling
-
 backend
         - within this allow for a toggle switch to enable the notion/trello dup within a project. if not enabled, the slack dup will be enabled no matter what
 
+Project Preview page
+    - put all project details in a project description tab
+    - put a messaging tab (all messages delete after 14 days)
+        - global group messaging
+            - never can be deleted
+            - will include all project members
+                - will add or remove members to the chat upon joining or leaving/removed
+                - can mention users
+        - channel messaging
+        - individual messaging
+    - put a trello tab - do later do not work on in this iteration
+    - put a notion tab - do later do not work on in this iteration
+    - project settings tab
+        - can edit details on a project
+        - can remove users
+        - can enable/disable the notion or trello tabs
+            - if disabled a message prompt that all information will be deleted
+        - enable users to have admin access
+            - removing users
+            - changing project details
+            - create message channels
+    - rich text display for description
 
 
 7. create user explore page
