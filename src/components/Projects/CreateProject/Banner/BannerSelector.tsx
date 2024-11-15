@@ -90,8 +90,8 @@ const BannerSelector: React.FC<BannerSelectorProps> = ({ bannerUrl, setBannerUrl
               alt="Preset Banner"
               width={200}
               height={100}
-              onLoadingComplete={() => setLoadingBanners((prev) => ({ ...prev, [url]: false }))}
-              onLoad={() => setLoadingBanners((prev) => ({ ...prev, [url]: true }))}
+
+              onLoad={() => setLoadingBanners((prev) => ({ ...prev, [url]: false }))}
               className={loadingBanners[url] ? styles.hiddenImage : ''}
             />
           </div>

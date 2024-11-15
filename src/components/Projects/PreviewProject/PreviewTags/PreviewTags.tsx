@@ -7,7 +7,7 @@ interface PreviewTagsProps {
 
 const PreviewTags: React.FC<PreviewTagsProps> = ({ tags }) => (
   <div className={styles.tagsContainer}>
-    <h2>Tags</h2>
+    <h2>Project Tags:</h2>
     <div className={styles.tagsList}>
       {tags.map((tag) => (
         <span key={tag} className={styles.tag}>

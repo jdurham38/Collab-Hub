@@ -1,18 +1,42 @@
 .tagsContainer {
-    margin-bottom: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  padding: 20px;
+  max-width: 100%; 
+  min-width: 100px;/* Optional: Ensure it doesn’t exceed parent width */
+}
+
+.tagsContainer h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #000000;
+  font-weight: bold;
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap; /* Ensures tags wrap to fit in container */
+  gap: 8px;
+}
+
+.tag {
+  background-color: #d4a373;
+  color: #524c4c;
+  font-weight: bold;
+  font-style: italic;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+
+@media (max-width: 400px){
+  .tagsContainer{
+    height: 200px; /* Match .messagingContainer height */
+    width: 100vw
   }
-  
-  .tagsList {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  
-  .tag {
-    background-color: #0070f3;
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.875rem;
-  }
-  
+
+
+}

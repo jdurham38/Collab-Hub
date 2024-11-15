@@ -25,8 +25,8 @@ const Title: React.FC<TitleProps> = ({ title, setTitle }) => {
       setErrorMessage('Project title is required.');
     } else if (profanity.exists(value)) {
       setErrorMessage('Profanity detected in title.');
-    } else if (value.length > 50) {
-      setErrorMessage('Title cannot exceed 50 characters.');
+    } else if (value.length > 40) {
+      setErrorMessage('Title cannot exceed 40 characters.');
     } else {
       setErrorMessage(''); // Clear the error if valid
     }
@@ -36,13 +36,13 @@ const Title: React.FC<TitleProps> = ({ title, setTitle }) => {
     <div className={styles.titleContainer}>
       <input
         type="text"
-        placeholder="Project Title (max 50 characters)"
+        placeholder="Project Title (max 40 characters)"
         value={title}
         onChange={handleTitleChange}
         className={styles.input}
       />
       <div className={styles.titleInfo}>
-        <p className={styles.charCount}>{charCount}/50 characters</p>
+        <p className={styles.charCount}>{charCount}/40 characters</p>
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       </div>
     </div>

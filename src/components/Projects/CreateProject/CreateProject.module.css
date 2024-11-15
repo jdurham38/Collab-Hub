@@ -87,11 +87,14 @@
 
 .previewButton:hover {
   background-color: #daca9f; /* Optional: Darken button on hover */
+  color: black;
 }
 
 
 .closeButton:hover {
   color: #ff9898;
+  color: black;
+
 }
 
 .error {

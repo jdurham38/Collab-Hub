@@ -1,45 +1,40 @@
-/* Remove background color to allow the banner to be visible */
+/* Center and position header at the top */
+.previewHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background-color: #d6e9c6;
+  z-index: 1;
+  margin-bottom: 50px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+
 .previewContainer {
-  height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  position: relative;
-  background-color: #fff; 
-}
-
-/* Set the banner z-index higher than other elements */
-.bannerWrapper {
-  position: absolute;
-  padding: 20px;
-  border-radius: 30px;
-  width: 50%;
-
-  overflow: hidden;
-  display: flex;
-  align-items: center; /* Center image vertically */
+  align-items: center; /* Center items inside the tab content */
   justify-content: center;
-  background-color: #005bb5; 
-
-
-}
-
-
-/* Header and Tabs */
-.previewHeader {
-  padding: 20px;
-  text-align: center;
-  position: relative;
-  background-color: #0070f3;
-  margin-top: auto; /* Pushes content below the banner */
+  background-color: #faedcd; 
+  height: 100vh;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  overflow: auto;
+  
 }
 
 .tabContainer {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 20px;
   position: relative;
+  margin-bottom: 20px;
 }
 
 .tabButtons {
@@ -51,47 +46,58 @@
   padding: 8px 16px;
   font-size: 16px;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.8);
+  background: #d4a373;
   border: none;
   border-radius: 4px;
   transition: background-color 0.3s ease;
-  color: #0070f3;
+  color: #524c4c;
+  font-weight: bold;
 }
 
 .tabButton:hover {
-  background-color: rgba(0, 112, 243, 0.1);
+  background-color: #daca9f; 
+  color: #000000;
+  font-weight: bold;
+
 }
 
 .tabButton.active {
-  background-color: #0070f3;
-  color: #fff;
+  background-color: #d6914b;
+  color: #ffffff;
 }
 
 /* Tab Content */
 .tabContent {
-  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items inside the tab content */
+  justify-content: center;
   padding: 20px;
-  background-color: #fff;
+  background-color: #d6e9c6;
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   position: relative;
+  overflow: auto;
+
 }
 
-/* Create and Edit Buttons */
-.editButton, .createButton {
-  background-color: #0070f3;
-  color: white;
+
+.createButton, .editButton {
+  background-color: #d4a373;
+  color: #524c4c;
+  font-weight: bold;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 10px;
 }
 
 .createButton:hover, .editButton:hover {
-  background-color: #005bb5;
+  background-color: #daca9f; 
+  color: #000000;
+  font-weight: bold;
 }
 
 .createButton:disabled, .editButton:disabled {
@@ -142,4 +148,20 @@
   font-weight: bold;
   text-align: center;
   color: #333;
+}
+
+
+
+@media (max-width: 748px){
+  .tabContent{
+    margin-top: 20px;;
+  }
+
+
+}
+
+@media (max-width: 400px) {
+  .tabContent {
+    margin-left: 100px;
+  }
 }

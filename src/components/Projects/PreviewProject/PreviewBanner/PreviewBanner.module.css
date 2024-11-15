@@ -1,30 +1,66 @@
+
+.titleOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 80%; /* Default width */
+  max-width: 90%;
+  box-sizing: border-box;
+}
+
+/* Default styling for banner */
 .bannerContainer {
   position: relative;
   display: flex;
   align-self: center;
-  width: 60%;
-  height: 300px; /* Adjust as needed */
+  background-color: aquamarine;
+  padding:20px;
+  width: 70%;
+  height: 200px; /* Match default height with messaging container */
+  min-height: 200px;
   overflow: hidden;
   border-radius: 20px;
-  margin-top: 20px;
-  
+  margin-top: 100px;
+  box-sizing: border-box;
 }
 
-
-
-.titleOverlay {
-  position: absolute;
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Adjust for centering */
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
-  padding: 20px;
-  border-radius: 8px; /* Rounded corners */
-  text-align: center;
-}
-
+/* Mobile styling */
 @media (max-width: 768px) {
+  .bannerContainer {
+    margin-top: 100px;
+    height: 200px; /* Match height with .messagingContainer on mobile */
+  }
+
   .titleOverlay {
+    width: 70%; /* Adjust overlay width */
     padding: 10px;
   }
+
+  .title {
+    font-size: 1.5rem; /* Adjust font size for tablets */
+  }
 }
+
+
+/* Smaller screens */
+@media (max-width: 480px) {
+  .bannerContainer {
+    height: 200px;
+  }
+
+
+  .titleOverlay {
+    width: 60%; /* Further adjust overlay width */
+    padding: 8px;
+  }
+
+  .title {
+    font-size: 1.2rem; /* Smaller font size for mobile */
+  }
+}
+

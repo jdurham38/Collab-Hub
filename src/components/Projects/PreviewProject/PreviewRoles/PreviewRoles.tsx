@@ -7,7 +7,7 @@ interface PreviewRolesProps {
 
 const PreviewRoles: React.FC<PreviewRolesProps> = ({ roles }) => (
   <div className={styles.rolesContainer}>
-    <h2>Roles</h2>
+    <h2>Roles Required: </h2>
     <div className={styles.rolesList}>
       {roles.map((role) => (
         <span key={role} className={styles.role}>

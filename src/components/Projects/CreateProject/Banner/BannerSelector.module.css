@@ -87,7 +87,9 @@
   text-align: center;
 }
 .uploadLabel:hover {
-  background-color: #daca9f; /* Optional: Darken button on hover */
+  background-color: #daca9f; 
+  color: black;
+
 }
 
 
@@ -131,6 +133,8 @@
 
 .removeBannerButton:hover {
   background-color: #ff5a5a;
+  color: black;
+
 }
 
 /* Mobile Styling */
