@@ -1,0 +1,12 @@
+# Ensure text files are normalized to LF
+* text=auto
+
+# Force LF line endings for specific file types
+*.md text eol=lf
+*.json text eol=lf
+*.prisma text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+
+# Optional: Force CRLF for Windows-specific files
+*.bat text eol=crlf
