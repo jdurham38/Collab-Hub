@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useProjectStore } from '@/utils/useProjectStore';
 import PreviewDescription from './PreviewDescription/PreviewDescription';
@@ -39,8 +39,13 @@ const PreviewProject: React.FC<PreviewProjectProps> = ({
     try {
       await onCreateProject();
       toast.success('Project created successfully!');
-    } catch {
-      toast.error('Failed to create project. Please try again.');
+    } catch (error) {
+      if (error instanceof Error) {
+        // Display the error message from the thrown error
+        toast.error(error.message);
+      } else {
+        toast.error('Failed to create project. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -123,6 +128,7 @@ const PreviewProject: React.FC<PreviewProjectProps> = ({
             </div>
           )}
         </div>
+        <ToastContainer />
       </div>
     </div>
   );

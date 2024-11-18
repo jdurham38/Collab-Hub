@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
-import styles from './BannerSelector.module.css';
-import Image from 'next/image';
+"use client";
+
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getSupabaseClient } from "@/lib/supabaseClient/supabase";
+import styles from "./BannerSelector.module.css";
+import Image from "next/image";
 
 interface BannerSelectorProps {
   bannerUrl: string;
@@ -9,91 +12,89 @@ interface BannerSelectorProps {
   setBannerFile: (file: File | null) => void;
 }
 
-const BannerSelector: React.FC<BannerSelectorProps> = ({ bannerUrl, setBannerUrl, setBannerFile }) => {
+const fetchPresetBanners = async () => {
   const supabase = getSupabaseClient();
+  const { data: files, error } = await supabase.storage
+    .from("project-banners")
+    .list("preset-banners");
 
-  const [errorMessage, setErrorMessage] = useState('');
-  const [presetBanners, setPresetBanners] = useState<string[]>([]);
-  const [loadingBanners, setLoadingBanners] = useState<{ [key: string]: boolean }>({});
+  if (error) {
+    throw new Error(error.message);
+  }
 
-  useEffect(() => {
-    const fetchPresetBanners = async () => {
-      const { data: files, error } = await supabase.storage
-        .from('project-banners')
-        .list('preset-banners');
+  const urls =
+    files?.map((file) => {
+      const { data } = supabase.storage
+        .from("project-banners")
+        .getPublicUrl(`preset-banners/${file.name}`);
+      return data?.publicUrl || "";
+    }) || [];
 
-      if (error) {
-        console.error('Error fetching preset banners:', error.message);
-        setErrorMessage('Failed to load preset banners.');
-        return;
-      }
+  return urls;
+};
 
-      const urls = files?.map((file) => {
-        const { data } = supabase.storage
-          .from('project-banners')
-          .getPublicUrl(`preset-banners/${file.name}`);
-        return data?.publicUrl || '';
-      }) || [];
+const BannerSelector: React.FC<BannerSelectorProps> = ({
+  bannerUrl,
+  setBannerUrl,
+  setBannerFile,
+}) => {
+  const [errorMessage, setErrorMessage] = useState("");
 
-      setPresetBanners(urls);
-    };
-
-    fetchPresetBanners();
-  }, [supabase]);
+  const { data: presetBanners = [], isLoading, isError } = useQuery({
+    queryKey: ["presetBanners"],
+    queryFn: fetchPresetBanners,
+  });
 
   const handlePresetSelect = (url: string) => {
     setBannerUrl(url);
     setBannerFile(null); // Clear any uploaded file
   };
 
-  const handleFileSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelection = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (!event.target.files || event.target.files.length === 0) {
-      setErrorMessage('You must select an image to upload.');
+      setErrorMessage("You must select an image to upload.");
       return;
     }
 
     const file = event.target.files[0];
-    if (!file.type.startsWith('image/')) {
-      setErrorMessage('Only image files are allowed.');
+    if (!file.type.startsWith("image/")) {
+      setErrorMessage("Only image files are allowed.");
       return;
     }
 
     const maxSize = 5 * 1024 * 1024; // 5MB
     if (file.size > maxSize) {
-      setErrorMessage('File size exceeds the maximum limit of 5MB.');
+      setErrorMessage("File size exceeds the maximum limit of 5MB.");
       return;
     }
 
     setBannerUrl(URL.createObjectURL(file)); // Show a preview
     setBannerFile(file); // Set the file for later upload
-    setErrorMessage('');
+    setErrorMessage("");
   };
 
   const handleRemoveBanner = () => {
-    setBannerUrl('');
+    setBannerUrl("");
     setBannerFile(null);
   };
 
   return (
     <div className={styles.bannerSelector}>
       <h3 className={styles.title}>Select a Banner</h3>
+      {isLoading && <p>Loading banners...</p>}
+      {isError && <p>Failed to load banners.</p>}
       <div className={styles.presetBanners}>
         {presetBanners.map((url) => (
           <div
             key={url}
-            className={`${styles.bannerOption} ${bannerUrl === url ? styles.selected : ''}`}
+            className={`${styles.bannerOption} ${
+              bannerUrl === url ? styles.selected : ""
+            }`}
             onClick={() => handlePresetSelect(url)}
           >
-            {loadingBanners[url] && <div className={styles.spinner}></div>}
-            <Image
-              src={url}
-              alt="Preset Banner"
-              width={200}
-              height={100}
-
-              onLoad={() => setLoadingBanners((prev) => ({ ...prev, [url]: false }))}
-              className={loadingBanners[url] ? styles.hiddenImage : ''}
-            />
+            <Image src={url} alt="Preset Banner" width={200} height={100} />
           </div>
         ))}
       </div>
@@ -106,15 +107,24 @@ const BannerSelector: React.FC<BannerSelectorProps> = ({ bannerUrl, setBannerUrl
           id="banner-upload"
           accept="image/*"
           onChange={handleFileSelection}
-          disabled={bannerUrl.startsWith('http')}
+          disabled={bannerUrl.startsWith("http")}
           className={styles.uploadInput}
         />
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       </div>
       {bannerUrl && (
         <div className={styles.preview}>
-          <Image src={bannerUrl} alt="Selected Banner" width={900} height={250} className={styles.previewImage} />
-          <button onClick={handleRemoveBanner} className={styles.removeBannerButton}>
+          <Image
+            src={bannerUrl}
+            alt="Selected Banner"
+            width={900}
+            height={250}
+            className={styles.previewImage}
+          />
+          <button
+            onClick={handleRemoveBanner}
+            className={styles.removeBannerButton}
+          >
             Remove Banner
           </button>
         </div>

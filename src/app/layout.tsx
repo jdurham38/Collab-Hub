@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -6,7 +7,10 @@ import Head from "next/head";
 import CookieBanner from "@/components/CookiesConsent/banner";
 import ErrorBoundary from "@/utils/ErrorBoundary";
 import ClientAuthWrapper from "@/contexts/ClientAuthWrapper";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import QueryProvider from "@/utils/QueryProvider";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -39,11 +43,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ErrorBoundary>
+        <QueryProvider>
           <AuthProvider>
             <ClientAuthWrapper>{children}</ClientAuthWrapper>
             <CookieBanner />
           </AuthProvider>
+          <ToastContainer />
+          <ReactQueryDevtools initialIsOpen={false} />
+          </QueryProvider>
         </ErrorBoundary>
+        
       </body>
     </html>
   );

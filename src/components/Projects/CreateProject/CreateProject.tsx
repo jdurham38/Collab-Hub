@@ -140,47 +140,47 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     }
   };
 
-  // Project creation handler
   const handleCreateProject = async () => {
     if (!isLoggedIn || !session) {
       toast.error('You must be logged in to create a project.');
       return;
     }
-
+  
     if (!validateFields()) return;
-
+  
     setLoading(true);
-
+  
     try {
       let finalBannerUrl = bannerUrl;
-
+  
       // Upload banner if a file is selected
       if (bannerFile) {
         const fileExt = bannerFile.name.split('.').pop();
         const fileName = `${Date.now()}.${fileExt}`;
         const filePath = `custom-banners/${fileName}`;
-
+  
         const { error: uploadError } = await supabase.storage
           .from('project-banners')
           .upload(filePath, bannerFile);
-
+  
         if (uploadError) {
           throw uploadError;
         }
-
+  
         const { data } = supabase.storage
           .from('project-banners')
           .getPublicUrl(filePath);
-
+  
         if (!data || !data.publicUrl) {
           throw new Error('Failed to get public URL of the uploaded image.');
         }
-
+  
         finalBannerUrl = data.publicUrl;
       }
-
+  
       const userId = session.user.id;
-
+  
+      // Send request to create a project
       const response = await fetch('/api/projects/create-project', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -193,24 +193,30 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
           userId,
         }),
       });
-
+  
       if (!response.ok) {
         const { error } = await response.json();
-        throw new Error(error || 'Failed to create project');
+
+        // Throw specific error for exceeding the project limit
+        if (response.status === 403 && error.includes('3 projects')) {
+          throw new Error('You are only allowed to create up to 3 projects on your current plan.');
+        } else {
+          throw new Error(error || 'Failed to create project.');
+        }
       }
 
       const { projectId } = await response.json();
-      toast.success('Project created successfully!');
       resetProject(); // Clear state after successful creation
       router.push(`/projects/${projectId}`);
       onClose();
     } catch (error) {
       console.error('Error creating project:', error);
-      toast.error('Failed to create project. Please try again.');
+      throw error; // Re-throw the error to be caught by the caller
     } finally {
       setLoading(false);
     }
   };
+  
 
   // Modal close handler with state reset
   const handleClose = () => {

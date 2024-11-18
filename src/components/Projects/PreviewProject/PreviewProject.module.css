@@ -198,3 +198,11 @@ body.modal-open {
     text-align: center;
   }
 }
+.errorMessage {
+  color: #d9534f;
+  background-color: #f9d6d5;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+}

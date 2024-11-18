@@ -48,41 +48,33 @@ Color Pallete
     - have two sections:
         1. explore projects 2x3 grid
 
-6. create project creation
+6. create project creation/project preview
 
 backend
         - within this allow for a toggle switch to enable the notion/trello dup within a project. if not enabled, the slack dup will be enabled no matter what
 
 Project Preview page
-    - put all project details in a project description tab
     - put a messaging tab (all messages delete after 14 days)
-        - global group messaging
-            - never can be deleted
-            - will include all project members
-                - will add or remove members to the chat upon joining or leaving/removed
-                - can mention users
-                - add an online status to users
-                - load a certain amount of messages at a time if more than 30 messages are available
-                - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
-                - isodate convertor
-                - optimistic message traveling
-                - edit messages - if a user enters an empty string it will delete the message (prompt the user it will be deleted)
-                - deletes a message
+      
         - channel messaging
+            - general channel messaging
+                - never can be deleted
+                - will include all project members
+                    - will add or remove members to the chat upon joining or leaving/removed
+                    - can mention users
+                    - add an online status to users
+                    - load a certain amount of messages at a time if more than 30 messages are available
+                    - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
+                    - isodate convertor
+                    - optimistic message traveling
+                    - edit messages - if a user enters an empty string it will delete the message (prompt the user it will be deleted)
+                    - deletes a message
         - individual messaging
-    - put a trello tab - do later do not work on in this iteration
-    - put a notion tab - do later do not work on in this iteration
-    - project settings tab
-        - can edit details on a project
-        - can remove users
-        - can enable/disable the notion or trello tabs
-            - if disabled a message prompt that all information will be deleted
+
         - enable users to have admin access
             - removing users
             - changing project details
             - create message channels
-    - rich text display for description
-
 
 7. create user explore page
     - Search/filters based on interests, location, roles, and username

@@ -7,34 +7,6 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-// Async function to generate a unique 16-character alphanumeric ID
-async function generateUniqueId(length = 16): Promise<string> {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let uniqueId = '';
-  let isUnique = false;
-
-  while (!isUnique) {
-    // Generate a random ID
-    uniqueId = '';
-    for (let i = 0; i < length; i++) {
-      uniqueId += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-
-    // Check if the ID already exists in the 'projects' table
-    const { data } = await supabase
-      .from('projects')
-      .select('id')
-      .eq('id', uniqueId);
-
-    // If no data is returned, the ID is unique
-    if (!data || data.length === 0) {
-      isUnique = true;
-    }
-  }
-
-  return uniqueId;
-}
-
 export default async function createProject(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
@@ -42,21 +14,43 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
 
   const { title, description, bannerUrl, tags, roles, userId } = req.body;
 
-  // Optional: Input validation
   if (!title || !description || !userId) {
     return res.status(400).json({ error: 'Missing required fields.' });
   }
 
   try {
-    // Generate a unique project ID
-    const projectId = await generateUniqueId();
+    // Fetch user data with plan and project count
+    const { data: user, error: userError } = await supabase
+      .from('users')
+      .select('plan, projects!projects_created_by_fkey(id)')
+      .eq('id', userId)
+      .single();
+  
+    if (userError) {
+      console.error('Error fetching user data:', userError);
+      throw userError;
+    }
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+    
+    const { plan, projects } = user;
+    console.log('User plan:', plan);
+    console.log('User projects:', projects);
+
+    // Free plan limitation
+    if (plan === 'free' && projects.length >= 3) {
+      return res
+        .status(403)
+        .json({ error: 'Free plan users can only create up to 3 projects.' });
+    }
 
     // Insert the project data into the 'projects' table
-    const { data, error } = await supabase
+    const { data: projectData, error: projectError } = await supabase
       .from('projects')
       .insert([
         {
-          id: projectId, // Use the generated unique ID here
           title,
           description,
           banner_url: bannerUrl,
@@ -65,15 +59,23 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
           created_by: userId,
         },
       ])
-      .select('id');
+      .select('id')
+      .single();
 
-    if (error) throw error;
+    if (projectError) {
+      console.error('Error creating project:', projectError);
+      return res.status(500).json({ error: 'Failed to create project.' });
+    }
 
-    if (!data || data.length === 0) throw new Error('Failed to retrieve project ID.');
-
-    return res.status(200).json({ projectId: data[0].id });
+    return res.status(200).json({ projectId: projectData.id });
   } catch (error) {
-    console.error('Error creating project:', error);
-    return res.status(500).json({ error: 'Failed to create project' });
+    console.error('Error processing request:', error);
+
+    let errorMessage = 'An unexpected error occurred.';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return res.status(500).json({ error: errorMessage });
   }
 }
