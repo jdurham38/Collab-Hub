@@ -12,9 +12,14 @@ const Title: React.FC<TitleProps> = ({ title, setTitle }) => {
   const [charCount, setCharCount] = useState(title.length);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    let value = e.target.value;
 
-    // Update the title in state immediately
+    // Limit the value to 40 characters
+    if (value.length > 40) {
+      value = value.slice(0, 40);
+    }
+
+    // Update the title in state
     setTitle(value);
 
     // Update character count
@@ -25,8 +30,6 @@ const Title: React.FC<TitleProps> = ({ title, setTitle }) => {
       setErrorMessage('Project title is required.');
     } else if (profanity.exists(value)) {
       setErrorMessage('Profanity detected in title.');
-    } else if (value.length > 40) {
-      setErrorMessage('Title cannot exceed 40 characters.');
     } else {
       setErrorMessage(''); // Clear the error if valid
     }
@@ -40,6 +43,7 @@ const Title: React.FC<TitleProps> = ({ title, setTitle }) => {
         value={title}
         onChange={handleTitleChange}
         className={styles.input}
+        maxLength={40} // Enforce max length at the input level
       />
       <div className={styles.titleInfo}>
         <p className={styles.charCount}>{charCount}/40 characters</p>

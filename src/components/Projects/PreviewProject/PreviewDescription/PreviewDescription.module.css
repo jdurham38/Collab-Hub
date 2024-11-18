@@ -1,19 +1,16 @@
-
-    
-
-/* Settings and Messaging Containers */
-.descriptionContainer{
-  margin-top: 200px;
+.descriptionContainer {
   padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Remove width and max-width to let it naturally fill the available space */
+  width: 100%;
   max-width: 100%;
-  width: 500px;
-  max-height: 100%;
-
-   /* Set to 100% of the parent .tabContent */
+  margin: 0; /* Ensure no extra margins */
+  box-sizing: border-box; /* Ensure padding is included in width */
 }
+
+
+
 
 .descriptionContainer h2 {
   font-size: 24px;
@@ -22,43 +19,12 @@
   font-weight: bold;
 }
 
-/* Messaging Placeholder Text */
 .descriptionContainer p {
   font-size: 16px;
   color: #666;
   margin-bottom: 8px;
-  word-wrap: break-word; /* Forces long words to break if needed */
-  line-height: 1.5; /* Improves readability with proper line spacing */
-}
-
-
-/* Fixed Height for Mobile Screens */
-@media (max-width: 768px) {
-
-  .descriptionContainer {
-    margin-top: 300px;
-
-    height: 200px; /* Match .messagingContainer height */
-  }
-
-}
-
-@media (max-width: 400px){
-  .descriptionContainer{
-    margin-top: 350px;
-    width: 100vw;
-    height: 200px; /* Match .messagingContainer height */
-  }
-
-
-}
-
-@media (max-width: 400px){
-  .descriptionContainer{
-    margin-top: 350px;
-    width: 100vw;
-    height: 200px; /* Match .messagingContainer height */
-  }
-
-
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.5;
 }

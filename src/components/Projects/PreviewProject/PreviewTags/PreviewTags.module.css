@@ -1,11 +1,11 @@
+/* Tags Container */
 .tagsContainer {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 30px;
   padding: 20px;
-  max-width: 100%; 
-  min-width: 100px;/* Optional: Ensure it doesn’t exceed parent width */
+  width: 100%; /* Ensures it fills the parent container */
 }
 
 .tagsContainer h2 {
@@ -17,7 +17,7 @@
 
 .tagsList {
   display: flex;
-  flex-wrap: wrap; /* Ensures tags wrap to fit in container */
+  flex-wrap: wrap; /* Allows tags to wrap within the container */
   gap: 8px;
 }
 
@@ -31,12 +31,12 @@
   font-size: 0.875rem;
 }
 
-
-@media (max-width: 400px){
-  .tagsContainer{
-    height: 200px; /* Match .messagingContainer height */
-    width: 100vw
+/* Media Queries */
+@media (max-width: 400px) {
+  .tagsContainer {
+    padding: 10px; /* Reduce padding on small screens */
+    width: 100%; /* Ensure full width without overflow */
+    /* Remove fixed heights to allow content to dictate height */
+    /* Remove margin-right from rolesContainer */
   }
-
-
 }

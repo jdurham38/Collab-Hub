@@ -1,44 +1,75 @@
-/* Center and position header at the top */
-.previewHeader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+/* Move this to a global CSS file or include in a <style jsx global> tag */
+/* Prevent background scrolling when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Modal Overlay */
+.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 20px;
-  background-color: #d6e9c6;
-  z-index: 1;
-  margin-bottom: 50px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it covers other content */
 }
 
-.previewContainer {
-  width: 100vw;
+/* Modal Content */
+.previewModal {
+  background-color: #faedcd;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items inside the tab content */
-  justify-content: center;
-  background-color: #faedcd; 
-  height: 100vh;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  overflow: auto;
-  
+  overflow: hidden; /* Hide overflow from the modal container */
+  border-radius: 8px;
+  position: relative;
 }
 
+.previewHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Vertically centers items within the flex container */
+  justify-content: center; /* Horizontally centers items within the flex container */
+  gap: 10px;
+  padding: 20px;
+  width: 100%;
+  background-color: #d6e9c6;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  text-align: center; /* Ensures text inside is center-aligned */
+}
+
+
+/* Preview Container */
+.previewContainer {
+  flex: 1; /* Fills the remaining space in the modal */
+  overflow-y: auto; /* Allows vertical scrolling */
+  padding: 20px;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+}
+
+/* Tab Container */
 .tabContainer {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
-  position: relative;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
+/* Tab Content */
+.tabContent {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Tab Buttons */
 .tabButtons {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -55,10 +86,8 @@
 }
 
 .tabButton:hover {
-  background-color: #daca9f; 
+  background-color: #daca9f;
   color: #000000;
-  font-weight: bold;
-
 }
 
 .tabButton.active {
@@ -66,23 +95,9 @@
   color: #ffffff;
 }
 
-/* Tab Content */
-.tabContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center items inside the tab content */
-  justify-content: center;
-  padding: 20px;
-  background-color: #d6e9c6;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: auto;
-
-}
-
-
-.createButton, .editButton {
+/* Action Buttons */
+.createButton,
+.editButton {
   background-color: #d4a373;
   color: #524c4c;
   font-weight: bold;
@@ -94,19 +109,19 @@
   transition: background-color 0.3s ease;
 }
 
-.createButton:hover, .editButton:hover {
-  background-color: #daca9f; 
+.createButton:hover,
+.editButton:hover {
+  background-color: #daca9f;
   color: #000000;
-  font-weight: bold;
 }
 
-.createButton:disabled, .editButton:disabled {
+.createButton:disabled,
+.editButton:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
 
-
-/* Spinner animation */
+/* Spinner Animation */
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -116,7 +131,7 @@
   }
 }
 
-/* Center the spinner */
+/* Spinner Container */
 .spinnerContainer {
   position: absolute;
   top: 0;
@@ -131,7 +146,7 @@
   z-index: 10;
 }
 
-/* Spinner styling */
+/* Spinner Styling */
 .spinner {
   border: 16px solid #f2dede;
   border-top: 16px solid #d4a373;
@@ -150,18 +165,36 @@
   color: #333;
 }
 
-
-
-@media (max-width: 748px){
-  .tabContent{
-    margin-top: 20px;;
+/* Media Queries for Small Screens */
+@media (max-width: 748px) {
+  .previewModal {
+    width: 95%;
+    max-height: 95vh;
   }
-
-
+  .previewHeader,
+  .previewContainer {
+    padding: 15px;
+  }
 }
 
 @media (max-width: 400px) {
-  .tabContent {
-    margin-left: 100px;
+  .previewModal {
+    width: 100%;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+  }
+  .previewHeader,
+  .previewContainer {
+    padding: 10px;
+  }
+  .tabContainer {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .tabButton {
+    width: 100%;
+    text-align: center;
   }
 }

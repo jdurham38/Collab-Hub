@@ -1,4 +1,19 @@
+/* Banner Container */
+.bannerContainer {
+  position: relative;
+  display: flex;
+  background-color: aquamarine;
+  padding: 20px;
+  width: 70%;
+  height: 200px;
+  min-height: 200px;
+  overflow: hidden;
+  border-radius: 20px;
+  margin: 100px auto 0; /* Centers horizontally */
+  box-sizing: border-box;
+}
 
+/* Title Overlay */
 .titleOverlay {
   position: absolute;
   top: 50%;
@@ -8,59 +23,42 @@
   padding: 20px;
   border-radius: 8px;
   text-align: center;
-  width: 80%; /* Default width */
+  width: 80%;
   max-width: 90%;
   box-sizing: border-box;
 }
 
-/* Default styling for banner */
-.bannerContainer {
-  position: relative;
-  display: flex;
-  align-self: center;
-  background-color: aquamarine;
-  padding:20px;
-  width: 70%;
-  height: 200px; /* Match default height with messaging container */
-  min-height: 200px;
-  overflow: hidden;
-  border-radius: 20px;
-  margin-top: 100px;
-  box-sizing: border-box;
-}
-
-/* Mobile styling */
+/* Media Queries */
 @media (max-width: 768px) {
   .bannerContainer {
-    margin-top: 100px;
-    height: 200px; /* Match height with .messagingContainer on mobile */
+    width: 90%; /* Adjusted width */
+    margin: 100px auto 0; /* Keep centered */
+    height: 200px;
   }
 
   .titleOverlay {
-    width: 70%; /* Adjust overlay width */
+    width: 70%;
     padding: 10px;
   }
 
   .title {
-    font-size: 1.5rem; /* Adjust font size for tablets */
+    font-size: 1.5rem;
   }
 }
 
-
-/* Smaller screens */
 @media (max-width: 480px) {
   .bannerContainer {
+    width: 95%; /* Further adjusted width */
+    margin: 100px auto 0; /* Keep centered */
     height: 200px;
   }
 
-
   .titleOverlay {
-    width: 60%; /* Further adjust overlay width */
+    width: 80%;
     padding: 8px;
   }
 
   .title {
-    font-size: 1.2rem; /* Smaller font size for mobile */
+    font-size: 1.2rem;
   }
 }
-

@@ -7,7 +7,7 @@ interface PreviewDescriptionProps {
 
 const PreviewDescription: React.FC<PreviewDescriptionProps> = ({ description }) => (
   <div className={styles.descriptionContainer}>
-    <h2>Project Description: </h2>
+    <h2>Project Description:</h2>
     <p
       className={styles.descriptionText}
       dangerouslySetInnerHTML={{ __html: description }}

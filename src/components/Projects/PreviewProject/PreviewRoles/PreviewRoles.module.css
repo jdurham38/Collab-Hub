@@ -1,43 +1,43 @@
+/* Roles Container */
 .rolesContainer {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 30px;
   padding: 20px;
-  width: 500px; /* Container will resize based on content width */
-  max-width: 100%;
-  }
-  
+  width: 100%; /* Changed from 500px to 100% */
+}
 
-  .rolesContainer h2 {
-    font-size: 24px;
-    margin-bottom: 16px;
-    color: #000000;
-    font-weight: bold;
-  }
-  .rolesList {
-    display: flex;
-    flex-wrap: wrap; /* Ensures tags wrap to fit in container */
-    gap: 8px;
-  }
-  
-  .role {
-    background-color: #d4a373;
-    color: #524c4c;
-    font-weight: bold;
-    font-style: italic;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.875rem;
-  }
-  
+.rolesContainer h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #000000;
+  font-weight: bold;
+}
 
-  @media (max-width: 400px){
-    .rolesContainer{
-      margin-right: 100px;
-      height: 200px; /* Match .messagingContainer height */
-      width: 100vw
-    }
-  
-  
+.rolesList {
+  display: flex;
+  flex-wrap: wrap; /* Allows roles to wrap within the container */
+  gap: 8px;
+}
+
+.role {
+  background-color: #d4a373;
+  color: #524c4c;
+  font-weight: bold;
+  font-style: italic;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+/* Media Queries */
+@media (max-width: 400px) {
+  .tagsContainer,
+  .rolesContainer {
+    padding: 10px; /* Reduce padding on small screens */
+    width: 100%; /* Ensure full width without overflow */
+    /* Remove fixed heights to allow content to dictate height */
+    /* Remove margin-right from rolesContainer */
   }
+}

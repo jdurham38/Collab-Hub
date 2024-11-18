@@ -1,23 +1,108 @@
-/* Settings and Messaging Containers */
-.messagingContainer{
-  padding: 20px;
+/* Container for the messaging preview */
+.messagingContainer {
+  display: flex;
+  height: 500px; /* Adjust as needed */
   background-color: #ffffff;
   border-radius: 8px;
+  margin-top: 20px;
+  overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+
+
+
+/* Heading style */
 .messagingContainer h2 {
   font-size: 24px;
   margin-bottom: 16px;
-  color: #0070f3;
+  color: #000000;
+  font-weight: bold;
 }
 
-/* Messaging Placeholder Text */
-.messagingContainer p {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 8px;
+/* Description paragraph */
+.description {
+  font-size: 16px;
+  color: #333333;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* Button container */
+.buttonContainer {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+/* Message buttons */
+.messageButton {
+  background-color: #d4a373;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.messageButton:hover {
+  background-color: #d6914b;
+}
+
+/* Note paragraph */
+.note {
+  font-size: 14px;
+  color: #999999;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .messagingContainer {
+    padding: 15px;
+    flex-direction: column;
+    height: auto;
   }
 
+  .messagingContainer h2 {
+    font-size: 22px;
+  }
 
-  
+  .description,
+  .note {
+    font-size: 15px;
+  }
+
+  .messageButton {
+    padding: 8px 16px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .messagingContainer {
+    padding: 10px;
+  }
+
+  .messagingContainer h2 {
+    font-size: 20px;
+  }
+
+  .description,
+  .note {
+    font-size: 14px;
+  }
+
+  .messageButton {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+  }
+}
