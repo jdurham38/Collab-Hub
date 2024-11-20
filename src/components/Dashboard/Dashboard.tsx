@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import ProtectedComponent from '../ProtectedComponent/protected-page';
+import Link from 'next/link'; // Import Link from next/link
 
 interface Project {
   id: string;
@@ -24,14 +25,15 @@ const Dashboard: React.FC = () => {
       router.push('/'); // Replace with your login page path
     }
   }, [user, router]);
+
   useEffect(() => {
-    console.log("Dashboard component rendered");
-  
+    console.log('Dashboard component rendered');
+
     if (!user?.id || hasFetchedProjects) return;
-  
+
     const fetchUserProjects = async () => {
-      console.log("Fetching user projects...");
-  
+      console.log('Fetching user projects...');
+
       try {
         const response = await fetch(`/api/projects/user-projects?userId=${user.id}`);
         if (!response.ok) {
@@ -46,11 +48,10 @@ const Dashboard: React.FC = () => {
         setLoading(false);
       }
     };
-  
+
     fetchUserProjects();
-  }, [user?.id]);
-   // Remove `hasFetchedProjects` from dependencies
-  
+  }, [user?.id, hasFetchedProjects]); // Added hasFetchedProjects to dependencies
+
   if (!user) {
     return null; // Prevent rendering if the user is not authenticated
   }
@@ -67,7 +68,10 @@ const Dashboard: React.FC = () => {
             <ul>
               {projects.map((project) => (
                 <li key={project.id}>
-                  <h2>{project.title}</h2>
+                  <h2>
+                    {/* Wrap project.title with Link */}
+                    <Link href={`/projects/${project.id}`}>{project.title}</Link>
+                  </h2>
                   <p>Created at: {new Date(project.createdAt).toLocaleDateString()}</p>
                 </li>
               ))}

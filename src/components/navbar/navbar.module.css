@@ -12,12 +12,20 @@
     align-items: center;
   }
   
-  .navItem {
-    margin-right: 20px;
+
+
+  .navLink {
     font-size: 16px;
     color: #ffffff;
     cursor: pointer;
+    margin-right: 1rem;
+    /* Add any additional styling as needed */
   }
+  
+  .navLink:hover {
+    text-decoration: underline;
+  }
+  
   
   .createButton {
     font-size: 20px;
