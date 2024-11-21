@@ -85,6 +85,19 @@ body.modal-open {
   font-weight: bold;
 }
 
+.flexContainer {
+  display: flex;
+  justify-content: flex-start; /* Align items to the start */
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  gap: 20px;
+  max-width: 1000px;      /* Limit the container's maximum width */
+  margin-left: auto;      /* Center the flex container */
+  margin-right: auto;
+  width: 100%;            /* Ensure it takes full available width */
+}
+
 .tabButton:hover {
   background-color: #daca9f;
   color: #000000;

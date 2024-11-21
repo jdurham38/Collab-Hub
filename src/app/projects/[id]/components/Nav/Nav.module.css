@@ -1,26 +1,41 @@
+/* Tab Container */
 .tabContainer {
-    /* Add your styles here */
-  }
-  
-  .tabButtons {
-    display: flex;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .tabButton {
-    padding: 10px 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
-  }
-  
-  .tabButton:hover {
-    background-color: #f5f5f5;
-  }
-  
-  .tabButton.active {
-    border-bottom: 2px solid #007bff;
-    font-weight: bold;
-  }
-  
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Tab Content */
+.tabContent {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Tab Buttons */
+.tabButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tabButton {
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #d4a373;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  color: #524c4c;
+  font-weight: bold;
+}
+
+.tabButton:hover {
+  background-color: #daca9f;
+  color: #000000;
+}
+
+.tabButton.active {
+  background-color: #d6914b;
+  color: #ffffff;
+}

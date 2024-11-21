@@ -1,5 +1,5 @@
-/* Tags Container */
-.tagsContainer {
+/* Roles Container */
+.rolesContainer {
   background-color: #ccd5ae;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -12,23 +12,23 @@
   max-height: 300px;        
   border-width: 3px;
   border-color: #000;
-
+  overflow: auto;
 }
 
-.tagsContainer h2 {
+.rolesContainer h2 {
   font-size: 24px;
   margin-bottom: 16px;
   color: #000000;
   font-weight: bold;
 }
 
-.tagsList {
+.rolesList {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap; /* Allows roles to wrap within the container */
   gap: 8px;
 }
 
-.tag {
+.role {
   background-color: #d4a373;
   color: #524c4c;
   font-weight: bold;
@@ -38,11 +38,13 @@
   font-size: 0.875rem;
 }
 
-
+/* Media Queries */
 @media (max-width: 400px) {
-  .tagsContainer {
-    padding: 10px; 
-    width: 100%; 
-
+  .tagsContainer,
+  .rolesContainer {
+    padding: 10px; /* Reduce padding on small screens */
+    width: 100%; /* Ensure full width without overflow */
+    /* Remove fixed heights to allow content to dictate height */
+    /* Remove margin-right from rolesContainer */
   }
 }

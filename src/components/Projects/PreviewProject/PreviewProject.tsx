@@ -11,17 +11,20 @@ import PreviewRoles from './PreviewRoles/PreviewRoles';
 import styles from './PreviewProject.module.css';
 import PreviewSettings from './PreviewSettings/PreviewSettings';
 import PreviewMessaging from './PreviewMessaging/PreviewMessaging';
+import ProjectUsers from './PreviewProjectUsers/Users';
 
 interface PreviewProjectProps {
   onClosePreview: () => void;
   onCreateProject: () => Promise<void>;
+  bannerUrl: string; // Added bannerUrl prop
 }
 
 const PreviewProject: React.FC<PreviewProjectProps> = ({
   onClosePreview,
   onCreateProject,
+  bannerUrl, // Receive bannerUrl from props
 }) => {
-  const { title, description, bannerUrl, tags, roles } = useProjectStore();
+  const { title, description, tags, roles } = useProjectStore();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'messaging' | 'settings'>('overview');
 
@@ -109,9 +112,14 @@ const PreviewProject: React.FC<PreviewProjectProps> = ({
           <div className={styles.tabContent}>
             {activeTab === 'overview' && (
               <div>
-                <PreviewDescription description={description} />
-                <PreviewTags tags={tags} />
-                <PreviewRoles roles={roles} />
+                <div className={styles.flexContainer}>
+                  <PreviewDescription description={description} />
+                  <ProjectUsers />
+                </div>
+                <div className={styles.flexContainer}>
+                  <PreviewTags tags={tags} />
+                  <PreviewRoles roles={roles} />
+                </div>
               </div>
             )}
 

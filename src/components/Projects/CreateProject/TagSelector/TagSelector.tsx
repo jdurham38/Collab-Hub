@@ -4,38 +4,36 @@ import { projectTags } from '@/utils/tags';
 
 interface TagsSelectorProps {
   selectedTags: string[];
-  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedTags: (tags: string[]) => void;
 }
-
 const TagsSelector: React.FC<TagsSelectorProps> = ({ selectedTags, setSelectedTags }) => {
   const [tagSearch, setTagSearch] = useState('');
   const [selectedTagCategory, setSelectedTagCategory] = useState<string | null>(null);
 
   const handleTagSelection = (tag: string) => {
-    setSelectedTags((prevTags) => {
-      // If the tag is already selected, remove it
-      if (prevTags.includes(tag)) {
-        return prevTags.filter((t) => t !== tag);
-      }
-      // If the user tries to add a tag and has already selected 5 tags, do nothing
-      if (prevTags.length >= 5) {
+    if (selectedTags.includes(tag)) {
+      const newTags = selectedTags.filter((t) => t !== tag);
+      setSelectedTags(newTags);
+    } else {
+      if (selectedTags.length >= 5) {
         alert('You can only select up to 5 tags.');
-        return prevTags;
+        return;
       }
-
-      return [...prevTags, tag];
-    });
+      const newTags = [...selectedTags, tag];
+      setSelectedTags(newTags);
+    }
   };
-
+  
   const handleTagRemove = (tag: string) => {
-    setSelectedTags((prevTags) => prevTags.filter((t) => t !== tag));
+    const newTags = selectedTags.filter((t) => t !== tag);
+    setSelectedTags(newTags);
   };
-
+  
   const filteredTags = Object.entries(projectTags).flatMap(([category, tagsList]) =>
     selectedTagCategory && selectedTagCategory !== category
       ? []
       : (tagsList as string[])
-          .filter((tag: string) => tag.toLowerCase().includes(tagSearch.toLowerCase()))
+          .filter((tag) => tag.toLowerCase().includes(tagSearch.toLowerCase()))
           .map((tag) => ({ category, tag }))
   );
 
@@ -43,12 +41,14 @@ const TagsSelector: React.FC<TagsSelectorProps> = ({ selectedTags, setSelectedTa
     <div>
       <h3 className={styles.title}>Select Tags (Limit of 5)</h3>
 
-      {/* Selected tags container */}
       <div className={styles.selectedTagsContainer}>
         {selectedTags.map((tag) => (
           <div key={tag} className={styles.selectedTag}>
             {tag}
-            <button onClick={() => handleTagRemove(tag)} className={styles.removeTagButton}>
+            <button
+              onClick={() => handleTagRemove(tag)}
+              className={styles.removeTagButton}
+            >
               &times;
             </button>
           </div>
@@ -75,7 +75,6 @@ const TagsSelector: React.FC<TagsSelectorProps> = ({ selectedTags, setSelectedTa
         ))}
       </select>
 
-      {/* Filtered tags for selection */}
       <div className={styles.tagsContainer}>
         {filteredTags.map(({ category, tag }) => (
           <label key={`${category}-${tag}`} className={styles.tagCheckboxLabel}>

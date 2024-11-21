@@ -1,18 +1,45 @@
-.createProjectModal {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure the modal is on top */
-  overflow: hidden; /* Prevent background scrolling */
-  border-radius: 20px;
-
+  z-index: 1000;
 }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.createProjectModal {
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  padding-top:30px;
+  padding-bottom:30px;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  border-radius: 20px;
+}
+
+
+
 
 .createProjectContent {
   background-color: #faedcd;

@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+// CreateProject.tsx
+
+import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/useAuthStore';
 import { toast } from 'react-toastify';
@@ -23,23 +25,27 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
   const supabase = getSupabaseClient();
   const { isLoggedIn, session } = useAuthStore();
 
+  // Use project store for shared state
   const {
     title,
     description,
     tags,
-    bannerUrl,
     roles,
     setTitle,
     setDescription,
     setTags,
-    setBannerUrl,
     setRoles,
     resetProject,
   } = useProjectStore();
 
+  // Local state for banner
+  const [bannerUrl, setBannerUrl] = useState<string>('');
+  const [bannerFile, setBannerFile] = useState<File | null>(null);
+
   const [showPreview, setShowPreview] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [bannerFile, setBannerFile] = useState<File | null>(null);
+
+  // State for error messages
   const [errors, setErrors] = useState({
     titleError: '',
     descriptionError: '',
@@ -48,15 +54,18 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     rolesError: '',
   });
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
   const validateFields = () => {
     const newErrors = {
-      titleError: title.trim() ? '' : 'Project title is required.',
-      descriptionError: description.trim()
+      titleError: title?.trim() ? '' : 'Project title is required.',
+      descriptionError: description?.trim()
         ? ''
         : 'Project description is required.',
-      bannerError: bannerUrl || bannerFile
-        ? ''
-        : 'Please select or upload a banner image for your project.',
+      bannerError:
+        bannerUrl || bannerFile
+          ? ''
+          : 'Please select or upload a banner image for your project.',
       tagsError:
         tags.length === 0
           ? 'Please select at least one tag.'
@@ -70,12 +79,34 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
           ? 'You can select up to 5 roles only.'
           : '',
     };
-
+  
     setErrors(newErrors);
-
+  
+    // Return true if there are no errors
     return Object.values(newErrors).every((error) => !error);
   };
 
+  // Function to handle closing and resetting the form
+    const handleClose = () => {
+      // Reset the global store
+      resetProject();
+      // Reset local state
+      setBannerUrl('');
+      setBannerFile(null);
+      // Clear errors
+      setErrors({
+        titleError: '',
+        descriptionError: '',
+        bannerError: '',
+        tagsError: '',
+        rolesError: '',
+      });
+      // Close the modal
+      onClose();
+    };
+
+  
+  // Handle project creation
   const handleCreateProject = async () => {
     if (!isLoggedIn || !session) {
       toast.error('You must be logged in to create a project.');
@@ -117,45 +148,113 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     }
   };
 
+  // Handle click outside the modal to close it
+  const handleClickOutside = (event: React.MouseEvent) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      handleClose();
+    }
+  };
+
+  const handlePreviewClick = () => {
+    if (!validateFields()) {
+      toast.error('Please fill out all required fields.');
+      return;
+    }
+    setShowPreview(true);
+  };
+
+  // Handlers to clear errors on input change
+  const handleTitleChange = (value: string) => {
+    setTitle(value);
+    setErrors((prevErrors) => ({ ...prevErrors, titleError: '' }));
+  };
+
+  const handleDescriptionChange = (value: string) => {
+    setDescription(value);
+    setErrors((prevErrors) => ({ ...prevErrors, descriptionError: '' }));
+  };
+
+  const handleSetBannerUrl = (url: string) => {
+    setBannerUrl(url);
+    setErrors((prevErrors) => ({ ...prevErrors, bannerError: '' }));
+  };
+
+  const handleSetBannerFile = (file: File | null) => {
+    setBannerFile(file);
+    setErrors((prevErrors) => ({ ...prevErrors, bannerError: '' }));
+  };
+
+  const handleSetTags = (selectedTags: string[]) => {
+    setTags(selectedTags);
+    setErrors((prevErrors) => ({ ...prevErrors, tagsError: '' }));
+  };
+
+  const handleSetRoles = (selectedRoles: string[]) => {
+    setRoles(selectedRoles);
+    setErrors((prevErrors) => ({ ...prevErrors, rolesError: '' }));
+  };
+
   return showPreview ? (
     <PreviewProject
       onClosePreview={() => setShowPreview(false)}
       onCreateProject={handleCreateProject}
+      bannerUrl={bannerUrl} // Pass bannerUrl to PreviewProject
     />
   ) : (
-    <div className={styles.createProjectModal}>
-      <div className={styles.createProjectContent}>
-        <div className={styles.modalHeader}>
-          <h1>Create a New Project</h1>
-          <button onClick={onClose}>&times;</button>
+    <div className={styles.overlay} onClick={handleClickOutside}>
+      <div
+        className={styles.createProjectModal}
+        ref={modalRef}
+        onClick={(event) => event.stopPropagation()} // Prevent bubbling
+      >
+        <div className={styles.createProjectContent}>
+          <div className={styles.modalHeader}>
+            <h1>Create a New Project</h1>
+            <button className={styles.closeButton} onClick={handleClose}>
+              &times;
+            </button>
+          </div>
+          <div className={styles.inputContainer}>
+            <Title title={title} setTitle={handleTitleChange} />
+            {errors.titleError && <p className={styles.error}>{errors.titleError}</p>}
+          </div>
+          <div className={styles.inputContainer}>
+            <Description
+              description={description}
+              setDescription={handleDescriptionChange}
+            />
+            {errors.descriptionError && (
+              <p className={styles.error}>{errors.descriptionError}</p>
+            )}
+          </div>
+          <div className={styles.inputContainer}>
+            <BannerSelector
+              bannerUrl={bannerUrl}
+              setBannerUrl={handleSetBannerUrl}
+              setBannerFile={handleSetBannerFile}
+            />
+            {errors.bannerError && (
+              <p className={styles.error}>{errors.bannerError}</p>
+            )}
+          </div>
+          <div className={styles.inputContainer}>
+            <TagsSelector selectedTags={tags} setSelectedTags={handleSetTags} />
+            {errors.tagsError && <p className={styles.error}>{errors.tagsError}</p>}
+          </div>
+          <div className={styles.inputContainer}>
+            <RolesSelector selectedRoles={roles} setSelectedRoles={handleSetRoles} />
+            {errors.rolesError && (
+              <p className={styles.error}>{errors.rolesError}</p>
+            )}
+          </div>
+          <button
+            onClick={handlePreviewClick}
+            disabled={loading}
+            className={styles.previewButton}
+          >
+            Preview Project
+          </button>
         </div>
-        <div className={styles.inputContainer}>
-          <Title title={title} setTitle={setTitle} />
-          {errors.titleError && <p>{errors.titleError}</p>}
-        </div>
-        <div className={styles.inputContainer}>
-          <Description description={description} setDescription={setDescription} />
-          {errors.descriptionError && <p>{errors.descriptionError}</p>}
-        </div>
-        <div className={styles.inputContainer}>
-          <BannerSelector
-            bannerUrl={bannerUrl}
-            setBannerUrl={setBannerUrl}
-            setBannerFile={setBannerFile}
-          />
-          {errors.bannerError && <p>{errors.bannerError}</p>}
-        </div>
-        <div className={styles.inputContainer}>
-          <TagsSelector selectedTags={tags} setSelectedTags={setTags} />
-          {errors.tagsError && <p>{errors.tagsError}</p>}
-        </div>
-        <div className={styles.inputContainer}>
-          <RolesSelector selectedRoles={roles} setSelectedRoles={setRoles} />
-          {errors.rolesError && <p>{errors.rolesError}</p>}
-        </div>
-        <button onClick={() => setShowPreview(true)} disabled={loading} className={styles.previewButton}>
-          Preview Project
-        </button>
       </div>
     </div>
   );

@@ -53,28 +53,6 @@ Color Pallete
 backend
         - within this allow for a toggle switch to enable the notion/trello dup within a project. if not enabled, the slack dup will be enabled no matter what
 
-Project Preview page
-    - put a messaging tab (all messages delete after 14 days)
-      
-        - channel messaging
-            - general channel messaging
-                - never can be deleted
-                - will include all project members
-                    - will add or remove members to the chat upon joining or leaving/removed
-                    - can mention users
-                    - add an online status to users
-                    - load a certain amount of messages at a time if more than 30 messages are available
-                    - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
-                    - isodate convertor
-                    - optimistic message traveling
-                    - edit messages - if a user enters an empty string it will delete the message (prompt the user it will be deleted)
-                    - deletes a message
-        - individual messaging
-
-        - enable users to have admin access
-            - removing users
-            - changing project details
-            - create message channels
 
 7. create user explore page
     - Search/filters based on interests, location, roles, and username
@@ -89,5 +67,29 @@ Project Preview page
 
 
 9. create messaging page
+
+      
+
+Individual Projects page
+    Messaging
+            - put a messaging tab (all messages delete after 14 days)
+            - general channel messaging
+                - never can be deleted
+                - will include all project members
+                    - will add or remove members to the chat upon joining or leaving/removed
+                    - can mention users
+                    - add an online status to users
+                    - load a certain amount of messages at a time if more than 30 messages are available
+                    - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
+                    - isodate convertor
+                    - optimistic message traveling
+                    - edit messages - if a user enters an empty string it will delete the message (prompt the user it will be deleted)
+                    - deletes a message
+        - individual messaging
+    Settings
+        - enable users to have admin access
+            - removing users
+            - changing project details
+            - create message channels
 
 

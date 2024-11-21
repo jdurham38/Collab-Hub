@@ -11,11 +11,8 @@
   max-height: 300px;        
   border-width: 3px;
   border-color: #000;
-
+  overflow: auto;
 }
-
-
-
 
 .descriptionContainer h2 {
   font-size: 24px;
@@ -30,6 +27,5 @@
   margin-bottom: 8px;
   word-wrap: break-word;
   overflow-wrap: break-word;
-  word-break: break-word;
   line-height: 1.5;
 }

@@ -4,7 +4,7 @@ import { projectRoles } from '@/utils/roles';
 
 interface RolesSelectorProps {
   selectedRoles: string[];
-  setSelectedRoles: React.Dispatch<React.SetStateAction<string[]>>;
+  setSelectedRoles: (roles: string[]) => void;
 }
 
 const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelectedRoles }) => {
@@ -12,30 +12,31 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
   const [selectedRoleCategory, setSelectedRoleCategory] = useState<string | null>(null);
 
   const handleRoleSelection = (role: string) => {
-    setSelectedRoles((prevRoles) => {
-      // If the role is already selected, remove it
-      if (prevRoles.includes(role)) {
-        return prevRoles.filter((r) => r !== role);
-      }
-      // If the user tries to add a role and has already selected 5 roles, do nothing
-      if (prevRoles.length >= 5) {
+    if (selectedRoles.includes(role)) {
+      const newRoles = selectedRoles.filter((r) => r !== role);
+      setSelectedRoles(newRoles);
+    } else {
+      if (selectedRoles.length >= 5) {
         alert('You can only select up to 5 roles.');
-        return prevRoles;
+        return;
       }
-      // Otherwise, add the role without modifying the search input
-      return [...prevRoles, role];
-    });
+      const newRoles = [...selectedRoles, role];
+      setSelectedRoles(newRoles);
+    }
   };
+  
 
   const handleRoleRemove = (role: string) => {
-    setSelectedRoles((prevRoles) => prevRoles.filter((r) => r !== role));
+    const newRoles = selectedRoles.filter((r) => r !== role);
+    setSelectedRoles(newRoles);
   };
+  
 
   const filteredRoles = Object.entries(projectRoles).flatMap(([category, rolesList]) =>
     selectedRoleCategory && selectedRoleCategory !== category
       ? []
       : (rolesList as string[])
-          .filter((role: string) => role.toLowerCase().includes(roleSearch.toLowerCase()))
+          .filter((role) => role.toLowerCase().includes(roleSearch.toLowerCase()))
           .map((role) => ({ category, role }))
   );
 
@@ -48,7 +49,10 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
         {selectedRoles.map((role) => (
           <div key={role} className={styles.selectedRole}>
             {role}
-            <button onClick={() => handleRoleRemove(role)} className={styles.removeRoleButton}>
+            <button
+              onClick={() => handleRoleRemove(role)}
+              className={styles.removeRoleButton}
+            >
               &times;
             </button>
           </div>

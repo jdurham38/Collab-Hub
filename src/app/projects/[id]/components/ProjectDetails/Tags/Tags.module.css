@@ -12,8 +12,10 @@
   max-height: 300px;        
   border-width: 3px;
   border-color: #000;
+  overflow: auto;
 
 }
+
 
 .tagsContainer h2 {
   font-size: 24px;
@@ -24,7 +26,7 @@
 
 .tagsList {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap; /* Allows tags to wrap within the container */
   gap: 8px;
 }
 
@@ -38,11 +40,12 @@
   font-size: 0.875rem;
 }
 
-
+/* Media Queries */
 @media (max-width: 400px) {
   .tagsContainer {
-    padding: 10px; 
-    width: 100%; 
-
+    padding: 10px; /* Reduce padding on small screens */
+    width: 100%; /* Ensure full width without overflow */
+    /* Remove fixed heights to allow content to dictate height */
+    /* Remove margin-right from rolesContainer */
   }
 }

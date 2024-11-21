@@ -1,6 +1,74 @@
+/* Existing styles */
+
 .settingsContainer {
-    padding: 20px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.settingsContainer h2 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: #0070f3;
+  color: #000000;
+  font-weight: bold;
+}
+
+/* New styles */
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  color: #524c4c;
+  text-align: left;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #daca9f;
+  color: #000000;
+}
+
+.active {
+  background-color: #d6914b;
+  color: #fff;
+}
+
+.contentContainer {
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.contentContainer h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.contentContainer p {
+  font-size: 16px;
+}
+
+/* Responsive design */
+
+@media (max-width: 768px) {
+  .buttonContainer {
+    flex-direction: column;
   }
-  
-  /* Add additional styles as needed */
-  
+
+  .button {
+    width: 100%;
+  }
+}

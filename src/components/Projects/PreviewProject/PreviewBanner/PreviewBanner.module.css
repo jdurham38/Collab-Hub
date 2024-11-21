@@ -1,16 +1,17 @@
-/* Banner Container */
 .bannerContainer {
   position: relative;
   display: flex;
-  background-color: aquamarine;
+  background-color: #faedcd;
   padding: 20px;
   width: 70%;
   height: 200px;
   min-height: 200px;
   overflow: hidden;
   border-radius: 20px;
-  margin: 100px auto 0; /* Centers horizontally */
+  margin: 100px auto 0; 
   box-sizing: border-box;
+  border-width: 4px;
+  border-color: #ccd5ae;
 }
 
 /* Title Overlay */
