@@ -78,7 +78,7 @@ Individual Projects page
                 - will include all project members
                     - will add or remove members to the chat upon joining or leaving/removed
                     - can mention users
-                    - add an online status to users
+                    - add an online status to users - DM ONLY
                     - load a certain amount of messages at a time if more than 30 messages are available
                     - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
                     - isodate convertor

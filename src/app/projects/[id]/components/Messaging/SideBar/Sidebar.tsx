@@ -1,32 +1,15 @@
+// Sidebar/Sidebar.tsx
+
 import React from 'react';
 import styles from './Sidebar.module.css';
 
-interface Message {
-  id: number;
-  user: string;
-  text: string;
-  timestamp: string;
-}
-
-type ChatType = 'channel' | 'dm';
-
-interface Chat {
-  type: ChatType;
-  messages: Message[];
-}
-
-interface Chats {
-  [key: string]: Chat;
-}
-
 interface SidebarProps {
   activeChat: string;
-  setActiveChat: (chat: string) => void;
+  setActiveChat: (chatId: string) => void;
   channelList: string[];
   dmList: string[];
   addNewChannel: () => void;
   addNewDm: () => void;
-  chats: Chats;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -39,53 +22,33 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <div className={styles.sidebar}>
-      {/* Channels Section */}
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <span>Channels</span>
-          <button className={styles.addButton} onClick={addNewChannel}>
-            +
-          </button>
-        </div>
-        <ul className={styles.channelList}>
-          {channelList.map((channel) => (
-            <li key={channel}>
-              <button
-                className={`${styles.button} ${
-                  activeChat === channel ? styles.active : ''
-                }`}
-                onClick={() => setActiveChat(channel)}
-              >
-                #{channel}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h3>Channels</h3>
+      <ul>
+        {channelList.map((channel) => (
+          <li
+            key={channel}
+            className={activeChat === channel ? styles.activeChat : ''}
+            onClick={() => setActiveChat(channel)}
+          >
+            #{channel}
+          </li>
+        ))}
+      </ul>
+      <button onClick={addNewChannel}>Add Channel</button>
 
-      {/* Direct Messages Section */}
-      <div className={styles.section}>
-        <div className={styles.sectionHeader}>
-          <span>Direct Messages</span>
-          <button className={styles.addButton} onClick={addNewDm}>
-            +
-          </button>
-        </div>
-        <ul className={styles.dmList}>
-          {dmList.map((dm) => (
-            <li key={dm}>
-              <button
-                className={`${styles.button} ${
-                  activeChat === dm.toLowerCase() ? styles.active : ''
-                }`}
-                onClick={() => setActiveChat(dm.toLowerCase())}
-              >
-                {dm}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h3>Direct Messages</h3>
+      <ul>
+        {dmList.map((dm) => (
+          <li
+            key={dm}
+            className={activeChat === dm ? styles.activeChat : ''}
+            onClick={() => setActiveChat(dm)}
+          >
+            {dm}
+          </li>
+        ))}
+      </ul>
+      <button onClick={addNewDm}>Add DM</button>
     </div>
   );
 };

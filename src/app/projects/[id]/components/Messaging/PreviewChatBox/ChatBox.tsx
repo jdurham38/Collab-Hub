@@ -1,21 +1,54 @@
-import React from 'react';
+// ChatBox/ChatBox.tsx
+
+import React, { useState } from 'react';
+import getSupabaseClient from '@/lib/supabaseClient/supabase';
 import styles from './ChatBox.module.css';
 
+interface User {
+  id: string;
+  username: string;
+}
+
 interface Message {
-    id: number;
-    user: string;
-    text: string;
-    timestamp: string;
-  }
-  
+  id: string;
+  user_id: string;
+  content: string;
+  timestamp: string;
+  users: {
+    username: string;
+  };
+}
 
 interface ChatBoxProps {
   messages: Message[];
   onClose: () => void;
   title: string;
+  projectId: string;
+  currentUser: User;
 }
 
-const ChatBox: React.FC<ChatBoxProps> = ({ messages, onClose, title }) => {
+const ChatBox: React.FC<ChatBoxProps> = ({ messages, onClose, title, projectId, currentUser }) => {
+  const [newMessage, setNewMessage] = useState('');
+
+  const sendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (newMessage.trim() === '') return;
+    const supabase=getSupabaseClient();
+    const { error } = await supabase.from('messages').insert([
+      {
+        project_id: projectId,
+        user_id: currentUser.id,
+        content: newMessage.trim(),
+      },
+    ]);
+
+    if (error) {
+      console.error('Error sending message:', error);
+    } else {
+      setNewMessage('');
+    }
+  };
+
   return (
     <div className={styles.chatOverlay}>
       <div className={styles.chatBox}>
@@ -30,20 +63,38 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, onClose, title }) => {
             <div
               key={message.id}
               className={`${styles.message} ${
-                message.user === 'You' ? styles.yourMessage : styles.otherMessage
+                message.user_id === currentUser.id ? styles.yourMessage : styles.otherMessage
               }`}
             >
               <div className={styles.messageInfo}>
-                <span className={styles.userName}>{message.user}</span>
-                <span className={styles.timestamp}>{message.timestamp}</span>
+                <span className={styles.userName}>{message.users.username}</span>
+                <span className={styles.timestamp}>
+                  {new Date(message.timestamp).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                </span>
               </div>
-              <p className={styles.messageText}>{message.text}</p>
+              <p className={styles.messageText}>{message.content}</p>
             </div>
           ))}
         </div>
+        <form onSubmit={sendMessage} className={styles.messageForm}>
+          <input
+            type="text"
+            placeholder="Type your message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            className={styles.messageInput}
+          />
+          <button type="submit" className={styles.sendButton}>
+            Send
+          </button>
+        </form>
       </div>
     </div>
   );
 };
 
 export default ChatBox;
+
