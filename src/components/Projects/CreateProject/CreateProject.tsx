@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/lib/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './CreateProject.module.css';
@@ -13,7 +13,7 @@ import Title from './Title/Title';
 import BannerSelector from './Banner/BannerSelector';
 import PreviewProject from '../PreviewProject/PreviewProject';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
-import { useProjectStore } from '@/utils/useProjectStore';
+import { useProjectStore } from '@/store/useProjectStore';
 import { uploadBanner, createProject } from '@/services/createProjectServices';
 
 interface CreateProjectProps {

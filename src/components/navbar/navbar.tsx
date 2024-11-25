@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuthStore } from '@/lib/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import styles from './navbar.module.css';
 import PlanLimitModal from '../PlanModals/PlanLimitModal';
 import { checkPlanAndProjects } from '@/services/navServices';

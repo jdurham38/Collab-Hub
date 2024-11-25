@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthStore } from '@/lib/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import Navbar from '@/components/navbar/navbar'
 
 const ClientAuthWrapper = ({ children }: { children: React.ReactNode }) => {

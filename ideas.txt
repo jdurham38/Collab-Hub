@@ -72,8 +72,9 @@ backend
 
 Individual Projects page
     - ChannelMessaging
-        - notification bubble if there are unread messages for the user in a channel
         - can mention users
+        - upon initial load of the first channel if there are notifications update the notification state.
+        - upon open of a channel take the user to the bottom of the form to the most recent message
         - load a certain amount of messages at a time if more than 30 messages are available
         - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
         - can delete a message

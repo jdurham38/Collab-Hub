@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
-import { useAuthStore } from '@/lib/useAuthStore'; // Import Zustand store
+import { useAuthStore } from '@/store/useAuthStore'; // Import Zustand store
 import ProtectedComponent from '../ProtectedComponent/protected-page';
 
 const Settings: React.FC = () => {

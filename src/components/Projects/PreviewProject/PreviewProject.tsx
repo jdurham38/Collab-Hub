@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useProjectStore } from '@/utils/useProjectStore';
+import { useProjectStore } from '@/store/useProjectStore';
 import PreviewDescription from './PreviewDescription/PreviewDescription';
 import PreviewBanner from './PreviewBanner/PreviewBanner';
 import PreviewTags from './PreviewTags/PreviewTags';

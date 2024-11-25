@@ -67,7 +67,6 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
           projectId={projectId}
           currentUserId={currentUser.id}
           channelList={channelList}
-          dmList={[]} // Placeholder for direct messages
           addNewChannel={() => {
             const newChannelName = prompt('Enter channel name:');
             if (newChannelName) handleAddChannel(newChannelName);

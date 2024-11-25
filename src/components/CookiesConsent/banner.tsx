@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { useAuthStore } from '../../lib/useAuthStore';
+import { useAuthStore } from '../../store/useAuthStore';
 import styles from './CookieBanner.module.css';
 
 const CookieBanner: React.FC = () => {

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/lib/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import AuthCard from '@/components/UserAuth/AuthCard/authCard';
 import styles from './Entry.module.css';
 

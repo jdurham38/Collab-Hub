@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { UserData } from '@/utils/interfaces'; // Import your custom UserData interface
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/lib/useAuthStore'; // Import Zustand store
+import { useAuthStore } from '@/store/useAuthStore'; // Import Zustand store
 import styles from './LoginForm.module.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';

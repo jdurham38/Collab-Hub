@@ -1,0 +1,25 @@
+/* ChannelListItem.module.css */
+
+.channelListItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .channelName {
+    flex-grow: 1;
+  }
+  
+  .unreadBadge {
+    background-color: red;
+    color: white;
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 12px;
+  }
+  
+  .activeChat {
+    background-color: #e0e0e0;
+  }
+  

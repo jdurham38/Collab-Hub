@@ -11,7 +11,7 @@ import React, {
 import { useRouter } from 'next/navigation';
 import { User } from '@/utils/interfaces';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
-import { useAuthStore } from '@/lib/useAuthStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import styles from './Auth.module.css';
 
 interface AuthContextType {
