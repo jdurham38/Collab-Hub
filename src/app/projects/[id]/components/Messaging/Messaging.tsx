@@ -1,155 +1,92 @@
 import React, { useState, useEffect } from 'react';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
+import Sidebar from './SideBar/Sidebar';
 import ChatArea from './ChatArea/ChatArea';
 import styles from './Messaging.module.css';
-import { RealtimeChannel } from '@supabase/supabase-js';
-
-interface User {
-  id: string;
-  email: string;
-}
-
-interface Message {
-  id: string;
-  user_id: string;
-  content: string;
-  timestamp: string;
-  users: {
-    email: string | '';
-  };
-}
 
 interface ProjectMessagingProps {
   projectId: string;
-  currentUser: User;
+  currentUser: { id: string; email: string };
 }
 
 const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentUser }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  // Change the state to store channel objects with id and name
+  const [channelList, setChannelList] = useState<Array<{ id: string; name: string }>>([]);
+  const [activeChat, setActiveChat] = useState<{ id: string; name: string } | null>(null);
   const supabase = getSupabaseClient();
 
-  useEffect(() => {
-    // Fetch initial messages
-    fetchMessages();
-  
-    const channel: RealtimeChannel = supabase.channel(`messages-project-${projectId}`);
-  
-    // Handle real-time INSERT
-    channel.on(
-      'postgres_changes',
-      {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'messages',
-        filter: `project_id=eq.${projectId}`,
-      },
-      async (payload) => {
-        console.log('Insert payload received:', payload);
-        const { data, error } = await supabase
-          .from('messages')
-          .select('*, users(email)')
-          .eq('id', payload.new.id);
-    
-        if (error) {
-          console.error('Error fetching new message:', error); // Log or handle the error
-          return;
-        }
-    
-        if (data) {
-          setMessages((currentMessages) =>
-            [...currentMessages, ...data].sort(
-              (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-            )
-          );
-        }
-      }
-    );
-    
-  
-    // Handle real-time UPDATE
-    channel.on(
-      'postgres_changes',
-      {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'messages',
-        filter: `project_id=eq.${projectId}`,
-      },
-      async (payload) => {
-        console.log('Update payload received:', payload);
-        const { data, error } = await supabase
-          .from('messages')
-          .select('*, users(email)')
-          .eq('id', payload.new.id);
+  const fetchChannels = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('channels')
+        .select('id, name')
+        .eq('project_id', projectId);
 
-              
-        if (error) {
-          console.error('Error fetching new message:', error); // Log or handle the error
-          return;
-        }
-  
-        if (data) {
-          setMessages((currentMessages) =>
-            currentMessages
-              .map((message) => (message.id === payload.new.id ? data[0] : message))
-              .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime())
-          );
+      if (error) {
+        console.error('Error fetching channels:', error.message);
+      } else if (data) {
+        setChannelList(data);
+
+        // Set the first channel as activeChat if none is selected
+        if (!activeChat && data.length > 0) {
+          setActiveChat(data[0]);
         }
       }
-    );
-  
-    // Handle real-time DELETE
-    channel.on(
-      'postgres_changes',
-      {
-        event: 'DELETE',
-        schema: 'public',
-        table: 'messages',
-        filter: `project_id=eq.${projectId}`,
-      },
-      (payload) => {
-        console.log('Delete payload received:', payload);
-        setMessages((currentMessages) =>
-          currentMessages.filter((message) => message.id !== payload.old.id)
-        );
-      }
-    );
-  
-    channel.subscribe((status) => {
-      if (status === 'SUBSCRIBED') {
-        console.log('Subscribed to real-time updates for project:', projectId);
-      } else {
-        console.error('Subscription failed:', status);
-      }
-    });
-  
-    // Cleanup subscription on unmount
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [projectId]);
-  
-  const fetchMessages = async () => {
-    const { data } = await supabase
-      .from('messages')
-      .select('*, users(email)')
-      .eq('project_id', projectId)
-      .order('timestamp', { ascending: true });
-  
-    if (data) {
-      setMessages(data as Message[]);
+    } catch (err) {
+      console.error('Unexpected error fetching channels:', err);
     }
   };
-  
+
+  useEffect(() => {
+    fetchChannels();
+  }, [projectId]);
+
+  const handleAddChannel = async (channelName: string) => {
+    const { error } = await supabase.from('channels').insert([
+      {
+        name: channelName.trim(),
+        project_id: projectId,
+        created_by: currentUser.id,
+        created_at: new Date().toISOString(),
+      },
+    ]);
+
+    if (error) {
+      console.error('Error adding new channel:', error.message);
+    } else {
+      fetchChannels(); // Refresh the channel list
+    }
+  };
 
   return (
     <div className={styles.messagingContainer}>
-      <ChatArea
-        messages={messages}
-        chatTitle="Project Chat"
-        projectId={projectId}
-        currentUser={currentUser}
-      />
+      <div className={styles.sidebarContainer}>
+        <Sidebar
+          activeChat={activeChat}
+          setActiveChat={setActiveChat}
+          projectId={projectId}
+          currentUserId={currentUser.id}
+          channelList={channelList}
+          dmList={[]} // Placeholder for direct messages
+          addNewChannel={() => {
+            const newChannelName = prompt('Enter channel name:');
+            if (newChannelName) handleAddChannel(newChannelName);
+          }}
+          addNewDm={() => console.log('Direct message creation is not implemented yet.')}
+        />
+      </div>
+      <div className={styles.chatAreaContainer}>
+        {activeChat ? (
+          <ChatArea
+            chatTitle={`#${activeChat.name}`}
+            projectId={projectId}
+            currentUser={currentUser}
+            channelId={activeChat.id} // Pass channelId directly
+          />
+        ) : (
+          <p>Please select a chat to start messaging.</p>
+        )}
+      </div>
     </div>
   );
 };

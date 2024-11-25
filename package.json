@@ -30,6 +30,7 @@
     "react-quill-new": "^3.3.3",
     "react-toastify": "^10.0.5",
     "sharp": "^0.33.5",
+    "supabase": "^1.223.10",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "typewriter-effect": "^2.21.0",
