@@ -1,9 +1,9 @@
+'use client'; // Add this at the top
 
-import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
-import Head from "next/head";
+// Removed import of Head
 import CookieBanner from "@/components/CookiesConsent/banner";
 import ErrorBoundary from "@/utils/ErrorBoundary";
 import ClientAuthWrapper from "@/contexts/ClientAuthWrapper";
@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QueryProvider from "@/utils/QueryProvider";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -22,10 +23,7 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  title: "Collab-Hub",
-  description: "A place for everyone to work on innovative projects together.",
-};
+
 
 export default function RootLayout({
   children,
@@ -34,25 +32,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Head>
-        {/* All your icon links here */}
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#ffffff" />
-      </Head>
+      {/* Removed <Head> component */}
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ErrorBoundary>
-        <QueryProvider>
-          <AuthProvider>
-            <ClientAuthWrapper>{children}</ClientAuthWrapper>
-            <CookieBanner />
-          </AuthProvider>
-          <ToastContainer />
-          <ReactQueryDevtools initialIsOpen={false} />
+          <QueryProvider>
+            <AuthProvider>
+              <ClientAuthWrapper>{children}</ClientAuthWrapper>
+              <CookieBanner />
+            </AuthProvider>
+            <ToastContainer />
+            <ReactQueryDevtools initialIsOpen={false} />
           </QueryProvider>
         </ErrorBoundary>
-        
       </body>
     </html>
   );

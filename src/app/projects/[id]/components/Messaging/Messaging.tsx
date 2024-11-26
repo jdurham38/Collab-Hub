@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
 import Sidebar from './SideBar/Sidebar';
@@ -10,7 +12,6 @@ interface ProjectMessagingProps {
 }
 
 const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentUser }) => {
-  // Change the state to store channel objects with id and name
   const [channelList, setChannelList] = useState<Array<{ id: string; name: string }>>([]);
   const [activeChat, setActiveChat] = useState<{ id: string; name: string } | null>(null);
   const supabase = getSupabaseClient();
@@ -27,7 +28,6 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
       } else if (data) {
         setChannelList(data);
 
-        // Set the first channel as activeChat if none is selected
         if (!activeChat && data.length > 0) {
           setActiveChat(data[0]);
         }
@@ -54,7 +54,7 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
     if (error) {
       console.error('Error adding new channel:', error.message);
     } else {
-      fetchChannels(); // Refresh the channel list
+      fetchChannels();
     }
   };
 
@@ -80,7 +80,7 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
             chatTitle={`#${activeChat.name}`}
             projectId={projectId}
             currentUser={currentUser}
-            channelId={activeChat.id} // Pass channelId directly
+            channelId={activeChat.id}
           />
         ) : (
           <p>Please select a chat to start messaging.</p>

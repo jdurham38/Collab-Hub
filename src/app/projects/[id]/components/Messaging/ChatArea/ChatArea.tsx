@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+'use client';
+
+import React, { useEffect, useState, useRef } from 'react';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import styles from './ChatArea.module.css';
@@ -14,6 +16,7 @@ interface Message {
   content: string;
   timestamp: string;
   channel_id: string;
+  edited?: boolean; // Track if a message was edited
   users: {
     email: string;
   };
@@ -23,7 +26,7 @@ interface ChatAreaProps {
   chatTitle: string;
   projectId: string;
   currentUser: User;
-  channelId: string; // Accept channelId as a prop
+  channelId: string;
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({
@@ -34,34 +37,50 @@ const ChatArea: React.FC<ChatAreaProps> = ({
 }) => {
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
+  const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
+  const [editedContent, setEditedContent] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState<string | null>(null); // Track which message menu is open
   const supabase = getSupabaseClient();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to the bottom of the messages container
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   useEffect(() => {
-    let isMounted = true;
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
+  }, [messages]);
 
+  // Fetch initial messages
+  useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const { data: messagesData, error: messagesError } = await supabase
+        const { data: messagesData, error } = await supabase
           .from('messages')
           .select('*, users(email)')
           .eq('channel_id', channelId)
           .order('timestamp', { ascending: true });
 
-        if (messagesError) {
-          console.error('Error fetching messages:', messagesError.message);
-          if (isMounted) setMessages([]);
+        if (error) {
+          console.error('Error fetching messages:', error.message);
+          setMessages([]);
         } else {
-          if (isMounted) setMessages(messagesData ?? []);
+          setMessages(messagesData ?? []);
         }
       } catch (err) {
         console.error('Unexpected error fetching messages:', err);
-        if (isMounted) setMessages([]);
+        setMessages([]);
       }
     };
 
     fetchMessages();
+  }, [channelId]);
 
-    // Set up real-time subscriptions
+  // Set up RealtimeChannel for real-time updates
+  useEffect(() => {
     const channel: RealtimeChannel = supabase.channel(
       `public:messages:channel_id=eq.${channelId}`
     );
@@ -69,119 +88,64 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     channel
       .on(
         'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'messages',
-          filter: `channel_id=eq.${channelId}`,
-        },
-        async (payload) => {
-          const newMessage = payload.new as Message;
-          // Fetch user email
-          const { data: userData, error: userError } = await supabase
-            .from('users')
-            .select('email')
-            .eq('id', newMessage.user_id)
-            .single();
-
-          if (userError) {
-            console.error('Error fetching user:', userError.message);
-            return;
-          }
-
-          newMessage.users = { email: userData.email };
-
-          if (isMounted) {
-            setMessages((prevMessages) =>
-              [...prevMessages, newMessage].sort(
-                (a, b) =>
-                  new Date(a.timestamp).getTime() -
-                  new Date(b.timestamp).getTime()
-              )
-            );
-          }
-        }
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'messages',
-          filter: `channel_id=eq.${channelId}`,
-        },
-        async (payload) => {
-          const updatedMessage = payload.new as Message;
-
-          // Fetch user email
-          const { data: userData, error: userError } = await supabase
-            .from('users')
-            .select('email')
-            .eq('id', updatedMessage.user_id)
-            .single();
-
-          if (userError) {
-            console.error('Error fetching user:', userError.message);
-            return;
-          }
-
-          updatedMessage.users = { email: userData.email };
-
-          if (isMounted) {
-            setMessages((prevMessages) =>
-              prevMessages
-                .map((message) =>
-                  message.id === updatedMessage.id ? updatedMessage : message
-                )
-                .sort(
-                  (a, b) =>
-                    new Date(a.timestamp).getTime() -
-                    new Date(b.timestamp).getTime()
-                )
-            );
-          }
-        }
-      )
-      .on(
-        'postgres_changes',
-        {
-          event: 'DELETE',
-          schema: 'public',
-          table: 'messages',
-          filter: `channel_id=eq.${channelId}`,
-        },
+        { event: 'INSERT', schema: 'public', table: 'messages', filter: `channel_id=eq.${channelId}` },
         (payload) => {
-          const deletedMessageId = payload.old.id;
-
-          if (isMounted) {
+          const newMessage = payload.new as Message;
+          setMessages((prevMessages) =>
+            [...prevMessages, newMessage].sort(
+              (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+            )
+          );
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'messages', filter: `channel_id=eq.${channelId}` },
+        (payload) => {
+          const updatedMessage = payload.new as Message;
+          setMessages((prevMessages) =>
+            prevMessages.map((msg) =>
+              msg.id === updatedMessage.id ? updatedMessage : msg
+            )
+          );
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'messages', filter: `channel_id=eq.${channelId}` },
+        (payload) => {
+          console.log('Received DELETE payload:', payload);
+          const deletedMessageId = payload.old?.id; // Check if payload.old exists
+          if (deletedMessageId) {
             setMessages((prevMessages) =>
-              prevMessages.filter((message) => message.id !== deletedMessageId)
+              prevMessages.filter((msg) => msg.id !== deletedMessageId)
             );
+          } else {
+            console.error('DELETE payload missing old data:', payload);
           }
         }
       )
+      
+      
       .subscribe((status) => {
         if (status === 'SUBSCRIBED') {
-          console.log('Subscribed to real-time updates for channel:', channelId);
+          console.log(`Subscribed to real-time updates for channel: ${channelId}`);
         } else {
-          console.error('Subscription failed:', status);
+          console.error(`Subscription error: ${status}`);
         }
       });
 
-    // Cleanup subscription on unmount or channelId change
     return () => {
-      isMounted = false;
       supabase.removeChannel(channel);
     };
   }, [channelId]);
 
   const sendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!newMessage.trim()) return;
 
     try {
-      const { error: insertError } = await supabase.from('messages').insert([
+      const { error } = await supabase.from('messages').insert([
         {
           content: newMessage.trim(),
           project_id: projectId,
@@ -191,14 +155,42 @@ const ChatArea: React.FC<ChatAreaProps> = ({
         },
       ]);
 
-      if (insertError) {
-        console.error('Error sending message:', insertError.message);
+      if (error) {
+        console.error('Error sending message:', error.message);
       } else {
-        setNewMessage(''); // Clear the input field
-        // No need to manually update messages; the real-time listener will handle it
+        setNewMessage('');
       }
-    } catch (error) {
-      console.error('Unexpected error sending message:', error);
+    } catch (err) {
+      console.error('Unexpected error sending message:', err);
+    }
+  };
+
+  const deleteMessage = async (messageId: string) => {
+    try {
+      const { error } = await supabase.from('messages').delete().eq('id', messageId);
+      if (error) {
+        console.error('Error deleting message:', error.message);
+      }
+    } catch (err) {
+      console.error('Unexpected error deleting message:', err);
+    }
+  };
+
+  const editMessage = async (messageId: string) => {
+    try {
+      const { error } = await supabase
+        .from('messages')
+        .update({ content: editedContent, edited: true })
+        .eq('id', messageId);
+
+      if (error) {
+        console.error('Error editing message:', error.message);
+      } else {
+        setEditingMessageId(null);
+        setEditedContent('');
+      }
+    } catch (err) {
+      console.error('Unexpected error editing message:', err);
     }
   };
 
@@ -212,15 +204,11 @@ const ChatArea: React.FC<ChatAreaProps> = ({
           <div
             key={message.id}
             className={`${styles.message} ${
-              message.user_id === currentUser.id
-                ? styles.yourMessage
-                : styles.otherMessage
+              message.user_id === currentUser.id ? styles.yourMessage : styles.otherMessage
             }`}
           >
             <div className={styles.messageInfo}>
-              <span className={styles.userName}>
-                {message.users?.email || 'Loading...'}
-              </span>
+              <span className={styles.userName}>{message.users?.email || 'Loading...'}</span>
               <span className={styles.timestamp}>
                 {new Date(message.timestamp).toLocaleTimeString([], {
                   hour: '2-digit',
@@ -228,9 +216,41 @@ const ChatArea: React.FC<ChatAreaProps> = ({
                 })}
               </span>
             </div>
-            <p className={styles.messageText}>{message.content}</p>
+            {editingMessageId === message.id ? (
+              <div className={styles.editContainer}>
+                <input
+                  type="text"
+                  value={editedContent}
+                  onChange={(e) => setEditedContent(e.target.value)}
+                  className={styles.editInput}
+                />
+                <button onClick={() => editMessage(message.id)}>Save</button>
+                <button onClick={() => setEditingMessageId(null)}>Cancel</button>
+              </div>
+            ) : (
+              <p className={styles.messageText}>
+                {message.content} {message.edited && <span className={styles.editedLabel}>(edited)</span>}
+              </p>
+            )}
+            {message.user_id === currentUser.id && (
+              <div className={styles.options}>
+                <button onClick={() => setIsMenuOpen(isMenuOpen === message.id ? null : message.id)}>
+                  Options
+                </button>
+                {isMenuOpen === message.id && (
+                  <div className={styles.optionsMenu}>
+                    <button onClick={() => {
+                      setEditingMessageId(message.id);
+                      setEditedContent(message.content);
+                    }}>Edit</button>
+                    <button onClick={() => deleteMessage(message.id)}>Delete</button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
       <form onSubmit={sendMessage} className={styles.messageForm}>
         <input

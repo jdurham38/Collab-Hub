@@ -1,8 +1,7 @@
-// Sidebar.tsx
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
-import ChannelCreationModal from '../ChannelCreation/ChannelCreation';
 import ChannelListItem from '../ChannelListItem/ChannelListItem';
 import { useUnreadStore } from '@/store/useUnreadStore';
 import styles from './Sidebar.module.css';
@@ -31,19 +30,12 @@ const Sidebar: React.FC<SidebarProps> = ({
   addNewChannel,
   addNewDm,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [canCreateChannel, setCanCreateChannel] = useState(false);
   const supabase = getSupabaseClient();
-
-  const {
-    setUnreadCount,
-    incrementUnreadCount,
-    resetUnreadCount,
-  } = useUnreadStore();
+  const { setUnreadCount, incrementUnreadCount, resetUnreadCount } = useUnreadStore();
 
   const validatePrivileges = async () => {
     try {
-      // Check if the current user is the project owner
       const { data: projectOwner } = await supabase
         .from('projects')
         .select('created_by')
@@ -55,7 +47,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         return;
       }
 
-      // Check if the user is an admin collaborator
       const { data: collaborator } = await supabase
         .from('ProjectCollaborator')
         .select('adminPrivileges')
@@ -75,7 +66,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     validatePrivileges();
   }, [projectId, currentUserId]);
 
-  // Fetch initial unread counts
   useEffect(() => {
     const fetchUnreadCounts = async () => {
       try {
@@ -98,7 +88,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     fetchUnreadCounts();
   }, [projectId, currentUserId, setUnreadCount]);
 
-  // Subscribe to new messages for unread counts
   useEffect(() => {
     const channel = supabase
       .channel('public:messages')
@@ -126,7 +115,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     setActiveChat(channel);
 
     try {
-      // Update the last_read_at in the database
       await supabase.from('channel_read_status').upsert(
         {
           user_id: currentUserId,
@@ -136,7 +124,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         { onConflict: 'user_id,channel_id' }
       );
 
-      // Reset the unread count in the Zustand store
       resetUnreadCount(channel.id);
     } catch (error) {
       console.error('Error updating read status:', error);
@@ -158,31 +145,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       </ul>
       {canCreateChannel && <button onClick={addNewChannel}>Add Channel</button>}
 
-      {/* Uncomment and implement when ready */}
-      {/* <h3>Direct Messages</h3>
-      <ul>
-        {dmList.map((dm) => (
-          <li
-            key={dm}
-            className={activeChat === dm ? styles.activeChat : ''}
-            onClick={() => setActiveChat(dm)}
-          >
-            {dm}
-          </li>
-        ))}
-      </ul> */}
+      <h3>Direct Messages</h3>
       <button onClick={addNewDm}>Add DM</button>
-
-      {isModalOpen && (
-        <ChannelCreationModal
-          onClose={() => setIsModalOpen(false)}
-          onChannelCreated={() => {
-            setIsModalOpen(false);
-          }}
-          projectId={projectId}
-          currentUserId={currentUserId}
-        />
-      )}
     </div>
   );
 };
