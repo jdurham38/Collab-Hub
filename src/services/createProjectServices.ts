@@ -2,7 +2,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import axiosClient from '@/lib/axiosClient';
 import axios from 'axios';
 
-// Upload banner to Supabase storage
+
 export const uploadBanner = async (
   supabase: SupabaseClient,
   bannerFile: File
@@ -38,7 +38,6 @@ export const uploadBanner = async (
   }
 };
 
-// Create project using API
 export const createProject = async (projectData: {
   title: string;
   description: string;

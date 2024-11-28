@@ -1,4 +1,4 @@
-/* Existing styles */
+
 
 .settingsContainer {
   padding: 20px;
@@ -18,7 +18,7 @@
   font-weight: bold;
 }
 
-/* New styles */
+
 
 .buttonContainer {
   display: flex;
@@ -61,7 +61,7 @@
   font-size: 16px;
 }
 
-/* Responsive design */
+
 
 @media (max-width: 768px) {
   .buttonContainer {

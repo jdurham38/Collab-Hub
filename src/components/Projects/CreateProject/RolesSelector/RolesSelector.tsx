@@ -87,7 +87,7 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
               type="checkbox"
               checked={selectedRoles.includes(role)}
               onChange={() => handleRoleSelection(role)}
-              disabled={!selectedRoles.includes(role) && selectedRoles.length >= 5} // Disable if max roles reached
+              disabled={!selectedRoles.includes(role) && selectedRoles.length >= 5} 
             />
             {role} <span className={styles.roleCategoryLabel}>({category})</span>
           </label>

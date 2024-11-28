@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import styles from './PreviewSettings.module.css';
 
 const PreviewSettings: React.FC = () => {
-  // State to track the active tab
+  
   const [activeTab, setActiveTab] = useState<string>('editProjectDetails');
 
-  // Handler to change active tab
+  
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };

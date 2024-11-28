@@ -10,14 +10,12 @@ const PlanLimitModal: React.FC<PlanLimitModalProps> = ({ onClose }) => {
   const router = useRouter();
 
   const handleUpgradePlan = () => {
-    // Navigate to the upgrade plan page
-    router.push('/upgrade-plan');
+        router.push('/upgrade-plan');
     onClose();
   };
 
   const handleReturnToDashboard = () => {
-    // Navigate to the dashboard
-    router.push('/dashboard');
+        router.push('/dashboard');
     onClose();
   };
 

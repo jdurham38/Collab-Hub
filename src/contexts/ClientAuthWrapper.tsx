@@ -8,7 +8,7 @@ const ClientAuthWrapper = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      {isLoggedIn && <Navbar />} {/* Render Navbar only if logged in */}
+      {isLoggedIn && <Navbar />}
       {children}
     </>
   );

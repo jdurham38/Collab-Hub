@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     initializeAuth();
-  }, []); // Run only once on component mount
+  }, []);
 
   // Listen for auth state changes
   useEffect(() => {

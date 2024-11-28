@@ -3,7 +3,7 @@
 import { useAuthStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import styles from './protectedpage.module.css'; // Import the CSS for the spinner
+import styles from './protectedpage.module.css'; 
 
 const ProtectedComponent = () => {
   const router = useRouter();
@@ -12,13 +12,13 @@ const ProtectedComponent = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      setLoading(false); // Stop loading when the user is logged in
+      setLoading(false); 
     } else {
-      router.push('/'); // Redirect to login if not logged in
+      router.push('/'); 
     }
   }, [isLoggedIn, router]);
 
-  // Display the spinner while loading
+  
   if (loading) {
     return (
       <div className={styles.spinnerContainer}>
@@ -27,7 +27,7 @@ const ProtectedComponent = () => {
     );
   }
 
-  // Once loading is complete and the user is logged in, display the protected content
+  
   return <></>;
 };
 

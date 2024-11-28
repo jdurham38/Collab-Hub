@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with service role key
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -19,8 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Fetch the project details along with the creator's user ID
-    const { data: projectData, error: projectError } = await supabase
+        const { data: projectData, error: projectError } = await supabase
       .from('projects')
       .select('title, created_by')
       .eq('id', id)
@@ -31,8 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(404).json({ error: 'Project not found' });
     }
 
-    // Fetch the username of the creator using the created_by field
-    const { data: userData, error: userError } = await supabase
+        const { data: userData, error: userError } = await supabase
       .from('users')
       .select('username')
       .eq('id', projectData.created_by)
@@ -43,8 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Return the combined project data with the creator's username
-    return res.status(200).json({
+        return res.status(200).json({
       title: projectData.title,
       created_by: userData.username,
     });

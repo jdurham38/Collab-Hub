@@ -14,7 +14,7 @@
   border-color: #ccd5ae;
 }
 
-/* Title Overlay */
+
 .titleOverlay {
   position: absolute;
   top: 50%;
@@ -29,11 +29,11 @@
   box-sizing: border-box;
 }
 
-/* Media Queries */
+
 @media (max-width: 768px) {
   .bannerContainer {
-    width: 90%; /* Adjusted width */
-    margin: 100px auto 0; /* Keep centered */
+    width: 90%; 
+    margin: 100px auto 0; 
     height: 200px;
   }
 
@@ -49,8 +49,8 @@
 
 @media (max-width: 480px) {
   .bannerContainer {
-    width: 95%; /* Further adjusted width */
-    margin: 100px auto 0; /* Keep centered */
+    width: 95%; 
+    margin: 100px auto 0; 
     height: 200px;
   }
 

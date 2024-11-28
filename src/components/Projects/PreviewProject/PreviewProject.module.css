@@ -1,24 +1,24 @@
-/* Move this to a global CSS file or include in a <style jsx global> tag */
-/* Prevent background scrolling when modal is open */
+
+
 body.modal-open {
   overflow: hidden;
 }
 
-/* Modal Overlay */
+
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  background-color: rgba(0, 0, 0, 0.5); 
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; /* Ensure it covers other content */
+  z-index: 1000; 
 }
 
-/* Modal Content */
+
 .previewModal {
   background-color: #faedcd;
   width: 90%;
@@ -26,7 +26,7 @@ body.modal-open {
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Hide overflow from the modal container */
+  overflow: hidden; 
   border-radius: 8px;
   position: relative;
 }
@@ -34,39 +34,39 @@ body.modal-open {
 .previewHeader {
   display: flex;
   flex-direction: row;
-  align-items: center; /* Vertically centers items within the flex container */
-  justify-content: center; /* Horizontally centers items within the flex container */
+  align-items: center; 
+  justify-content: center; 
   gap: 10px;
   padding: 20px;
   width: 100%;
   background-color: #d6e9c6;
   font-family: 'Trebuchet MS', Arial, sans-serif;
-  text-align: center; /* Ensures text inside is center-aligned */
+  text-align: center; 
 }
 
 
-/* Preview Container */
+
 .previewContainer {
-  flex: 1; /* Fills the remaining space in the modal */
-  overflow-y: auto; /* Allows vertical scrolling */
+  flex: 1; 
+  overflow-y: auto; 
   padding: 20px;
   font-family: 'Trebuchet MS', Arial, sans-serif;
 }
 
-/* Tab Container */
+
 .tabContainer {
   display: flex;
   justify-content: center;
   margin: 20px 0;
 }
 
-/* Tab Content */
+
 .tabContent {
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Tab Buttons */
+
 .tabButtons {
   display: flex;
   flex-wrap: wrap;
@@ -87,15 +87,15 @@ body.modal-open {
 
 .flexContainer {
   display: flex;
-  justify-content: flex-start; /* Align items to the start */
+  justify-content: flex-start; 
   align-items: flex-start;
   flex-wrap: wrap;
   margin-top: 20px;
   gap: 20px;
-  max-width: 1000px;      /* Limit the container's maximum width */
-  margin-left: auto;      /* Center the flex container */
+  max-width: 1000px;      
+  margin-left: auto;      
   margin-right: auto;
-  width: 100%;            /* Ensure it takes full available width */
+  width: 100%;            
 }
 
 .tabButton:hover {
@@ -108,7 +108,7 @@ body.modal-open {
   color: #ffffff;
 }
 
-/* Action Buttons */
+
 .createButton,
 .editButton {
   background-color: #d4a373;
@@ -134,7 +134,7 @@ body.modal-open {
   cursor: not-allowed;
 }
 
-/* Spinner Animation */
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -144,7 +144,7 @@ body.modal-open {
   }
 }
 
-/* Spinner Container */
+
 .spinnerContainer {
   position: absolute;
   top: 0;
@@ -159,7 +159,7 @@ body.modal-open {
   z-index: 10;
 }
 
-/* Spinner Styling */
+
 .spinner {
   border: 16px solid #f2dede;
   border-top: 16px solid #d4a373;
@@ -169,7 +169,7 @@ body.modal-open {
   animation: spin 2s linear infinite;
 }
 
-/* Spinner Message */
+
 .spinnerMessage {
   margin-top: 20px;
   font-size: 18px;
@@ -178,7 +178,7 @@ body.modal-open {
   color: #333;
 }
 
-/* Media Queries for Small Screens */
+
 @media (max-width: 748px) {
   .previewModal {
     width: 95%;

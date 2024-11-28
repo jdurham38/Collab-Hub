@@ -1,6 +1,4 @@
-/* TagsSelector.module.css */
 
-/* Search Input Styling */
 .searchInput {
     width: 100%;
     padding: 10px;
@@ -15,8 +13,7 @@
     border-color: #0070f3;
   }
   
-  /* Category Selection Dropdown Styling */
-  .categorySelect {
+    .categorySelect {
     width: 100%;
     padding: 10px;
     margin-bottom: 16px;
@@ -30,12 +27,9 @@
   .categorySelect:focus {
     border-color: #0070f3;
   }
-/* Tags Container Styling */
 .tagsContainer {
   display: grid;
-  grid-template-rows: repeat(4, auto); /* Creates 4 rows */
-  grid-auto-flow: column; /* Fills items into columns across the rows */
-  gap: 12px;
+  grid-template-rows: repeat(4, auto);   grid-auto-flow: column;   gap: 12px;
   margin-bottom: 16px;
   max-height: 400px;
   overflow-y: auto;
@@ -46,35 +40,27 @@
   font-weight: bold;
 }
   
-/* Checkbox Label Styling for Tags */
 .tagCheckboxLabel {
   display: flex;
   align-items: center;
-  padding: 10px 14px; /* Reduced padding for smaller tags */
-  border-radius: 3px;
-  font-size: 12px; /* Smaller font size */
-  font-weight: bold;
+  padding: 10px 14px;   border-radius: 3px;
+  font-size: 12px;   font-weight: bold;
   color: #333;
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: #d6e9c6;
   border: 1px solid #ddd;
-  max-width: 320px; /* Optional: Set a max width if you want tags to be more compact */
-  white-space: nowrap; /* Prevents text from wrapping */
-}
+  max-width: 320px;   white-space: nowrap; }
 
 .tagCheckboxLabel:hover {
   background-color: #dff0d8;
 }
 
 .tagCheckboxLabel input {
-  margin-right: 4px; /* Reduced margin for smaller spacing */
-}
+  margin-right: 4px; }
 
-/* Category Label for Each Tag */
 .tagCategoryLabel {
-  font-size: 11px; /* Smaller font for category label */
-  color: #666;
+  font-size: 11px;   color: #666;
   margin-left: 4px;
   font-style: italic;
 }
@@ -109,8 +95,7 @@
   }
   
   
-  /* Scrollbar Styling */
-  .tagsContainer::-webkit-scrollbar {
+    .tagsContainer::-webkit-scrollbar {
     width: 6px;
   }
   

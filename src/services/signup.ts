@@ -1,77 +1,57 @@
+import axios from 'axios';
 import { UserData, SignupResponse } from '@/utils/interfaces';
 
-// Signup function
-// Signup function
 export async function signup(userData: UserData): Promise<SignupResponse> {
-  // Convert the email to lowercase
   const userDataLower = {
     ...userData,
     email: userData.email.toLowerCase(),
   };
 
-  const response = await fetch('/api/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    // Use the userData with lowercase email
-    body: JSON.stringify(userDataLower),
-  });
-
-  const result: SignupResponse = await response.json();
-
-  if (!response.ok) {
-    throw new Error(result.error || 'Failed to sign up');
+  try {
+    const { data } = await axios.post<SignupResponse>('/api/signup', userDataLower);
+    return data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(error.response.data?.error || 'Failed to sign up');
+    }
+    throw new Error('An unexpected error occurred');
   }
-
-  return result;
 }
 
-
-// Check if the user already exists by email
-// Check if the user already exists by email
 export const checkUserExists = async (email: string): Promise<boolean> => {
-  // Convert the email to lowercase
   const emailLower = email.toLowerCase();
 
-  const response = await fetch('/api/check-user', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    // Use the lowercase email in the request body
-    body: JSON.stringify({ email: emailLower }),
-  });
-
-  const result = await response.json();
-  return result.exists; // returns true if user exists, false otherwise
+  try {
+    const { data } = await axios.post<{ exists: boolean }>('/api/check-user', { email: emailLower });
+    return data.exists;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error('Failed to check if user exists');
+    }
+    throw new Error('An unexpected error occurred');
+  }
 };
 
-
-// Check if the username already exists
-export const checkUsernameExists = async (username: string) => {
-  const response = await fetch('/api/check-username', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ username }),
-  });
-
-  const result = await response.json();
-  return result.exists; // returns true if username exists, false otherwise
+export const checkUsernameExists = async (username: string): Promise<boolean> => {
+  try {
+    const { data } = await axios.post<{ exists: boolean }>('/api/check-username', { username });
+    return data.exists;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error('Failed to check if username exists');
+    }
+    throw new Error('An unexpected error occurred');
+  }
 };
 
-// Check if the user is onboarded
-export const checkOnboardStatus = async (userId: string) => {
-  const response = await fetch('/api/is-onboarded', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ userId }),  // Pass user ID
-  });
-
-  const result = await response.json();
-  return result.isOnboarded; // returns true if user is onboarded, false otherwise
+export const checkOnboardStatus = async (userId: string): Promise<boolean> => {
+  try {
+    const { data } = await axios.post<{ isOnboarded: boolean }>('/api/is-onboarded', { userId });
+    return data.isOnboarded;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error('Failed to check onboard status');
+    }
+    throw new Error('An unexpected error occurred');
+  }
 };

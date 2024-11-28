@@ -6,8 +6,7 @@ import { checkPlanAndProjects } from '@/services/navServices';
 import { toast, ToastContainer } from 'react-toastify';
 import CreateProject from '../Projects/CreateProject/CreateProject';
 import axios from 'axios';
-import Link from 'next/link'; // Import Link
-
+import Link from 'next/link'; 
 const Navbar = () => {
   const { session, isLoggedIn } = useAuthStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -27,11 +26,9 @@ const Navbar = () => {
     try {
       const userId = session.user.id;
 
-      // Use the service to check plan and project limit
-      await checkPlanAndProjects(userId);
+            await checkPlanAndProjects(userId);
 
-      // If the check passes, open the modal
-      setIsModalOpen(true);
+            setIsModalOpen(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 403) {
@@ -42,8 +39,7 @@ const Navbar = () => {
           );
         }
       } else {
-        // Handle non-Axios errors
-        const errorMessage =
+                const errorMessage =
           error instanceof Error ? error.message : 'An unexpected error occurred.';
         toast.error(errorMessage);
       }

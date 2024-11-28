@@ -3,8 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // Service role key
-);
+  process.env.SUPABASE_SERVICE_ROLE_KEY! );
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -17,8 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ error: 'Authorization token missing' });
   }
 
-  // Verify user with the provided token
-  const { data: { user }, error: getUserError } = await supabaseAdmin.auth.getUser(token);
+    const { data: { user }, error: getUserError } = await supabaseAdmin.auth.getUser(token);
 
   if (getUserError || !user) {
     console.error('Error getting user:', getUserError?.message);
@@ -27,8 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const userId = user.id;
 
-  // Delete user data from 'users' table
-  const { error: deleteUserError } = await supabaseAdmin
+    const { error: deleteUserError } = await supabaseAdmin
     .from('users')
     .delete()
     .eq('id', userId);
@@ -38,8 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ error: 'Error deleting user data' });
   }
 
-  // Delete user from Supabase Auth
-  const { error: deleteAuthError } = await supabaseAdmin.auth.admin.deleteUser(userId);
+    const { error: deleteAuthError } = await supabaseAdmin.auth.admin.deleteUser(userId);
 
   if (deleteAuthError) {
     console.error('Error deleting user from auth:', deleteAuthError.message);

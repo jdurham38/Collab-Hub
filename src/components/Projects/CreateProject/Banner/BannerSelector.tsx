@@ -1,4 +1,4 @@
-// BannerSelector.tsx
+
 
 "use client";
 
@@ -49,7 +49,7 @@ const BannerSelector: React.FC<BannerSelectorProps> = ({
 
   const handlePresetSelect = (url: string) => {
     setBannerUrl(url);
-    setBannerFile(null); // Clear any uploaded file
+    setBannerFile(null); 
   };
 
   const handleFileSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,14 +64,14 @@ const BannerSelector: React.FC<BannerSelectorProps> = ({
       return;
     }
 
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024; 
     if (file.size > maxSize) {
       setErrorMessage('File size exceeds the maximum limit of 5MB.');
       return;
     }
 
-    setBannerUrl(URL.createObjectURL(file)); // Show a preview
-    setBannerFile(file); // Set the file for later upload
+    setBannerUrl(URL.createObjectURL(file)); 
+    setBannerFile(file); 
     setErrorMessage('');
   };
 

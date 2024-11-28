@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import styles from './Settings.module.css';
 
 const Settings: React.FC = () => {
-  // State to track the active tab
-  const [activeTab, setActiveTab] = useState<string>('editProjectDetails');
+    const [activeTab, setActiveTab] = useState<string>('editProjectDetails');
 
-  // Handler to change active tab
-  const handleTabClick = (tabName: string) => {
+    const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
 

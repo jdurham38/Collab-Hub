@@ -1,4 +1,3 @@
-/* Tags Container */
 .tagsContainer {
   background-color: #ccd5ae;
   border-radius: 8px;
@@ -26,8 +25,7 @@
 
 .tagsList {
   display: flex;
-  flex-wrap: wrap; /* Allows tags to wrap within the container */
-  gap: 8px;
+  flex-wrap: wrap;   gap: 8px;
 }
 
 .tag {
@@ -40,12 +38,7 @@
   font-size: 0.875rem;
 }
 
-/* Media Queries */
 @media (max-width: 400px) {
   .tagsContainer {
-    padding: 10px; /* Reduce padding on small screens */
-    width: 100%; /* Ensure full width without overflow */
-    /* Remove fixed heights to allow content to dictate height */
-    /* Remove margin-right from rolesContainer */
-  }
+    padding: 10px;     width: 100%;           }
 }

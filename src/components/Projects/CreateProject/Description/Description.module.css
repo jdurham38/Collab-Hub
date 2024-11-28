@@ -2,35 +2,22 @@
   margin-bottom: 16px;
   background-color: #f9f9f9;
   border-radius: 20px;
-  overflow: hidden; /* Ensures inner elements follow the rounded shape */
-  border: 1px solid #ccc; /* Optional: add a border around the entire editor */
-}
+  overflow: hidden;   border: 1px solid #ccc; }
 
-/* Quill Container */
 .ql-container {
-  border: none; /* Remove default border */
-  border-radius: 0; /* Inherit from parent container */
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  border: none;   border-radius: 0;   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   background-color: #fff;
-  min-height: 300px; /* Increase container height to fit the editor */
-}
+  min-height: 300px; }
 
-/* Quill Toolbar */
 .ql-toolbar {
-  border: none; /* Remove default border */
-  border-radius: 0; /* Inherit from parent container */
-  background-color: #f9f9f9;
+  border: none;   border-radius: 0;   background-color: #f9f9f9;
 }
 
-/* Editor content styling */
 .ql-editor {
-  min-height: 250px; /* Adjust this to increase the content area height */
-  font-size: 14px;
+  min-height: 250px;   font-size: 14px;
   line-height: 1.5;
-  border-radius: 0; /* Inherit from parent container */
-}
+  border-radius: 0; }
 
-/* Focus Styles */
 .ql-container.ql-snow,
 .ql-toolbar.ql-snow {
   transition: border-color 0.3s;
@@ -42,7 +29,6 @@
   border-color: #0070f3;
 }
 
-/* Adjust Quill Buttons */
 .ql-toolbar button {
   border: none;
   background: none;
@@ -60,12 +46,10 @@
   color: #fff;
 }
 
-/* Remove default focus outline */
 .ql-toolbar button:focus {
   outline: none;
 }
 
-/* Quill Dropdown Styling */
 .ql-toolbar .ql-picker {
   color: #333;
 }
@@ -75,12 +59,10 @@
   background-color: #e0e0e0;
 }
 
-/* Quill Tooltip Styling */
 .ql-tooltip {
   border-radius: 4px;
 }
 
-/* Scrollbar Styling in Editor */
 .ql-editor::-webkit-scrollbar {
   width: 6px;
 }
@@ -98,7 +80,6 @@
   background: #888;
 }
 
-/* Description Info Container */
 .descriptionInfo {
   display: flex;
   justify-content: space-between;
@@ -107,13 +88,11 @@
   margin-bottom: 40px;
 }
 
-/* Character Count Styling */
 .charCount {
   font-size: 14px;
   color: #666;
 }
 
-/* Error Message Styling */
 .error {
   color: red;
   font-size: 14px;

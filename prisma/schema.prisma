@@ -1,5 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+
 
 generator client {
   provider = "prisma-client-js"
@@ -14,16 +14,15 @@ datasource db {
 model User {
   id              String               @id @default(uuid())
   email           String               @unique
-  username        String?              @unique // New username field, optional and unique
+  username        String?              @unique 
   dateModified    DateTime?            @default(now())
   location        String?              @unique
   createdAt       DateTime?            @default(now())
-  // Relations
   projects        Project[]            @relation("UserProjects")
   requests        ProjectRequest[]     @relation("UserRequests")
   collaborations  ProjectCollaborator[] @relation("UserCollaborations")
 
-  @@map("users") // Maps to "users" table in your Supabase database
+  @@map("users") 
 }
 
 model Project {
@@ -34,24 +33,22 @@ model Project {
   tags        String[]             @default([])
   roles       String[]             @default([])
   createdAt   DateTime             @default(now())
-  created_by  String               // Foreign key to User
+  created_by  String               
   createdBy   User                 @relation("UserProjects", fields: [created_by], references: [id])
-
-  // Relations
   requests    ProjectRequest[]     @relation("ProjectRequests")
   collaborators ProjectCollaborator[] @relation("ProjectCollaborators")
 }
 
 model ProjectRequest {
   id          String     @id @default(uuid())
-  status      String     @default("pending") // Status of the request
+  status      String     @default("pending") 
   requestedAt DateTime   @default(now())
   userId      String
   user        User       @relation("UserRequests", fields: [userId], references: [id])
   projectId   String
   project     Project    @relation("ProjectRequests", fields: [projectId], references: [id])
 
-  @@unique([userId, projectId]) // Ensures a user can only make one request per project
+  @@unique([userId, projectId]) 
 }
 
 

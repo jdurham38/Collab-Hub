@@ -1,13 +1,13 @@
-// Description.tsx
+
 
 import React, { useState } from 'react';
 import styles from './Description.module.css';
 
-// Dynamically import ReactQuill to prevent SSR issues
+
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
-// Import the profanity checker
+
 import { profanity } from '@2toad/profanity';
 
 interface DescriptionProps {
@@ -19,7 +19,7 @@ const Description: React.FC<DescriptionProps> = ({ description, setDescription }
   const [errorMessage, setErrorMessage] = useState('');
   const [charCount, setCharCount] = useState(0);
 
-  // Function to strip HTML tags and get plain text
+  
   const getPlainText = (html: string) => {
     const div = document.createElement('div');
     div.innerHTML = html;
@@ -27,13 +27,13 @@ const Description: React.FC<DescriptionProps> = ({ description, setDescription }
   };
 
   const handleDescriptionChange = (value: string) => {
-    // Get plain text from HTML content
+    
     const plainText = getPlainText(value);
 
-    // Update character count
+    
     setCharCount(plainText.length);
 
-    // Check for profanity
+    
     if (profanity.exists(plainText)) {
       setErrorMessage('Profanity detected in description.');
     } else if (plainText.length > 200) {
@@ -42,7 +42,7 @@ const Description: React.FC<DescriptionProps> = ({ description, setDescription }
       setErrorMessage('');
     }
 
-    // Limit description to 200 characters
+    
     if (plainText.length <= 200) {
       setDescription(value);
     }

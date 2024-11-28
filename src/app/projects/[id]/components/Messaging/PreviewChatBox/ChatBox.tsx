@@ -1,4 +1,3 @@
-// ChatBox/ChatBox.tsx
 
 import React, { useState } from 'react';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';

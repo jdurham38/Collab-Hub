@@ -82,7 +82,7 @@ const TagsSelector: React.FC<TagsSelectorProps> = ({ selectedTags, setSelectedTa
               type="checkbox"
               checked={selectedTags.includes(tag)}
               onChange={() => handleTagSelection(tag)}
-              disabled={!selectedTags.includes(tag) && selectedTags.length >= 5} // Disable if max tags reached
+              disabled={!selectedTags.includes(tag) && selectedTags.length >= 5} 
             />
             {tag} <span className={styles.tagCategoryLabel}>({category})</span>
           </label>

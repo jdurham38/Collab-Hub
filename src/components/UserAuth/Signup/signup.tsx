@@ -12,9 +12,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './SignupForm.module.css';
 
-// Email validation regex
+
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-// Password validation regex
+
 const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
 const SignupForm: React.FC = () => {
@@ -34,7 +34,7 @@ const SignupForm: React.FC = () => {
   const [acceptTermsError, setAcceptTermsError] = useState(false);
   const [passwordError, setPasswordError] = useState('');
 
-  // Username validation with profanity check and username availability
+  
   useEffect(() => {
     const checkUsername = async () => {
       if (username.trim() === '') {
@@ -107,19 +107,19 @@ const SignupForm: React.FC = () => {
 
     let formIsValid = true;
 
-    // Clear previous errors
+    
     setErrorMessage('');
     setPasswordError('');
     setAcceptTermsError(false);
 
     const emailLower = email.toLowerCase();
 
-    // Validate email format using the lowercase email
+    
     if (!emailRegex.test(emailLower)) {
       setErrorMessage('Please enter a valid email address.');
       formIsValid = false;
     }
-    // Validate password format
+    
     if (!isPasswordValid) {
       setPasswordError(
         'Password must be at least 6 characters, contain 1 uppercase letter, 1 number, and 1 special character.'
@@ -127,19 +127,19 @@ const SignupForm: React.FC = () => {
       formIsValid = false;
     }
 
-    // Check if username is available
+    
     if (!usernameAvailable) {
       setErrorMessage('Sorry, this username is already taken. Please try another.');
       formIsValid = false;
     }
 
-    // Check if Terms and Conditions are accepted
+    
     if (!acceptTerms) {
       setAcceptTermsError(true);
       formIsValid = false;
     }
 
-    // If any validation failed, stop submission
+    
     if (!formIsValid) {
       return;
     }
@@ -175,7 +175,7 @@ const SignupForm: React.FC = () => {
         setPassword('');
         setPasswordSuccessMessage('');
         setErrorMessage('');
-        // Redirect to verify email page
+        
         router.push('/verify-email');
       } else {
         setErrorMessage('An unexpected error occurred during signup');

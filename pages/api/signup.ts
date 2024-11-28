@@ -1,11 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with service role key
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // Ensure this is the service role key
-);
+  process.env.SUPABASE_SERVICE_ROLE_KEY! );
 
 export default async function signup(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -14,8 +12,7 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse) 
 
   const { email, password, username, location } = req.body;
 
-  // Sign up the user
-  const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
     email,
     password,
   });
@@ -31,15 +28,11 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse) 
     return res.status(400).json({ error: 'User ID not found after sign-up' });
   }
 
-  // Insert user data into 'users' table
-  const { error: insertError } = await supabase.from('users').insert([
+    const { error: insertError } = await supabase.from('users').insert([
     {
       id: userId,
       email,
-      username, // Optional
-      location, // Optional
-      // dateModified and createdAt handled by database defaults
-    }
+      username,       location,           }
   ]);
 
   if (insertError) {

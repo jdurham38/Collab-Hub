@@ -9,7 +9,7 @@ import { IoAlertCircleOutline } from 'react-icons/io5';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Password validation regex
+
 const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{6,}$/;
 
 const UpdatePasswordPage: React.FC = () => {
@@ -21,7 +21,7 @@ const UpdatePasswordPage: React.FC = () => {
   const [passwordSuccessMessage, setPasswordSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Function to validate password
+  
   const validatePassword = (password: string) => {
     const isValid = passwordRegex.test(password);
     setIsPasswordValid(isValid);
@@ -49,27 +49,27 @@ const UpdatePasswordPage: React.FC = () => {
       const { error } = await supabase.auth.updateUser({ password: newPassword });
       console.log('Password update response:', error);
 
-      // If there is an error, show the error message and stop further execution
+      
       if (error) {
         if (error.status === 422) {
           setErrorMessage('You cannot reuse a previous password. Please try a new one.');
         } else {
           setErrorMessage('Error updating password. Please try again.');
         }
-        setLoading(false); // Set loading to false on error
+        setLoading(false); 
         return;
       }
 
-      // If error is null, the update was successful
+      
       toast.success('Password updated successfully');
-      // Keep the loading spinner and redirect to the login page
+      
       setTimeout(() => {
-        router.push('/'); // Redirect to the login page
-      }, 3000); // Adjust the delay if needed
+        router.push('/'); 
+      }, 3000); 
     } catch (err) {
       console.error('Unexpected error:', err);
       setErrorMessage('An unexpected error occurred. Please try again later.');
-      setLoading(false); // Set loading to false on exception
+      setLoading(false); 
     }
   };
 

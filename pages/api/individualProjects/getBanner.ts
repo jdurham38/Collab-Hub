@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with service role key
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -19,8 +18,7 @@ export default async function getProjectOverview(req: NextApiRequest, res: NextA
   }
 
   try {
-    // Fetch project data from 'projects' table
-    const { data: project, error: projectError } = await supabase
+        const { data: project, error: projectError } = await supabase
       .from('projects')
       .select('id, banner_url, title')
       .eq('id', projectId)

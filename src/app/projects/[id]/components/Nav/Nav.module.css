@@ -1,17 +1,14 @@
-/* Tab Container */
 .tabContainer {
   display: flex;
   justify-content: center;
   margin: 20px 0;
 }
 
-/* Tab Content */
 .tabContent {
   width: 100%;
   box-sizing: border-box;
 }
 
-/* Tab Buttons */
 .tabButtons {
   display: flex;
   flex-wrap: wrap;

@@ -1,4 +1,3 @@
-/* Modal Overlay */
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -12,8 +11,7 @@
     z-index: 1000;
   }
   
-  /* Modal Content */
-  .modalContent {
+    .modalContent {
     background: #ffffff;
     padding: 20px;
     border-radius: 8px;
@@ -24,22 +22,19 @@
     animation: fadeIn 0.3s ease-in-out;
   }
   
-  /* Modal Title */
-  .modalContent h3 {
+    .modalContent h3 {
     font-size: 1.25rem;
     margin-bottom: 16px;
     color: #333;
   }
   
-  /* Error Message */
-  .error {
+    .error {
     color: #ff4d4d;
     font-size: 0.875rem;
     margin-bottom: 12px;
   }
   
-  /* Input Field */
-  .modalInput {
+    .modalInput {
     width: 100%;
     padding: 8px;
     margin: 10px 0 20px;
@@ -48,8 +43,7 @@
     font-size: 1rem;
   }
   
-  /* Modal Actions (Buttons) */
-  .modalActions {
+    .modalActions {
     display: flex;
     justify-content: space-between;
   }
@@ -81,8 +75,7 @@
     background-color: #e0e0e0;
   }
   
-  /* Fade-in Animation */
-  @keyframes fadeIn {
+    @keyframes fadeIn {
     from {
       opacity: 0;
       transform: translateY(-20px);

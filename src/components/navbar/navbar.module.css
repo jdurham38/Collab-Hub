@@ -3,8 +3,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    background-color: #123123; /* Adjust to your desired color */
-    height: 60px;
+    background-color: #123123;     height: 60px;
   }
   
   .leftSection {
@@ -19,8 +18,7 @@
     color: #ffffff;
     cursor: pointer;
     margin-right: 1rem;
-    /* Add any additional styling as needed */
-  }
+      }
   
   .navLink:hover {
     text-decoration: underline;
@@ -82,21 +80,17 @@
     cursor: pointer;
   }
   
-  /* Modal Overlay */
-.modalOverlay {
+  .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-  display: flex;
+  background-color: rgba(0, 0, 0, 0.5);   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Ensure the modal is on top */
-}
+  z-index: 1000; }
 
-/* Close Modal Button */
 .closeModalButton {
   position: absolute;
   top: 20px;
@@ -106,5 +100,4 @@
   font-size: 24px;
   color: #fff;
   cursor: pointer;
-  z-index: 1001; /* Make sure it's on top of the modal content */
-}
+  z-index: 1001; }

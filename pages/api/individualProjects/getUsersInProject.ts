@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with service role key
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -24,8 +23,7 @@ export default async function getUsersInProject(
   }
 
   try {
-    // Fetch the project and owner using the foreign key relationship
-    const { data: project, error: projectError } = await supabase
+        const { data: project, error: projectError } = await supabase
       .from('projects')
       .select(
         `
@@ -55,11 +53,9 @@ export default async function getUsersInProject(
       return res.status(404).json({ error: 'Project not found.' });
     }
 
-    // Access the owner information
-    const owner = project.users;
+        const owner = project.users;
 
-    // Fetch collaborators from 'ProjectCollaborator' table
-    const { data: collaborators, error: collaboratorsError } = await supabase
+        const { data: collaborators, error: collaboratorsError } = await supabase
       .from('ProjectCollaborator')
       .select(
         `
@@ -79,8 +75,7 @@ export default async function getUsersInProject(
       return res.status(500).json({ error: 'Failed to fetch collaborators.' });
     }
 
-    // Extract collaborator user information
-    const users = collaborators?.map((collaborator) => collaborator.users) || [];
+        const users = collaborators?.map((collaborator) => collaborator.users) || [];
 
     return res.status(200).json({ owner, users });
   } catch (error) {

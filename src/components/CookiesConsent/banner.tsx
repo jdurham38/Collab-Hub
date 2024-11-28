@@ -6,52 +6,40 @@ import { useAuthStore } from '../../store/useAuthStore';
 import styles from './CookieBanner.module.css';
 
 const CookieBanner: React.FC = () => {
-  // Access Zustand store states and actions
-  const isCookieConsentGiven = useAuthStore((state) => state.isCookieConsentGiven);
+    const isCookieConsentGiven = useAuthStore((state) => state.isCookieConsentGiven);
   const setCookieConsent = useAuthStore((state) => state.setCookieConsent);
 
-  // Check local storage on component mount and update state accordingly
-  useEffect(() => {
+    useEffect(() => {
     const consent = localStorage.getItem('cookieConsent');
     if (consent === 'accepted') {
-      setCookieConsent(true); // Set consent to true if previously accepted
-      initializeAnalytics();
+      setCookieConsent(true);       initializeAnalytics();
     } else if (consent === 'declined') {
-      setCookieConsent(false); // Set consent to false if previously declined
-      removeAnalytics();
+      setCookieConsent(false);       removeAnalytics();
     } else {
-      setCookieConsent(null); // Explicitly set to null if no preference found
-    }
+      setCookieConsent(null);     }
   }, [setCookieConsent]);
 
-  // Handle accepting cookies
-  const handleAcceptCookies = () => {
+    const handleAcceptCookies = () => {
     localStorage.setItem('cookieConsent', 'accepted');
     setCookieConsent(true);
     initializeAnalytics();
   };
 
-  // Handle declining cookies
-  const handleDeclineCookies = () => {
+    const handleDeclineCookies = () => {
     localStorage.setItem('cookieConsent', 'declined');
     setCookieConsent(false);
     removeAnalytics();
   };
 
-  // Placeholder for initializing analytics
-  const initializeAnalytics = () => {
+    const initializeAnalytics = () => {
     console.log('Analytics initialized');
-    // Add your analytics initialization code here
-  };
+      };
 
-  // Placeholder for removing analytics
-  const removeAnalytics = () => {
+    const removeAnalytics = () => {
     console.log('Analytics removed');
-    // Add your analytics removal code here
-  };
+      };
 
-  // Show the banner only if consent has not been given (i.e., isCookieConsentGiven is null)
-  if (isCookieConsentGiven === null) {
+    if (isCookieConsentGiven === null) {
     return (
       <div className={styles.cookieBanner}>
         <p className={styles.message}>
@@ -73,8 +61,7 @@ const CookieBanner: React.FC = () => {
     );
   }
 
-  // Return null to hide the banner if consent is given (either accepted or declined)
-  return null;
+    return null;
 };
 
 export default CookieBanner;

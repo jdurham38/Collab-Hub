@@ -1,4 +1,4 @@
-// CreateProject.tsx
+
 
 import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
@@ -25,7 +25,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
   const supabase = getSupabaseClient();
   const { isLoggedIn, session } = useAuthStore();
 
-  // Use project store for shared state
+  
   const {
     title,
     description,
@@ -38,14 +38,14 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     resetProject,
   } = useProjectStore();
 
-  // Local state for banner
+  
   const [bannerUrl, setBannerUrl] = useState<string>('');
   const [bannerFile, setBannerFile] = useState<File | null>(null);
 
   const [showPreview, setShowPreview] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // State for error messages
+  
   const [errors, setErrors] = useState({
     titleError: '',
     descriptionError: '',
@@ -82,18 +82,18 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
   
     setErrors(newErrors);
   
-    // Return true if there are no errors
+    
     return Object.values(newErrors).every((error) => !error);
   };
 
-  // Function to handle closing and resetting the form
+  
     const handleClose = () => {
-      // Reset the global store
+      
       resetProject();
-      // Reset local state
+      
       setBannerUrl('');
       setBannerFile(null);
-      // Clear errors
+      
       setErrors({
         titleError: '',
         descriptionError: '',
@@ -101,12 +101,12 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
         tagsError: '',
         rolesError: '',
       });
-      // Close the modal
+      
       onClose();
     };
 
   
-  // Handle project creation
+  
   const handleCreateProject = async () => {
     if (!isLoggedIn || !session) {
       toast.error('You must be logged in to create a project.');
@@ -148,7 +148,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     }
   };
 
-  // Handle click outside the modal to close it
+  
   const handleClickOutside = (event: React.MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       handleClose();
@@ -163,7 +163,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     setShowPreview(true);
   };
 
-  // Handlers to clear errors on input change
+  
   const handleTitleChange = (value: string) => {
     setTitle(value);
     setErrors((prevErrors) => ({ ...prevErrors, titleError: '' }));
@@ -198,14 +198,14 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     <PreviewProject
       onClosePreview={() => setShowPreview(false)}
       onCreateProject={handleCreateProject}
-      bannerUrl={bannerUrl} // Pass bannerUrl to PreviewProject
+      bannerUrl={bannerUrl} 
     />
   ) : (
     <div className={styles.overlay} onClick={handleClickOutside}>
       <div
         className={styles.createProjectModal}
         ref={modalRef}
-        onClick={(event) => event.stopPropagation()} // Prevent bubbling
+        onClick={(event) => event.stopPropagation()} 
       >
         <div className={styles.createProjectContent}>
           <div className={styles.modalHeader}>

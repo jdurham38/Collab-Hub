@@ -1,6 +1,4 @@
-/* RolesSelector.module.css */
 
-/* Search Input Styling */
 .searchInput {
     width: 100%;
     padding: 10px;
@@ -15,8 +13,7 @@
     border-color: #0070f3;
   }
   
-  /* Category Selection Dropdown Styling */
-  .categorySelect {
+    .categorySelect {
     width: 100%;
     padding: 10px;
     margin-bottom: 16px;
@@ -31,33 +28,25 @@
     border-color: #0070f3;
   }
 
-  /* Roles Container Styling */
-  .rolesContainer {
+    .rolesContainer {
     display: grid;
-    grid-template-rows: repeat(4, auto); /* Creates 4 rows */
-    grid-auto-flow: column; /* Fills items into columns across the rows */
-    gap: 12px;
+    grid-template-rows: repeat(4, auto);     grid-auto-flow: column;     gap: 12px;
     margin-bottom: 16px;
     max-height: 400px;
     overflow-y: auto;
   }
   
-  /* Checkbox Label Styling for Roles */
-  .roleCheckboxLabel {
+    .roleCheckboxLabel {
     display: flex;
     align-items: center;
-    padding: 10px 14px; /* Reduced padding for smaller tags */
-    border-radius: 3px;
-    font-size: 12px; /* Smaller font size */
-    font-weight: bold;
+    padding: 10px 14px;     border-radius: 3px;
+    font-size: 12px;     font-weight: bold;
     color: #333;
     cursor: pointer;
     transition: background-color 0.3s;
     background-color: #d6e9c6;
     border: 1px solid #ddd;
-    max-width: 350px; /* Optional: Set a max width if you want tags to be more compact */
-    white-space: nowrap; /* Prevents text from wrapping */
-  }
+    max-width: 350px;     white-space: nowrap;   }
   
   .title{
     font-size: 20px;
@@ -72,10 +61,8 @@
     margin-right: 8px;
   }
   
-  /* Category Label for Each Role */
-  .roleCategoryLabel {
-    font-size: 11px; /* Smaller font for category label */
-    color: #666;
+    .roleCategoryLabel {
+    font-size: 11px;     color: #666;
     margin-left: 4px;
     font-style: italic;
   }
@@ -109,8 +96,7 @@
   }
   
   
-  /* Scrollbar Styling */
-  .rolesContainer::-webkit-scrollbar {
+    .rolesContainer::-webkit-scrollbar {
     width: 6px;
   }
   

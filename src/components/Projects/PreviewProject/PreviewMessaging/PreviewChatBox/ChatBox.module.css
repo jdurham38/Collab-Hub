@@ -1,4 +1,4 @@
-/* Overlay to cover the screen */
+
 .chatOverlay {
     position: fixed;
     top: 0;
@@ -12,7 +12,7 @@
     z-index: 2000;
   }
   
-  /* Chat box container */
+  
   .chatBox {
     background-color: #ffffff;
     width: 90%;
@@ -24,7 +24,7 @@
     overflow: hidden;
   }
   
-  /* Chat header */
+  
   .chatHeader {
     display: flex;
     justify-content: space-between;
@@ -46,7 +46,7 @@
     cursor: pointer;
   }
   
-  /* Chat messages container */
+  
   .chatMessages {
     flex: 1;
     padding: 10px;
@@ -54,7 +54,7 @@
     background-color: #f9f9f9;
   }
   
-  /* Message styles */
+  
   .message {
     margin-bottom: 15px;
   }

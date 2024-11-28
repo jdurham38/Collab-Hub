@@ -1,4 +1,4 @@
-/* Overlay */
+
 .overlay {
   position: fixed;
   top: 0;
@@ -9,10 +9,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-y: auto; /* Allow scrolling on mobile */
+  overflow-y: auto; 
 }
 
-/* Card Container */
+
 .cardContainer {
   position: relative;
   width: 900px;
@@ -20,7 +20,7 @@
   perspective: 1000px;
 }
 
-/* Card */
+
 .card {
   width: 100%;
   height: 100%;
@@ -36,7 +36,7 @@
   overflow: hidden;
 }
 
-/* Front and Back */
+
 .front {
   z-index: 2;
 }
@@ -53,7 +53,7 @@
   transform: rotateY(360deg);
 }
 
-/* Content */
+
 .content {
   display: flex;
   width: 100%;
@@ -76,7 +76,7 @@
   justify-content: center;
 }
 
-/* Flip Button */
+
 .flipButton {
   font-family: 'Trebuchet MS', Arial, sans-serif;
   margin-top: 20px;
@@ -92,7 +92,7 @@
   color: #333;
 }
 
-/* Logo */
+
 .logo {
   display: block;
   margin: 20px auto;
@@ -100,22 +100,22 @@
   height: auto;
 }
 
-/* Media Query for Mobile Devices */
+
 @media (max-width: 768px) {
 
-  /* Adjust Card Container */
+  
   .cardContainer {
     width: 100%;
-    max-width: 400px; /* Adjust as needed */
+    max-width: 400px; 
     height: 100%;
     perspective: 1000px;
   }
 
   .card {
-    height: auto; /* Allow the card to adjust based on content */
+    height: auto; 
   }
 
-/* Front and Back */
+
 .front {
   z-index: 2;
 }
@@ -132,7 +132,7 @@
   transform: rotateY(360deg);
 }
 
-  /* Content Layout */
+  
   .content {
     flex-direction: column;
   }
@@ -143,12 +143,12 @@
     padding: 20px;
   }
 
-  /* Adjust Logo */
+  
   .logo {
     max-width: 200px;
   }
 
-  /* Adjust Font Sizes */
+  
   .heading {
     font-size: 1.5rem;
   }
@@ -157,7 +157,7 @@
     font-size: 1rem;
   }
 
-  /* Adjust Flip Button */
+  
   .flipButton {
     font-size: 1rem;
   }

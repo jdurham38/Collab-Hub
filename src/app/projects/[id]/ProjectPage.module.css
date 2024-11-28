@@ -1,4 +1,3 @@
-/* app/project/[id]/project.module.css */
 
 .projectPage {
 
@@ -18,8 +17,7 @@
   }
   
 
-  /* Spinner Animation */
-@keyframes spin {
+  @keyframes spin {
   0% {
     transform: rotate(0deg);
   }
@@ -28,7 +26,6 @@
   }
 }
 
-/* Spinner Container */
 .spinnerContainer {
   position: absolute;
   top: 0;
@@ -43,7 +40,6 @@
   z-index: 10;
 }
 
-/* Spinner Styling */
 .spinner {
   border: 16px solid #f2dede;
   border-top: 16px solid #d4a373;

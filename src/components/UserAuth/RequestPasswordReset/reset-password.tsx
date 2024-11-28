@@ -6,14 +6,14 @@ import styles from './ResetPassword.module.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Email validation regex
+
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const supabase = getSupabaseClient();
 
 const ResetPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // State to store error messages
+  const [errorMessage, setErrorMessage] = useState(''); 
 
   const validateEmail = (email: string) => {
     return emailRegex.test(email);
@@ -22,18 +22,18 @@ const ResetPasswordPage: React.FC = () => {
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage(''); // Clear previous errors
+    setErrorMessage(''); 
 
-    // Validate email format before proceeding
+    
     if (!validateEmail(email)) {
       setErrorMessage('Invalid email format');
       setLoading(false);
       return;
     }
 
-    // Check if the email exists in the system
+    
     const { data: userData, error: userCheckError } = await supabase
-      .from('users') // Ensure this is your actual user table
+      .from('users') 
       .select('email')
       .eq('email', email)
       .single();
@@ -44,15 +44,15 @@ const ResetPasswordPage: React.FC = () => {
       return;
     }
 
-    // Proceed with password reset if email exists
+    
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/update-password`, // Ensure this URL is configured in Supabase
+      redirectTo: `${window.location.origin}/update-password`, 
     });
 
     if (error) {
       setErrorMessage('Error sending password reset email');
     } else {
-      toast.success('Password reset email sent successfully!'); // Ensure toast is shown after success
+      toast.success('Password reset email sent successfully!'); 
     }
 
     setLoading(false);
@@ -79,7 +79,7 @@ const ResetPasswordPage: React.FC = () => {
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    setErrorMessage(''); // Clear error when typing
+                    setErrorMessage(''); 
                   }}
                   placeholder="Enter your email"
                   required

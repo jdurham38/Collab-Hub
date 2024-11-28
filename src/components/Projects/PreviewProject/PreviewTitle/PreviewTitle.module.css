@@ -1,20 +1,20 @@
 .title {
   margin: 0;
-  font-size: 2rem; /* Default font size for larger screens */
+  font-size: 2rem; 
   color: #333;
-  white-space: normal; /* Allows text to wrap inside the overlay */
-  word-break: break-word; /* Break long words if necessary */
+  white-space: normal; 
+  word-break: break-word; 
 }
 
-/* Mobile styling */
+
 @media (max-width: 768px) {
   .title {
-    font-size: 1.5rem; /* Smaller font size for tablets and small devices */
+    font-size: 1.5rem; 
   }
 }
 
 @media (max-width: 480px) {
   .title {
-    font-size: 1.2rem; /* Even smaller font size for mobile devices */
+    font-size: 1.2rem; 
   }
 }

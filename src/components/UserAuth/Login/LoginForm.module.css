@@ -28,74 +28,74 @@
   display: block;
 }
 
-/* Hover Effect */
+
 .form button:hover {
-  text-decoration: underline;   /* Underline on hover */
-  color: #333;                  /* Darken text color on hover */
+  text-decoration: underline;   
+  color: #333;                  
 }
 
-/* New styles for password input wrapper */
+
 .passwordInputWrapper {
   position: relative;
   width: 100%;
 }
 
 .passwordInputWrapper input {
-  padding-right: 60px; /* Adjust to make room for the button */
+  padding-right: 60px; 
 }
 
 .passwordToggleButton {
   position: absolute;
-  right: 15px; /* Position inside the input field */
+  right: 15px; 
   top: 38%;
   transform: translateY(-50%);
   background: none;
   border: none;
   font-size: 20px;
   cursor: pointer;
-  color: #333; /* Adjust color as needed */
+  color: #333; 
 }
 
 
-/* Center the spinner */
+
 .spinnerContainer {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(250, 237, 205, 0.8); /* Semi-transparent background */
+  background-color: rgba(250, 237, 205, 0.8); 
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10; /* Ensure it's above the form but below the toast */
+  z-index: 10; 
 }
 
-/* Spinner styling */
+
 .spinner {
   background-color: #faedcd;
-  border: 16px solid #f2dede; /* Light gray */
-  border-top: 16px solid #d4a373; /* Blue or your primary color */
+  border: 16px solid #f2dede; 
+  border-top: 16px solid #d4a373; 
   border-radius: 50%;
   width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;
 }
-/* Toastify Container Z-Index */
+
 .Toastify__toast-container {
-  z-index: 9999; /* Higher than the spinner */
+  z-index: 9999; 
 }
-/* Spinner animation */
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
 .error {
-  color: #d9534f; /* Red color for errors */
+  color: #d9534f; 
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  background-color: #f2dede; /* Light red background */
-  border: 1px solid #ebccd1; /* Darker red border */
+  background-color: #f2dede; 
+  border: 1px solid #ebccd1; 
   padding: 8px;
   margin-bottom:10px;
   border-radius: 4px;
@@ -103,10 +103,10 @@
 }
 
 .success {
-  color: #5cb85c; /* Green color for success */
+  color: #5cb85c; 
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  background-color: #dff0d8; /* Light green background */
-  border: 1px solid #d6e9c6; /* Darker green border */
+  background-color: #dff0d8; 
+  border: 1px solid #d6e9c6; 
   padding: 8px;
   margin-bottom:10px;
   border-radius: 4px;

@@ -1,4 +1,3 @@
-/* Banner Container */
 .bannerContainer {
     position: relative;
     display: flex;
@@ -29,12 +28,9 @@
     box-sizing: border-box;
   }
   
-  /* Media Queries */
-  @media (max-width: 768px) {
+    @media (max-width: 768px) {
     .bannerContainer {
-      width: 90%; /* Adjusted width */
-      margin: 100px auto 0; /* Keep centered */
-      height: 200px;
+      width: 90%;       margin: 100px auto 0;       height: 200px;
     }
   
     .titleOverlay {
@@ -49,9 +45,7 @@
   
   @media (max-width: 480px) {
     .bannerContainer {
-      width: 95%; /* Further adjusted width */
-      margin: 100px auto 0; /* Keep centered */
-      height: 200px;
+      width: 95%;       margin: 100px auto 0;       height: 200px;
     }
   
     .titleOverlay {

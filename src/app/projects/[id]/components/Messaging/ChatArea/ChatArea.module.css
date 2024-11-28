@@ -57,7 +57,67 @@
     padding: 8px;
     border-radius: 8px;
   }
+
+  .suggestions {
+    position: absolute;
+    bottom: 70px; /* Adjust based on your layout */
+    left: 0;
+    right: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    z-index: 10;
+  }
   
+  .suggestions li {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .suggestions li:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .mention {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+  
+  .options {
+    position: relative;
+  }
+  
+  .options button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .optionsMenu {
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    z-index: 10;
+  }
+  
+  .optionsMenu button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    background: none;
+    border: none;
+    text-align: left;
+  }
+  
+  .optionsMenu button:hover {
+    background-color: #f0f0f0;
+  }
   @media (max-width: 768px) {
     .chatHeader,
     .chatMessages {

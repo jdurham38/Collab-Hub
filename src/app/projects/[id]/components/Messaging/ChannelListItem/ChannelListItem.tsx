@@ -1,4 +1,3 @@
-// ChannelListItem.tsx
 
 import React from 'react';
 import { useUnreadStore } from '@/store/useUnreadStore';

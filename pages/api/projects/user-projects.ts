@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with service role key
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -19,12 +18,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Fetch all projects created by the specified user, ensuring userId is treated as a UUID
-    const { data, error } = await supabase
+        const { data, error } = await supabase
       .from('projects')
       .select('id, title, createdAt')
-      .eq('created_by', userId as string); // Ensure userId is treated as a string/UUID
-
+      .eq('created_by', userId as string); 
     if (error) {
       console.error('Error fetching user projects:', error.message);
       return res.status(500).json({ error: 'Failed to fetch projects' });

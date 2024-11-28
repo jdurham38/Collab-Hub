@@ -24,7 +24,6 @@ const VerifyEmail: React.FC = () => {
     try {
       const emailLower = email.toLowerCase();
 
-      // Use Supabase's resend method
       const { error } = await supabase.auth.resend({
         type: 'signup',
         email: emailLower,
@@ -37,7 +36,7 @@ const VerifyEmail: React.FC = () => {
         setMessage(`Error sending verification email: ${error.message}`);
       } else {
         setMessage('Verification email sent! Please check your inbox.');
-        setCooldown(60); // Start the 60-second cooldown
+        setCooldown(60); 
       }
     } catch (error) {
       console.error('Error resending verification email:', error);

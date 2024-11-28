@@ -7,8 +7,7 @@
   color: #fff;
   padding: 1em;
   border-radius: 10px;
-  max-width: 90%; /* Reduced to ensure it fits well on mobile */
-  width: 100%;
+  max-width: 90%;   width: 100%;
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -33,9 +32,7 @@
 
 .buttonContainer {
   display: flex;
-  flex-wrap: wrap; /* Allows buttons to wrap if they don't fit in one row */
-  gap: 0.5em; /* Reduced gap for better fit on small screens */
-  justify-content: center;
+  flex-wrap: wrap;   gap: 0.5em;   justify-content: center;
 }
 
 .button {
@@ -46,9 +43,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
-  flex: 1; /* Buttons will stretch equally */
-  max-width: 150px; /* Limit button width on larger screens */
-}
+  flex: 1;   max-width: 150px; }
 
 .button:hover {
   background-color: #99ccff;
@@ -56,9 +51,7 @@
 
 @media (max-width: 600px) {
   .cookieBanner {
-    max-width: 95%; /* Slightly smaller max-width for very small screens */
-    padding: 0.8em; /* Reduced padding for better fit */
-  }
+    max-width: 95%;     padding: 0.8em;   }
 
   .buttonContainer {
     flex-direction: column;
@@ -66,7 +59,5 @@
   }
 
   .button {
-    width: 100%; /* Full-width buttons on mobile */
-    max-width: none; /* Remove max-width constraint for mobile */
-  }
+    width: 100%;     max-width: none;   }
 }

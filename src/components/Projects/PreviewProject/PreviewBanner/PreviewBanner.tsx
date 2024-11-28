@@ -14,8 +14,8 @@ const PreviewBanner: React.FC<PreviewBannerProps> = ({ bannerUrl, title }) => (
       <Image
         src={bannerUrl}
         alt="Project Banner"
-        layout="fill" // Fill the container
-        objectFit="cover" // Cover the container while maintaining aspect ratio
+        layout="fill" 
+        objectFit="cover" 
       />
     ) : (
       <p>No banner selected</p>

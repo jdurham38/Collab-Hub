@@ -20,8 +20,7 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
   const supabase = getSupabaseClient();
 
   const validateAdminPrivileges = async () => {
-    // Check if the current user is the project owner or an admin collaborator
-    const { data: projectOwner, error: ownerError } = await supabase
+        const { data: projectOwner, error: ownerError } = await supabase
       .from('projects')
       .select('created_by')
       .eq('id', projectId)
@@ -33,11 +32,9 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
     }
 
     if (projectOwner?.created_by === currentUserId) {
-      return true; // User is the project owner
-    }
+      return true;     }
 
-    // Check if the user is a collaborator with admin privileges
-    const { data: collaborator, error: collaboratorError } = await supabase
+        const { data: collaborator, error: collaboratorError } = await supabase
       .from('ProjectCollaborator')
       .select('adminPrivileges')
       .eq('projectId', projectId)
@@ -59,14 +56,12 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
       return;
     }
 
-    // Validate admin privileges
-    const hasPrivileges = await validateAdminPrivileges();
+        const hasPrivileges = await validateAdminPrivileges();
     if (!hasPrivileges) {
       return;
     }
 
-    // Insert new channel into the database
-    const { error: insertError } = await supabase.from('channels').insert([
+        const { error: insertError } = await supabase.from('channels').insert([
       {
         name: channelName.trim(),
         project_id: projectId,

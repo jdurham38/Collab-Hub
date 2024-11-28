@@ -16,22 +16,22 @@ import ProjectUsers from './PreviewProjectUsers/Users';
 interface PreviewProjectProps {
   onClosePreview: () => void;
   onCreateProject: () => Promise<void>;
-  bannerUrl: string; // Added bannerUrl prop
+  bannerUrl: string; 
 }
 
 const PreviewProject: React.FC<PreviewProjectProps> = ({
   onClosePreview,
   onCreateProject,
-  bannerUrl, // Receive bannerUrl from props
+  bannerUrl, 
 }) => {
   const { title, description, tags, roles } = useProjectStore();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'messaging' | 'settings'>('overview');
 
   useEffect(() => {
-    // Add class to body when modal is open
+    
     document.body.classList.add('modal-open');
-    // Clean up by removing the class when the component unmounts
+    
     return () => {
       document.body.classList.remove('modal-open');
     };
@@ -44,7 +44,7 @@ const PreviewProject: React.FC<PreviewProjectProps> = ({
       toast.success('Project created successfully!');
     } catch (error) {
       if (error instanceof Error) {
-        // Display the error message from the thrown error
+        
         toast.error(error.message);
       } else {
         toast.error('Failed to create project. Please try again.');
@@ -58,7 +58,7 @@ const PreviewProject: React.FC<PreviewProjectProps> = ({
     <div className={styles.modalOverlay} onClick={onClosePreview}>
       <div
         className={styles.previewModal}
-        onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
+        onClick={(e) => e.stopPropagation()} 
       >
         <div className={styles.previewHeader}>
           <button

@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client with service role key
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -19,8 +18,7 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
   }
 
   try {
-    // Fetch user data with plan and project count
-    const { data: user, error: userError } = await supabase
+        const { data: user, error: userError } = await supabase
       .from('users')
       .select('plan, projects!projects_created_by_fkey(id)')
       .eq('id', userId)
@@ -39,15 +37,13 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
     console.log('User plan:', plan);
     console.log('User projects:', projects);
 
-    // Free plan limitation
-    if (plan === 'free' && projects.length >= 3) {
+        if (plan === 'free' && projects.length >= 3) {
       return res
         .status(403)
         .json({ error: 'Free plan users can only create up to 3 projects.' });
     }
 
-    // Insert the project data into the 'projects' table
-    const { data: projectData, error: projectError } = await supabase
+        const { data: projectData, error: projectError } = await supabase
       .from('projects')
       .insert([
         {

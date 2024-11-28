@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { UserData } from '@/utils/interfaces'; // Import your custom UserData interface
+import { UserData } from '@/utils/interfaces'; 
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/useAuthStore'; // Import Zustand store
+import { useAuthStore } from '@/store/useAuthStore'; 
 import styles from './LoginForm.module.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const LoginForm: React.FC = () => {
   const router = useRouter();
   const supabase = getSupabaseClient();
-  const { setLoggedIn } = useAuthStore(); // Zustand state management
+  const { setLoggedIn } = useAuthStore(); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -38,26 +38,26 @@ const LoginForm: React.FC = () => {
       return;
     }
 
-    // Display success toast message
+    
     toast.success('Login successful!');
 
-    // Update Zustand store to set the user as logged in
+    
     setLoggedIn(true);
 
-    // Stop loading to hide the spinner
+    
     setLoading(false);
 
-    // Delay before redirecting
+    
     setTimeout(() => {
-      // Show spinner again over the login form during redirect
+      
       setLoading(true);
 
-      // Redirect to the dashboard
+      
       router.push('/dashboard');
-    }, 1000); // Adjust delay as needed
+    }, 1000); 
   };
 
-  // Handle password reset
+  
   const handleForgotPassword = async () => {
     router.push('/reset-password');
     setLoading(false);
@@ -78,7 +78,7 @@ const LoginForm: React.FC = () => {
           {/* Password Input with Toggle Button */}
           <div className={styles.passwordInputWrapper}>
             <input
-              type={showPassword ? 'text' : 'password'} // Toggle input type
+              type={showPassword ? 'text' : 'password'} 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"

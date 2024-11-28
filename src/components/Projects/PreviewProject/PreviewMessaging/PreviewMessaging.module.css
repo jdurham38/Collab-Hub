@@ -1,7 +1,7 @@
-/* Container for the messaging preview */
+
 .messagingContainer {
   display: flex;
-  height: 500px; /* Adjust as needed */
+  height: 500px; 
   background-color: #ffffff;
   border-radius: 8px;
   margin-top: 20px;
@@ -12,7 +12,7 @@
 
 
 
-/* Heading style */
+
 .messagingContainer h2 {
   font-size: 24px;
   margin-bottom: 16px;
@@ -20,7 +20,7 @@
   font-weight: bold;
 }
 
-/* Description paragraph */
+
 .description {
   font-size: 16px;
   color: #333333;
@@ -28,14 +28,14 @@
   line-height: 1.5;
 }
 
-/* Button container */
+
 .buttonContainer {
   display: flex;
   gap: 10px;
   margin-bottom: 16px;
 }
 
-/* Message buttons */
+
 .messageButton {
   background-color: #d4a373;
   color: #ffffff;
@@ -52,7 +52,7 @@
   background-color: #d6914b;
 }
 
-/* Note paragraph */
+
 .note {
   font-size: 14px;
   color: #999999;
@@ -60,7 +60,7 @@
   line-height: 1.5;
 }
 
-/* Responsive design for smaller screens */
+
 @media (max-width: 768px) {
   .messagingContainer {
     padding: 15px;

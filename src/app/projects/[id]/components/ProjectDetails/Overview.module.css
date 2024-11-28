@@ -4,7 +4,6 @@
   flex-direction: column;
 }
 
-/* Tab Content */
 .tabContent {
   width: 100%;
   box-sizing: border-box;
@@ -13,21 +12,16 @@
 
 .flexContainer {
   display: flex;
-  justify-content: flex-start; /* Align items to the start */
-  align-items: flex-start;
+  justify-content: flex-start;   align-items: flex-start;
   flex-wrap: wrap;
   margin-top: 20px;
   gap: 20px;
-  max-width: 1000px;      /* Limit the container's maximum width */
-  margin-left: auto;      /* Center the flex container */
-  margin-right: auto;
-  width: 100%;            /* Ensure it takes full available width */
-}
+  max-width: 1000px;        margin-left: auto;        margin-right: auto;
+  width: 100%;            }
 
 .error {
   color: red;
 }
-/* Spinner Animation */
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -37,7 +31,6 @@
   }
 }
 
-/* Spinner Container */
 .spinnerContainer {
   position: absolute;
   top: 0;
@@ -52,7 +45,6 @@
   z-index: 10;
 }
 
-/* Spinner Styling */
 .spinner {
   border: 16px solid #f2dede;
   border-top: 16px solid #d4a373;

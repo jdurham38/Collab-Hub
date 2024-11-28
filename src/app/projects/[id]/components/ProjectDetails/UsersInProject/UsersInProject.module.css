@@ -85,8 +85,7 @@
     }
   }
   
-  /* Spinner Container */
-  .spinnerContainer {
+    .spinnerContainer {
     position: absolute;
     top: 0;
     left: 0;
@@ -100,8 +99,7 @@
     z-index: 10;
   }
   
-  /* Spinner Styling */
-  .spinner {
+    .spinner {
     border: 16px solid #f2dede;
     border-top: 16px solid #d4a373;
     border-radius: 50%;

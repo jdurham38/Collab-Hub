@@ -4,8 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import ProtectedComponent from '../ProtectedComponent/protected-page';
-import Link from 'next/link'; // Import Link from next/link
-
+import Link from 'next/link'; 
 interface Project {
   id: string;
   title: string;
@@ -19,11 +18,9 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [hasFetchedProjects, setHasFetchedProjects] = useState(false);
 
-  // Redirect to login if the user is not authenticated
-  useEffect(() => {
+    useEffect(() => {
     if (!user) {
-      router.push('/'); // Replace with your login page path
-    }
+      router.push('/');     }
   }, [user, router]);
 
   useEffect(() => {
@@ -50,11 +47,9 @@ const Dashboard: React.FC = () => {
     };
 
     fetchUserProjects();
-  }, [user?.id, hasFetchedProjects]); // Added hasFetchedProjects to dependencies
-
+  }, [user?.id, hasFetchedProjects]); 
   if (!user) {
-    return null; // Prevent rendering if the user is not authenticated
-  }
+    return null;   }
 
   return (
     <div>

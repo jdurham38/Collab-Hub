@@ -21,8 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Fetch user data
-    const { data: user, error } = await supabase
+        const { data: user, error } = await supabase
       .from('users')
       .select('plan, projects!projects_created_by_fkey(id)')
       .eq('id', userId)
@@ -34,8 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { plan, projects } = user;
 
-    // Check if the user exceeds the project limit
-    if (plan === 'free' && projects.length >= 3) {
+        if (plan === 'free' && projects.length >= 3) {
       return res.status(403).json({
         error: 'Free plan users can only create or join up to 3 projects.',
       });

@@ -1,9 +1,7 @@
-'use client'; // Add this at the top
-
+'use client'; 
 import localFont from "next/font/local";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
-// Removed import of Head
 import CookieBanner from "@/components/CookiesConsent/banner";
 import ErrorBoundary from "@/utils/ErrorBoundary";
 import ClientAuthWrapper from "@/contexts/ClientAuthWrapper";
