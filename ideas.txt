@@ -71,11 +71,9 @@ backend
       
 
 Individual Projects page 
-    - ChannelMessaging - DO AFTER COLLABORATORS IS DONE
-        
-        - load a certain amount of messages at a time if more than 30 messages are available
-        - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
-
+    - ChannelMessaging
+             - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
+            - notification state is not working
 
     - individual messaging - DO AFTER COLLABORATORS IS DONE
         - add an online status

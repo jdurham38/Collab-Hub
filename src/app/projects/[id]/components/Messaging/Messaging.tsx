@@ -1,60 +1,42 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import getSupabaseClient from '@/lib/supabaseClient/supabase';
 import Sidebar from './SideBar/Sidebar';
 import ChatArea from './ChatArea/ChatArea';
 import styles from './Messaging.module.css';
-
+import { fetchChannels, addChannel } from '@/services/channelService';
 interface ProjectMessagingProps {
   projectId: string;
-  currentUser: { id: string; email: string };
+  currentUser: { id: string; email: string; username: string };
 }
 
 const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentUser }) => {
   const [channelList, setChannelList] = useState<Array<{ id: string; name: string }>>([]);
   const [activeChat, setActiveChat] = useState<{ id: string; name: string } | null>(null);
-  const supabase = getSupabaseClient();
 
-  const fetchChannels = async () => {
+  const loadChannels = async () => {
     try {
-      const { data, error } = await supabase
-        .from('channels')
-        .select('id, name')
-        .eq('project_id', projectId);
+      const data = await fetchChannels(projectId);
+      setChannelList(data);
 
-      if (error) {
-        console.error('Error fetching channels:', error.message);
-      } else if (data) {
-        setChannelList(data);
-
-        if (!activeChat && data.length > 0) {
-          setActiveChat(data[0]);
-        }
+      if (!activeChat && data.length > 0) {
+        setActiveChat(data[0]);
       }
     } catch (err) {
-      console.error('Unexpected error fetching channels:', err);
+      console.error('Error fetching channels:', err);
     }
   };
 
   useEffect(() => {
-    fetchChannels();
+    loadChannels();
   }, [projectId]);
 
   const handleAddChannel = async (channelName: string) => {
-    const { error } = await supabase.from('channels').insert([
-      {
-        name: channelName.trim(),
-        project_id: projectId,
-        created_by: currentUser.id,
-        created_at: new Date().toISOString(),
-      },
-    ]);
-
-    if (error) {
-      console.error('Error adding new channel:', error.message);
-    } else {
-      fetchChannels();
+    try {
+      await addChannel(projectId, channelName, currentUser.id);
+      loadChannels();
+    } catch (err) {
+      console.error('Error adding new channel:', err);
     }
   };
 

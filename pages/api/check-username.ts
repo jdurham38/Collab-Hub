@@ -4,7 +4,7 @@ import { profanity } from '@2toad/profanity';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_ANON_KEY!
 );
 
 export default async function checkUsername(req: NextApiRequest, res: NextApiResponse) {

@@ -1,10 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import getSupabaseClient from '@/lib/supabaseClient/supabase';
 import ChannelListItem from '../ChannelListItem/ChannelListItem';
 import { useUnreadStore } from '@/store/useUnreadStore';
 import styles from './Sidebar.module.css';
+import { validatePrivileges } from '@/services/privilegesService';
+import { fetchUnreadCounts } from '@/services/unreadCountService';
+import { updateReadStatus } from '@/services/readStatusService';
+import getSupabaseClient from '@/lib/supabaseClient/supabase';
 
 interface Channel {
   id: string;
@@ -31,64 +34,41 @@ const Sidebar: React.FC<SidebarProps> = ({
   addNewDm,
 }) => {
   const [canCreateChannel, setCanCreateChannel] = useState(false);
-  const supabase = getSupabaseClient();
   const { setUnreadCount, incrementUnreadCount, resetUnreadCount } = useUnreadStore();
 
-  const validatePrivileges = async () => {
-    try {
-      const { data: projectOwner } = await supabase
-        .from('projects')
-        .select('created_by')
-        .eq('id', projectId)
-        .single();
-
-      if (projectOwner?.created_by === currentUserId) {
-        setCanCreateChannel(true);
-        return;
-      }
-
-      const { data: collaborator } = await supabase
-        .from('ProjectCollaborator')
-        .select('adminPrivileges')
-        .eq('projectId', projectId)
-        .eq('userId', currentUserId)
-        .single();
-
-      if (collaborator?.adminPrivileges) {
-        setCanCreateChannel(true);
-      }
-    } catch (error) {
-      console.error('Error validating privileges:', error);
-    }
-  };
-
   useEffect(() => {
-    validatePrivileges();
-  }, [projectId, currentUserId]);
-
-  useEffect(() => {
-    const fetchUnreadCounts = async () => {
+    const checkPrivileges = async () => {
       try {
-        const { data: unreadData, error } = await supabase.rpc('get_unread_counts', {
-          p_user_id: currentUserId,
-        });
-
-        if (error) {
-          console.error('Error fetching unread counts:', error.message);
-        } else {
-          unreadData.forEach((item: { channel_id: string; unread_count: number }) => {
-            setUnreadCount(item.channel_id, item.unread_count);
-          });
-        }
-      } catch (err) {
-        console.error('Unexpected error fetching unread counts:', err);
+        const canCreate = await validatePrivileges(projectId, currentUserId);
+        setCanCreateChannel(canCreate);
+      } catch (error) {
+        console.error('Error validating privileges:', error);
       }
     };
 
-    fetchUnreadCounts();
-  }, [projectId, currentUserId, setUnreadCount]);
+    checkPrivileges();
+  }, [projectId, currentUserId]);
 
   useEffect(() => {
+    const loadUnreadCounts = async () => {
+      try {
+        const unreadData = await fetchUnreadCounts(currentUserId);
+        unreadData.forEach((item) => {
+          setUnreadCount(item.channel_id, item.unread_count);
+        });
+      } catch (err) {
+        console.error('Error fetching unread counts:', err);
+      }
+    };
+
+    loadUnreadCounts();
+  }, [currentUserId, setUnreadCount]);
+
+  useEffect(() => {
+    // The subscription to real-time messages remains in the client
+    // as it requires client-side Supabase SDK
+    const supabase = getSupabaseClient();
+
     const channel = supabase
       .channel('public:messages')
       .on(
@@ -115,15 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     setActiveChat(channel);
 
     try {
-      await supabase.from('channel_read_status').upsert(
-        {
-          user_id: currentUserId,
-          channel_id: channel.id,
-          last_read_at: new Date().toISOString(),
-        },
-        { onConflict: 'user_id,channel_id' }
-      );
-
+      await updateReadStatus(channel.id, currentUserId);
       resetUnreadCount(channel.id);
     } catch (error) {
       console.error('Error updating read status:', error);

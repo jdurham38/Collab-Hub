@@ -48,3 +48,16 @@ export interface Project {
   roles: string[];
 }
 
+
+export interface Message {
+  id: string;
+  user_id: string;
+  content: string;
+  timestamp: string;
+  channel_id: string;
+  edited?: boolean;
+  users?: {
+    username: string;
+    email: string;
+  };
+}

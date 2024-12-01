@@ -1,6 +1,8 @@
+// ChannelCreationModal.tsx
+
 import React, { useState } from 'react';
-import getSupabaseClient from '@/lib/supabaseClient/supabase';
 import styles from './ChannelCreationModal.module.css';
+import { addChannel } from '@/services/channelService';
 
 interface ChannelCreationModalProps {
   onClose: () => void;
@@ -17,37 +19,6 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
 }) => {
   const [channelName, setChannelName] = useState('');
   const [error, setError] = useState('');
-  const supabase = getSupabaseClient();
-
-  const validateAdminPrivileges = async () => {
-        const { data: projectOwner, error: ownerError } = await supabase
-      .from('projects')
-      .select('created_by')
-      .eq('id', projectId)
-      .single();
-
-    if (ownerError) {
-      setError('Failed to validate project owner');
-      return false;
-    }
-
-    if (projectOwner?.created_by === currentUserId) {
-      return true;     }
-
-        const { data: collaborator, error: collaboratorError } = await supabase
-      .from('ProjectCollaborator')
-      .select('adminPrivileges')
-      .eq('projectId', projectId)
-      .eq('userId', currentUserId)
-      .single();
-
-    if (collaboratorError || !collaborator?.adminPrivileges) {
-      setError('You do not have permission to create a channel.');
-      return false;
-    }
-
-    return true;
-  };
 
   const handleCreateChannel = async () => {
     setError('');
@@ -55,29 +26,21 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
       setError('Channel name cannot be empty');
       return;
     }
-
-        const hasPrivileges = await validateAdminPrivileges();
-    if (!hasPrivileges) {
-      return;
-    }
-
-        const { error: insertError } = await supabase.from('channels').insert([
-      {
-        name: channelName.trim(),
-        project_id: projectId,
-        created_by: currentUserId,
-        created_at: new Date().toISOString(),
-      },
-    ]);
-
-    if (insertError) {
-      setError('Failed to create channel. Please try again.');
-    } else {
+  
+    try {
+      await addChannel(projectId, channelName.trim(), currentUserId);
       setChannelName('');
       onChannelCreated();
       onClose();
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || 'Failed to create channel. Please try again.');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
     }
   };
+  
 
   return (
     <div className={styles.modalOverlay}>

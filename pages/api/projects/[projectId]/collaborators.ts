@@ -1,21 +1,22 @@
-// File: pages/api/projects/[id]/collaborators.ts
+// File: pages/api/projects/[projectId]/collaborators.ts
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_ANON_KEY!
 );
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
+  const { projectId } = req.query;
 
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  if (typeof id !== 'string') {
+  if (!projectId || typeof projectId !== 'string') {
+    console.error('Invalid project ID:', projectId);
     return res.status(400).json({ error: 'Invalid project ID' });
   }
 
@@ -24,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { data: collaboratorsData, error: collaboratorsError } = await supabase
       .from('ProjectCollaborator')
       .select('userId')
-      .eq('projectId', id);
+      .eq('projectId', projectId);
 
     if (collaboratorsError) {
       console.error('Error fetching collaborators:', collaboratorsError.message);
@@ -32,6 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (!collaboratorsData || collaboratorsData.length === 0) {
+      console.log('No collaborators found for project ID:', projectId);
       return res.status(200).json({ collaborators: [] });
     }
 
@@ -52,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       collaborators: usersData,
     });
   } catch (error) {
-    console.error('Error fetching collaborators:', error);
+    console.error('Unexpected error fetching collaborators:', error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
