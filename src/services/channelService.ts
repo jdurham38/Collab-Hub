@@ -28,7 +28,12 @@ export const addChannel = async (
     });
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const errorMessage = error.response?.data?.error || 'Failed to add channel.';
+      const statusCode = error.response?.status;
+      const errorMessage =
+        statusCode === 500
+          ? 'Your plan cannot exceed 5 channels for this project.'
+          : error.response?.data?.error || 'Failed to add channel.';
+
       throw new Error(errorMessage);
     } else {
       throw new Error('An unexpected error occurred while adding a channel.');

@@ -1,7 +1,6 @@
-'use client';
-
 import React, { useState, useEffect } from 'react';
 import ChannelListItem from '../ChannelListItem/ChannelListItem';
+import ChannelCreationModal from '../ChannelCreation/ChannelCreation';
 import { useUnreadStore } from '@/store/useUnreadStore';
 import styles from './Sidebar.module.css';
 import { validatePrivileges } from '@/services/privilegesService';
@@ -21,7 +20,6 @@ interface SidebarProps {
   currentUserId: string;
   channelList: Channel[];
   addNewChannel: () => void;
-  addNewDm: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -31,9 +29,9 @@ const Sidebar: React.FC<SidebarProps> = ({
   currentUserId,
   channelList,
   addNewChannel,
-  addNewDm,
 }) => {
   const [canCreateChannel, setCanCreateChannel] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
   const { setUnreadCount, incrementUnreadCount, resetUnreadCount } = useUnreadStore();
 
   useEffect(() => {
@@ -65,8 +63,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   }, [currentUserId, setUnreadCount]);
 
   useEffect(() => {
-    // The subscription to real-time messages remains in the client
-    // as it requires client-side Supabase SDK
     const supabase = getSupabaseClient();
 
     const channel = supabase
@@ -102,6 +98,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  const handleChannelCreated = () => {
+    addNewChannel(); // Reload the channel list after a new channel is added
+  };
+
   return (
     <div className={styles.sidebar}>
       <h3>Channels</h3>
@@ -115,10 +115,23 @@ const Sidebar: React.FC<SidebarProps> = ({
           />
         ))}
       </ul>
-      {canCreateChannel && <button onClick={addNewChannel}>Add Channel</button>}
+      {canCreateChannel && (
+        <button
+          onClick={() => setIsModalOpen(true)} // Open the modal
+          className={styles.addChannelButton}
+        >
+          Add Channel
+        </button>
+      )}
 
-      <h3>Direct Messages</h3>
-      <button onClick={addNewDm}>Add DM</button>
+      {isModalOpen && (
+        <ChannelCreationModal
+          onClose={() => setIsModalOpen(false)} // Close the modal
+          onChannelCreated={handleChannelCreated} // Callback for when a channel is created
+          projectId={projectId}
+          currentUserId={currentUserId}
+        />
+      )}
     </div>
   );
 };

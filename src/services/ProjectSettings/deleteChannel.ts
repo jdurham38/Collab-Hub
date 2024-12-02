@@ -1,0 +1,1 @@
+// will delete all messages associated with the channel then the channel itself

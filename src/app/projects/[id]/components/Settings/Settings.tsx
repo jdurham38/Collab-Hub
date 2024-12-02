@@ -25,10 +25,10 @@ const Settings: React.FC = () => {
           Remove Users
         </button>
         <button
-          className={`${styles.button} ${activeTab === 'enableDisableTabs' ? styles.active : ''}`}
-          onClick={() => handleTabClick('enableDisableTabs')}
+          className={`${styles.button} ${activeTab === 'removeChannels' ? styles.active : ''}`}
+          onClick={() => handleTabClick('removeChannels')}
         >
-          Enable/Disable Tabs
+          Remove Channels
         </button>
         <button
           className={`${styles.button} ${activeTab === 'grantAdminAccess' ? styles.active : ''}`}
@@ -54,11 +54,11 @@ const Settings: React.FC = () => {
             {/* Add elements for removing users */}
           </div>
         )}
-        {activeTab === 'enableDisableTabs' && (
+        {activeTab === 'removeChannels' && (
           <div>
-            <h3>Enable/Disable Content</h3>
-            <p>Preview Mode: Content for enabling/disabling the project managemer and workspace.</p>
-            <p>Note: upon disabling any active content this content will be permanently deleted.</p>
+            <h3>Remove Channels Content</h3>
+            <p>Preview Mode: Content for removing the channels.</p>
+            <p>Note: upon removing any channels all messages will be permanently deleted.</p>
 
             {/* Add controls for enabling/disabling tabs */}
           </div>

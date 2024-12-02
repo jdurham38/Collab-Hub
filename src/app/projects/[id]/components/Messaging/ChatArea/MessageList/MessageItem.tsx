@@ -33,12 +33,17 @@ const MessageItem: React.FC<MessageItemProps> = ({
     });
   };
 
-  // Use message.users if available, else fallback to userMap
+
   const user = message.users
     ? { username: message.users.username, email: message.users.email }
     : userMap[message.user_id];
-  const userName = user ? user.username : 'Unknown User';
-  const userEmail = user ? user.email : '';
+  
+  const userName =
+    message.user_id === currentUser.id
+      ? 'You' // Display "You" for the current user's messages
+      : user
+      ? user.username || user.email
+      : 'Unknown User';
 
   return (
     <div
@@ -48,9 +53,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
     >
       <div className={styles.messageInfo}>
         <div className={styles.userInfo}>
-          <span className={styles.userName}>
-            {userName || userEmail || 'Loading...'}
-          </span>
+          <span className={styles.userName}>{userName || 'Loading...'}</span>
           <span className={styles.timestamp}>
             {new Date(message.timestamp).toLocaleTimeString([], {
               hour: '2-digit',

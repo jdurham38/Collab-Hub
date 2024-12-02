@@ -1,5 +1,3 @@
-// ChannelCreationModal.tsx
-
 import React, { useState } from 'react';
 import styles from './ChannelCreationModal.module.css';
 import { addChannel } from '@/services/channelService';
@@ -26,25 +24,30 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
       setError('Channel name cannot be empty');
       return;
     }
-  
+
     try {
       await addChannel(projectId, channelName.trim(), currentUserId);
       setChannelName('');
       onChannelCreated();
       onClose();
-    } catch (err: unknown) {
-      if (err instanceof Error) {
+    } catch (err: any) {
+
+      if (err.response?.status === 500) {
+        setError('Your plan cannot exceed 5 channels for this project.');
+      } else if (err instanceof Error) {
         setError(err.message || 'Failed to create channel. Please try again.');
       } else {
         setError('An unexpected error occurred. Please try again.');
       }
     }
   };
-  
 
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
+        <button className={styles.closeButton} onClick={onClose}>
+          ×
+        </button>
         <h3>Create a New Channel</h3>
         {error && <p className={styles.error}>{error}</p>}
         <input

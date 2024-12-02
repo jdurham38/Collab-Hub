@@ -72,10 +72,8 @@ backend
 
 Individual Projects page 
     - ChannelMessaging
-            - for new notificaiton message if a user is lookin at previous messages
-                    - fix browser issues with it working on opera but not safari
-                    
-            - fix not being able to select the mention user
+        - update te channel creation form
+        - if exceeded limit of 5 display error message
     - individual messaging - DO AFTER COLLABORATORS IS DONE
         - add an online status
         - add an online status to users

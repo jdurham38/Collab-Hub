@@ -69,6 +69,33 @@
   line-height: 1.5;
 }
 
+
+.toggleButton {
+  background-color: #d4a373;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.toggleButton:hover {
+  background-color: #d6914b;
+}
+
+.sidebarContainer {
+  width: 250px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.sidebarContainer.hidden {
+  transform: translateX(-100%);
+}
+
 @media (max-width: 768px) {
   .messagingContainer {
     padding: 15px;

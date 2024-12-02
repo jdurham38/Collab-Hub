@@ -53,7 +53,6 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
             const newChannelName = prompt('Enter channel name:');
             if (newChannelName) handleAddChannel(newChannelName);
           }}
-          addNewDm={() => console.log('Direct message creation is not implemented yet.')}
         />
       </div>
       <div className={styles.chatAreaContainer}>

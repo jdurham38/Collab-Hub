@@ -1,4 +1,4 @@
-// File: components/ChatHeader/ChatHeader.tsx
+
 
 import React from 'react';
 import styles from './ChatHeader.module.css';

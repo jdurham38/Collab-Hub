@@ -1,8 +1,6 @@
-// File: components/MessageInput/MessageInput.tsx
-
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './MessageInput.module.css';
-import MentionSuggestions from '../MentionSuggestions/MentionSuggestions'; // Import MentionSuggestions
+import MentionSuggestions from '../MentionSuggestions/MentionSuggestions';
 import { User } from '@/utils/interfaces';
 
 interface MessageInputProps {
@@ -13,9 +11,9 @@ interface MessageInputProps {
   showSuggestions: boolean;
   userSuggestions: User[];
   onSelectSuggestion: (user: User) => void;
-  editingMessageId?: string | null; // Optional prop for message editing
-  editedContent?: string; // Optional prop for edited content
-  onEditConfirm?: (messageId: string, editedContent: string) => void; // Update function signature
+  editingMessageId?: string | null;
+  editedContent?: string;
+  onEditConfirm?: (messageId: string, editedContent: string) => void;
 }
 
 const MessageInput: React.FC<MessageInputProps> = ({
@@ -25,30 +23,53 @@ const MessageInput: React.FC<MessageInputProps> = ({
   onKeyDown,
   showSuggestions,
   userSuggestions,
-  onSelectSuggestion,
   editingMessageId,
   editedContent,
   onEditConfirm,
 }) => {
-  // Ensure editedContent is a string when editingMessageId is present
-  const safeEditedContent = editingMessageId ? (editedContent ?? '') : '';
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleSuggestionClick = (user: User) => {
+    if (inputRef.current) {
+      const textarea = inputRef.current;
+      const cursorPosition = textarea.selectionStart;
+
+
+      const atIndex = newMessage.lastIndexOf('@', cursorPosition - 1);
+
+      if (atIndex !== -1) {
+        const textBeforeAt = newMessage.slice(0, atIndex);
+        const textAfterCursor = newMessage.slice(cursorPosition);
+
+        const mentionText = `@${user.username} `;
+        const updatedMessage = `${textBeforeAt}${mentionText}${textAfterCursor}`;
+
+        onChange(updatedMessage); // Update parent state
+        textarea.focus();
+        textarea.setSelectionRange(
+          textBeforeAt.length + mentionText.length,
+          textBeforeAt.length + mentionText.length
+        );
+      }
+    }
+  };
 
   return (
     <form onSubmit={onSend} className={styles.messageForm}>
       <div className={styles.messageInputWrapper}>
         <textarea
           placeholder="Type your message..."
-          value={editingMessageId ? safeEditedContent : newMessage}
+          value={editingMessageId ? editedContent ?? '' : newMessage}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={onKeyDown}
           className={styles.messageInput}
-          ref={editingMessageId ? undefined : undefined} // Manage refs if necessary
+          ref={inputRef}
         />
         {showSuggestions && userSuggestions.length > 0 && (
           <div className={styles.suggestionsContainer}>
             <MentionSuggestions
               suggestions={userSuggestions}
-              onSelect={onSelectSuggestion}
+              onSelect={handleSuggestionClick}
             />
           </div>
         )}
@@ -59,7 +80,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
       {editingMessageId && onEditConfirm && (
         <button
           type="button"
-          onClick={() => onEditConfirm(editingMessageId, safeEditedContent)}
+          onClick={() => onEditConfirm(editingMessageId, editedContent ?? '')}
           className={styles.editConfirmButton}
         >
           Confirm Edit
