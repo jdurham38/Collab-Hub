@@ -1,0 +1,18 @@
+/* File: components/ChatHeader/ChatHeader.module.css */
+
+.chatHeader {
+    padding: 16px;
+    background-color: #f5f5f5; /* Example background color */
+    border-bottom: 1px solid #ddd; /* Separator line */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333; /* Example text color */
+  }
+  

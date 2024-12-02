@@ -18,6 +18,7 @@ interface ProjectPageProps {
 interface User {
   id: string;
   email: string;
+  username: string;
 }
 
 const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
@@ -51,20 +52,23 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
         data: { user },
         error,
       } = await supabase.auth.getUser();
-
+  
       if (error) {
         console.error('Error fetching current user:', error.message);
       } else if (user) {
         const email = user.user_metadata?.email || user.email;
+        const username = user.user_metadata?.username || user.email || 'Unknown User'; // Updated fallback
         setCurrentUser({
           id: user.id,
           email: email,
+          username: username,
         });
       }
     };
-
+  
     fetchCurrentUser();
   }, []);
+  
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className={styles.error}>Error: {error}</div>;

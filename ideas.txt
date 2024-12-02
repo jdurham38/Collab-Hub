@@ -72,9 +72,10 @@ backend
 
 Individual Projects page 
     - ChannelMessaging
-             - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
-            - notification state is not working
-
+            - for new notificaiton message if a user is lookin at previous messages
+                    - fix browser issues with it working on opera but not safari
+                    
+            - fix not being able to select the mention user
     - individual messaging - DO AFTER COLLABORATORS IS DONE
         - add an online status
         - add an online status to users

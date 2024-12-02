@@ -3,6 +3,9 @@
 import axios from 'axios';
 import { Message } from '@/utils/interfaces';
 
+/**
+ * Fetch messages for a specific project and channel.
+ */
 export const fetchMessages = async (projectId: string, channelId: string): Promise<Message[]> => {
   try {
     const response = await axios.get(`/api/projects/${projectId}/channels/${channelId}/messages`);
@@ -17,17 +20,22 @@ export const fetchMessages = async (projectId: string, channelId: string): Promi
   }
 };
 
+/**
+ * Send a new message.
+ * Returns the created Message object.
+ */
 export const sendMessage = async (
   projectId: string,
   channelId: string,
   content: string,
   user_id: string
-) => {
+): Promise<Message> => {
   try {
-    await axios.post(`/api/projects/${projectId}/channels/${channelId}/messages`, {
+    const response = await axios.post(`/api/projects/${projectId}/channels/${channelId}/messages`, {
       content,
       user_id,
     });
+    return response.data.message; // Assuming the API returns the created message
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage = error.response?.data?.error || 'Failed to send message.';
@@ -38,11 +46,19 @@ export const sendMessage = async (
   }
 };
 
-export const editMessage = async (messageId: string, content: string) => {
+/**
+ * Edit an existing message.
+ * Returns the updated Message object.
+ */
+export const editMessage = async (
+  messageId: string,
+  content: string
+): Promise<Message> => {
   try {
-    await axios.put(`/api/messages/${messageId}`, {
+    const response = await axios.put(`/api/messages/${messageId}`, {
       content,
     });
+    return response.data.message; // Assuming the API returns the updated message
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage = error.response?.data?.error || 'Failed to edit message.';
@@ -53,7 +69,10 @@ export const editMessage = async (messageId: string, content: string) => {
   }
 };
 
-export const deleteMessage = async (messageId: string) => {
+/**
+ * Delete a message.
+ */
+export const deleteMessage = async (messageId: string): Promise<void> => {
   try {
     await axios.delete(`/api/messages/${messageId}`);
   } catch (error) {
