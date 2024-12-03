@@ -1,9 +1,9 @@
 // components/Settings.tsx
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import styles from './Settings.module.css';
-import GrantAdminForm from './AdminAccess/AdminAccess';
+import AdminAccess from './AdminAccess/AdminAccess';
+import DeleteChannel from './RemoveChannels/RemoveChannels';
 
 interface SettingsProps{
  projectId: string}
@@ -77,19 +77,16 @@ const Settings: React.FC<SettingsProps>  = ({projectId}) => {
         )}
         {activeTab === 'removeChannels' && (
           <div>
-            <h3>Remove Channels Content</h3>
-            <p>Preview Mode: Content for removing the channels.</p>
-            <p>
-              Note: Upon removing any channels, all messages will be permanently deleted.
-            </p>
+            <h3>Remove Channels</h3>
 
-            {/* Add controls for enabling/disabling channels */}
+
+           <DeleteChannel projectId={projectId} />
           </div>
         )}
         {activeTab === 'grantAdminAccess' && (
           <div>
             <h3>Grant Admin Access</h3>
-            <GrantAdminForm projectId={projectId} />
+            <AdminAccess projectId={projectId} />
           </div>
         )}
       </div>

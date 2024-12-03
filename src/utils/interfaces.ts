@@ -61,3 +61,15 @@ export interface Message {
     email: string;
   };
 }
+
+// File: /types/index.ts
+
+export interface Channel {
+  id: string;
+  projectId: string;
+  name: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+  // Add any additional fields as necessary
+}

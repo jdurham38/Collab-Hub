@@ -1,3 +1,5 @@
+// File: /pages/projects/[id]/page.tsx (Assuming Next.js 13+ with App Router)
+
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -10,6 +12,7 @@ import ProjectBanner from './components/ProjectDetails/Banner/Banner';
 import { Project } from '@/utils/interfaces';
 import { getBanner } from '@/services/IndividualProjects/overview';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
+import { validatePrivileges } from '@/services/privilegesService';
 
 interface ProjectPageProps {
   params: { id: string };
@@ -27,6 +30,8 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState<'overview' | 'messaging' | 'settings'>('overview');
   const [loading, setLoading] = useState<boolean>(true);
+  const [privilegesLoading, setPrivilegesLoading] = useState<boolean>(true);
+  const [adminPrivileges, setAdminPrivileges] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const supabase = getSupabaseClient();
 
@@ -52,7 +57,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
         data: { user },
         error,
       } = await supabase.auth.getUser();
-  
+
       if (error) {
         console.error('Error fetching current user:', error.message);
       } else if (user) {
@@ -63,30 +68,46 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
           email: email,
           username: username,
         });
+
+        // **Fetch User Privileges**
+        try {
+          setPrivilegesLoading(true);
+          const isAdmin = await validatePrivileges(projectId, user.id);
+          setAdminPrivileges(isAdmin);
+        } catch {
+          console.error('Error fetching privileges:');
+        } finally {
+          setPrivilegesLoading(false);
+        }
       }
     };
-  
-    fetchCurrentUser();
-  }, []);
-  
 
-  if (loading) return <div>Loading...</div>;
+    fetchCurrentUser();
+  }, [supabase, projectId]);
+
+  if (loading || privilegesLoading) return <div>Loading...</div>;
   if (error) return <div className={styles.error}>Error: {error}</div>;
   if (!project) return <div className={styles.error}>Project not found.</div>;
   if (!currentUser) return <div>Please log in to view this project.</div>;
+
+  // **Define Tabs Based on Privileges**
+  const tabs: Array<'overview' | 'messaging' | 'settings'> = ['overview', 'messaging'];
+  if (adminPrivileges) {
+    tabs.push('settings');
+  }
 
   return (
     <div className={styles.projectPage}>
       <ProjectBanner bannerUrl={project.banner_url} title={project.title} />
 
-      <Nav activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Nav activeTab={activeTab} setActiveTab={setActiveTab} availableTabs={tabs} />
 
       <div className={styles.tabContent}>
         {activeTab === 'overview' && <Overview projectId={projectId} />}
         {activeTab === 'messaging' && (
           <ProjectMessaging projectId={projectId} currentUser={currentUser} />
         )}
-        {activeTab === 'settings' && <Settings projectId={projectId}/>}
+        {activeTab === 'settings' && adminPrivileges && <Settings projectId={projectId} />}
       </div>
     </div>
   );

@@ -1,33 +1,34 @@
+// File: /components/Nav/Nav.tsx
+
+"use client";
+
 import React from 'react';
 import styles from './Nav.module.css';
 
+// Define the possible tab names using a TypeScript union type
+type TabName = 'overview' | 'messaging' | 'settings';
+
+// Update the NavProps interface to include availableTabs
 interface NavProps {
-  activeTab: string;
-  setActiveTab: (tab: 'overview' | 'messaging' | 'settings') => void;
+  activeTab: TabName;
+  setActiveTab: (tab: TabName) => void;
+  availableTabs: TabName[]; // New prop to specify which tabs to display
 }
 
-const Nav: React.FC<NavProps> = ({ activeTab, setActiveTab }) => {
+const Nav: React.FC<NavProps> = ({ activeTab, setActiveTab, availableTabs }) => {
   return (
     <div className={styles.tabContainer}>
       <div className={styles.tabButtons}>
-        <button
-          className={`${styles.tabButton} ${activeTab === 'overview' ? styles.active : ''}`}
-          onClick={() => setActiveTab('overview')}
-        >
-          Overview
-        </button>
-        <button
-          className={`${styles.tabButton} ${activeTab === 'messaging' ? styles.active : ''}`}
-          onClick={() => setActiveTab('messaging')}
-        >
-          Messaging
-        </button>
-        <button
-          className={`${styles.tabButton} ${activeTab === 'settings' ? styles.active : ''}`}
-          onClick={() => setActiveTab('settings')}
-        >
-          Settings
-        </button>
+        {availableTabs.map((tab) => (
+          <button
+            key={tab}
+            className={`${styles.tabButton} ${activeTab === tab ? styles.active : ''}`}
+            onClick={() => setActiveTab(tab)}
+          >
+            {/* Capitalize the first letter of the tab name */}
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
       </div>
     </div>
   );

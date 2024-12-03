@@ -1,5 +1,3 @@
-// File: pages/api/projects/[projectId]/collaborators.ts
-
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
@@ -21,10 +19,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Fetch collaborators for the project
+    // Fetch collaborators with adminPrivileges
     const { data: collaboratorsData, error: collaboratorsError } = await supabase
       .from('ProjectCollaborator')
-      .select('userId')
+      .select('userId, adminPrivileges')
       .eq('projectId', projectId);
 
     if (collaboratorsError) {
@@ -33,7 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (!collaboratorsData || collaboratorsData.length === 0) {
-      console.log('No collaborators found for project ID:', projectId);
       return res.status(200).json({ collaborators: [] });
     }
 
@@ -50,8 +47,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(500).json({ error: 'Error fetching user data' });
     }
 
+    // Merge the data: for each collaboratorData, find corresponding userData
+    const mergedCollaborators = collaboratorsData.map((collab) => {
+      const user = usersData.find((u) => u.id === collab.userId);
+      return {
+        userId: collab.userId,
+        adminPrivileges: collab.adminPrivileges,
+        username: user?.username,
+        email: user?.email,
+      };
+    });
+
     return res.status(200).json({
-      collaborators: usersData,
+      collaborators: mergedCollaborators,
     });
   } catch (error) {
     console.error('Unexpected error fetching collaborators:', error);

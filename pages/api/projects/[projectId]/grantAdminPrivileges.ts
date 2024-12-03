@@ -6,7 +6,7 @@ const supabase= createClient(
     process.env.SUPABASE_ANON_KEY!
 )
 
-export default async function (req: NextApiRequest, res: NextApiResponse){
+export default async function handler(req: NextApiRequest, res: NextApiResponse){
 
     if (req.method !== 'POST') {
         res.setHeader('Allow', ['POST']);
@@ -14,7 +14,6 @@ export default async function (req: NextApiRequest, res: NextApiResponse){
     }
     const {projectId} = req.query;
     const {userId} = req.body;
-    const {adminPrivileges} = req.body;
 
     if (!userId || typeof projectId !== 'string'){
         console.error('invalid project id!', projectId);
@@ -23,7 +22,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse){
 
 
         try {
-            const {data: projectOwner, error: ownerError} = await supabase  
+            const { error: ownerError} = await supabase  
                 .from('projects')
                 .select('created_by')
                 .eq('id', projectId)
@@ -44,6 +43,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse){
                     return res.status(500).json({error: 'Error fetching collaborators'})
  
                 }
+                
                 return res.status(200).json({ message: 'Admin privileges granted successfully.', collaborator });
         } catch (error) {
             console.error('Internal server error:', error);

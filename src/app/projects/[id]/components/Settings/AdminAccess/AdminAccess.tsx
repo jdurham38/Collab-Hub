@@ -1,113 +1,100 @@
-// components/GrantAdminForm.tsx
-import React, { useState, FormEvent } from 'react';
-import { grantAdminAccess } from '@/services/ProjectSettings/adminAccess';
+import React, { useEffect, useState } from 'react';
+import { fetchCollaborators, toggleAdminAccess, Collaborator } from '@/services/ProjectSettings/adminAccess';
+import styles from './AdminAccess.module.css'; // Import the CSS module
 
-interface GrantAdminFormProps {
+interface AdminAccessProps {
   projectId: string;
-  // You can pass additional props as needed, such as a list of users or callback functions
 }
 
-const GrantAdminForm: React.FC<GrantAdminFormProps> = ({ projectId }) => {
-  const [userId, setUserId] = useState<string>('');
+const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
+  const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [successMessage, setSuccessMessage] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setSuccessMessage('');
-    setErrorMessage('');
+  useEffect(() => {
+    const getCollaborators = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const data = await fetchCollaborators(projectId);
+        setCollaborators(data);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unexpected error occurred.');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    getCollaborators();
+  }, [projectId]);
+
+  const handleToggle = async (userId: string, currentStatus: boolean) => {
+    setUpdatingUserId(userId);
+    setError('');
     try {
-      const collaborator = await grantAdminAccess(projectId, userId);
-      setSuccessMessage(`Admin privileges granted to user: ${collaborator.userId}`);
-      setUserId(''); // Clear the input field
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
+      const response = await toggleAdminAccess(projectId, userId, !currentStatus);
+  
+      if (response && typeof response.adminPrivileges === 'boolean') {
+        setCollaborators((prev) =>
+          prev.map((collab) =>
+            collab.userId === userId
+              ? { ...collab, adminPrivileges: response.adminPrivileges }
+              : collab
+          )
+        );
       } else {
-        setErrorMessage('An unexpected error occurred.');
+        throw new Error('Invalid response from server.');
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred.');
       }
     } finally {
-      setLoading(false);
+      setUpdatingUserId(null);
     }
   };
+  
+
+  if (loading) return <p>Loading collaborators...</p>;
+  if (error) return <p className={styles.error}>{error}</p>;
+  if (collaborators.length === 0) return <p>No collaborators found.</p>;
 
   return (
-    <div style={styles.container}>
-      <h2>Grant Admin Access</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.formGroup}>
-          <label htmlFor="userId" style={styles.label}>
-            User ID:
-          </label>
-          <input
-            type="text"
-            id="userId"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-            required
-            style={styles.input}
-            placeholder="Enter User ID"
-          />
-        </div>
-        <button type="submit" disabled={loading} style={styles.button}>
-          {loading ? 'Granting...' : 'Grant Admin Access'}
-        </button>
-      </form>
-      {successMessage && <p style={styles.success}>{successMessage}</p>}
-      {errorMessage && <p style={styles.error}>{errorMessage}</p>}
+    <div className={styles.container}>
+      <h2>Collaborators</h2>
+      <ul className={styles.list}>
+        {collaborators.map((collaborator) => (
+          <li key={collaborator.userId} className={styles.listItem}>
+            <span>
+              {collaborator.username
+                ? collaborator.username
+                : collaborator.email
+                ? collaborator.email
+                : collaborator.userId}
+            </span>
+
+            <label className={styles.switch}>
+              <input
+                type="checkbox"
+                checked={collaborator.adminPrivileges}
+                onChange={() => handleToggle(collaborator.userId, collaborator.adminPrivileges)}
+                disabled={updatingUserId === collaborator.userId}
+              />
+              <span className={styles.slider}></span>
+              {updatingUserId === collaborator.userId && <span className={styles.loadingSpinner}></span>}
+            </label>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-// Simple inline styles for demonstration purposes
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    maxWidth: '400px',
-    margin: '0 auto',
-    padding: '1rem',
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    backgroundColor: '#f9f9f9',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  formGroup: {
-    marginBottom: '1rem',
-  },
-  label: {
-    marginBottom: '0.5rem',
-    display: 'block',
-    fontWeight: 'bold',
-  },
-  input: {
-    width: '100%',
-    padding: '0.5rem',
-    fontSize: '1rem',
-    borderRadius: '4px',
-    border: '1px solid #ccc',
-  },
-  button: {
-    padding: '0.75rem',
-    fontSize: '1rem',
-    backgroundColor: '#0070f3',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-  success: {
-    marginTop: '1rem',
-    color: 'green',
-  },
-  error: {
-    marginTop: '1rem',
-    color: 'red',
-  },
-};
-
-export default GrantAdminForm;
+export default AdminAccess;
