@@ -90,6 +90,7 @@ Individual Projects page
 
     Settings
         - enable users to have admin access
+                    - instead of recreated the listing of project collaborators just track the state from overview to the admin access page 
             - removing users
             - changing project details
             - delete channels

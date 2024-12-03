@@ -86,7 +86,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
         {activeTab === 'messaging' && (
           <ProjectMessaging projectId={projectId} currentUser={currentUser} />
         )}
-        {activeTab === 'settings' && <Settings />}
+        {activeTab === 'settings' && <Settings projectId={projectId}/>}
       </div>
     </div>
   );

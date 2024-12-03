@@ -1,37 +1,58 @@
+// components/Settings.tsx
+
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import styles from './Settings.module.css';
+import GrantAdminForm from './AdminAccess/AdminAccess';
 
-const Settings: React.FC = () => {
-    const [activeTab, setActiveTab] = useState<string>('editProjectDetails');
+interface SettingsProps{
+ projectId: string}
 
-    const handleTabClick = (tabName: string) => {
+
+const Settings: React.FC<SettingsProps>  = ({projectId}) => {
+  const [activeTab, setActiveTab] = useState<string>('editProjectDetails');
+
+  const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
+
+  // Handle the case where projectId is not yet available
+  if (!projectId || typeof projectId !== 'string') {
+    return <p>Loading...</p>; // You can replace this with a better loading indicator
+  }
 
   return (
     <div className={styles.settingsContainer}>
       <h2 className={styles.projectHeader}>Project Settings</h2>
       <div className={styles.buttonContainer}>
         <button
-          className={`${styles.button} ${activeTab === 'editProjectDetails' ? styles.active : ''}`}
+          className={`${styles.button} ${
+            activeTab === 'editProjectDetails' ? styles.active : ''
+          }`}
           onClick={() => handleTabClick('editProjectDetails')}
         >
           Edit Project Details
         </button>
         <button
-          className={`${styles.button} ${activeTab === 'removeUsers' ? styles.active : ''}`}
+          className={`${styles.button} ${
+            activeTab === 'removeUsers' ? styles.active : ''
+          }`}
           onClick={() => handleTabClick('removeUsers')}
         >
           Remove Users
         </button>
         <button
-          className={`${styles.button} ${activeTab === 'removeChannels' ? styles.active : ''}`}
+          className={`${styles.button} ${
+            activeTab === 'removeChannels' ? styles.active : ''
+          }`}
           onClick={() => handleTabClick('removeChannels')}
         >
           Remove Channels
         </button>
         <button
-          className={`${styles.button} ${activeTab === 'grantAdminAccess' ? styles.active : ''}`}
+          className={`${styles.button} ${
+            activeTab === 'grantAdminAccess' ? styles.active : ''
+          }`}
           onClick={() => handleTabClick('grantAdminAccess')}
         >
           Grant Admin Access
@@ -58,16 +79,17 @@ const Settings: React.FC = () => {
           <div>
             <h3>Remove Channels Content</h3>
             <p>Preview Mode: Content for removing the channels.</p>
-            <p>Note: upon removing any channels all messages will be permanently deleted.</p>
+            <p>
+              Note: Upon removing any channels, all messages will be permanently deleted.
+            </p>
 
-            {/* Add controls for enabling/disabling tabs */}
+            {/* Add controls for enabling/disabling channels */}
           </div>
         )}
         {activeTab === 'grantAdminAccess' && (
           <div>
-            <h3>Administrator</h3>
-            <p>Preview Mode: Content for granting admin access to enable project collaborators to have custom privledges.</p>
-            {/* Add elements for granting admin access */}
+            <h3>Grant Admin Access</h3>
+            <GrantAdminForm projectId={projectId} />
           </div>
         )}
       </div>
