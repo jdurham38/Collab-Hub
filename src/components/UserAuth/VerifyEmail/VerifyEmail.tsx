@@ -1,3 +1,4 @@
+// VerifyEmail.tsx
 import React, { useState, useEffect } from 'react';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import styles from './VerifyEmail.module.css';
@@ -6,7 +7,8 @@ const VerifyEmail: React.FC = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
-  const [message, setMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const supabase = getSupabaseClient();
 
@@ -14,12 +16,14 @@ const VerifyEmail: React.FC = () => {
     e.preventDefault();
 
     if (cooldown > 0) {
-      setMessage(`Please wait ${cooldown} seconds before resending the email.`);
+      setErrorMessage(`Please wait ${cooldown} second${cooldown !== 1 ? 's' : ''} before resending the email.`);
+      setSuccessMessage('');
       return;
     }
 
     setLoading(true);
-    setMessage('');
+    setSuccessMessage('');
+    setErrorMessage('');
 
     try {
       const emailLower = email.toLowerCase();
@@ -33,27 +37,27 @@ const VerifyEmail: React.FC = () => {
       });
 
       if (error) {
-        setMessage(`Error sending verification email: ${error.message}`);
+        setErrorMessage(`Error sending verification email: ${error.message}`);
       } else {
-        setMessage('Verification email sent! Please check your inbox.');
-        setCooldown(60); 
+        setSuccessMessage('Verification email sent! Please check your inbox.');
+        setCooldown(60); // Start 60-second cooldown
       }
     } catch (error) {
       console.error('Error resending verification email:', error);
-      setMessage('An unexpected error occurred.');
+      setErrorMessage('An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (cooldown === 0) return;
+    if (cooldown <= 0) return;
 
-    const timer = setInterval(() => {
-      setCooldown((prev) => prev - 1);
+    const timer = setTimeout(() => {
+      setCooldown((prev) => Math.max(prev - 1, 0));
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => clearTimeout(timer);
   }, [cooldown]);
 
   return (
@@ -74,7 +78,11 @@ const VerifyEmail: React.FC = () => {
                 <p>
                   Still don&apos;t see the email? Please enter your email to resend the verification link:
                 </p>
+                <label htmlFor="email" className={styles.label}>
+                  Email Address:
+                </label>
                 <input
+                  id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -87,16 +95,12 @@ const VerifyEmail: React.FC = () => {
                 </button>
                 {cooldown > 0 && (
                   <p className={styles.error}>
-                    You can resend the email in {cooldown} seconds.
+                    You can resend the email in {cooldown} second{cooldown !== 1 ? 's' : ''}.
                   </p>
                 )}
-                {message && (
-                  <p className={message.includes('Error') ? styles.error : styles.success}>
-                    {message}
-                  </p>
-                )}
+                {successMessage && <p className={styles.success}>{successMessage}</p>}
+                {errorMessage && <p className={styles.error}>{errorMessage}</p>}
               </form>
-             
             </div>
           </div>
         </div>

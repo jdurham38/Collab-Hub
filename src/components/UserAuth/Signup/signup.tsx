@@ -1,98 +1,63 @@
+// components/SignupForm.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { UserData, SignupResponse } from '@/utils/interfaces';
-import { signup, checkUserExists, checkUsernameExists } from '@/services/signup';
+import { signup, checkUserExists } from '@/services/signup';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { IoAlertCircleOutline } from 'react-icons/io5';
-import { profanity } from '@2toad/profanity';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import useUsernameValidation from '@/hooks/authCard/useUsernameValidation';
 import styles from './SignupForm.module.css';
 
-
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
 const SignupForm: React.FC = () => {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUserName] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [usernameAvailable, setUsernameAvailable] = useState(false);
-  const [usernameChecking, setUsernameChecking] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [passwordSuccessMessage, setPasswordSuccessMessage] = useState('');
-  const [acceptTerms, setAcceptTerms] = useState(false);
-  const [acceptTermsError, setAcceptTermsError] = useState(false);
-  const [passwordError, setPasswordError] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [username, setUserName] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+  const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
+  const [passwordSuccessMessage, setPasswordSuccessMessage] = useState<string>('');
+  const [acceptTerms, setAcceptTerms] = useState<boolean>(false);
+  const [acceptTermsError, setAcceptTermsError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  
+  // Utilize the custom hook for username validation
+  const { isValid: isUsernameValid, isChecking: isUsernameChecking, error: usernameError } = useUsernameValidation({
+    username,
+  });
+
+  // Update state based on the custom hook's output
   useEffect(() => {
-    const checkUsername = async () => {
-      if (username.trim() === '') {
-        setUsernameAvailable(false);
-        return;
-      }
+    if (usernameError) {
+      setErrorMessage(usernameError);
+    } else {
+      setErrorMessage('');
+    }
+  }, [usernameError]);
 
-      setUsernameChecking(true);
-
-      try {
-        if (profanity.exists(username)) {
-          setErrorMessage('Profanity detected in username');
-          setUsernameAvailable(false);
-          setUsernameChecking(false);
-          return;
-        }
-      } catch (error: unknown) {
-        console.error('Error checking profanity in username:', error);
-        setErrorMessage('Error checking username for profanity');
-        setUsernameAvailable(false);
-        setUsernameChecking(false);
-        return;
-      }
-
-      try {
-        const usernameExists = await checkUsernameExists(username);
-        if (usernameExists) {
-          setUsernameAvailable(false);
-        } else {
-          setUsernameAvailable(true);
-          setErrorMessage('');
-        }
-      } catch (error: unknown) {
-        console.error('Error checking username availability:', error);
-        setErrorMessage('Error checking username availability');
-        setUsernameAvailable(false);
-      } finally {
-        setUsernameChecking(false);
-      }
-    };
-
-    const timer = setTimeout(() => {
-      checkUsername();
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, [username]);
-
-  const validateEmail = (email: string) => {
-    setIsEmailValid(emailRegex.test(email));
+  // Email Validation
+  const validateEmail = (emailInput: string) => {
+    const valid = emailRegex.test(emailInput);
+    setIsEmailValid(valid);
   };
 
-  const validatePassword = (password: string) => {
-    const isValid = passwordRegex.test(password);
-    setIsPasswordValid(isValid);
+  // Password Validation
+  const validatePassword = (passwordInput: string) => {
+    const valid = passwordRegex.test(passwordInput);
+    setIsPasswordValid(valid);
 
-    if (isValid) {
-      setPasswordSuccessMessage('Wow, that’s a good password!');
+    if (valid) {
+      setPasswordSuccessMessage("Wow, that’s a good password!");
       setPasswordError('');
     } else {
       setPasswordSuccessMessage('');
@@ -102,24 +67,26 @@ const SignupForm: React.FC = () => {
     }
   };
 
+  // Handle Form Submission
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
     let formIsValid = true;
 
-    
+    // Reset messages
     setErrorMessage('');
     setPasswordError('');
     setAcceptTermsError(false);
 
     const emailLower = email.toLowerCase();
 
-    
+    // Email Validation
     if (!emailRegex.test(emailLower)) {
       setErrorMessage('Please enter a valid email address.');
       formIsValid = false;
     }
-    
+
+    // Password Validation
     if (!isPasswordValid) {
       setPasswordError(
         'Password must be at least 6 characters, contain 1 uppercase letter, 1 number, and 1 special character.'
@@ -127,19 +94,18 @@ const SignupForm: React.FC = () => {
       formIsValid = false;
     }
 
-    
-    if (!usernameAvailable) {
-      setErrorMessage('Sorry, this username is already taken. Please try another.');
+    // Username Availability
+    if (!isUsernameValid) {
+      setErrorMessage('Sorry, this username is already taken or invalid. Please try another.');
       formIsValid = false;
     }
 
-    
+    // Terms and Conditions
     if (!acceptTerms) {
       setAcceptTermsError(true);
       formIsValid = false;
     }
 
-    
     if (!formIsValid) {
       return;
     }
@@ -147,6 +113,7 @@ const SignupForm: React.FC = () => {
     setLoading(true);
 
     try {
+      // Check if user already exists
       const userExists = await checkUserExists(emailLower);
       if (userExists) {
         setErrorMessage('This email is already registered. Try logging in instead.');
@@ -154,12 +121,14 @@ const SignupForm: React.FC = () => {
         return;
       }
 
+      // Prepare user data
       const userData: UserData = {
         email: emailLower,
         password,
         username,
       };
 
+      // Perform signup
       const result: SignupResponse = await signup(userData);
 
       if (result.error) {
@@ -170,19 +139,21 @@ const SignupForm: React.FC = () => {
 
       if (result.user) {
         toast.success('Signup successful! Please check your email to confirm your address.');
+        // Reset form fields
         setUserName('');
         setEmail('');
         setPassword('');
         setPasswordSuccessMessage('');
         setErrorMessage('');
-        
+
+        // Redirect to email verification page
         router.push('/verify-email');
       } else {
-        setErrorMessage('An unexpected error occurred during signup');
+        setErrorMessage('An unexpected error occurred during signup.');
       }
     } catch (error: unknown) {
       console.error('Error during signup:', error);
-      setErrorMessage('An error occurred during signup');
+      setErrorMessage('An error occurred during signup.');
     } finally {
       setLoading(false);
     }
@@ -191,60 +162,87 @@ const SignupForm: React.FC = () => {
   return (
     <>
       <form onSubmit={handleSignup} className={styles.form} noValidate>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUserName(e.target.value)}
-          placeholder="Username"
-          required
-        />
-        {usernameChecking && <p>Checking username availability...</p>}
-        {!usernameChecking && username && usernameAvailable && (
-          <p className={styles.success}>Great choice! Your username is available.</p>
-        )}
-        {!usernameChecking && username && !usernameAvailable && (
-          <p className={styles.error}>Sorry, this username is already taken. Please try another.</p>
-        )}
-
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            validateEmail(e.target.value);
-          }}
-          placeholder="Email"
-          required
-        />
-        {!isEmailValid && <p className={styles.error}>Invalid email format. Please double-check your email address.</p>}
-
-        <div className={styles.passwordInputWrapper}>
+        {/* Username Field */}
+        <div className={styles.inputGroup}>
           <input
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              validatePassword(e.target.value);
-            }}
-            placeholder="Password"
+            type="text"
+            value={username}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="Username"
             required
+            className={styles.input}
+            aria-describedby="username-error username-success"
           />
-          <button
-            type="button"
-            className={styles.passwordToggleButton}
-            onClick={() => setShowPassword(!showPassword)}
-            aria-label="Toggle password visibility"
-          >
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </button>
+          {isUsernameChecking && <p className={styles.info}>Checking username availability...</p>}
+          {!isUsernameChecking && username && isUsernameValid && (
+            <p id="username-success" className={styles.success}>
+              Great choice! Your username is available.
+            </p>
+          )}
+          {!isUsernameChecking && username && !isUsernameValid && (
+            <p id="username-error" className={styles.error}>
+              {errorMessage || 'Sorry, this username is already taken. Please try another.'}
+            </p>
+          )}
         </div>
-        {passwordError && (
-          <p className={styles.warning}>
-            <IoAlertCircleOutline className={styles.alert} />
-            {passwordError}
-          </p>
-        )}
-        {passwordSuccessMessage && <p className={styles.success}>{passwordSuccessMessage}</p>}
+
+        {/* Email Field */}
+        <div className={styles.inputGroup}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              validateEmail(e.target.value);
+            }}
+            placeholder="Email"
+            required
+            className={styles.input}
+            aria-describedby="email-error"
+          />
+          {!isEmailValid && (
+            <p id="email-error" className={styles.error}>
+              Invalid email format. Please double-check your email address.
+            </p>
+          )}
+        </div>
+
+        {/* Password Field */}
+        <div className={styles.inputGroup}>
+          <div className={styles.passwordInputWrapper}>
+            <input
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                validatePassword(e.target.value);
+              }}
+              placeholder="Password"
+              required
+              className={styles.input}
+              aria-describedby="password-error password-success"
+            />
+            <button
+              type="button"
+              className={styles.passwordToggleButton}
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
+          {passwordError && (
+            <p id="password-error" className={styles.error}>
+              <IoAlertCircleOutline className={styles.alertIcon} />
+              {passwordError}
+            </p>
+          )}
+          {passwordSuccessMessage && (
+            <p id="password-success" className={styles.success}>
+              {passwordSuccessMessage}
+            </p>
+          )}
+        </div>
 
         {/* Terms and Conditions Checkbox */}
         <div className={styles.checkboxContainer}>
@@ -254,8 +252,9 @@ const SignupForm: React.FC = () => {
             checked={acceptTerms}
             onChange={() => setAcceptTerms(!acceptTerms)}
             required
+            className={styles.checkbox}
           />
-          <label htmlFor="acceptTerms">
+          <label htmlFor="acceptTerms" className={styles.label}>
             By clicking this you agree to our{' '}
             <a
               href="/terms-and-conditions"
@@ -277,19 +276,22 @@ const SignupForm: React.FC = () => {
             .
           </label>
         </div>
-
         {acceptTermsError && (
           <p className={styles.error}>
             You must accept the Terms and Conditions and Privacy Policy to proceed.
           </p>
         )}
 
-        <button type="submit" disabled={loading || usernameChecking}>
+        {/* Submit Button */}
+        <button type="submit" disabled={loading || isUsernameChecking} className={styles.submitButton}>
           {loading ? 'Signing Up...' : 'Sign Up'}
         </button>
+
+        {/* General Error Message */}
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       </form>
 
+      {/* Toast Notifications */}
       <ToastContainer position="top-left" autoClose={5000} hideProgressBar={true} theme="light" />
     </>
   );

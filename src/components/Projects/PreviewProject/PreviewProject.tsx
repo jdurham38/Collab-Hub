@@ -1,6 +1,5 @@
-"use client";
-
-import React, { useEffect, useState } from 'react';
+// components/PreviewProject.tsx
+import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useProjectStore } from '@/store/useProjectStore';
@@ -12,6 +11,7 @@ import styles from './PreviewProject.module.css';
 import PreviewSettings from './PreviewSettings/PreviewSettings';
 import PreviewMessaging from './PreviewMessaging/PreviewMessaging';
 import ProjectUsers from './PreviewProjectUsers/Users';
+import useBodyClass from '@/hooks/preview/useBodyClass'; // Import the custom hook
 
 interface PreviewProjectProps {
   onClosePreview: () => void;
@@ -28,14 +28,8 @@ const PreviewProject: React.FC<PreviewProjectProps> = ({
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'messaging' | 'settings'>('overview');
 
-  useEffect(() => {
-    
-    document.body.classList.add('modal-open');
-    
-    return () => {
-      document.body.classList.remove('modal-open');
-    };
-  }, []);
+  // Use the custom hook to manage the body class
+  useBodyClass('modal-open');
 
   const handleCreateProject = async () => {
     setLoading(true);
@@ -44,7 +38,6 @@ const PreviewProject: React.FC<PreviewProjectProps> = ({
       toast.success('Project created successfully!');
     } catch (error) {
       if (error instanceof Error) {
-        
         toast.error(error.message);
       } else {
         toast.error('Failed to create project. Please try again.');

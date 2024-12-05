@@ -19,26 +19,8 @@ Color Pallete
 #d4a373
 
 
-
-    - user table
-        - isOnboarded: bool
-        - username: string
-        - bio: string?
-        - interests: string
-        - background: string
-        - profileImage: url?
-        - isAuthenticated: bool
-    
-    - profiles table
-    - project table
-    - collaboration table
-        - 
-    - messages table
-    - notifications table
-
 2. setup bucket storage
     - profile images
-
 
 
 5. create dashboard (View Projects currently in (created/joined), view friends, view notifications/messages)
@@ -71,9 +53,7 @@ backend
       
 
 Individual Projects page 
-    - ChannelMessaging
-        - update te channel creation form
-        - if exceeded limit of 5 display error message
+
     - individual messaging - DO AFTER COLLABORATORS IS DONE
         - add an online status
         - add an online status to users
@@ -89,7 +69,10 @@ Individual Projects page
 
 
     Settings
-            - removing users
+            - admin access - cannot see themselves/remove themselves
+            - removing users - cannot see themselves/remove themselves
             - changing project details
 
 
+
+for messaging check to see if the reason messages arent being sent right away every time is because of my machine (hopefully thats the case lol)
