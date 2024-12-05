@@ -1,6 +1,6 @@
 // File: /pages/projects/[id]/page.tsx (Assuming Next.js 13+ with App Router)
 
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import Settings from './components/Settings/Settings';
@@ -28,7 +28,9 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   const { id: projectId } = params;
   const [project, setProject] = useState<Project | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'messaging' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'messaging' | 'settings'
+  >('overview');
   const [loading, setLoading] = useState<boolean>(true);
   const [privilegesLoading, setPrivilegesLoading] = useState<boolean>(true);
   const [adminPrivileges, setAdminPrivileges] = useState<boolean>(false);
@@ -42,7 +44,9 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
         setProject(projectData);
       } catch (err) {
         console.error('Error fetching project data:', err);
-        setError(err instanceof Error ? err.message : 'An unexpected error occurred.');
+        setError(
+          err instanceof Error ? err.message : 'An unexpected error occurred.',
+        );
       } finally {
         setLoading(false);
       }
@@ -62,7 +66,8 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
         console.error('Error fetching current user:', error.message);
       } else if (user) {
         const email = user.user_metadata?.email || user.email;
-        const username = user.user_metadata?.username || user.email || 'Unknown User'; // Updated fallback
+        const username =
+          user.user_metadata?.username || user.email || 'Unknown User'; // Updated fallback
         setCurrentUser({
           id: user.id,
           email: email,
@@ -91,7 +96,10 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   if (!currentUser) return <div>Please log in to view this project.</div>;
 
   // **Define Tabs Based on Privileges**
-  const tabs: Array<'overview' | 'messaging' | 'settings'> = ['overview', 'messaging'];
+  const tabs: Array<'overview' | 'messaging' | 'settings'> = [
+    'overview',
+    'messaging',
+  ];
   if (adminPrivileges) {
     tabs.push('settings');
   }
@@ -100,14 +108,20 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
     <div className={styles.projectPage}>
       <ProjectBanner bannerUrl={project.banner_url} title={project.title} />
 
-      <Nav activeTab={activeTab} setActiveTab={setActiveTab} availableTabs={tabs} />
+      <Nav
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        availableTabs={tabs}
+      />
 
       <div className={styles.tabContent}>
         {activeTab === 'overview' && <Overview projectId={projectId} />}
         {activeTab === 'messaging' && (
           <ProjectMessaging projectId={projectId} currentUser={currentUser} />
         )}
-        {activeTab === 'settings' && adminPrivileges && <Settings projectId={projectId} />}
+        {activeTab === 'settings' && adminPrivileges && (
+          <Settings projectId={projectId} />
+        )}
       </div>
     </div>
   );
