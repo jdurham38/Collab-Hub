@@ -1,70 +1,39 @@
-// File: /components/ChannelsList.tsx
+// /components/ChannelsList.tsx
 
-import React, { useEffect, useState } from 'react';
-import { fetchChannels, deleteChannel } from '@/services/ProjectSettings/deleteChannel';
+'use client';
+
+import React from 'react';
+import useChannels from '@/hooks/individualProjects/settings/useChannel';
+import useDeleteChannel from '@/hooks/individualProjects/settings/useDeleteChannel';
 import { Channel } from '@/utils/interfaces';
 import styles from './RemoveChannels.module.css'; // Import the CSS module
-import { toast } from 'react-toastify';
 
 interface DeleteChannelProps {
   projectId: string;
 }
 
 const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
-  const [channels, setChannels] = useState<Channel[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
-  const [deletingChannelId, setDeletingChannelId] = useState<string | null>(null);
+  const { channels, loading, error } = useChannels(projectId);
+  const { deletingChannelId, deleteChannelById, error: deleteError } = useDeleteChannel();
 
-  useEffect(() => {
-    const getChannels = async () => {
-      setLoading(true);
-      setError('');
-      try {
-        const data = await fetchChannels(projectId);
-        setChannels(data);
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-          toast.error(err.message);
-        } else {
-          setError('An unexpected error occurred.');
-          toast.error('An unexpected error occurred.');
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getChannels();
-  }, [projectId]);
-
-  const handleDelete = async (channelId: string) => {
-    const confirmDelete = confirm('Are you sure you want to delete this channel? This action cannot be undone.');
+  const handleDelete = async (channelId: string, channelName: string) => {
+    const confirmDelete = confirm(
+      `Are you sure you want to delete the channel "${channelName}"? This action cannot be undone.`
+    );
     if (!confirmDelete) return;
 
-    setDeletingChannelId(channelId);
-    setError('');
-    try {
-      const message = await deleteChannel(projectId, channelId);
-      // Remove the deleted channel from the state
-      setChannels((prevChannels) => prevChannels.filter((channel) => channel.id !== channelId));
-      toast.success(message);
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-        toast.error(err.message);
-      } else {
-        setError('An unexpected error occurred.');
-        toast.error('An unexpected error occurred.');
-      }
-    } finally {
-      setDeletingChannelId(null);
+    await deleteChannelById(projectId, channelId);
+
+    // Optionally, you can refetch channels or update the local state here
+    // For simplicity, we'll remove the channel from the list if deletion was successful
+    if (!deleteError) {
+      // Assuming channels are updated in the useChannels hook or via a global state
+      // If not, you might need to implement a state update here
     }
   };
 
   if (loading) return <p className={styles.loading}>Loading channels...</p>;
-  if (error) return <p className={styles.error}>{error}</p>;
+  if (error) return <p className={styles.error}>Error: {error}</p>;
   if (channels.length === 0) return <p>No channels found.</p>;
 
   return (
@@ -76,7 +45,7 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
             <span className={styles.channelName}>{channel.name}</span>
             <button
               className={styles.deleteButton}
-              onClick={() => handleDelete(channel.id)}
+              onClick={() => handleDelete(channel.id, channel.name)}
               disabled={deletingChannelId === channel.id}
               aria-label={`Delete channel ${channel.name}`}
             >

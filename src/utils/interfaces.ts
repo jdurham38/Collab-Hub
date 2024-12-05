@@ -73,3 +73,13 @@ export interface Channel {
   updatedAt: string;
   // Add any additional fields as necessary
 }
+
+
+
+export interface Collaborator {
+  userId: string;
+  adminPrivileges: boolean;
+  username?: string;
+  email?: string;
+  // Add any additional fields as necessary
+}

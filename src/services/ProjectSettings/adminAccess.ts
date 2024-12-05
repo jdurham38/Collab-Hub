@@ -1,14 +1,7 @@
 import axios from 'axios';
-
+import { Collaborator } from '@/utils/interfaces';
 // services/ProjectSettings/adminAccess.ts
 
-export interface Collaborator {
-  userId: string;
-  adminPrivileges: boolean;
-  username?: string;
-  email?: string;
-  // Add any additional fields as necessary
-}
 
 
 export const fetchCollaborators = async (projectId: string): Promise<Collaborator[]> => {
