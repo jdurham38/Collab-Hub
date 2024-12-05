@@ -54,7 +54,9 @@ const ProjectUsers: React.FC<ProjectUsersProps> = ({ projectId }) => {
         <h3>Owner</h3>
         {owner ? (
           <div className={styles.userCard}>
-            <p>{owner.username || owner.email || 'Owner information unavailable'}</p>
+            <p>
+              {owner.username || owner.email || 'Owner information unavailable'}
+            </p>
           </div>
         ) : (
           <p>Owner information not available.</p>
