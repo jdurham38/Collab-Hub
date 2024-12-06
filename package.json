@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .js,.mjs,.cjs,.ts,.jsx,.tsx",
-    "lint:fix": "eslint . --ext .js,.mjs,.cjs,.ts,.jsx,.tsx --fix",
+    "lint": "eslint './**/*.{mjs,cjs,ts,tsx}'",
+    "lint:fix": "eslint './**/*.{mjs,cjs,ts,tsx}' --fix",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "@tanstack/react-query": "^5.60.5",
     "@tanstack/react-query-devtools": "^5.60.5",
     "@tanstack/react-table": "^8.20.5",
+    "@typescript-eslint/eslint-plugin": "^8.17.0",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -48,6 +49,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18",
     "@types/react-mentions": "^4.4.1",
+    "@typescript-eslint/parser": "^8.17.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.13",
     "eslint-config-prettier": "^9.1.0",

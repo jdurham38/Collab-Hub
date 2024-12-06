@@ -124,7 +124,5 @@ export const projectRoles = {
     'Gardener',
     'Landscape Designer',
   ],
-  'Miscellaneous': [
-    
-  ],
+  Miscellaneous: [],
 };

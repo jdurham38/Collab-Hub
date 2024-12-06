@@ -2,10 +2,9 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import axiosClient from '@/lib/axiosClient';
 import axios from 'axios';
 
-
 export const uploadBanner = async (
   supabase: SupabaseClient,
-  bannerFile: File
+  bannerFile: File,
 ): Promise<string> => {
   try {
     const fileExt = bannerFile.name.split('.').pop();
@@ -47,7 +46,10 @@ export const createProject = async (projectData: {
   userId: string;
 }): Promise<string> => {
   try {
-    const response = await axiosClient.post('/projects/create-project', projectData);
+    const response = await axiosClient.post(
+      '/projects/create-project',
+      projectData,
+    );
 
     return response.data.projectId;
   } catch (error) {

@@ -1,24 +1,24 @@
 // utils/interfaces.ts
 
 export interface UserData {
+  email: string;
+  password: string;
+  username?: string;
+}
+
+export interface ProfileData {
+  firstName: string;
+  lastName: string;
+  bio?: string;
+}
+
+export interface AuthResponse {
+  user: {
+    id: string;
     email: string;
-    password: string;
-    username?: string;
-  }
-  
-  export interface ProfileData {
-    firstName: string;
-    lastName: string;
-    bio?: string;
-  }
-  
-  export interface AuthResponse {
-    user: {
-      id: string;
-      email: string;
-    };
-    token: string;
-  }
+  };
+  token: string;
+}
 
 export interface SignupResponse {
   message: string;
@@ -29,7 +29,6 @@ export interface SignupResponse {
   };
   error?: string;
 }
-  
 
 export interface User {
   id: string;
@@ -47,7 +46,6 @@ export interface Project {
   tags: string[];
   roles: string[];
 }
-
 
 export interface Message {
   id: string;
@@ -73,8 +71,6 @@ export interface Channel {
   updatedAt: string;
   // Add any additional fields as necessary
 }
-
-
 
 export interface Collaborator {
   userId: string;

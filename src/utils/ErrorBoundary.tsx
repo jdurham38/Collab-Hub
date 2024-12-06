@@ -1,5 +1,5 @@
 // ErrorBoundary.tsx
-"use client";
+'use client';
 import React, { Component, ReactNode } from 'react';
 
 interface ErrorBoundaryProps {

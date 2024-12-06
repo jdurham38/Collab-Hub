@@ -1,5 +1,5 @@
 // useUnreadStore.ts
-import {create} from 'zustand';
+import { create } from 'zustand';
 
 interface UnreadState {
   unreadCounts: { [channelId: string]: number };

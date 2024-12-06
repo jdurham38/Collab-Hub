@@ -7,7 +7,7 @@ export const checkPlanAndProjects = async (userId: string): Promise<void> => {
     });
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw error; 
+      throw error;
     } else {
       throw new Error('An unexpected error occurred while checking your plan.');
     }

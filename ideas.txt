@@ -76,3 +76,6 @@ Individual Projects page
 
 
 for messaging check to see if the reason messages arent being sent right away every time is because of my machine (hopefully thats the case lol)
+
+
+try implementing promise.allSettled for multiple async operations 

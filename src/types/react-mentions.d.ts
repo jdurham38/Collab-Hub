@@ -5,7 +5,7 @@ declare module 'react-mentions' {
   interface MentionProps {
     onSearchChange?: (
       event: React.ChangeEvent<HTMLInputElement>,
-      data: { query: string }
+      data: { query: string },
     ) => void;
   }
 }

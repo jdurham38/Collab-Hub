@@ -3,7 +3,7 @@ import styles from './Users.module.css';
 
 
 
-const ProjectUsers: React.FC = ({  }) => {
+const ProjectUsers: React.FC = () => {
 
 
   return (

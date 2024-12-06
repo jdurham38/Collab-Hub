@@ -8,7 +8,10 @@ export async function signup(userData: UserData): Promise<SignupResponse> {
   };
 
   try {
-    const { data } = await axios.post<SignupResponse>('/api/signup', userDataLower);
+    const { data } = await axios.post<SignupResponse>(
+      '/api/signup',
+      userDataLower,
+    );
     return data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
@@ -22,7 +25,9 @@ export const checkUserExists = async (email: string): Promise<boolean> => {
   const emailLower = email.toLowerCase();
 
   try {
-    const { data } = await axios.post<{ exists: boolean }>('/api/check-user', { email: emailLower });
+    const { data } = await axios.post<{ exists: boolean }>('/api/check-user', {
+      email: emailLower,
+    });
     return data.exists;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
@@ -32,9 +37,14 @@ export const checkUserExists = async (email: string): Promise<boolean> => {
   }
 };
 
-export const checkUsernameExists = async (username: string): Promise<boolean> => {
+export const checkUsernameExists = async (
+  username: string,
+): Promise<boolean> => {
   try {
-    const { data } = await axios.post<{ exists: boolean }>('/api/check-username', { username });
+    const { data } = await axios.post<{ exists: boolean }>(
+      '/api/check-username',
+      { username },
+    );
     return data.exists;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
@@ -46,7 +56,10 @@ export const checkUsernameExists = async (username: string): Promise<boolean> =>
 
 export const checkOnboardStatus = async (userId: string): Promise<boolean> => {
   try {
-    const { data } = await axios.post<{ isOnboarded: boolean }>('/api/is-onboarded', { userId });
+    const { data } = await axios.post<{ isOnboarded: boolean }>(
+      '/api/is-onboarded',
+      { userId },
+    );
     return data.isOnboarded;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { deleteChannel } from '@/services/ProjectSettings/deleteChannel';
 import { toast } from 'react-toastify';
-import { Channel } from '@/utils/interfaces';
 
 interface UseDeleteChannelReturn {
   deletingChannelId: string | null;

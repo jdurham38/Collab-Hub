@@ -12,8 +12,8 @@ interface AdminAccessProps {
 }
 
 const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
-  const { collaborators, loading, error, refetch, setCollaborators } = useCollaborators(projectId);
-  const { updatingUserId, toggleAdmin, error: toggleError } = useToggleAdminAccess();
+  const { collaborators, loading, error, setCollaborators } = useCollaborators(projectId);
+  const { updatingUserId, toggleAdmin } = useToggleAdminAccess();
 
   const handleToggle = async (userId: string, currentStatus: boolean) => {
     // Optimistically update the UI

@@ -5,7 +5,6 @@
 import React from 'react';
 import useChannels from '@/hooks/individualProjects/settings/useChannel';
 import useDeleteChannel from '@/hooks/individualProjects/settings/useDeleteChannel';
-import { Channel } from '@/utils/interfaces';
 import styles from './RemoveChannels.module.css'; // Import the CSS module
 
 interface DeleteChannelProps {

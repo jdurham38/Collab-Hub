@@ -16,21 +16,21 @@ interface ProjectPageProps {
 
 const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   const { id: projectId } = params;
-  
+
   // Use Custom Hooks
   const {
     project,
     loading: projectLoading,
     error: projectError,
   } = useProjectData(projectId);
-  
+
   const {
     currentUser,
     adminPrivileges,
     loading: userLoading,
     error: userError,
   } = useUserData(projectId);
-  
+
   const [activeTab, setActiveTab] = useState<
     'overview' | 'messaging' | 'settings'
   >('overview');

@@ -8,7 +8,8 @@ export const fetchChannels = async (projectId: string) => {
     return response.data.channels;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const errorMessage = error.response?.data?.error || 'Failed to fetch channels.';
+      const errorMessage =
+        error.response?.data?.error || 'Failed to fetch channels.';
       throw new Error(errorMessage);
     } else {
       throw new Error('An unexpected error occurred while fetching channels.');
@@ -19,7 +20,7 @@ export const fetchChannels = async (projectId: string) => {
 export const addChannel = async (
   projectId: string,
   channelName: string,
-  createdBy: string
+  createdBy: string,
 ) => {
   try {
     await axios.post(`/api/projects/${projectId}/channels`, {
@@ -40,4 +41,3 @@ export const addChannel = async (
     }
   }
 };
-
