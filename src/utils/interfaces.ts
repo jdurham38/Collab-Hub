@@ -77,5 +77,8 @@ export interface Collaborator {
   adminPrivileges: boolean;
   username?: string;
   email?: string;
+  canRemoveUser?: boolean;
+  canRemoveChannel?: boolean;
+  canEditProject?: boolean;
   // Add any additional fields as necessary
 }

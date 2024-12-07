@@ -31,15 +31,6 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
     loadChannels();
   }, [projectId]);
 
-  const handleAddChannel = async (channelName: string) => {
-    try {
-      await addChannel(projectId, channelName, currentUser.id);
-      loadChannels();
-    } catch (err) {
-      console.error('Error adding new channel:', err);
-    }
-  };
-
   return (
     <div className={styles.messagingContainer}>
       <div className={styles.sidebarContainer}>
@@ -49,9 +40,8 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
           projectId={projectId}
           currentUserId={currentUser.id}
           channelList={channelList}
-          addNewChannel={() => {
-            const newChannelName = prompt('Enter channel name:');
-            if (newChannelName) handleAddChannel(newChannelName);
+          addNewChannel={async() => {
+            await loadChannels();
           }}
         />
       </div>

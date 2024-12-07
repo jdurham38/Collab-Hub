@@ -1,5 +1,3 @@
-// /hooks/individualProjects/settings/useCollaborators.ts
-
 import { useState, useEffect, useCallback } from 'react';
 import { fetchCollaborators } from '@/services/ProjectSettings/adminAccess';
 import { Collaborator } from '@/utils/interfaces';
@@ -22,6 +20,8 @@ const useCollaborators = (projectId: string): UseCollaboratorsReturn => {
     setLoading(true);
     setError(null);
     try {
+      // fetchCollaborators should return an array of collaborators
+      // each with { userId, username, email, adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject }
       const data = await fetchCollaborators(projectId);
       setCollaborators(data);
     } catch (err) {

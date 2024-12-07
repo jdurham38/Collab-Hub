@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ChannelListItem from '../ChannelListItem/ChannelListItem';
 import ChannelCreationModal from '../ChannelCreation/ChannelCreation';
 import { useUnreadStore } from '@/store/useUnreadStore';
 import styles from './Sidebar.module.css';
-import { validatePrivileges } from '@/services/privilegesService';
-import { fetchUnreadCounts } from '@/services/unreadCountService';
 import { updateReadStatus } from '@/services/readStatusService';
-import getSupabaseClient from '@/lib/supabaseClient/supabase';
+
+// Corrected imports for custom hooks
+import useCanCreateChannel from '@/hooks/individualProjects/messages/sidebar/useCanCreateChannel';
+import useLoadUnreadCounts from '@/hooks/individualProjects/messages/sidebar/useLoadUnreadCounts';
+import useMessageSubscription from '@/hooks/individualProjects/messages/sidebar/useMessageSubscription';
 
 interface Channel {
   id: string;
@@ -30,66 +32,15 @@ const Sidebar: React.FC<SidebarProps> = ({
   channelList,
   addNewChannel,
 }) => {
-  const [canCreateChannel, setCanCreateChannel] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal open state
   const { setUnreadCount, incrementUnreadCount, resetUnreadCount } = useUnreadStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    const checkPrivileges = async () => {
-      try {
-        const canCreate = await validatePrivileges(projectId, currentUserId);
-        setCanCreateChannel(canCreate);
-      } catch (error) {
-        console.error('Error validating privileges:', error);
-      }
-    };
-
-    checkPrivileges();
-  }, [projectId, currentUserId]);
-
-  useEffect(() => {
-    const loadUnreadCounts = async () => {
-      try {
-        const unreadData = await fetchUnreadCounts(currentUserId);
-        unreadData.forEach((item) => {
-          setUnreadCount(item.channel_id, item.unread_count);
-        });
-      } catch (err) {
-        console.error('Error fetching unread counts:', err);
-      }
-    };
-
-    loadUnreadCounts();
-  }, [currentUserId, setUnreadCount]);
-
-  useEffect(() => {
-    const supabase = getSupabaseClient();
-
-    const channel = supabase
-      .channel('public:messages')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'messages' },
-        (payload) => {
-          const newMessage = payload.new;
-          if (
-            newMessage.user_id !== currentUserId &&
-            activeChat?.id !== newMessage.channel_id
-          ) {
-            incrementUnreadCount(newMessage.channel_id);
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [currentUserId, incrementUnreadCount, activeChat]);
+  const canCreateChannel = useCanCreateChannel(projectId, currentUserId);
+  useLoadUnreadCounts(currentUserId, setUnreadCount);
+  useMessageSubscription(currentUserId, incrementUnreadCount, activeChat);
 
   const handleSetActiveChat = async (channel: { id: string; name: string }) => {
     setActiveChat(channel);
-
     try {
       await updateReadStatus(channel.id, currentUserId);
       resetUnreadCount(channel.id);
@@ -99,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const handleChannelCreated = () => {
-    addNewChannel(); // Reload the channel list after a new channel is added
+    addNewChannel();
   };
 
   return (
@@ -116,18 +67,15 @@ const Sidebar: React.FC<SidebarProps> = ({
         ))}
       </ul>
       {canCreateChannel && (
-        <button
-          onClick={() => setIsModalOpen(true)} // Open the modal
-          className={styles.addChannelButton}
-        >
+        <button onClick={() => setIsModalOpen(true)} className={styles.addChannelButton}>
           Add Channel
         </button>
       )}
 
       {isModalOpen && (
         <ChannelCreationModal
-          onClose={() => setIsModalOpen(false)} // Close the modal
-          onChannelCreated={handleChannelCreated} // Callback for when a channel is created
+          onClose={() => setIsModalOpen(false)}
+          onChannelCreated={handleChannelCreated}
           projectId={projectId}
           currentUserId={currentUserId}
         />

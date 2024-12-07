@@ -1,18 +1,16 @@
-// /components/ChannelsList.tsx
-
-'use client';
+// DeleteChannel.tsx
 
 import React from 'react';
 import useChannels from '@/hooks/individualProjects/settings/useChannel';
 import useDeleteChannel from '@/hooks/individualProjects/settings/useDeleteChannel';
-import styles from './RemoveChannels.module.css'; // Import the CSS module
+import styles from './RemoveChannels.module.css';
 
 interface DeleteChannelProps {
   projectId: string;
 }
 
 const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
-  const { channels, loading, error } = useChannels(projectId);
+  const { channels, loading, error, refetch } = useChannels(projectId);
   const { deletingChannelId, deleteChannelById, error: deleteError } = useDeleteChannel();
 
   const handleDelete = async (channelId: string, channelName: string) => {
@@ -23,11 +21,9 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
 
     await deleteChannelById(projectId, channelId);
 
-    // Optionally, you can refetch channels or update the local state here
-    // For simplicity, we'll remove the channel from the list if deletion was successful
+    // If deletion was successful, refetch the channel list
     if (!deleteError) {
-      // Assuming channels are updated in the useChannels hook or via a global state
-      // If not, you might need to implement a state update here
+      refetch();
     }
   };
 

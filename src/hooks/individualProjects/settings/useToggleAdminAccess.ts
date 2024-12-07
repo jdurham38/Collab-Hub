@@ -1,12 +1,18 @@
 // /hooks/individualProjects/settings/useToggleAdminAccess.ts
-
 import { useState } from 'react';
-import { toggleAdminAccess } from '@/services/ProjectSettings/adminAccess';
+import axios from 'axios';
 import { toast } from 'react-toastify';
+
+interface PermissionFields {
+  adminPrivileges?: boolean;
+  canRemoveUser?: boolean;
+  canRemoveChannel?: boolean;
+  canEditProject?: boolean;
+}
 
 interface UseToggleAdminAccessReturn {
   updatingUserId: string | null;
-  toggleAdmin: (projectId: string, userId: string, currentStatus: boolean) => Promise<boolean>;
+  toggleAdmin: (projectId: string, userId: string, fields: PermissionFields) => Promise<boolean>;
   error: string | null;
 }
 
@@ -14,14 +20,14 @@ const useToggleAdminAccess = (): UseToggleAdminAccessReturn => {
   const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const toggleAdmin = async (projectId: string, userId: string, currentStatus: boolean): Promise<boolean> => {
+  const toggleAdmin = async (projectId: string, userId: string, fields: PermissionFields): Promise<boolean> => {
     setUpdatingUserId(userId);
     setError(null);
     try {
-      const response = await toggleAdminAccess(projectId, userId, !currentStatus);
-
-      if (response && typeof response.adminPrivileges === 'boolean') {
-        toast.success(`Admin access ${!currentStatus ? 'granted' : 'revoked'} successfully.`);
+      const response = await axios.patch(`/api/projects/${projectId}/collaborators/${userId}`, fields);
+      const data = response.data;
+      if (data && data.collaborator) {
+        toast.success('Privileges updated successfully.');
         return true;
       } else {
         throw new Error('Invalid response from server.');

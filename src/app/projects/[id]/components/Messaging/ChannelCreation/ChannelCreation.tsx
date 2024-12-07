@@ -17,8 +17,10 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
 }) => {
   const [channelName, setChannelName] = useState('');
   const [error, setError] = useState('');
+  const [isCreating, setIsCreating] = useState(false);
 
   const handleCreateChannel = async () => {
+    console.log('handleCreateChannel called'); // Debugging
     setError('');
     if (channelName.trim() === '') {
       setError('Channel name cannot be empty');
@@ -26,12 +28,12 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
     }
 
     try {
+      setIsCreating(true);
       await addChannel(projectId, channelName.trim(), currentUserId);
       setChannelName('');
       onChannelCreated();
       onClose();
     } catch (err: any) {
-
       if (err.response?.status === 500) {
         setError('Your plan cannot exceed 5 channels for this project.');
       } else if (err instanceof Error) {
@@ -39,6 +41,8 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
       } else {
         setError('An unexpected error occurred. Please try again.');
       }
+    } finally {
+      setIsCreating(false);
     }
   };
 
@@ -58,10 +62,15 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
           className={styles.modalInput}
         />
         <div className={styles.modalActions}>
-          <button onClick={handleCreateChannel} className={styles.modalButton}>
-            Create
+          <button
+            type="button" // Explicitly set type to button
+            onClick={handleCreateChannel}
+            className={styles.modalButton}
+            disabled={isCreating} // Disable while creating
+          >
+            {isCreating ? 'Creating...' : 'Create'}
           </button>
-          <button onClick={onClose} className={styles.modalButton}>
+          <button type="button" onClick={onClose} className={styles.modalButton}>
             Cancel
           </button>
         </div>

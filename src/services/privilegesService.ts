@@ -1,19 +1,35 @@
 // services/privilegesService.ts
-
 import axios from 'axios';
+
+export interface Privileges {
+  userIsOwner: boolean;
+  adminPrivileges: boolean;
+  canRemoveUser: boolean;
+  canRemoveChannel: boolean;
+  canEditProject: boolean;
+  canCreateChannel: boolean;
+}
 
 export const validatePrivileges = async (
   projectId: string,
   userId: string,
-): Promise<boolean> => {
+): Promise<Privileges> => {
   try {
     const response = await axios.post(
       `/api/projects/${projectId}/validatePrivileges`,
-      {
-        userId,
-      },
+      { userId },
     );
-    return response.data.canCreateChannel;
+
+    const data = response.data;
+
+    return {
+      userIsOwner: data.userIsOwner ?? false,
+      adminPrivileges: data.adminPrivileges ?? false,
+      canRemoveUser: data.canRemoveUser ?? false,
+      canRemoveChannel: data.canRemoveChannel ?? false,
+      canEditProject: data.canEditProject ?? false,
+      canCreateChannel: data.canCreateChannel ?? false,
+    };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =

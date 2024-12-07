@@ -7,8 +7,8 @@ import Overview from './components/ProjectDetails/Overview';
 import Nav from './components/Nav/Nav';
 import styles from './ProjectPage.module.css';
 import ProjectBanner from './components/ProjectDetails/Banner/Banner';
-import useProjectData from '@/hooks/individualProjects/useProjectData'; // Adjust the path as necessary
-import useUserData from '@/hooks/individualProjects/useUserData'; // Adjust the path as necessary
+import useProjectData from '@/hooks/individualProjects/useProjectData';
+import useUserData from '@/hooks/individualProjects/useUserData';
 
 interface ProjectPageProps {
   params: { id: string };
@@ -17,7 +17,6 @@ interface ProjectPageProps {
 const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   const { id: projectId } = params;
 
-  // Use Custom Hooks
   const {
     project,
     loading: projectLoading,
@@ -27,13 +26,14 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   const {
     currentUser,
     adminPrivileges,
+    canRemoveUser,
+    canRemoveChannel,
+    canEditProject,
     loading: userLoading,
     error: userError,
   } = useUserData(projectId);
 
-  const [activeTab, setActiveTab] = useState<
-    'overview' | 'messaging' | 'settings'
-  >('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'messaging' | 'settings'>('overview');
 
   const loading = projectLoading || userLoading;
   const error = projectError || userError;
@@ -43,12 +43,17 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   if (!project) return <div className={styles.error}>Project not found.</div>;
   if (!currentUser) return <div>Please log in to view this project.</div>;
 
-  // Define Tabs Based on Privileges
-  const tabs: Array<'overview' | 'messaging' | 'settings'> = [
-    'overview',
-    'messaging',
-  ];
-  if (adminPrivileges) {
+  // Determine which tabs are available.
+  // 'overview' and 'messaging' are always available to logged-in users.
+  // 'settings' is available if user has any admin or edit privileges (checked in Settings).
+  const tabs: Array<'overview' | 'messaging' | 'settings'> = ['overview', 'messaging'];
+
+  // We'll rely on the Settings component itself to handle visibility of its internal tabs.
+  // But we only show the "settings" tab if the user has at least one privilege for it.
+  // Since the Settings component now handles logic based on userAccess, we can show 'settings'
+  // if they have ANY relevant privileges:
+  const hasAnySettingsPrivilege = adminPrivileges || canRemoveUser || canRemoveChannel || canEditProject;
+  if (hasAnySettingsPrivilege) {
     tabs.push('settings');
   }
 
@@ -67,8 +72,16 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
         {activeTab === 'messaging' && (
           <ProjectMessaging projectId={projectId} currentUser={currentUser} />
         )}
-        {activeTab === 'settings' && adminPrivileges && (
-          <Settings projectId={projectId} />
+        {activeTab === 'settings' && hasAnySettingsPrivilege && (
+          <Settings
+            projectId={projectId}
+            userAccess={{
+              adminPrivileges,
+              canRemoveUser,
+              canRemoveChannel,
+              canEditProject,
+            }}
+          />
         )}
       </div>
     </div>

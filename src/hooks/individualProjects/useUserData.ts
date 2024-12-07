@@ -11,6 +11,9 @@ interface User {
 interface UseUserDataReturn {
   currentUser: User | null;
   adminPrivileges: boolean;
+  canRemoveUser: boolean;
+  canRemoveChannel: boolean;
+  canEditProject: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -18,6 +21,9 @@ interface UseUserDataReturn {
 const useUserData = (projectId: string): UseUserDataReturn => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [adminPrivileges, setAdminPrivileges] = useState<boolean>(false);
+  const [canRemoveUser, setCanRemoveUser] = useState<boolean>(false);
+  const [canRemoveChannel, setCanRemoveChannel] = useState<boolean>(false);
+  const [canEditProject, setCanEditProject] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const supabase = getSupabaseClient();
@@ -50,14 +56,22 @@ const useUserData = (projectId: string): UseUserDataReturn => {
 
           // Fetch User Privileges
           try {
-            const isAdmin = await validatePrivileges(projectId, user.id);
-            setAdminPrivileges(isAdmin);
+            // validatePrivileges should now return an object with all four fields
+            const privileges = await validatePrivileges(projectId, user.id);
+            setAdminPrivileges(privileges.adminPrivileges);
+            setCanRemoveUser(privileges.canRemoveUser);
+            setCanRemoveChannel(privileges.canRemoveChannel);
+            setCanEditProject(privileges.canEditProject);
+            
+            // Also store userIsOwner somewhere
+            const userIsOwner = privileges.userIsOwner;
+
           } catch (privError) {
             console.error('Error fetching privileges:', privError);
             setError(
               privError instanceof Error
                 ? privError.message
-                : 'Failed to fetch privileges.',
+                : 'Failed to fetch privileges.'
             );
           }
         }
@@ -72,7 +86,15 @@ const useUserData = (projectId: string): UseUserDataReturn => {
     fetchUser();
   }, [supabase, projectId]);
 
-  return { currentUser, adminPrivileges, loading, error };
+  return {
+    currentUser,
+    adminPrivileges,
+    canRemoveUser,
+    canRemoveChannel,
+    canEditProject,
+    loading,
+    error,
+  };
 };
 
 export default useUserData;

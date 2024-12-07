@@ -6,7 +6,7 @@ import { createClient } from '@supabase/supabase-js';
 // Initialize Supabase client with server-side credentials (Service Role Key)
 const supabase = createClient(
   process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || '' // Use Service Role Key for server-side operations
+  process.env.SUPABASE_SERVICE_ROLE_KEY || '' // Use Service Role Key for server-side operations
 );
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -32,6 +32,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // // Further authorization checks...
 
   try {
+    // **Step 0: Fetch the Channel Name Before Deletion**
+    const { data: channelData, error: fetchChannelError } = await supabase
+      .from('channels')
+      .select('name')
+      .eq('id', channelId)
+      .eq('project_id', projectId)
+      .single(); // Expecting to find a single channel
+
+    if (fetchChannelError) {
+      console.error('Error fetching channel:', fetchChannelError.message);
+      return res.status(500).json({ error: 'Error fetching channel information' });
+    }
+
+    if (!channelData) {
+      console.error('Channel not found');
+      return res.status(404).json({ error: 'Channel not found' });
+    }
+
+    const channelName = channelData.name;
+
     // **Step 1: Delete All Messages in the Channel**
     const { data: deletedMessages, error: deleteMessagesError } = await supabase
       .from('messages')
@@ -46,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Handle cases where there are no messages
     const deletedCount = deletedMessages ? deletedMessages.length : 0;
-    console.log(`Deleted ${deletedCount} messages from channel ${channelId}`);
+    console.log(`Deleted ${deletedCount} messages from channel "${channelName}" (ID: ${channelId})`);
 
     // **Step 2: Delete the Channel**
     const { data: deletedChannel, error: deleteChannelError } = await supabase
@@ -67,11 +87,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(404).json({ error: 'Channel not found' });
     }
 
-    console.log(`Channel ${channelId} deleted successfully from project ${projectId}`);
+    console.log(`Channel "${channelName}" (ID: ${channelId}) deleted successfully from project ${projectId}`);
 
     // **Step 3: Return Success Response**
     return res.status(200).json({
-      message: `Channel ${channelId} and all associated messages have been deleted successfully.`,
+      message: `Channel "${channelName}" and all associated messages have been deleted successfully.`,
       deletedMessagesCount: deletedCount,
     });
   } catch (error) {

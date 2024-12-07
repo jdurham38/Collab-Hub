@@ -66,19 +66,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }
         }
 
-        const { error } = await supabase.from('channels').insert([
-          {
-            name: name.trim(),
-            project_id: projectId,
-            created_by,
-            created_at: new Date().toISOString(),
-          },
-        ]);
-
+        const { error } = await supabase.from('channels').insert([{ 
+          name: name.trim(), 
+          project_id: projectId, 
+          created_by, 
+          created_at: new Date().toISOString() 
+        }]);
+        
         if (error) {
+          if (error.message.includes('duplicate key value violates unique constraint')) {
+            return res.status(409).json({ error: 'A channel with this name already exists in this project.' });
+          }
           console.error('Error adding new channel:', error.message);
           return res.status(500).json({ error: 'Error adding new channel' });
         }
+        
 
         return res.status(201).json({ message: 'Channel added successfully' });
       } catch (err) {

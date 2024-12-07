@@ -1,6 +1,6 @@
 // /hooks/useChannels.ts
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { fetchChannels } from '@/services/ProjectSettings/deleteChannel';
 import { Channel } from '@/utils/interfaces';
 import { toast } from 'react-toastify';
@@ -9,6 +9,7 @@ interface UseChannelsReturn {
   channels: Channel[];
   loading: boolean;
   error: string | null;
+  refetch: () => void;
 }
 
 const useChannels = (projectId: string): UseChannelsReturn => {
@@ -16,8 +17,8 @@ const useChannels = (projectId: string): UseChannelsReturn => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const getChannels = async () => {
+  
+    const getChannels = useCallback(async () => {
       setLoading(true);
       setError(null);
       try {
@@ -33,12 +34,13 @@ const useChannels = (projectId: string): UseChannelsReturn => {
       } finally {
         setLoading(false);
       }
-    };
+    }, [projectId]);
 
+  useEffect(() => {
     getChannels();
-  }, [projectId]);
+  }, [getChannels]);
 
-  return { channels, loading, error };
+  return { channels, loading, error, refetch: getChannels};
 };
 
 export default useChannels;
