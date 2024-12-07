@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styles from './Settings.module.css';
 import AdminAccess from './AdminAccess/AdminAccess';
 import DeleteChannel from './RemoveChannels/RemoveChannels';
+import RemoveUsers from './RemoveUsers/RemoveUsers';
 
 interface UserAccess {
   adminPrivileges: boolean;
@@ -14,10 +15,12 @@ interface UserAccess {
 
 interface SettingsProps {
   projectId: string;
-  userAccess: UserAccess; // Add this prop to pass the user's privileges
+  userAccess: UserAccess;
+  currentUserId: string;
+  userIsOwner: boolean;
 }
 
-const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
+const Settings: React.FC<SettingsProps> = ({ projectId, userAccess, currentUserId, userIsOwner }) => {
   const [activeTab, setActiveTab] = useState<string>(''); // Start with no active tab
 
   const { adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject } = userAccess;
@@ -30,11 +33,11 @@ const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
     return <p>Loading...</p>;
   }
 
-  // Determine which tabs to show based on access
-  const showEditProject = adminPrivileges || canEditProject;
-  const showRemoveUsers = adminPrivileges || canRemoveUser;
-  const showRemoveChannels = adminPrivileges || canRemoveChannel;
-  const showGrantAdminAccess = adminPrivileges; // Only admin can grant admin access
+  // If user is owner, show all tabs. Otherwise, fallback to privileges logic.
+  let showEditProject = userIsOwner || adminPrivileges || canEditProject;
+  let showRemoveUsers = userIsOwner || adminPrivileges || canRemoveUser;
+  let showRemoveChannels = userIsOwner || adminPrivileges || canRemoveChannel;
+  let showGrantAdminAccess = userIsOwner || adminPrivileges;
 
   // If there's no active tab yet, pick the first available one
   let firstAvailableTab = '';
@@ -43,7 +46,6 @@ const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
   else if (showRemoveChannels) firstAvailableTab = 'removeChannels';
   else if (showGrantAdminAccess) firstAvailableTab = 'grantAdminAccess';
 
-  // If activeTab is empty, set it to the first available tab
   if (!activeTab && firstAvailableTab) {
     setActiveTab(firstAvailableTab);
   }
@@ -54,9 +56,7 @@ const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
       <div className={styles.buttonContainer}>
         {showEditProject && (
           <button
-            className={`${styles.button} ${
-              activeTab === 'editProjectDetails' ? styles.active : ''
-            }`}
+            className={`${styles.button} ${activeTab === 'editProjectDetails' ? styles.active : ''}`}
             onClick={() => handleTabClick('editProjectDetails')}
           >
             Edit Project Details
@@ -65,9 +65,7 @@ const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
 
         {showRemoveUsers && (
           <button
-            className={`${styles.button} ${
-              activeTab === 'removeUsers' ? styles.active : ''
-            }`}
+            className={`${styles.button} ${activeTab === 'removeUsers' ? styles.active : ''}`}
             onClick={() => handleTabClick('removeUsers')}
           >
             Remove Users
@@ -76,9 +74,7 @@ const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
 
         {showRemoveChannels && (
           <button
-            className={`${styles.button} ${
-              activeTab === 'removeChannels' ? styles.active : ''
-            }`}
+            className={`${styles.button} ${activeTab === 'removeChannels' ? styles.active : ''}`}
             onClick={() => handleTabClick('removeChannels')}
           >
             Remove Channels
@@ -87,9 +83,7 @@ const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
 
         {showGrantAdminAccess && (
           <button
-            className={`${styles.button} ${
-              activeTab === 'grantAdminAccess' ? styles.active : ''
-            }`}
+            className={`${styles.button} ${activeTab === 'grantAdminAccess' ? styles.active : ''}`}
             onClick={() => handleTabClick('grantAdminAccess')}
           >
             Grant Admin Access
@@ -98,7 +92,6 @@ const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
       </div>
 
       <div className={styles.contentContainer}>
-        {/* Edit Project Details */}
         {activeTab === 'editProjectDetails' && showEditProject && (
           <div>
             <h3>Edit Project Details</h3>
@@ -107,16 +100,18 @@ const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
           </div>
         )}
 
-        {/* Remove Users */}
         {activeTab === 'removeUsers' && showRemoveUsers && (
           <div>
             <h3>Remove Users</h3>
-            <p>Preview Mode: Content for removing users.</p>
-            {/* Add elements for removing users */}
+            <RemoveUsers
+              projectId={projectId}
+              currentUserId={currentUserId}
+              userIsOwner={userIsOwner}
+              canRemoveUser={canRemoveUser}
+            />
           </div>
         )}
 
-        {/* Remove Channels */}
         {activeTab === 'removeChannels' && showRemoveChannels && (
           <div>
             <h3>Remove Channels</h3>
@@ -124,7 +119,6 @@ const Settings: React.FC<SettingsProps> = ({ projectId, userAccess }) => {
           </div>
         )}
 
-        {/* Grant Admin Access */}
         {activeTab === 'grantAdminAccess' && showGrantAdminAccess && (
           <div>
             <h3>Grant Admin Access</h3>

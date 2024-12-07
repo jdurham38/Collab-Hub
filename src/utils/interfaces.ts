@@ -45,6 +45,7 @@ export interface Project {
   banner_url: string;
   tags: string[];
   roles: string[];
+  created_by: string;
 }
 
 export interface Message {

@@ -1,3 +1,4 @@
+// hooks/individualProjects/settings/useCollaborators.ts
 import { useState, useEffect, useCallback } from 'react';
 import { fetchCollaborators } from '@/services/ProjectSettings/adminAccess';
 import { Collaborator } from '@/utils/interfaces';
@@ -8,10 +9,14 @@ interface UseCollaboratorsReturn {
   loading: boolean;
   error: string | null;
   refetch: () => void;
-  setCollaborators: React.Dispatch<React.SetStateAction<Collaborator[]>>;
+  setCollaborators: React.Dispatch<
+    React.SetStateAction<Collaborator[]>
+  >;
 }
 
-const useCollaborators = (projectId: string): UseCollaboratorsReturn => {
+const useCollaborators = (
+  projectId: string
+): UseCollaboratorsReturn => {
   const [collaborators, setCollaborators] = useState<Collaborator[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,7 +30,10 @@ const useCollaborators = (projectId: string): UseCollaboratorsReturn => {
       const data = await fetchCollaborators(projectId);
       setCollaborators(data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.';
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : 'An unexpected error occurred.';
       setError(errorMessage);
       toast.error(errorMessage);
     } finally {
@@ -37,7 +45,13 @@ const useCollaborators = (projectId: string): UseCollaboratorsReturn => {
     getCollaborators();
   }, [getCollaborators]);
 
-  return { collaborators, loading, error, refetch: getCollaborators, setCollaborators };
+  return {
+    collaborators,
+    loading,
+    error,
+    refetch: getCollaborators,
+    setCollaborators,
+  };
 };
 
 export default useCollaborators;

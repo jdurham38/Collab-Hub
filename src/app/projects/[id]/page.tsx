@@ -17,6 +17,7 @@ interface ProjectPageProps {
 const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   const { id: projectId } = params;
 
+  // Use Custom Hooks
   const {
     project,
     loading: projectLoading,
@@ -49,13 +50,14 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   const tabs: Array<'overview' | 'messaging' | 'settings'> = ['overview', 'messaging'];
 
   // We'll rely on the Settings component itself to handle visibility of its internal tabs.
-  // But we only show the "settings" tab if the user has at least one privilege for it.
-  // Since the Settings component now handles logic based on userAccess, we can show 'settings'
-  // if they have ANY relevant privileges:
+  // But we only show the "settings" tab if the user has any privileges that warrant showing settings
   const hasAnySettingsPrivilege = adminPrivileges || canRemoveUser || canRemoveChannel || canEditProject;
   if (hasAnySettingsPrivilege) {
     tabs.push('settings');
   }
+
+  // Compute userIsOwner
+  const userIsOwner = project.created_by === currentUser.id;
 
   return (
     <div className={styles.projectPage}>
@@ -81,6 +83,8 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
               canRemoveChannel,
               canEditProject,
             }}
+            currentUserId={currentUser.id}
+            userIsOwner={userIsOwner}
           />
         )}
       </div>
