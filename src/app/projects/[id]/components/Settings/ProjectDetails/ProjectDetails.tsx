@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect } from 'react';
 import {
   fetchProjectDetails,
@@ -10,93 +11,81 @@ import EditTags from '../ProjectDetails/EditTags';
 import EditRoles from '../ProjectDetails/EditRoles';
 import EditBanner from '../ProjectDetails/EditBanner';
 import styles from './ProjectDetails.module.css';
+
 interface EditProjectProps {
   projectId: string;
 }
 
 const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
   const [project, setProject] = useState<Project | null>(null);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [bannerUrl, setBannerUrl] = useState('');
-  const [tags, setTags] = useState<string[]>([]);
-  const [roles, setRoles] = useState<string[]>([]);
-  const [bannerFile, setBannerFile] = useState<File | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false); // New state for submission
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null); // New state for success
+  const [, setBannerFile] = useState<File | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
 
   useEffect(() => {
     const loadProjectDetails = async () => {
-      if (!projectId) return;
-
       try {
         const fetchedProject = await fetchProjectDetails(projectId);
         setProject(fetchedProject);
-        setTitle(fetchedProject.title);
-        setDescription(fetchedProject.description);
-        setBannerUrl(fetchedProject.banner_url || '');
-        setTags(fetchedProject.tags || []);
-        setRoles(fetchedProject.roles || []);
       } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError('Failed to fetch project details.');
-        }
-        console.error(err);
+        console.error("Error fetching project details:", err);
+        setError("Failed to fetch project details.");
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
     loadProjectDetails();
   }, [projectId]);
 
+
+
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsSubmitting(true);
+
+    if (!project) return; // Handle case where project is null
+
+    setSaving(true);
     setError(null);
-    setSuccessMessage(null); // Reset success message
+    setSuccessMessage(null);
 
     try {
-      await updateProjectDetails(projectId, {
-        title,
-        description,
-        banner_url: bannerUrl,
-        tags,
-        roles,
-      });
+      // Create updatedProject object with modifications
+      const updatedProject: Project = {
+        ...project, // Spread existing project properties
+        title: project.title,
+        description: project.description,
+        banner_url: project.banner_url,
+        tags: project.tags,
+        roles: project.roles,
+      };
 
-      // Option 1: Full Page Reload
-      window.location.reload();
+      await updateProjectDetails(projectId, updatedProject); // Send updated data to API
 
-      // Option 2: Update Local State Without Reload
-      // Uncomment the lines below if you prefer to update the state instead of reloading
-      /*
-      const updatedProject = await fetchProjectDetails(projectId);
+
       setProject(updatedProject);
-      setTitle(updatedProject.title);
-      setDescription(updatedProject.description);
-      setBannerUrl(updatedProject.banner_url || '');
-      setTags(updatedProject.tags || []);
-      setRoles(updatedProject.roles || []);
       setSuccessMessage('Project updated successfully!');
-      */
+
+
+
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
         setError('An unexpected error occurred.');
       }
-      console.error(err);
+      console.error("Error updating project details:", err);
     } finally {
-      setIsSubmitting(false);
+      setSaving(false);
     }
   };
 
-  if (isLoading) {
+
+  if (loading) {
     return <div>Loading...</div>;
   }
 
@@ -108,26 +97,37 @@ const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
     return <div>Project not found.</div>;
   }
 
+
+
   return (
     <div className={styles.projectDetailsContainer}>
       <h1>Edit Project: {project.title}</h1>
+
       <form onSubmit={handleSubmit} className={styles.form}>
-        <EditTitle title={title} setTitle={setTitle} />
-        <EditDescription description={description} setDescription={setDescription} />
+        <EditTitle title={project.title} setTitle={(newTitle) => setProject({...project, title: newTitle})} /> {/* Pass setter function */}
+        <EditDescription description={project.description} setDescription={(newDescription) => setProject({...project, description: newDescription})} /> {/* Pass setter function */}
         <EditBanner
-          bannerUrl={bannerUrl}
-          setBannerUrl={setBannerUrl}
+          bannerUrl={project.banner_url}
           setBannerFile={setBannerFile}
+          setBannerUrl={(newBannerUrl) => setProject({...project, banner_url: newBannerUrl})}
+
         />
-        <EditTags tags={tags} setTags={setTags} />
-        <EditRoles roles={roles} setRoles={setRoles} />
+        <EditTags tags={project.tags || []} setTags={(newTags) => setProject({...project, tags: newTags})} /> {/* Pass setter function */}
+        <EditRoles roles={project.roles || []} setRoles={(newRoles) => setProject({...project, roles: newRoles})} /> {/* Pass setter function */}
 
-        {successMessage && <div className={styles.success}>{successMessage}</div>}
-        {error && <div className={styles.error}>{error}</div>}
+          {successMessage && (
+              <div className={styles.success}>{successMessage}</div>
+          )}
 
-        <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
-          {isSubmitting ? 'Updating...' : 'Update Project'}
+          {error && (
+              <div className={styles.error}>{error}</div>
+          )}
+
+
+        <button type="submit" disabled={saving} className={styles.submitButton}>
+          {saving ? 'Saving...' : 'Save Changes'}
         </button>
+
       </form>
     </div>
   );

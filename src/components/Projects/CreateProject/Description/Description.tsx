@@ -1,13 +1,8 @@
-
-
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect } from 'react';
 import styles from './Description.module.css';
-
-
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
-
-
 import { profanity } from '@2toad/profanity';
 
 interface DescriptionProps {
@@ -18,69 +13,73 @@ interface DescriptionProps {
 const Description: React.FC<DescriptionProps> = ({ description, setDescription }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [charCount, setCharCount] = useState(0);
+  const [, setPlainText] = useState('');
 
-  
+  useEffect(() => {
+    const updatePlainTextAndCharCount = () => {
+      const text = getPlainText(description);
+      setPlainText(text);
+      setCharCount(text.length);
+    };
+    updatePlainTextAndCharCount();
+  }, [description]);
+
   const getPlainText = (html: string) => {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
+    if (typeof document !== 'undefined') {
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return div.textContent || div.innerText || '';
+    }
+    return '';
   };
 
   const handleDescriptionChange = (value: string) => {
-    
-    const plainText = getPlainText(value);
+    const text = getPlainText(value);
 
-    
-    setCharCount(plainText.length);
-
-    
-    if (profanity.exists(plainText)) {
+    if (profanity.exists(text)) {
       setErrorMessage('Profanity detected in description.');
-    } else if (plainText.length > 200) {
+    } else if (text.length > 200) {
       setErrorMessage('Description cannot exceed 200 characters.');
     } else {
       setErrorMessage('');
-    }
-
-    
-    if (plainText.length <= 200) {
-      setDescription(value);
+      setDescription(value);  // Update description only if valid
+      setCharCount(text.length); // Update charCount if valid
+      setPlainText(text) // Update plainText if valid
     }
   };
 
   return (
     <>
-    <div className={styles.richTextEditor}>
-      <ReactQuill
-        value={description}
-        onChange={handleDescriptionChange}
-        placeholder="Project Description (max 200 characters)"
-        modules={{
-          toolbar: [
-            [{ header: [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            ['link', 'image'],
-            ['clean'],
-          ],
-        }}
-        formats={[
-          'header',
-          'bold',
-          'italic',
-          'underline',
-          'strike',
-          'list',
-          'link',
-          'image',
-        ]}
-      />
-
-    </div>
-          <div className={styles.descriptionInfo}>
-          <p className={styles.charCount}>{charCount}/200 characters</p>
-          {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-        </div>
+      <div className={styles.richTextEditor}>
+        <ReactQuill
+          value={description}
+          onChange={handleDescriptionChange}
+          placeholder="Project Description (max 200 characters)"
+          modules={{
+            toolbar: [
+              [{ header: [1, 2, 3, false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              ['link', 'image'],
+              ['clean'],
+            ],
+          }}
+          formats={[
+            'header',
+            'bold',
+            'italic',
+            'underline',
+            'strike',
+            'list',
+            'link',
+            'image',
+          ]}
+        />
+      </div>
+      <div className={styles.descriptionInfo}>
+        <p className={styles.charCount}>{charCount}/200 characters</p>
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+      </div>
     </>
   );
 };

@@ -11,12 +11,11 @@ import { toast } from 'react-toastify';
 
 interface AdminAccessProps {
   projectId: string;
-  canEditAdminAccess: boolean;
 }
 
-const AdminAccess: React.FC<AdminAccessProps> = ({ projectId, canEditAdminAccess }) => {
-  const { collaborators, loading, error, setCollaborators, refetch } = useCollaborators(projectId);
-  const { updatingUserId, updatePermissions } = useToggleAdminAccess();
+const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
+  const { collaborators, loading, error, refetch } = useCollaborators(projectId);
+  const { updatePermissions } = useToggleAdminAccess();
 
   const [modifiedCollaborators, setModifiedCollaborators] = React.useState<{
     [userId: string]: Partial<Collaborator>;
@@ -93,11 +92,7 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId, canEditAdminAccess
             userId,
             username,
             email,
-            adminPrivileges,
-            canRemoveUser,
-            canRemoveChannel,
-            canEditProject,
-            canEditAdminAccess,
+           
           } = collaborator;
 
           const mergedCollaborator = { ...collaborator, ...modifiedCollaborators[userId] };
@@ -140,7 +135,7 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId, canEditAdminAccess
               <span className={styles.userLabel}>{username || email || userId}</span>
               <div className={styles.toggles}>
                 <div className={styles.toggleGroup}>
-                  <label className={styles.switchLabel}>Full Privileges (Can Edit Admin Access)</label>
+                  <label className={styles.switchLabel}>Full Privileges</label>
                   <label className={styles.switch}>
                     <input
                       type="checkbox"

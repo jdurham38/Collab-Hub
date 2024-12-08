@@ -1,5 +1,6 @@
+'use client';
 import React, { useState, useEffect } from 'react';
-import styles from './index.module.css'; // Changed the CSS file name
+import styles from './index.module.css';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { profanity } from '@2toad/profanity';
@@ -15,34 +16,43 @@ const EditDescription: React.FC<EditDescriptionProps> = ({
 }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [charCount, setCharCount] = useState(0);
+  const [, setPlainText] = useState('');
 
-  // Update charCount when description prop changes
+
   useEffect(() => {
-    setCharCount(getPlainText(description).length);
-  }, [description]);
+    const updatePlainTextAndCharCount = () => {
+        const text = getPlainText(description)
+        setPlainText(text);
+        setCharCount(text.length);
+    }
+    updatePlainTextAndCharCount();
+}, [description]);
 
   const getPlainText = (html: string) => {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
+    if (typeof document !== 'undefined') {
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return div.textContent || div.innerText || '';
+    }
+    return '';
   };
 
   const handleDescriptionChange = (value: string) => {
-    const plainText = getPlainText(value);
-    setCharCount(plainText.length);
+    const text = getPlainText(value);
 
-    if (profanity.exists(plainText)) {
+
+    if (profanity.exists(text)) {
       setErrorMessage('Profanity detected in description.');
-    } else if (plainText.length > 200) {
+    } else if (text.length > 200) {
       setErrorMessage('Description cannot exceed 200 characters.');
     } else {
       setErrorMessage('');
+      setDescription(value);
+      setCharCount(text.length); // Update charCount if valid
+      setPlainText(text) // Update plainText if valid
     }
 
-    // Only update if within limits
-    if (plainText.length <= 200 && !profanity.exists(plainText)) {
-      setDescription(value);
-    }
+
   };
 
   return (

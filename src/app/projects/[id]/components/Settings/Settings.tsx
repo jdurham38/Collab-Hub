@@ -72,7 +72,6 @@ const Settings: React.FC<SettingsProps> = ({
         setActiveTab(firstTab);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, showEditProject, showRemoveUsers, showRemoveChannels, showGrantAdminAccess]);
 
   // **Debugging: Log userAccess and showGrantAdminAccess**
@@ -162,7 +161,7 @@ const Settings: React.FC<SettingsProps> = ({
         {activeTab === 'grantAdminAccess' && showGrantAdminAccess && (
           <div>
             <h3>Grant Admin Access</h3>
-            <AdminAccess projectId={projectId} canEditAdminAccess={canEditAdminAccess} />
+            <AdminAccess projectId={projectId}  />
           </div>
         )}
       </div>
