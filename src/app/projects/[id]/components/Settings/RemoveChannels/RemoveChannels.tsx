@@ -1,9 +1,12 @@
 // DeleteChannel.tsx
 
+'use client';
+
 import React from 'react';
 import useChannels from '@/hooks/individualProjects/settings/useChannel';
 import useDeleteChannel from '@/hooks/individualProjects/settings/useDeleteChannel';
 import styles from './RemoveChannels.module.css';
+import { toast } from 'react-toastify';
 
 interface DeleteChannelProps {
   projectId: string;
@@ -24,6 +27,9 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
     // If deletion was successful, refetch the channel list
     if (!deleteError) {
       refetch();
+      toast.success(`Channel "${channelName}" deleted successfully.`);
+    } else {
+      toast.error(`Failed to delete channel "${channelName}". Please try again.`);
     }
   };
 
@@ -33,7 +39,11 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
 
   return (
     <div className={styles.container}>
-      <h2>Channels</h2>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Channels</h2>
+        {/* Optional: Add a button to add channels */}
+        {/* <button className={styles.addButton}>Add Channel</button> */}
+      </div>
       <ul className={styles.list}>
         {channels.map((channel) => (
           <li key={channel.id} className={styles.listItem}>
@@ -44,7 +54,7 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
               disabled={deletingChannelId === channel.id}
               aria-label={`Delete channel ${channel.name}`}
             >
-              X
+              &#10005; {/* Unicode for "X" */}
               {deletingChannelId === channel.id && <span className={styles.spinner}></span>}
             </button>
           </li>

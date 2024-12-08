@@ -76,10 +76,11 @@ export interface Channel {
 export interface Collaborator {
   userId: string;
   adminPrivileges: boolean;
-  username?: string;
-  email?: string;
-  canRemoveUser?: boolean;
-  canRemoveChannel?: boolean;
-  canEditProject?: boolean;
+  username: string;
+  email: string;
+  canRemoveUser: boolean;
+  canRemoveChannel: boolean;
+  canEditProject: boolean;
+  canEditAdminAccess: boolean;
   // Add any additional fields as necessary
 }

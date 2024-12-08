@@ -1,3 +1,5 @@
+// pages/api/projects/[projectId]/collaborators/[userId].ts
+
 import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@supabase/supabase-js";
 
@@ -21,7 +23,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-      // Fetch project owner
       const { data: projectData, error: projectError } = await supabase
         .from('projects')
         .select('created_by')
@@ -29,13 +30,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .single();
 
       if (projectError) {
-        console.error('Error fetching project owner:', projectError.message);
         return res.status(500).json({ error: 'Error fetching project owner' });
       }
 
       const userIsOwner = projectData?.created_by === requesterId;
 
-      // If not owner, check if requester has canRemoveUser privilege
       let requesterCanRemoveUser = false;
       if (!userIsOwner) {
         const { data: requesterCollab, error: requesterError } = await supabase
@@ -46,24 +45,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .single();
 
         if (requesterError) {
-          console.error('Error fetching requester privileges:', requesterError.message);
           return res.status(500).json({ error: 'Error fetching requester privileges' });
         }
 
         requesterCanRemoveUser = requesterCollab?.canRemoveUser ?? false;
       }
 
-      // If the requester is neither owner nor has canRemoveUser privilege, deny
       if (!userIsOwner && !requesterCanRemoveUser) {
         return res.status(403).json({ error: 'You do not have permission to remove collaborators.' });
       }
 
-      // Prevent removing the project owner
       if (userIsOwner && userId === requesterId) {
         return res.status(400).json({ error: 'Project owner cannot be removed.' });
       }
 
-      // Proceed to remove the collaborator
       const { error: deleteError } = await supabase
         .from('ProjectCollaborator')
         .delete()
@@ -71,30 +66,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .eq('userId', userId);
 
       if (deleteError) {
-        console.error('Error removing collaborator:', deleteError.message);
         return res.status(500).json({ error: 'Error removing collaborator' });
       }
 
       return res.status(200).json({ message: 'Collaborator removed successfully.' });
     } catch (err) {
-      console.error('Unexpected error removing collaborator:', err);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   } else if (req.method === 'PATCH') {
-    const { adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject } = req.body;
+    const { adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject, canEditAdminAccess } = req.body;
 
-    // Validate input types
-    if (typeof adminPrivileges !== 'boolean') {
-      return res.status(400).json({ error: 'Invalid adminPrivileges value' });
+    let updateData: any = {};
+
+    if (adminPrivileges !== undefined) {
+      if (typeof adminPrivileges !== 'boolean') {
+        return res.status(400).json({ error: 'Invalid adminPrivileges value' });
+      }
+      updateData.adminPrivileges = adminPrivileges;
+
+      if (adminPrivileges) {
+        updateData.canRemoveUser = true;
+        updateData.canRemoveChannel = true;
+        updateData.canEditProject = true;
+        updateData.canEditAdminAccess = true;
+      }
     }
 
-    let updateData: any = { adminPrivileges };
-
-    if (adminPrivileges) {
-      updateData.canRemoveUser = true;
-      updateData.canRemoveChannel = true;
-      updateData.canEditProject = true;
-    } else {
+    if (adminPrivileges !== true) {
       if (typeof canRemoveUser === 'boolean') {
         updateData.canRemoveUser = canRemoveUser;
       }
@@ -104,6 +102,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (typeof canEditProject === 'boolean') {
         updateData.canEditProject = canEditProject;
       }
+      if (typeof canEditAdminAccess === 'boolean') {
+        updateData.canEditAdminAccess = canEditAdminAccess;
+      }
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return res.status(400).json({ error: 'No valid fields provided for update' });
     }
 
     try {
@@ -116,18 +121,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         .single();
 
       if (error) {
-        console.error('Error updating privileges:', error.message);
         return res.status(500).json({ error: 'Error updating privileges' });
       }
 
       if (!data) {
-        console.error('No collaborator found to update.');
         return res.status(404).json({ error: 'Collaborator not found' });
       }
 
       return res.status(200).json({ collaborator: data, message: 'Privileges updated successfully.' });
     } catch (error) {
-      console.error('Internal server error:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   } else {

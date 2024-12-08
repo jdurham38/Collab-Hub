@@ -14,6 +14,7 @@ interface UseUserDataReturn {
   canRemoveUser: boolean;
   canRemoveChannel: boolean;
   canEditProject: boolean;
+  canEditAdminAccess: boolean;
   loading: boolean;
   error: string | null;
 }
@@ -24,6 +25,7 @@ const useUserData = (projectId: string): UseUserDataReturn => {
   const [canRemoveUser, setCanRemoveUser] = useState<boolean>(false);
   const [canRemoveChannel, setCanRemoveChannel] = useState<boolean>(false);
   const [canEditProject, setCanEditProject] = useState<boolean>(false);
+  const [canEditAdminAccess, setcanEditAdminAccess] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const supabase = getSupabaseClient();
@@ -62,6 +64,7 @@ const useUserData = (projectId: string): UseUserDataReturn => {
             setCanRemoveUser(privileges.canRemoveUser);
             setCanRemoveChannel(privileges.canRemoveChannel);
             setCanEditProject(privileges.canEditProject);
+            setcanEditAdminAccess(privileges.canEditAdminAccess);
             
             // Also store userIsOwner somewhere
             const userIsOwner = privileges.userIsOwner;
@@ -92,6 +95,7 @@ const useUserData = (projectId: string): UseUserDataReturn => {
     canRemoveUser,
     canRemoveChannel,
     canEditProject,
+    canEditAdminAccess,
     loading,
     error,
   };

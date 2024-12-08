@@ -1,12 +1,6 @@
 Name: CoDevelop
 
-users can be either dev, designer, sales, finance, marketing, business owner or other (might consolidate other business roles idk yet )
-
-users can enter location, bio, profile pic, interests, job title, idk what else
-
 users can view existing projects, explore users, explore projects based on location
-
-users can create a project (with description, title, project image (pre-select or custom), people needed, idk what else)
 
 users can be in a project workspace to add documentation, chat with each other, perform project management tasks, idk what else
 
@@ -69,13 +63,18 @@ Individual Projects page
 
 
     Settings
-            - admin access - cannot see themselves/remove themselves
-            - removing users - cannot see themselves/remove themselves
+            - Remove channels
+                - enhance styling
+            - admin access
+                - cannot see themselves/remove themselves
+                -enhance styling
+            - removing users
+                - cannot see themselves/remove themselves
+                - enhance styling
             - changing project details
+                - enhance styling
 
 
-
-for messaging check to see if the reason messages arent being sent right away every time is because of my machine (hopefully thats the case lol)
 
 
 try implementing promise.allSettled for multiple async operations 

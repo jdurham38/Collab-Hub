@@ -1,0 +1,101 @@
+.richTextEditor {
+    margin-bottom: 16px;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+    overflow: hidden;   border: 1px solid #ccc; }
+  
+  .ql-container {
+    border: none;   border-radius: 0;   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: #fff;
+    min-height: 300px; }
+  
+  .ql-toolbar {
+    border: none;   border-radius: 0;   background-color: #f9f9f9;
+  }
+  
+  .ql-editor {
+    min-height: 250px;   font-size: 14px;
+    line-height: 1.5;
+    border-radius: 0; }
+  
+  .ql-container.ql-snow,
+  .ql-toolbar.ql-snow {
+    transition: border-color 0.3s;
+    border: none;
+  }
+  
+  .ql-container.ql-snow:focus-within,
+  .ql-toolbar.ql-snow:focus-within {
+    border-color: #0070f3;
+  }
+  
+  .ql-toolbar button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 5px;
+    transition: background-color 0.3s;
+  }
+  
+  .ql-toolbar button:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .ql-toolbar button.ql-active {
+    background-color: #0070f3;
+    color: #fff;
+  }
+  
+  .ql-toolbar button:focus {
+    outline: none;
+  }
+  
+  .ql-toolbar .ql-picker {
+    color: #333;
+  }
+  
+  .ql-toolbar .ql-picker-label:hover,
+  .ql-toolbar .ql-picker-item:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .ql-tooltip {
+    border-radius: 4px;
+  }
+  
+  .ql-editor::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .ql-editor::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  .ql-editor::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 4px;
+  }
+  
+  .ql-editor::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+  
+  .descriptionInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #faedcd;
+    margin-bottom: 40px;
+  }
+  
+  .charCount {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  

@@ -8,6 +8,7 @@ export interface Privileges {
   canRemoveChannel: boolean;
   canEditProject: boolean;
   canCreateChannel: boolean;
+  canEditAdminAccess: boolean;
 }
 
 export const validatePrivileges = async (
@@ -29,6 +30,7 @@ export const validatePrivileges = async (
       canRemoveChannel: data.canRemoveChannel ?? false,
       canEditProject: data.canEditProject ?? false,
       canCreateChannel: data.canCreateChannel ?? false,
+      canEditAdminAccess: data.canEditAdminAccess ?? false,
     };
   } catch (error) {
     if (axios.isAxiosError(error)) {

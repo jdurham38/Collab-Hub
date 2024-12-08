@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const { data: collaboratorsData, error: collaboratorsError } = await supabase
       .from('ProjectCollaborator')
-      .select('userId, adminPrivileges, canEditProject, canRemoveChannel, canRemoveUser')
+      .select('userId, adminPrivileges, canEditProject, canRemoveChannel, canRemoveUser, canEditAdminAccess')
       .eq('projectId', projectId);
 
     if (collaboratorsError) {
@@ -53,6 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         canEditProject: collab.canEditProject,
         canRemoveChannel: collab.canRemoveChannel,
         canRemoveUser: collab.canRemoveUser,
+        canEditAdminAccess: collab.canEditAdminAccess,
         username: user?.username || null,
         email: user?.email || null,
       };

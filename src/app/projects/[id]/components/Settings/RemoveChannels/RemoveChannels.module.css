@@ -1,90 +1,254 @@
+/* RemoveChannels.module.css */
+
+/* Base Styles */
 .container {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333333;
+}
+
+.addButton {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.addButton:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.addButton:active {
+  transform: translateY(0);
+}
+
+.error {
+  color: #f44336;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.loading {
+  font-size: 1rem;
+  color: #555555;
+  text-align: center;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.listItem:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.channelName {
+  font-size: 1rem;
+  color: #333333;
+  word-break: break-word; /* Prevent overflow with long names */
+}
+
+.deleteButton {
+  position: relative;
+  padding: 6px 12px;
+  background-color: #f44336;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteButton:hover:not(:disabled) {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+}
+
+.deleteButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.deleteButton:disabled {
+  background-color: #e57373;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+/* Save Button (if applicable in future enhancements) */
+.saveButton {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.saveButton:hover {
+  background-color: #0069d9;
+  transform: translateY(-2px);
+}
+
+.saveButton:active {
+  transform: translateY(0);
+}
+
+.saveButton:disabled {
+  background-color: #a0c5f7;
+  cursor: not-allowed;
+}
+
+.unsavedIndicator {
+  color: orange;
+  font-size: 1.2rem;
+}
+
+/* Responsive Styles */
+
+/* Mobile Devices (width <= 600px) */
+@media (max-width: 600px) {
+  .container {
+    padding: 16px;
+    border-radius: 6px;
   }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
+
   .title {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.25rem;
+    text-align: center;
   }
-  
+
   .addButton {
-    padding: 8px 16px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .addButton:hover {
-    background-color: #45a049;
-  }
-  
-  .error {
-    color: red;
-    margin-bottom: 10px;
-  }
-  
-  .loading {
+    padding: 10px 14px;
     font-size: 1rem;
-    color: #555;
+    width: 100%;
+    margin-top: 10px;
   }
-  
-  .list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
+
   .listItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .listItem:hover {
-    background-color: #f1f1f1;
-  }
-  
+
   .channelName {
+    margin-bottom: 10px;
     font-size: 1rem;
-    color: #333;
   }
-  
+
   .deleteButton {
-    padding: 4px 8px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    padding: 8px 16px;
+    font-size: 1rem;
+    width: 100%;
   }
-  
-  .deleteButton:disabled {
-    background-color: #e57373;
-    cursor: not-allowed;
+
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #ffffff;
+    border-top: 3px solid #ffffff;
   }
-  
-  .deleteButton:hover:not(:disabled) {
-    background-color: #d32f2f;
+
+  .saveButton {
+    padding: 12px 20px;
+    font-size: 1.1rem;
   }
+}
+
+/* Tablet Devices (600px < width <= 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .container {
+    padding: 18px;
+    max-width: 80%;
+  }
+
+  .title {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .addButton {
+    padding: 9px 15px;
+    font-size: 0.95rem;
+  }
+
+  .listItem {
+    flex-direction: row;
+  }
+
+  .deleteButton {
+    padding: 7px 14px;
+    font-size: 0.95rem;
+  }
+
+  .spinner {
+    width: 17px;
+    height: 17px;
+    border: 2.5px solid #ffffff;
+    border-top: 2.5px solid #ffffff;
+  }
+
+  .saveButton {
+    padding: 11px 19px;
+    font-size: 1rem;
+  }
+}
+
+/* Animation Keyframes */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

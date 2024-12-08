@@ -41,13 +41,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           canRemoveChannel: true,
           canEditProject: true,
           canCreateChannel: true, // For example, owner can also create channel
+          canEditAdminAccess: true,
         });
       }
 
       // Fetch collaborator privileges if not the owner
       const { data: collaborator, error: collaboratorError } = await supabase
         .from('ProjectCollaborator')
-        .select('adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject')
+        .select('adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject, canEditAdminAccess')
         .eq('projectId', projectId)
         .eq('userId', userId)
         .single();
@@ -57,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(500).json({ error: 'Error fetching collaborator' });
       }
 
-      const canCreateChannel = collaborator?.adminPrivileges || collaborator?.canEditProject || false;
+      const canCreateChannel = collaborator?.adminPrivileges || collaborator?.canEditProject || collaborator?.canEditAdminAccess || false;
 
       return res.status(200).json({
         userIsOwner: false,
@@ -65,6 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         canRemoveUser: collaborator?.canRemoveUser ?? false,
         canRemoveChannel: collaborator?.canRemoveChannel ?? false,
         canEditProject: collaborator?.canEditProject ?? false,
+        canEditAdminAccess: collaborator?.canEditAdminAccess ?? false,
         canCreateChannel,
       });
     } catch (error) {

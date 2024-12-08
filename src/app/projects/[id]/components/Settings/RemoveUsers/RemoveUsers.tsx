@@ -1,4 +1,5 @@
-// components/Settings/RemoveUsers/RemoveUsers.tsx
+// RemoveUsers.tsx
+
 'use client';
 
 import React from 'react';
@@ -24,7 +25,7 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
   const { collaborators, loading, error, setCollaborators, refetch } =
     useCollaborators(projectId);
 
-  if (loading) return <p>Loading collaborators...</p>;
+  if (loading) return <p className={styles.loading}>Loading collaborators...</p>;
   if (error)
     return <p className={`${styles.error}`}>Error: {error}</p>;
 
@@ -35,38 +36,38 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
         return;
       }
 
-      // Prevent removing the current user
       if (collab.userId === currentUserId) {
         toast.error('You cannot remove yourself.');
         return;
       }
 
-      // Optimistic UI update
       setCollaborators((prev) =>
         prev.filter((c) => c.userId !== collab.userId)
       );
 
-      // Pass currentUserId as requesterId
       await removeCollaborator(projectId, collab.userId, currentUserId);
 
       toast.success('Collaborator removed successfully.');
     } catch (err: any) {
       toast.error(err.message || 'Failed to remove collaborator');
-      // Revert on failure by refetching
       refetch();
     }
   };
 
   return (
     <div className={styles.container}>
-      <h3>Remove Users</h3>
+      <div className={styles.header}>
+        <h3 className={styles.title}>Remove Users</h3>
+        {/* Optional: Add a button to add users */}
+        {/* <button className={styles.addButton}>Add User</button> */}
+      </div>
       {collaborators.length === 0 ? (
         <p>No collaborators found.</p>
       ) : (
         <ul className={styles.list}>
           {collaborators.map((collab) => (
             <li key={collab.userId} className={styles.listItem}>
-              <span>
+              <span className={styles.userLabel}>
                 {collab.username || collab.email || collab.userId}
               </span>
               {(userIsOwner || canRemoveUser) &&
@@ -74,8 +75,9 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
                   <button
                     className={styles.removeButton}
                     onClick={() => handleRemove(collab)}
+                    aria-label={`Remove user ${collab.username || collab.email}`}
                   >
-                    Remove
+                    &#10005;
                   </button>
                 )}
             </li>

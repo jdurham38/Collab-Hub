@@ -30,6 +30,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
     canRemoveUser,
     canRemoveChannel,
     canEditProject,
+    canEditAdminAccess,
     loading: userLoading,
     error: userError,
   } = useUserData(projectId);
@@ -51,7 +52,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
 
   // We'll rely on the Settings component itself to handle visibility of its internal tabs.
   // But we only show the "settings" tab if the user has any privileges that warrant showing settings
-  const hasAnySettingsPrivilege = adminPrivileges || canRemoveUser || canRemoveChannel || canEditProject;
+  const hasAnySettingsPrivilege = adminPrivileges || canRemoveUser || canRemoveChannel || canEditProject || canEditAdminAccess;
   if (hasAnySettingsPrivilege) {
     tabs.push('settings');
   }
@@ -82,6 +83,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
               canRemoveUser,
               canRemoveChannel,
               canEditProject,
+              canEditAdminAccess,
             }}
             currentUserId={currentUser.id}
             userIsOwner={userIsOwner}
