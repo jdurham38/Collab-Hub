@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import { RealtimeChannel } from '@supabase/supabase-js';
+import { useEffect, useRef } from 'react';
+import { RealtimeChannel, PostgrestError } from '@supabase/supabase-js';
 import { Message, User } from '@/utils/interfaces';
+import getSupabaseClient from '@/lib/supabaseClient/supabase';
 
 interface UseMessageSubscriptionParams {
-  supabase: any;
   initialLoadCompleted: boolean;
   channelId: string;
   currentUserId: string;
@@ -15,8 +15,11 @@ interface UseMessageSubscriptionParams {
   userMap: { [key: string]: User };
 }
 
+interface PostgresChangesPayload {
+  [key: string]: any;
+}
+
 const useMessageSubscription = ({
-  supabase,
   initialLoadCompleted,
   channelId,
   currentUserId,
@@ -27,20 +30,80 @@ const useMessageSubscription = ({
   isUserAtBottom,
   setNewMessagesCount,
 }: UseMessageSubscriptionParams) => {
+  const userMapRef = useRef<{ [key: string]: User }>(userMap);
+  const supabase = getSupabaseClient();
+
+  useEffect(() => {
+    userMapRef.current = userMap;
+  }, [userMap]);
+
   useEffect(() => {
     if (!initialLoadCompleted) return;
 
-    const channel: RealtimeChannel = supabase.channel(`public:messages:channel_id=eq.${channelId}`);
+    const channel: RealtimeChannel = supabase.channel(
+      `public:messages:channel_id=eq.${channelId}`
+    );
+
+    const handleInsertRef: (payload: PostgresChangesPayload) => void = async (
+      payload: PostgresChangesPayload
+    ) => {
+      const newMessage = payload.new as Message;
+      const user = await fetchUserIfNeeded(newMessage.user_id);
+
+      setMessages((prevMessages) => {
+        const updated = [...prevMessages, { ...newMessage, users: user }].sort(
+          (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+        );
+
+        const isAtBottomNow = isUserAtBottom();
+
+        if (!isAtBottomNow && newMessage.user_id !== currentUserId) {
+          setNewMessagesCount((prev) => prev + 1);
+        } else if (isAtBottomNow) {
+          scrollToBottom();
+        }
+
+        return updated;
+      });
+    };
+
+    const handleUpdateRef: (payload: PostgresChangesPayload) => void = async (
+      payload: PostgresChangesPayload
+    ) => {
+      const updatedMessage = payload.new as Message;
+      const user = userMapRef.current[updatedMessage.user_id] || {
+        username: 'Unknown User',
+        email: '',
+      };
+
+      setMessages((prevMessages) =>
+        prevMessages.map((msg) =>
+          msg.id === updatedMessage.id ? { ...updatedMessage, users: user } : msg
+        )
+      );
+    };
+
+    const handleDeleteRef: (payload: PostgresChangesPayload) => void = (
+      payload: PostgresChangesPayload
+    ) => {
+      const deletedMessageId = payload.old?.id;
+      if (deletedMessageId) {
+        setMessages((prevMessages) =>
+          prevMessages.filter((msg) => msg.id !== deletedMessageId)
+        );
+      }
+    };
 
     const fetchUserIfNeeded = async (userId: string): Promise<User> => {
-      if (userMap[userId]) {
-        return userMap[userId];
+      if (userMapRef.current[userId]) {
+        return userMapRef.current[userId];
       }
-      const { data, error } = await supabase
-        .from('users')
-        .select('id, username, email')
-        .eq('id', userId)
-        .single();
+      const { data, error }: { data: User | null; error: PostgrestError | null } =
+        await supabase
+          .from('users')
+          .select('id, username, email')
+          .eq('id', userId)
+          .single();
 
       if (error || !data) {
         return { id: userId, username: 'Unknown User', email: '' };
@@ -50,68 +113,36 @@ const useMessageSubscription = ({
       return data;
     };
 
-    const handleInsert = async (payload: any) => {
-        const newMessage = payload.new as Message;
-        const user = await fetchUserIfNeeded(newMessage.user_id);
-      
-        setMessages((prevMessages) => {
-          if (prevMessages.some((msg) => msg.id === newMessage.id)) {
-            return prevMessages;
-          }
-      
-          const updated = [...prevMessages, { ...newMessage, users: user }].sort(
-            (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-          );
-      
-          const isAtBottomNow = isUserAtBottom();
-      
-          // If the message is not from the current user and user is not at bottom, show indicator
-          // If the message is from the current user, do NOT show indicator regardless of position.
-          if (!isAtBottomNow && newMessage.user_id !== currentUserId) {
-            setNewMessagesCount((prev) => prev + 1);
-          } else if (isAtBottomNow) {
-            // If user is at bottom, always scroll
-            scrollToBottom();
-          }
-      
-          return updated;
-        });
-      };
-      
-
-    const handleUpdate = async (payload: any) => {
-      const updatedMessage = payload.new as Message;
-      const user = userMap[updatedMessage.user_id] || { username: 'Unknown User', email: '' };
-
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === updatedMessage.id ? { ...updatedMessage, users: user } : msg
-        )
-      );
-    };
-
-    const handleDelete = (payload: any) => {
-      const deletedMessageId = payload.old?.id;
-      if (deletedMessageId) {
-        setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== deletedMessageId));
-      }
-    };
-
     channel
       .on(
         'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'messages', filter: `channel_id=eq.${channelId}` },
-        handleInsert
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `channel_id=eq.${channelId}`,
+        },
+        handleInsertRef
       )
       .on(
         'postgres_changes',
-        { event: 'UPDATE', schema: 'public', table: 'messages', filter: `channel_id=eq.${channelId}` },
-        handleUpdate
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'messages',
+          filter: `channel_id=eq.${channelId}`,
+        },
+        handleUpdateRef
       )
       .on(
         'postgres_changes',
-        { event: 'DELETE', schema: 'public', table: 'messages', filter: `channel_id=eq.${channelId}` },
-        handleDelete
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'messages',
+          filter: `channel_id=eq.${channelId}`,
+        },
+        handleDeleteRef
       )
       .subscribe((status) => {
         if (status !== 'SUBSCRIBED') {
@@ -120,20 +151,23 @@ const useMessageSubscription = ({
       });
 
     return () => {
-      supabase.removeChannel(channel);
+      channel
+        .unsubscribe()
+        .then(() => {
+          console.log('Unsubscribed from channel');
+          supabase.removeChannel(channel);
+        })
+        .catch((error: any) => {
+          console.error('Error unsubscribing from channel:', error);
+        });
     };
   }, [
-    supabase,
     initialLoadCompleted,
     channelId,
     currentUserId,
-    userMap,
-    setUserMap,
-    setMessages,
-    scrollToBottom,
-    isUserAtBottom,
-    setNewMessagesCount,
   ]);
+
+  return null;
 };
 
 export default useMessageSubscription;

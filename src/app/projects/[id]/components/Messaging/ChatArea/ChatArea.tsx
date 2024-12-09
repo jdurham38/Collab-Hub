@@ -3,7 +3,7 @@
 import React, { useState, useRef, useMemo, useEffect, useLayoutEffect } from 'react';
 import styles from './ChatArea.module.css';
 import { sendMessage, editMessage, deleteMessage } from '@/services/messageService';
-import { Message, User } from '@/utils/interfaces';
+import { User } from '@/utils/interfaces';
 import { createClient } from '@supabase/supabase-js';
 import ChatHeader from './ChatHeader/ChatHeader';
 import MessageList from './MessageList/MessageList';
@@ -156,38 +156,21 @@ const ChatArea: React.FC<ChatAreaProps> = ({
     e.preventDefault();
     if (!newMessage.trim()) return;
   
-    const wasAtBottom = isUserAtBottom();
-    const tempMessageId = 'temp-id-' + Date.now();
-    const tempMessage: Message = {
-      id: tempMessageId,
-      channel_id: channelId,
-      content: newMessage.trim(),
-      timestamp: new Date().toISOString(),
-      user_id: currentUser.id,
-      users: currentUser,
-      edited: false
-    };
-  
-    setMessages((prev) => [...prev, tempMessage]);
-  
-    // If user was at bottom, schedule a scroll after the DOM updates
-    if (wasAtBottom) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          scrollToBottom('smooth');
-        });
-      });
-    }
+    const wasAtBottom = isUserAtBottom(); // Check if at bottom before sending
   
     try {
       await sendMessage(projectId, channelId, newMessage.trim(), currentUser.id);
+  
+      // If sending was successful and user was at the bottom, scroll
+      if (wasAtBottom) {
+        scrollToBottom('smooth');
+      }
     } catch (err) {
       console.error('Error sending message:', err);
     }
   
     setNewMessage('');
   };
-  
   const handleEditMessage = (messageId: string) => {
     setEditingMessageId(messageId);
     const message = messages.find((msg) => msg.id === messageId);

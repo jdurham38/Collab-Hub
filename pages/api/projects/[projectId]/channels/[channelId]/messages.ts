@@ -23,26 +23,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .select('*, users(username, email)')
           .eq('channel_id', channelId)
           .order('timestamp', { ascending: true });
-
+    
         if (error) {
           console.error('Error fetching messages:', error.message);
           return res.status(500).json({ error: 'Error fetching messages' });
         }
-
-        return res.status(200).json({ messages });
+    
+        // Correct: Directly return the 'messages' array
+        return res.status(200).json(messages); 
       } catch (err) {
         console.error('Unexpected error fetching messages:', err);
         return res.status(500).json({ error: 'Internal Server Error' });
       }
 
     case 'POST':
-      const { content, user_id } = req.body;
 
-      if (!content || !user_id) {
-        return res.status(400).json({ error: 'Content and user_id are required' });
-      }
+
 
       try {
+        const { content, user_id } = req.body;
+        if (!content || !user_id) {
+          return res.status(400).json({ error: 'Content and user_id are required' });
+        }
         const { error } = await supabase.from('messages').insert([
           {
             content: content.trim(),

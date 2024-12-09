@@ -14,7 +14,8 @@ export const fetchMessages = async (
     const response = await axios.get(
       `/api/projects/${projectId}/channels/${channelId}/messages`,
     );
-    return response.data.messages;
+    // Directly return the messages array (adjust if your API response is structured differently)
+    return response.data; 
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
@@ -28,23 +29,23 @@ export const fetchMessages = async (
 
 /**
  * Send a new message.
- * Returns the created Message object.
  */
 export const sendMessage = async (
   projectId: string,
   channelId: string,
   content: string,
-  user_id: string,
+  user_id: string, // Use user_id consistently
 ): Promise<Message> => {
   try {
     const response = await axios.post(
       `/api/projects/${projectId}/channels/${channelId}/messages`,
       {
         content,
-        user_id,
+        user_id, // Send as user_id
       },
     );
-    return response.data.message; // Assuming the API returns the created message
+    // Directly return the created message (adjust if needed)
+    return response.data; 
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
@@ -58,7 +59,6 @@ export const sendMessage = async (
 
 /**
  * Edit an existing message.
- * Returns the updated Message object.
  */
 export const editMessage = async (
   messageId: string,
@@ -68,7 +68,8 @@ export const editMessage = async (
     const response = await axios.put(`/api/messages/${messageId}`, {
       content,
     });
-    return response.data.message; // Assuming the API returns the updated message
+    // Directly return the updated message (adjust if needed)
+    return response.data; 
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
