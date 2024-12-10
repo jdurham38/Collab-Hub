@@ -13,6 +13,7 @@ interface UseMessageSubscriptionParams {
   isUserAtBottom: () => boolean;
   setNewMessagesCount: React.Dispatch<React.SetStateAction<number>>;
   userMap: { [key: string]: User };
+  activeChat: User | Channel | null;
 }
 
 interface PostgresChangesPayload {

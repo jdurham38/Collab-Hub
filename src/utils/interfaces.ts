@@ -84,3 +84,13 @@ export interface Collaborator {
   canEditAdminAccess: boolean;
   // Add any additional fields as necessary
 }
+
+export interface DirectMessage {
+  id: string;
+  project_id: string;
+  sender_id: string;
+  recipient_id: string;
+  content: string;
+  timestamp: string;
+  edited: boolean;
+}

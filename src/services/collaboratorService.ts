@@ -1,11 +1,11 @@
 // File: services/collaboratorService.ts
 
 import axios from 'axios';
-import { User } from '@/utils/interfaces';
+import { Collaborator } from '@/utils/interfaces';
 
 export const fetchProjectCollaborators = async (
   projectId: string,
-): Promise<User[]> => {
+): Promise<Collaborator[]> => {
   if (!projectId) {
     throw new Error('Project ID is required');
   }

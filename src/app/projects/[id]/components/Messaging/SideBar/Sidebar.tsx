@@ -4,8 +4,7 @@ import ChannelCreationModal from '../ChannelCreation/ChannelCreation';
 import { useUnreadStore } from '@/store/useUnreadStore';
 import styles from './Sidebar.module.css';
 import { updateReadStatus } from '@/services/readStatusService';
-
-// Corrected imports for custom hooks
+import useCollaborators from '@/hooks/individualProjects/messages/chatArea/useCollaborators';
 import useCanCreateChannel from '@/hooks/individualProjects/messages/sidebar/useCanCreateChannel';
 import useLoadUnreadCounts from '@/hooks/individualProjects/messages/sidebar/useLoadUnreadCounts';
 import useMessageSubscription from '@/hooks/individualProjects/messages/sidebar/useMessageSubscription';
@@ -16,8 +15,13 @@ interface Channel {
 }
 
 interface SidebarProps {
-  activeChat: { id: string; name: string } | null;
-  setActiveChat: (chat: { id: string; name: string }) => void;
+  activeChat: { id: string; name: string; type?: 'channel' | 'dm'; recipient_id?: string } | null;
+  setActiveChat: (chat: {
+    id: string;
+    name: string;
+    type?: 'channel' | 'dm';
+    recipient_id?: string;
+  }) => void;
   projectId: string;
   currentUserId: string;
   channelList: Channel[];
@@ -33,25 +37,42 @@ const Sidebar: React.FC<SidebarProps> = ({
   addNewChannel,
 }) => {
   const { setUnreadCount, incrementUnreadCount, resetUnreadCount } = useUnreadStore();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const canCreateChannel = useCanCreateChannel(projectId, currentUserId);
   useLoadUnreadCounts(currentUserId, setUnreadCount);
   useMessageSubscription(currentUserId, incrementUnreadCount, activeChat);
 
-  const handleSetActiveChat = async (channel: { id: string; name: string }) => {
-    setActiveChat(channel);
-    try {
-      await updateReadStatus(channel.id, currentUserId);
-      resetUnreadCount(channel.id);
-    } catch (error) {
-      console.error('Error updating read status:', error);
+  const { collaborators, isLoading: isLoadingCollaborators, error: collaboratorsError } =
+    useCollaborators(projectId);
+
+  const handleSetActiveChat = async (chat: {
+    id: string;
+    name: string;
+    type?: 'channel' | 'dm';
+    recipient_id?: string;
+  }) => {
+    setActiveChat(chat);
+    if (chat.type === 'channel') {
+      try {
+        await updateReadStatus(chat.id, currentUserId);
+        resetUnreadCount(chat.id);
+      } catch (error) {
+        console.error('Error updating read status:', error);
+      }
     }
   };
 
   const handleChannelCreated = () => {
     addNewChannel();
   };
+
+  if (isLoadingCollaborators || collaborators === null) {
+    return <div className={styles.sidebar}>Loading collaborators...</div>;
+  }
+
+  if (collaboratorsError) {
+    return <div className={styles.sidebar}>Error loading collaborators.</div>;
+  }
 
   return (
     <div className={styles.sidebar}>
@@ -61,8 +82,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           <ChannelListItem
             key={channel.id}
             channel={channel}
-            isActive={activeChat?.id === channel.id}
-            onClick={() => handleSetActiveChat(channel)}
+            isActive={activeChat?.id === channel.id && activeChat?.type === 'channel'}
+            onClick={() => handleSetActiveChat({ ...channel, type: 'channel' })}
           />
         ))}
       </ul>
@@ -71,6 +92,30 @@ const Sidebar: React.FC<SidebarProps> = ({
           Add Channel
         </button>
       )}
+
+      <h3>Collaborators</h3>
+      <ul className={styles.collaboratorList}>
+        {collaborators.map((collaborator) => (
+          <li
+            key={collaborator.userId}
+            className={`${styles.collaboratorItem} ${
+              activeChat?.recipient_id === collaborator.userId && activeChat?.type === 'dm'
+                ? styles.active
+                : ''
+            }`}
+            onClick={() => {
+              handleSetActiveChat({
+                id: collaborator.userId,
+                name: collaborator.username || collaborator.email,
+                type: 'dm',
+                recipient_id: collaborator.userId,
+              });
+            }}
+          >
+            {collaborator.username || collaborator.email}
+          </li>
+        ))}
+      </ul>
 
       {isModalOpen && (
         <ChannelCreationModal
