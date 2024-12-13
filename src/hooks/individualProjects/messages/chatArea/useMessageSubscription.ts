@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { RealtimeChannel, PostgrestError } from '@supabase/supabase-js';
 import { Message, User } from '@/utils/interfaces';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
-
 interface UseMessageSubscriptionParams {
   initialLoadCompleted: boolean;
   channelId: string;
@@ -13,10 +12,10 @@ interface UseMessageSubscriptionParams {
   isUserAtBottom: () => boolean;
   setNewMessagesCount: React.Dispatch<React.SetStateAction<number>>;
   userMap: { [key: string]: User };
-  activeChat: User | Channel | null;
 }
 
 interface PostgresChangesPayload {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
@@ -158,9 +157,12 @@ const useMessageSubscription = ({
           console.log('Unsubscribed from channel');
           supabase.removeChannel(channel);
         })
-        .catch((error: any) => {
-          console.error('Error unsubscribing from channel:', error);
-        });
+        .catch((error: unknown) => {
+          if(error instanceof Error){
+          console.error('Error unsubscribing from channel:', error.message);
+    } else{
+      console.error('an unknown error has occurred', error)
+    }});
     };
   }, [
     initialLoadCompleted,

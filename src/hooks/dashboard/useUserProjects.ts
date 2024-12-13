@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { getUserProjects } from '@/services/Dashboard/getUserProjects';
+
 
 interface Project {
   id: string;
@@ -21,14 +23,8 @@ const useUserProjects = (userId: string | undefined) => {
       console.log('Fetching user projects...');
 
       try {
-        const response = await fetch(`/api/projects/user-projects?userId=${userId}`);
-        if (!response.ok) {
-          const errorMessage = 'Failed to fetch projects';
-          setError(errorMessage);
-          throw new Error(errorMessage);
-        }
-        const data: Project[] = await response.json();
-        setProjects(data);
+        const userProjectData = await getUserProjects(userId);
+        setProjects(userProjectData);
         setError(null); // Clear any previous errors
       } catch (error) {
         console.error('Error fetching projects:', error);

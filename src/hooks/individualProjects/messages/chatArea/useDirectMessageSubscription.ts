@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { RealtimeChannel, SupabaseClient, PostgrestError } from '@supabase/supabase-js';
 import { DirectMessage, User } from '@/utils/interfaces';
 
 interface UseDirectMessageSubscriptionParams {
   initialLoadCompleted: boolean;
-  currentUserId: string; // Should be string
+  currentUserId: string;
   recipient_id: string;
   setUserMap: React.Dispatch<React.SetStateAction<{ [key: string]: User }>>;
   setMessages: React.Dispatch<React.SetStateAction<DirectMessage[]>>;
@@ -39,6 +39,7 @@ const useDirectMessageSubscription = ({
   const setNewMessagesCountRef = useRef<React.Dispatch<React.SetStateAction<number>>>(setNewMessagesCount);
   const [channel, setChannel] = useState<RealtimeChannel | null>(null);
 
+  // Update refs whenever the corresponding values change
   useEffect(() => {
     userMapRef.current = userMap;
     setMessagesRef.current = setMessages;
@@ -48,87 +49,11 @@ const useDirectMessageSubscription = ({
     setNewMessagesCountRef.current = setNewMessagesCount;
   }, [userMap, setMessages, setUserMap, isUserAtBottom, scrollToBottom, setNewMessagesCount]);
 
-  useEffect(() => {
-    // Add logs to check the types and values
-    console.log("Type of currentUserId in useEffect:", typeof currentUserId);
-    console.log("Value of currentUserId in useEffect:", currentUserId);
-    console.log("Type of recipient_id in useEffect:", typeof recipient_id);
-    console.log("Value of recipient_id in useEffect:", recipient_id);
-
-    if (!initialLoadCompleted || !currentUserId || !recipient_id) {
-      return;
-    }
-
-    const channelName =
-      currentUserId < recipient_id // Compare as strings
-        ? `direct_messages-${currentUserId}-${recipient_id}`
-        : `direct_messages-${recipient_id}-${currentUserId}`;
-
-    const newChannel: RealtimeChannel = supabase.channel(channelName);
-
-    const handleInsert = async (payload: PostgresChangesPayload) => {
-      console.log("handleInsert triggered:", payload);
-      const newMessage = payload.new as DirectMessage;
-
-      // Use currentUserId directly (it should be a string)
-      if (
-        (newMessage.sender_id === currentUserId && newMessage.recipient_id === recipient_id) ||
-        (newMessage.sender_id === recipient_id && newMessage.recipient_id === currentUserId)
-      ) {
-        const user = await fetchUserIfNeeded(newMessage.sender_id);
-        console.log("User fetched in handleInsert:", user);
-
-        setMessagesRef.current((prevMessages) => {
-          const updatedMessages = [...prevMessages, { ...newMessage, users: user }].sort(
-            (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
-          );
-          console.log("Updated messages in handleInsert:", updatedMessages);
-
-          const isAtBottom = isUserAtBottomRef.current();
-
-          if (!isAtBottom && newMessage.sender_id !== currentUserId) {
-            setNewMessagesCountRef.current((prev) => prev + 1);
-          }
-
-          if (isAtBottom) {
-            setTimeout(() => {
-              scrollToBottomRef.current('smooth');
-            }, 50);
-          }
-
-          return updatedMessages;
-        });
-      }
-    };
-
-    const handleUpdate = async (payload: PostgresChangesPayload) => {
-      console.log("handleUpdate triggered:", payload);
-      const updatedMessage = payload.new as DirectMessage;
-
-      setMessagesRef.current((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === updatedMessage.id
-            ? {
-                ...updatedMessage,
-                users: userMapRef.current[updatedMessage.sender_id] || { username: 'Unknown User', email: '' },
-              }
-            : msg
-        )
-      );
-    };
-
-    const handleDelete = (payload: PostgresChangesPayload) => {
-      console.log("handleDelete triggered:", payload);
-      const deletedMessageId = payload.old?.id;
-
-      if (deletedMessageId) {
-        setMessagesRef.current((prevMessages) => prevMessages.filter((msg) => msg.id !== deletedMessageId));
-      }
-    };
-
-    const fetchUserIfNeeded = async (userId: string): Promise<User> => {
+  // useCallback for fetchUserIfNeeded
+  const fetchUserIfNeeded = useCallback(
+    async (userId: string): Promise<User> => {
       if (userMapRef.current[userId]) {
-        console.log("User found in userMap:", userMapRef.current[userId]);
+        console.log('User found in userMap:', userMapRef.current[userId]);
         return userMapRef.current[userId];
       }
 
@@ -139,55 +64,126 @@ const useDirectMessageSubscription = ({
         .single();
 
       if (error || !data) {
-        console.error("Error fetching user:", error);
+        console.error('Error fetching user:', error);
         return { id: userId, username: 'Unknown User', email: '' };
       }
 
-      console.log("User fetched from Supabase:", data);
+      console.log('User fetched from Supabase:', data);
       setUserMapRef.current((prev) => ({ ...prev, [data.id]: data }));
       return data;
-    };
+    },
+    [supabase]
+  );
 
-    newChannel
-    .on(
-      'postgres_changes',
-      {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'direct_messages',
-        filter: `or=(sender_id.eq.${currentUserId},recipient_id.eq.${currentUserId}),and(sender_id.eq.${recipient_id},recipient_id.eq.${currentUserId})`,
-      },
-      handleInsert
-    )
-    .on(
-      'postgres_changes',
-      {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'direct_messages',
-        filter: `or=(sender_id.eq.${currentUserId},recipient_id.eq.${currentUserId}),and(sender_id.eq.${recipient_id},recipient_id.eq.${currentUserId})`,
-      },
-      handleUpdate
-    )
-    .on(
-      'postgres_changes',
-      {
-        event: 'DELETE',
-        schema: 'public',
-        table: 'direct_messages',
-        filter: `or=(sender_id.eq.${currentUserId},recipient_id.eq.${currentUserId}),and(sender_id.eq.${recipient_id},recipient_id.eq.${currentUserId})`,
-      },
-      handleDelete
-    )
-      .subscribe((status) => {
-        if (status === 'SUBSCRIBED') {
-          console.log('Subscription successful');
-          setChannel(newChannel);
-        } else {
-          console.error(`Subscription error: ${status}`);
-        }
-      });
+  useEffect(() => {
+    console.log('Type of currentUserId in useEffect:', typeof currentUserId);
+    console.log('Value of currentUserId in useEffect:', currentUserId);
+    console.log('Type of recipient_id in useEffect:', typeof recipient_id);
+    console.log('Value of recipient_id in useEffect:', recipient_id);
 
+    if (!initialLoadCompleted || !currentUserId || !recipient_id) {
+      return;
+    }
+
+    const channelName = `direct_messages:recipient_id=eq.${recipient_id},sender_id=eq.${currentUserId}`;
+    const newChannel: RealtimeChannel = supabase.channel(channelName);
+    
+     // Define event handlers INSIDE the useEffect
+     const handleInsert = async (payload: PostgresChangesPayload) => {
+       console.log('handleInsert triggered:', payload);
+       const newMessage = payload.new as DirectMessage;
+     
+       if (
+         (newMessage.sender_id === currentUserId && newMessage.recipient_id === recipient_id) ||
+         (newMessage.sender_id === recipient_id && newMessage.recipient_id === currentUserId)
+       ) {
+         const user = await fetchUserIfNeeded(newMessage.sender_id);
+         console.log('User fetched in handleInsert:', user);
+     
+         setMessagesRef.current((prevMessages) => {
+           const updatedMessages = [...prevMessages, { ...newMessage, users: user }];
+           console.log('Updated messages in handleInsert:', updatedMessages);
+    
+           console.log("Calling setMessagesRef.current with:", updatedMessages);    
+           // Log before returning to verify the new array
+           console.log("About to return updated messages from handleInsert:", updatedMessages);
+     
+           if (isUserAtBottomRef.current()) {
+             setTimeout(() => {
+               scrollToBottomRef.current('smooth');
+             }, 50);
+           }
+     
+           return updatedMessages;
+         });
+       }
+     };
+    
+     const handleUpdate = async (payload: PostgresChangesPayload) => {
+       console.log('handleUpdate triggered:', payload);
+       const updatedMessage = payload.new as DirectMessage;
+    
+       setMessagesRef.current((prevMessages) =>
+         prevMessages.map((msg) =>
+           msg.id === updatedMessage.id
+             ? {
+                 ...updatedMessage,
+                 users: userMapRef.current[updatedMessage.sender_id] || { username: 'Unknown User', email: '' },
+               }
+             : msg
+         )
+       );
+     };
+    
+     const handleDelete = (payload: PostgresChangesPayload) => {
+       console.log('handleDelete triggered:', payload);
+       const deletedMessageId = payload.old?.id;
+    
+       if (deletedMessageId) {
+         setMessagesRef.current((prevMessages) => prevMessages.filter((msg) => msg.id !== deletedMessageId));
+       }
+     };
+     // Subscribe with the correctly filtered event handlers
+     newChannel
+       .on(
+         'postgres_changes',
+         {
+           event: 'INSERT',
+           schema: 'public',
+           table: 'direct_messages',
+                 },
+         handleInsert
+       )
+       .on(
+         'postgres_changes',
+         {
+           event: 'UPDATE',
+           schema: 'public',
+           table: 'direct_messages',
+           
+         },
+         handleUpdate
+       )
+       .on(
+         'postgres_changes',
+         {
+           event: 'DELETE',
+           schema: 'public',
+           table: 'direct_messages',
+         },
+         handleDelete
+       )
+       .subscribe((status) => {
+         if (status === 'SUBSCRIBED') {
+           console.log('Subscription successful');
+           setChannel(newChannel);
+         } else {
+           console.error(`Subscription error: ${status}`);
+         }
+       });
+
+
+    // Cleanup function
     return () => {
       if (channel) {
         channel.unsubscribe().then(() => {
@@ -197,7 +193,7 @@ const useDirectMessageSubscription = ({
         });
       }
     };
-  }, [initialLoadCompleted, currentUserId, recipient_id, supabase]);
+  }, [initialLoadCompleted, currentUserId, recipient_id, supabase, fetchUserIfNeeded]);
 
   return null;
 };

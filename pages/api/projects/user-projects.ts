@@ -11,17 +11,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { userId } = req.query;
+  const userId = req.query.userId;
 
-  if (!userId || typeof userId !== 'string') {
-    return res.status(400).json({ error: 'User ID is required' });
+  // Ensure userId is a single string, not an array
+  if (Array.isArray(userId)) {
+    return res.status(400).json({ error: 'Only one userId parameter is allowed' });
+  }
+
+  if (!userId) {
+    return res.status(400).json({ error: 'userId query parameter is required' });
   }
 
   try {
-        const { data, error } = await supabase
+    const { data, error } = await supabase
       .from('projects')
       .select('id, title, createdAt')
-      .eq('created_by', userId as string); 
+      .eq('created_by', userId);
+
     if (error) {
       console.error('Error fetching user projects:', error.message);
       return res.status(500).json({ error: 'Failed to fetch projects' });

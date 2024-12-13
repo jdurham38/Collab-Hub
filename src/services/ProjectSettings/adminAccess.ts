@@ -21,12 +21,19 @@ export const fetchCollaborators = async (projectId: string): Promise<Collaborato
 export const toggleAdminAccess = async (
   projectId: string,
   userId: string,
-  adminPrivileges: boolean
+  fields: { // Accept an object containing all fields
+    adminPrivileges?: boolean;
+    canRemoveUser?: boolean;
+    canRemoveChannel?: boolean;
+    canEditProject?: boolean;
+    canEditAdminAccess?: boolean;
+  }
 ): Promise<Collaborator> => {
   try {
-    const response = await axios.patch(`/api/projects/${projectId}/collaborators/${userId}`, {
-      adminPrivileges,
-    });
+    const response = await axios.patch(
+      `/api/projects/${projectId}/collaborators/${userId}`,
+      fields // Send the entire fields object
+    );
     return response.data.collaborator;
   } catch (error) {
     if (axios.isAxiosError(error)) {

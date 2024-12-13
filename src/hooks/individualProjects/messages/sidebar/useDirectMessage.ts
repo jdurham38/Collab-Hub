@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { DirectMessage } from '@/utils/interfaces';
 
-const supabase = createClient(
+const supabase: SupabaseClient = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 );
 
-const useDirectMessages = (currentUserId: string) => {
+const useDirectMessages = (currentUserId: string, recipient_id: string) => {
   const [directMessages, setDirectMessages] = useState<DirectMessage[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,29 +17,38 @@ const useDirectMessages = (currentUserId: string) => {
       setIsLoading(true);
       setError(null);
       try {
-        const { data, error } = await supabase
+        const { data, error: supabaseError } = await supabase
           .from('direct_messages')
           .select('*')
-          .or(`sender_id.eq.${currentUserId},recipient_id.eq.${currentUserId}`); // Correct column name: receiver_id
+          .or(`sender_id.eq.${currentUserId},recipient_id.eq.${recipient_id}`); // Correct column name: receiver_id
 
-        if (error) {
-          console.error('Error fetching direct messages:', error);
-          setError(error.message);
+        if (supabaseError) {
+          console.error('supabase error fetching direct messages:');
+          setError(supabaseError.message);
         } else {
-          setDirectMessages(data || []); // If data is null, set to an empty array
+          setDirectMessages(data || []); 
+          console.log("Direct messages fetched and set:", data);
+        } 
+      } catch (err) {
+        if(err instanceof Error){
+          const errormessage = err.message;
+          setError(errormessage);
+          console.error('Error fetching direct messages:', error);
+        } else{
+          const errorMessage = 'an unexpected error occurred';
+          setError(errorMessage);
+          console.error('error fetching direct messages', err)
         }
-      } catch (error: any) {
-        console.error('Error fetching direct messages:', error);
-        setError(error.message);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchDirectMessages();
-  }, [currentUserId]);
-
+  }, [currentUserId, recipient_id]);
+  console.log('directMessages state in useDirectMessages:', directMessages)
   return { directMessages, isLoading, error, setDirectMessages };
+  
 };
 
 export default useDirectMessages;

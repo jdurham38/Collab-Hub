@@ -74,6 +74,7 @@ export interface Channel {
 }
 
 export interface Collaborator {
+  id: string;
   userId: string;
   adminPrivileges: boolean;
   username: string;

@@ -1,17 +1,32 @@
 import { useState, useEffect } from 'react';
 import { fetchProjectCollaborators } from '@/services/collaboratorService';
-import { Collaborator } from '@/utils/interfaces'; // Import the Collaborator interface
+import { Collaborator } from '@/utils/interfaces';
+import axios, { AxiosError } from 'axios';
 
 export interface UseCollaboratorsResult {
   collaborators: Collaborator[] | null;
   isLoading: boolean;
   error: string | null;
+  filteredCollaborators: Collaborator[] | null; // Add filtered collaborators
 }
 
-const useCollaborators = (projectId: string): UseCollaboratorsResult => {
-  const [collaborators, setCollaborators] = useState<Collaborator[] | null>(null)
+interface CollaboratorError {
+  message: string;
+  statusCode?: number;
+}
+
+const useCollaborators = (
+  projectId: string,
+  filterText?: string // Add a filterText parameter
+): UseCollaboratorsResult => {
+  const [collaborators, setCollaborators] = useState<Collaborator[] | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [filteredCollaborators, setFilteredCollaborators] = useState<
+    Collaborator[] | null
+  >(null);
 
   useEffect(() => {
     const fetchCollaboratorsData = async () => {
@@ -20,9 +35,21 @@ const useCollaborators = (projectId: string): UseCollaboratorsResult => {
         const fetchedCollaborators = await fetchProjectCollaborators(projectId);
         setCollaborators(fetchedCollaborators);
         setError(null);
-      } catch (err: any) {
-        console.error('Error fetching collaborators:', err);
-        setError(err.message || 'An error occurred while fetching collaborators.');
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          const axiosError = err as AxiosError<CollaboratorError>;
+          const errorMessage =
+            axiosError.response?.data?.message ||
+            axiosError.message ||
+            'Failed to fetch collaborators';
+          setError(errorMessage);
+        } else {
+          const errorMessage =
+            err instanceof Error
+              ? err.message
+              : 'an unexpected error has occurred';
+          setError(errorMessage);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -33,7 +60,19 @@ const useCollaborators = (projectId: string): UseCollaboratorsResult => {
     }
   }, [projectId]);
 
-  return { collaborators, isLoading, error };
+  // Filter collaborators when filterText changes
+  useEffect(() => {
+    if (collaborators && filterText) {
+      const filtered = collaborators.filter((user) =>
+        user.username.toLowerCase().startsWith(filterText.toLowerCase())
+      );
+      setFilteredCollaborators(filtered);
+    } else {
+      setFilteredCollaborators(collaborators); // If no filter, show all
+    }
+  }, [collaborators, filterText]);
+
+  return { collaborators, isLoading, error, filteredCollaborators };
 };
 
 export default useCollaborators;

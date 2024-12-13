@@ -1,0 +1,57 @@
+/* File: components/MessageInput/MessageInput.module.css */
+
+.messageForm {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+  }
+  
+  .messageInputWrapper {
+    position: relative; /* Needed for absolute positioning of suggestions */
+  }
+  
+  .messageInput {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 50px;
+    font-size: 1rem;
+  }
+  
+  .suggestionsContainer {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    /* Ensures suggestions appear below the textarea */
+  }
+  
+  .sendButton {
+    padding: 8px 12px;
+    background-color: #d4a373;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .sendButton:hover {
+    background-color: #daca9f;   color: black;
+  }
+  
+  .editConfirmButton {
+    padding: 8px 12px;
+    background-color: #d4a373;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .editConfirmButton:hover {
+    background-color: #daca9f;   color: black;
+  }
+  

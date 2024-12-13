@@ -4,7 +4,6 @@ import React, { useState, useRef, useMemo, useEffect, useLayoutEffect } from 're
 import styles from './ChatArea.module.css';
 import { sendMessage, editMessage, deleteMessage } from '@/services/messageService';
 import { User } from '@/utils/interfaces';
-import { createClient } from '@supabase/supabase-js';
 import ChatHeader from './ChatHeader/ChatHeader';
 import MessageList from './MessageList/MessageList';
 import MessageInput from './MessageInput/MessageInput';
@@ -20,10 +19,6 @@ interface ChatAreaProps {
   channelId: string;
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-);
 
 const ChatArea: React.FC<ChatAreaProps> = ({
   chatTitle,
@@ -36,17 +31,18 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   const [newMessage, setNewMessage] = useState('');
   const [newMessagesCount, setNewMessagesCount] = useState<number>(0);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [userSuggestions, setUserSuggestions] = useState<User[]>([]);
   const [mentionStartIndex, setMentionStartIndex] = useState<number | null>(null);
+  const [filterText, setFilterText] = useState('');
 
   const messageInputRef = useRef<HTMLTextAreaElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const hasInitiallyScrolled = useRef(false);
 
-  const allCollaborators = useCollaborators(projectId);
+  const {
+    filteredCollaborators,
+  } = useCollaborators(projectId, filterText);
   const [userMap, setUserMap] = useState<{ [key: string]: User }>({});
-
-  const { messages, isLoading, error, setMessages, initialLoadCompleted } = useMessages(
+  const { messages, isLoading, error, setMessages, initialLoadCompleted, } = useMessages(
     projectId,
     channelId,
     userMap,
@@ -73,7 +69,6 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   };
 
   useMessageSubscription({
-    supabase,
     initialLoadCompleted,
     channelId,
     currentUserId: currentUser.id,
@@ -111,20 +106,18 @@ const ChatArea: React.FC<ChatAreaProps> = ({
       const mentionText = value.slice(lastAt + 1);
       if (/\s/.test(mentionText) || mentionText.length === 0) {
         setShowSuggestions(false);
-        setUserSuggestions([]);
         setMentionStartIndex(null);
+        setFilterText('');
         return;
       }
-      const filteredSuggestions = allCollaborators.filter((user) =>
-        user.username.toLowerCase().startsWith(mentionText.toLowerCase())
-      );
-      setUserSuggestions(filteredSuggestions);
-      setShowSuggestions(filteredSuggestions.length > 0);
+
+      setFilterText(mentionText);
+      setShowSuggestions(true);
       setMentionStartIndex(lastAt);
     } else {
       setShowSuggestions(false);
-      setUserSuggestions([]);
       setMentionStartIndex(null);
+      setFilterText('');
     }
   };
 
@@ -138,7 +131,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
       const newValue = beforeMention + mentionText + afterMention;
       setNewMessage(newValue);
       setShowSuggestions(false);
-      setUserSuggestions([]);
+      setFilterText('');
       setMentionStartIndex(null);
       const newCursorPosition = beforeMention.length + mentionText.length;
       input.focus();
@@ -155,22 +148,22 @@ const ChatArea: React.FC<ChatAreaProps> = ({
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
-  
-    const wasAtBottom = isUserAtBottom(); // Check if at bottom before sending
-  
+
+    const wasAtBottom = isUserAtBottom();
+
     try {
       await sendMessage(projectId, channelId, newMessage.trim(), currentUser.id);
-  
-      // If sending was successful and user was at the bottom, scroll
+
       if (wasAtBottom) {
         scrollToBottom('smooth');
       }
     } catch (err) {
       console.error('Error sending message:', err);
     }
-  
+
     setNewMessage('');
   };
+
   const handleEditMessage = (messageId: string) => {
     setEditingMessageId(messageId);
     const message = messages.find((msg) => msg.id === messageId);
@@ -248,7 +241,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({
           onSend={handleSendMessage}
           onKeyDown={handleKeyDown}
           showSuggestions={showSuggestions}
-          userSuggestions={userSuggestions}
+          userSuggestions={filteredCollaborators || []}
           onSelectSuggestion={handleSuggestionClick}
         />
       )}

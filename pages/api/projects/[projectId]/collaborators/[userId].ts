@@ -1,5 +1,4 @@
 // pages/api/projects/[projectId]/collaborators/[userId].ts
-
 import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@supabase/supabase-js";
 
@@ -7,7 +6,13 @@ const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 );
-
+interface ProjectCollaboratorUpdate {
+  adminPrivileges?: boolean;
+  canRemoveUser?: boolean;
+  canRemoveChannel?: boolean;
+  canEditProject?: boolean;
+  canEditAdminAccess?: boolean;
+}
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { projectId, userId } = req.query;
 
@@ -71,12 +76,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       return res.status(200).json({ message: 'Collaborator removed successfully.' });
     } catch (err) {
-      return res.status(500).json({ error: 'Internal Server Error' });
+      // Handle generic error
+      if (err instanceof Error) {
+        // If it's an Error object, you can access err.message
+        return res.status(500).json({ error: `Internal Server Error: ${err.message}` });
+      } else {
+        // If it's not an Error object, handle it differently
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
     }
   } else if (req.method === 'PATCH') {
     const { adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject, canEditAdminAccess } = req.body;
 
-    let updateData: any = {};
+    // Use the defined type for updateData
+    const updateData: ProjectCollaboratorUpdate = {};
 
     if (adminPrivileges !== undefined) {
       if (typeof adminPrivileges !== 'boolean') {
@@ -84,6 +97,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       updateData.adminPrivileges = adminPrivileges;
 
+      // If adminPrivileges is true, set all other permissions to true as well
       if (adminPrivileges) {
         updateData.canRemoveUser = true;
         updateData.canRemoveChannel = true;
@@ -92,6 +106,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
 
+    // Only update these fields if adminPrivileges is not explicitly set to true
     if (adminPrivileges !== true) {
       if (typeof canRemoveUser === 'boolean') {
         updateData.canRemoveUser = canRemoveUser;
@@ -129,8 +144,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       return res.status(200).json({ collaborator: data, message: 'Privileges updated successfully.' });
-    } catch (error) {
-      return res.status(500).json({ error: 'Internal Server Error' });
+    } catch (err) {
+      // Handle generic error
+      if (err instanceof Error) {
+        return res.status(500).json({ error: `Internal Server Error: ${err.message}` });
+      } else {
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
     }
   } else {
     res.setHeader('Allow', ['PATCH', 'DELETE']);

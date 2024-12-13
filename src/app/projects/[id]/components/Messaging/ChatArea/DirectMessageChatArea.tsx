@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useMemo, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import styles from './ChatArea.module.css';
 import {
   sendDirectMessage,
@@ -10,12 +10,13 @@ import {
 import { User } from '@/utils/interfaces';
 import { createClient } from '@supabase/supabase-js';
 import ChatHeader from './ChatHeader/ChatHeader';
-import MessageInput from './MessageInput/MessageInput';
+import MessageInput from './DirectMessageInput/DirectMessageInput';
 import EditMessageForm from './EditMessageForm/EditMessageForm';
-import useCollaborators from '@/hooks/individualProjects/messages/chatArea/useCollaborators';
 import useDirectMessages from '@/hooks/individualProjects/messages/sidebar/useDirectMessage';
 import useDirectMessageSubscription from '@/hooks/individualProjects/messages/chatArea/useDirectMessageSubscription';
 import DirectMessageList from './DirectMessageList/DirectMessageList';
+import useReceiverInfo from '@/hooks/individualProjects/messages/useReceiverInfo';
+
 
 interface DirectMessageChatAreaProps {
     recipient_id: string;
@@ -33,46 +34,21 @@ const DirectMessageChatArea: React.FC<DirectMessageChatAreaProps> = ({
   projectId,
   currentUser,
 }) => {
+  
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [editedContent, setEditedContent] = useState<string>('');
-  const [newMessage, setNewMessage] = useState<string>('');
   const [newMessagesCount, setNewMessagesCount] = useState<number>(0);
-  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
-  const [userSuggestions, setUserSuggestions] = useState<User[]>([]);
-  const [mentionStartIndex, setMentionStartIndex] = useState<number | null>(null);
-  const messageInputRef = useRef<HTMLTextAreaElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const hasInitiallyScrolled = useRef<boolean>(false);
-  const allCollaborators = useCollaborators(projectId);
     const [userMap, setUserMap] = useState<{ [key: string]: User }>({});
   const {
     directMessages: messages,
     isLoading,
     error,
     setDirectMessages: setMessages,
-  } = useDirectMessages(currentUser.id);
+  } = useDirectMessages(currentUser.id, recipient_id);
 
-  const [receiver, setReceiver] = useState<User | null>(null);
-
-  useEffect(() => {
-    const fetchReceiverInfo = async () => {
-      const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', recipient_id)
-        .single();
-
-      if (error) {
-        console.error('Error fetching receiver info:', error);
-      } else {
-        setReceiver(data as User);
-      }
-    };
-
-    if (recipient_id) {
-      fetchReceiverInfo();
-    }
-  }, [recipient_id]);
+const {receiver}= useReceiverInfo(recipient_id);
 
   const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
     if (messagesContainerRef.current) {
@@ -106,19 +82,22 @@ const DirectMessageChatArea: React.FC<DirectMessageChatAreaProps> = ({
     setNewMessagesCount,
   });
 
-  const filteredMessages = useMemo(() => {
-    return messages
-      .filter(
-        (msg) =>
-          (msg.sender_id === currentUser.id && msg.recipient_id === recipient_id) ||
-          (msg.sender_id === recipient_id && msg.recipient_id === currentUser.id)
-      )
-      .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-  }, [messages, currentUser.id, recipient_id]);
+  const filteredMessages = messages
+  .filter(
+    (msg) =>
+      (msg.sender_id === currentUser.id && msg.recipient_id === recipient_id) ||
+      (msg.sender_id === recipient_id && msg.recipient_id === currentUser.id)
+  )
+  .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+
 
   useEffect(() => {
     hasInitiallyScrolled.current = false;
   }, [recipient_id]);
+  // In DirectMessageChatArea.tsx (temporary for debugging)
+useEffect(() => {
+  console.log("messages state changed in DirectMessageChatArea:", messages);
+}, [messages]);
 
   useLayoutEffect(() => {
     if (!isLoading && messages.length > 0 && !hasInitiallyScrolled.current) {
@@ -129,69 +108,18 @@ const DirectMessageChatArea: React.FC<DirectMessageChatAreaProps> = ({
     }
   }, [isLoading, messages, recipient_id]);
 
-  const handleInputChange = (value: string) => {
-    setNewMessage(value);
-    const lastAt = value.lastIndexOf('@');
-    if (lastAt !== -1) {
-      const mentionText = value.slice(lastAt + 1);
-      if (/\s/.test(mentionText) || mentionText.length === 0) {
-        setShowSuggestions(false);
-        setUserSuggestions([]);
-        setMentionStartIndex(null);
-        return;
-      }
-    //   const filteredSuggestions = allCollaborators.filter((user) =>
-    //     user.username.toLowerCase().startsWith(mentionText.toLowerCase())
-    // );
-    //   setUserSuggestions(filteredSuggestions);
-    //   setShowSuggestions(filteredSuggestions.length > 0);
-      setMentionStartIndex(lastAt);
-    } else {
-      setShowSuggestions(false);
-      setUserSuggestions([]);
-      setMentionStartIndex(null);
-    }
-  };
 
-  const handleSuggestionClick = (user: User) => {
-    if (mentionStartIndex !== null && messageInputRef.current) {
-      const input = messageInputRef.current;
-      const value = newMessage;
-      const beforeMention = value.slice(0, mentionStartIndex);
-      const afterMention = value.slice(input.selectionStart);
-      const mentionText = `@${user.username} `;
-      const newValue = beforeMention + mentionText + afterMention;
-      setNewMessage(newValue);
-      setShowSuggestions(false);
-      setUserSuggestions([]);
-      setMentionStartIndex(null);
-      const newCursorPosition = beforeMention.length + mentionText.length;
-      input.focus();
-      input.setSelectionRange(newCursorPosition, newCursorPosition);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (showSuggestions && (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter')) {
-      e.preventDefault();
-    }
-  };
-
-  const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!newMessage.trim()) return;
+  const handleSendMessage = async (message: string) => {
     const wasAtBottom = isUserAtBottom();
     try {
-      await sendDirectMessage(projectId, recipient_id, newMessage.trim(), currentUser.id);
+      await sendDirectMessage(projectId, recipient_id, message, currentUser.id);
       if (wasAtBottom) {
         scrollToBottom('smooth');
       }
     } catch (err) {
       console.error('Error sending message:', err);
     }
-    setNewMessage('');
   };
-
   const handleEditMessage = (messageId: string) => {
     setEditingMessageId(messageId);
     const message = messages.find((msg) => msg.id === messageId);
@@ -217,7 +145,8 @@ const DirectMessageChatArea: React.FC<DirectMessageChatAreaProps> = ({
     await deleteDirectMessage(messageId);
     setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== messageId));
   };
-
+  console.log("DirectMessageChatArea rendering...", messages);
+  console.log("Filtered messages:", filteredMessages);
   return (
     <div className={styles.chatArea}>
       <ChatHeader chatTitle={receiver ? `DM: ${receiver.username || receiver.email}` : 'Loading...'} />
@@ -263,15 +192,7 @@ const DirectMessageChatArea: React.FC<DirectMessageChatAreaProps> = ({
           onCancel={() => setEditingMessageId(null)}
         />
       ) : (
-        <MessageInput
-          newMessage={newMessage}
-          onChange={handleInputChange}
-          onSend={handleSendMessage}
-          onKeyDown={handleKeyDown}
-          showSuggestions={showSuggestions}
-          userSuggestions={userSuggestions}
-          onSelectSuggestion={handleSuggestionClick}
-        />
+        <MessageInput onSend={handleSendMessage} />
       )}
     </div>
   );

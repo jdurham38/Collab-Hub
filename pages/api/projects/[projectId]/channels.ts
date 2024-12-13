@@ -35,13 +35,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
     case 'POST':
-      const { name, created_by } = req.body;
 
-      if (!name || !created_by) {
-        return res.status(400).json({ error: 'Name and created_by are required' });
-      }
 
       try {
+        const { name, created_by } = req.body;
+
+        if (!name || !created_by) {
+          return res.status(400).json({ error: 'Name and created_by are required' });
+        }
         const { data: projectOwner, error: ownerError } = await supabase
           .from('projects')
           .select('created_by')

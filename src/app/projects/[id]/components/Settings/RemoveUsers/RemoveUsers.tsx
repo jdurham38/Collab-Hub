@@ -74,8 +74,14 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
       toast.success('Collaborator removed successfully.');
 
 
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to remove collaborator');
+    } catch (err) {
+      let errorMessage = 'Failed to remove collaborator'; 
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (typeof err === 'string') {
+        errorMessage = err;
+      }
+      toast.error(errorMessage);
       refetch();
     } finally {
       setShowModal(false);

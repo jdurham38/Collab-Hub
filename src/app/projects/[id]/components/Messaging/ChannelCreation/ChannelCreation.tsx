@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './ChannelCreationModal.module.css';
 import { addChannel } from '@/services/channelService';
-
 interface ChannelCreationModalProps {
   onClose: () => void;
   onChannelCreated: () => void;
@@ -33,14 +32,20 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
       setChannelName('');
       onChannelCreated();
       onClose();
-    } catch (err: any) {
-      if (err.response?.status === 500) {
-        setError('Your plan cannot exceed 5 channels for this project.');
-      } else if (err instanceof Error) {
-        setError(err.message || 'Failed to create channel. Please try again.');
-      } else {
-        setError('An unexpected error occurred. Please try again.');
+    } catch (err) {
+      if(err instanceof Error){
+        if (err.message?.includes('status code 500')) {
+          setError('Your plan cannot exceed 5 channels for this project.');
+        } else{
+          setError(err.message || 'Failed to create channel. Please try again.');
+        }
+      } else if(typeof err === 'string'){
+        setError(err);
+      } 
+      else{
+        setError('an unexpected error has occurred')
       }
+    
     } finally {
       setIsCreating(false);
     }

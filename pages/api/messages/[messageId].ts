@@ -17,13 +17,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   switch (req.method) {
     case 'PUT':
-      const { content } = req.body;
-
-      if (!content) {
-        return res.status(400).json({ error: 'Content is required' });
-      }
 
       try {
+        const { content } = req.body;
+
+        if (!content) {
+          return res.status(400).json({ error: 'Content is required' });
+        }
+  
         const { error } = await supabase
           .from('messages')
           .update({ content: content.trim(), edited: true })

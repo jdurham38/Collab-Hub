@@ -67,7 +67,6 @@ const useUserData = (projectId: string): UseUserDataReturn => {
             setcanEditAdminAccess(privileges.canEditAdminAccess);
             
             // Also store userIsOwner somewhere
-            const userIsOwner = privileges.userIsOwner;
 
           } catch (privError) {
             console.error('Error fetching privileges:', privError);
