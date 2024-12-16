@@ -85,7 +85,8 @@ const useDirectMessageSubscription = ({
       return;
     }
 
-    const channelName = `direct_messages:recipient_id=eq.${recipient_id},sender_id=eq.${currentUserId}`;
+    const channelName = `direct_messages:or(and(sender_id.eq.${currentUserId},recipient_id.eq.${recipient_id}),and(sender_id.eq.${recipient_id},recipient_id.eq.${currentUserId}))`;
+
     const newChannel: RealtimeChannel = supabase.channel(channelName);
     
      // Define event handlers INSIDE the useEffect
@@ -101,7 +102,7 @@ const useDirectMessageSubscription = ({
          console.log('User fetched in handleInsert:', user);
      
          setMessagesRef.current((prevMessages) => {
-           const updatedMessages = [...prevMessages, { ...newMessage, users: user }];
+           const updatedMessages = [...prevMessages, { ...newMessage, user: user }];
            console.log('Updated messages in handleInsert:', updatedMessages);
     
            console.log("Calling setMessagesRef.current with:", updatedMessages);    
@@ -128,7 +129,7 @@ const useDirectMessageSubscription = ({
            msg.id === updatedMessage.id
              ? {
                  ...updatedMessage,
-                 users: userMapRef.current[updatedMessage.sender_id] || { username: 'Unknown User', email: '' },
+                 user: userMapRef.current[updatedMessage.sender_id] || { username: 'Unknown User', email: '' },
                }
              : msg
          )

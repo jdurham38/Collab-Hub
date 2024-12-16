@@ -26,56 +26,61 @@ const useMessages = (
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [initialLoadCompleted, setInitialLoadCompleted] = useState<boolean>(false);
-  
-  const isInitialLoadRef = useRef(true);
+  const messagesFetched = useRef(false);
+
 
   useEffect(() => {
-    const fetchMessagesData = async () => {
-      setIsLoading(true);
-      setError(null);
-      isInitialLoadRef.current = true;
+        if (messagesFetched.current) return;
 
-      try {
-        const messagesData = await fetchMessages(projectId, channelId);
-        const uniqueUserIds = Array.from(new Set(messagesData.map((msg) => msg.user_id)));
-        const missingUserIds = uniqueUserIds.filter((uid) => !userMap[uid]);
+        const fetchMessagesData = async () => {
+            setIsLoading(true);
+            setError(null);
 
-        if (missingUserIds.length > 0) {
-          const { data: usersData, error: usersError } = await supabase
-            .from('users')
-            .select('id, username, email')
-            .in('id', missingUserIds);
+            try {
+                const messagesData = await fetchMessages(projectId, channelId);
+                const uniqueUserIds = Array.from(new Set(messagesData.map((msg) => msg.user_id)));
+                const missingUserIds = uniqueUserIds.filter((uid) => !userMap[uid]);
 
-          if (usersError) {
-            console.error('Error fetching missing users:', usersError.message);
-          } else if (usersData) {
-            const newUserMapEntries = (usersData as User[]).reduce((acc, user) => {
-              acc[user.id] = user;
-              return acc;
-            }, {} as { [key: string]: User });
 
-            setUserMap((prev) => ({ ...prev, ...newUserMapEntries }));
-          }
-        }
+                  if (missingUserIds.length > 0) {
+                      const { data: usersData, error: usersError } = await supabase
+                          .from('users')
+                          .select('id, username, email')
+                          .in('id', missingUserIds);
 
-        const messagesWithUser = messagesData.map((message) => {
-          const user = userMap[message.user_id] || { username: 'Unknown User', email: '' };
-          return { ...message, users: user };
-        });
+                      if (usersError) {
+                          console.error('Error fetching missing users:', usersError.message);
+                      } else if (usersData) {
+                          const newUserMapEntries = (usersData as User[]).reduce((acc, user) => {
+                              acc[user.id] = user;
+                              return acc;
+                          }, {} as { [key: string]: User });
 
-        setMessages(messagesWithUser);
-        setIsLoading(false);
-        setInitialLoadCompleted(true);
-      } catch (error) {
-        console.error('Error fetching messages:', error);
-        setError('Failed to load messages.');
-        setIsLoading(false);
-      }
-    };
+                          setUserMap((prev) => ({ ...prev, ...newUserMapEntries }));
+                      }
+                  }
 
-    // Always attempt to fetch messages, regardless of userMap state.
-    fetchMessagesData();
-  }, [projectId, channelId, userMap, setUserMap]);
+                  const messagesWithUser = messagesData.map((message) => {
+                      const user = userMap[message.user_id] || { username: 'Unknown User', email: '' };
+                      return { ...message, user: user };
+                  });
+
+
+                setMessages(messagesWithUser);
+                setIsLoading(false);
+                setInitialLoadCompleted(true);
+                messagesFetched.current = true;
+
+            } catch (error) {
+                console.error('Error fetching messages:', error);
+                setError('Failed to load messages.');
+                setIsLoading(false);
+            }
+        };
+
+        fetchMessagesData();
+    }, [projectId, channelId, setUserMap, userMap]);
+
 
   return { messages, isLoading, error, setMessages, initialLoadCompleted };
 };

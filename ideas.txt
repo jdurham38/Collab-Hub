@@ -48,16 +48,6 @@ backend
 
 Individual Projects page 
 
-    - individual messaging - DO AFTER COLLABORATORS IS DONE
-        - add an online status
-        - add an online status to users
-        - notification bubble if there are unread messages for the user in a channel
-        - if a user sends a message and a user is viewing previous messages, have a state to track there are # of new messages
-        - can delete a message
-        - can edit a message
-
-        - Sidebar
-            - add an online status to each user in the project
 
 
 
@@ -65,16 +55,32 @@ Individual Projects page
     Settings
             - Remove channels
                 - enhance styling
+                - tanstack 
             - admin access
                 - cannot see themselves/remove themselves
                 -enhance styling
+                -tanstack
             - removing users
                 - cannot see themselves/remove themselves
                 - enhance styling
+                -tanstack
             - changing project details
                 - enhance styling
+                -tanstack
 
 
+Channel messaging
+    - allow users to create a channel with specific users. (LATER FEATURE)
+    - test use cases
+
+
+DM 
+    - update styling to match the channel area
+    - test use cases
+
+Sidebar
+    - Enhance styling
+    - Create mobile stlying
 
 
 try implementing promise.allSettled for multiple async operations 

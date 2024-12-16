@@ -42,25 +42,30 @@ const Sidebar: React.FC<SidebarProps> = ({
   useLoadUnreadCounts(currentUserId, setUnreadCount);
   useMessageSubscription(currentUserId, incrementUnreadCount, activeChat);
 
-  const { collaborators, isLoading: isLoadingCollaborators, error: collaboratorsError } =
-    useCollaborators(projectId);
+    const {
+        collaborators,
+        isLoading: isLoadingCollaborators,
+        error: collaboratorsError,
+        projectOwner,
+    } = useCollaborators(projectId);
 
-  const handleSetActiveChat = async (chat: {
-    id: string;
-    name: string;
-    type?: 'channel' | 'dm';
-    recipient_id?: string;
-  }) => {
-    setActiveChat(chat);
-    if (chat.type === 'channel') {
-      try {
-        await updateReadStatus(chat.id, currentUserId);
-        resetUnreadCount(chat.id);
-      } catch (error) {
-        console.error('Error updating read status:', error);
-      }
-    }
-  };
+
+    const handleSetActiveChat = async (chat: {
+        id: string;
+        name: string;
+        type?: 'channel' | 'dm';
+        recipient_id?: string;
+    }) => {
+        setActiveChat(chat);
+        if (chat.type === 'channel') {
+            try {
+                await updateReadStatus(chat.id, currentUserId);
+                resetUnreadCount(chat.id);
+            } catch (error) {
+                console.error('Error updating read status:', error);
+            }
+        }
+    };
 
   const handleChannelCreated = () => {
     addNewChannel();
@@ -73,6 +78,13 @@ const Sidebar: React.FC<SidebarProps> = ({
   if (collaboratorsError) {
     return <div className={styles.sidebar}>Error loading collaborators.</div>;
   }
+
+  const allCollaborators = projectOwner ? [...collaborators, {
+    ...projectOwner,
+      userId: projectOwner.id,
+    } ] : collaborators
+
+    console.log(allCollaborators)
 
   return (
     <div className={styles.sidebar}>
@@ -95,24 +107,25 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <h3>Collaborators</h3>
       <ul className={styles.collaboratorList}>
-        {collaborators.map((collaborator) => (
+        {allCollaborators.map((collaborator) => (
           <li
             key={collaborator.userId}
-            className={`${styles.collaboratorItem} ${
-              activeChat?.recipient_id === collaborator.userId && activeChat?.type === 'dm'
-                ? styles.active
-                : ''
-            }`}
-            onClick={() => {
-              handleSetActiveChat({
-                id: collaborator.userId,
-                name: collaborator.username || collaborator.email,
-                type: 'dm',
-                recipient_id: collaborator.userId,
-              });
-            }}
+              className={`${styles.collaboratorItem} ${
+                  activeChat?.recipient_id === collaborator.userId && activeChat?.type === 'dm'
+                      ? styles.active
+                      : ''
+              }`}
+              onClick={() => {
+                  handleSetActiveChat({
+                      id: collaborator.userId,
+                      name: collaborator.username || collaborator.email,
+                      type: 'dm',
+                      recipient_id: collaborator.userId,
+                  });
+              }}
           >
             {collaborator.username || collaborator.email}
+
           </li>
         ))}
       </ul>
