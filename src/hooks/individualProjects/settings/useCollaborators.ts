@@ -1,9 +1,7 @@
-// hooks/individualProjects/settings/useCollaborators.ts
-
 import { useState, useEffect, useCallback } from 'react';
 import { Collaborator } from '@/utils/interfaces';
 import { fetchProjectCollaborators } from '@/services/collaboratorService';
-import axios, {AxiosError} from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 interface UseCollaboratorsReturn {
@@ -14,7 +12,7 @@ interface UseCollaboratorsReturn {
   setCollaborators: React.Dispatch<React.SetStateAction<Collaborator[]>>;
 }
 
-interface CollaboratorError{
+interface CollaboratorError {
   message: string;
   statusCode?: number;
 }
@@ -29,19 +27,19 @@ const useCollaborators = (projectId: string): UseCollaboratorsReturn => {
     setError(null);
     try {
       const collaboratorsData = await fetchProjectCollaborators(projectId);
-      setCollaborators(collaboratorsData);
+      setCollaborators(collaboratorsData.collaborators); // Corrected line
     } catch (err) {
-      if(axios.isAxiosError(err)){
-        const axiosError = err as AxiosError<CollaboratorError>;
-        const errorMessage =
-          axiosError.response?.data?.message || 
-          axiosError.message || 
-          'Failed to fetch collaborators.';
-        setError(errorMessage);
-        toast.error(errorMessage);
+        if(axios.isAxiosError(err)){
+            const axiosError = err as AxiosError<CollaboratorError>;
+             const errorMessage =
+                axiosError.response?.data?.message ||
+                axiosError.message ||
+              'Failed to fetch collaborators.';
+            setError(errorMessage);
+            toast.error(errorMessage);
       } else{
-        const errorMessage = 
-          err instanceof Error ? err.message : "An unexpected error has occurred";
+          const errorMessage =
+            err instanceof Error ? err.message : "An unexpected error has occurred";
           setError(errorMessage);
           toast.error(errorMessage);
       }
