@@ -1,7 +1,5 @@
-// hooks/individualProjects/settings/useToggleAdminAccess.ts
-
 import { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 interface PermissionFields {
@@ -44,8 +42,13 @@ const useToggleAdminAccess = (): UseToggleAdminAccessReturn => {
       } else {
         throw new Error('Invalid response from server.');
       }
-    } catch (err: any) {
-      const errorMessage = err?.response?.data?.error || err.message || 'An unexpected error occurred.';
+    } catch (err) {
+      let errorMessage = 'An unexpected error occurred.';
+      if (axios.isAxiosError(err)) {
+          errorMessage = err?.response?.data?.error || err.message || 'An unexpected error occurred.';
+      } else if (err instanceof Error) {
+          errorMessage = err.message;
+      }
       setError(errorMessage);
       toast.error(errorMessage);
       return false;

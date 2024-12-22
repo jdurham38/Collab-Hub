@@ -1,8 +1,6 @@
-// components/Settings/Settings.tsx
-
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styles from './Settings.module.css';
 import AdminAccess from './AdminAccess/AdminAccess';
 import DeleteChannel from './RemoveChannels/RemoveChannels';
@@ -44,18 +42,12 @@ const Settings: React.FC<SettingsProps> = ({
     setActiveTab(tabName);
   };
 
-  if (!projectId || typeof projectId !== 'string') {
-    return <p>Loading...</p>;
-  }
+   // Determine visibility of tabs based on user access and ownership
+  const showEditProject = useMemo(() => userIsOwner || adminPrivileges || canEditProject, [userIsOwner, adminPrivileges, canEditProject]);
+  const showRemoveUsers = useMemo(() => userIsOwner || adminPrivileges || canRemoveUser, [userIsOwner, adminPrivileges, canRemoveUser]);
+  const showRemoveChannels = useMemo(() => userIsOwner || adminPrivileges || canRemoveChannel, [userIsOwner, adminPrivileges, canRemoveChannel]);
+  const showGrantAdminAccess = useMemo(() => userIsOwner || adminPrivileges || canEditAdminAccess, [userIsOwner, adminPrivileges, canEditAdminAccess]);
 
-  // Determine visibility of tabs based on user access and ownership
-  const showEditProject = userIsOwner || adminPrivileges || canEditProject;
-  const showRemoveUsers = userIsOwner || adminPrivileges || canRemoveUser;
-  const showRemoveChannels = userIsOwner || adminPrivileges || canRemoveChannel;
-  const showGrantAdminAccess =
-    userIsOwner || adminPrivileges || canEditAdminAccess;
-
-  // Determine the first available tab
   const getFirstAvailableTab = () => {
     if (showEditProject) return 'editProjectDetails';
     if (showRemoveUsers) return 'removeUsers';
@@ -64,7 +56,8 @@ const Settings: React.FC<SettingsProps> = ({
     return '';
   };
 
-  // Set the initial active tab once when the component mounts or userAccess changes
+
+    // Set the initial active tab only when the component mounts and there is no active tab already set
   useEffect(() => {
     if (!activeTab) {
       const firstTab = getFirstAvailableTab();
@@ -72,14 +65,21 @@ const Settings: React.FC<SettingsProps> = ({
         setActiveTab(firstTab);
       }
     }
-  }, [activeTab, showEditProject, showRemoveUsers, showRemoveChannels, showGrantAdminAccess]);
+  }, [activeTab, getFirstAvailableTab]); // Add getFirstAvailableTab as a dependency
 
-  // **Debugging: Log userAccess and showGrantAdminAccess**
+
+    // Debugging: Log userAccess and showGrantAdminAccess
   useEffect(() => {
     console.log('User Access:', userAccess);
     console.log('showGrantAdminAccess:', showGrantAdminAccess);
     console.log('Active Tab:', activeTab);
   }, [userAccess, showGrantAdminAccess, activeTab]);
+
+
+    // Early return if projectId is not valid
+    if (!projectId || typeof projectId !== 'string') {
+      return <p>Loading...</p>;
+    }
 
   return (
     <div className={styles.settingsContainer}>

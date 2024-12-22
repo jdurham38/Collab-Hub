@@ -22,11 +22,6 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
   }>({});
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
-  // **Debugging: Log collaborator data**
-  React.useEffect(() => {
-    console.log('Collaborators:', collaborators);
-  }, [collaborators]);
-
   const handleToggle = (
     userId: string,
     fields: Partial<{
@@ -72,8 +67,12 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
       toast.success('All privileges updated successfully.');
       setModifiedCollaborators({});
       refetch();
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to save changes.');
+    } catch (err) {
+      if(err instanceof Error){ //check the instance of err
+         toast.error(err.message || 'Failed to save changes.');
+      } else {
+         toast.error('Failed to save changes.')
+      }
     } finally {
       setIsSaving(false);
     }

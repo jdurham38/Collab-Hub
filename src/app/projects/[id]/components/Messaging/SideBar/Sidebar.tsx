@@ -4,7 +4,8 @@ import ChannelCreationModal from '../ChannelCreation/ChannelCreation';
 import { useUnreadStore } from '@/store/useUnreadStore';
 import styles from './Sidebar.module.css';
 import { updateReadStatus } from '@/services/readStatusService';
-import useCollaborators from '@/hooks/individualProjects/messages/chatArea/useCollaborators';
+import { useQuery } from '@tanstack/react-query';
+import { fetchProjectCollaborators } from '@/services/collaboratorService';
 import useCanCreateChannel from '@/hooks/individualProjects/messages/sidebar/useCanCreateChannel';
 import useLoadUnreadCounts from '@/hooks/individualProjects/messages/sidebar/useLoadUnreadCounts';
 import useMessageSubscription from '@/hooks/individualProjects/messages/sidebar/useMessageSubscription';
@@ -42,12 +43,17 @@ const Sidebar: React.FC<SidebarProps> = ({
   useLoadUnreadCounts(currentUserId, setUnreadCount);
   useMessageSubscription(currentUserId, incrementUnreadCount, activeChat);
 
+
     const {
-        collaborators,
+        data: collaboratorsData,
         isLoading: isLoadingCollaborators,
+        isError: isCollaboratorsError,
         error: collaboratorsError,
-        projectOwner,
-    } = useCollaborators(projectId);
+    } = useQuery({
+        queryKey: ['projectCollaborators', projectId],
+        queryFn: () => fetchProjectCollaborators(projectId),
+        enabled: !!projectId,
+    });
 
 
     const handleSetActiveChat = async (chat: {
@@ -71,20 +77,30 @@ const Sidebar: React.FC<SidebarProps> = ({
     addNewChannel();
   };
 
-  if (isLoadingCollaborators || collaborators === null) {
+  if (isLoadingCollaborators) {
     return <div className={styles.sidebar}>Loading collaborators...</div>;
   }
 
-  if (collaboratorsError) {
-    return <div className={styles.sidebar}>Error loading collaborators.</div>;
+  if (isCollaboratorsError) {
+    return (
+      <div className={styles.sidebar}>
+        Error loading collaborators:{' '}
+        {collaboratorsError instanceof Error
+          ? collaboratorsError.message
+          : 'An unexpected error occurred'}
+      </div>
+    );
   }
 
-  const allCollaborators = projectOwner ? [...collaborators, {
-    ...projectOwner,
-      userId: projectOwner.id,
-    } ] : collaborators
+    const collaborators = collaboratorsData?.collaborators || [];
+    const projectOwner = collaboratorsData?.projectOwner;
 
-    console.log(allCollaborators)
+      const allCollaborators = projectOwner ? [...collaborators, {
+        ...projectOwner,
+          userId: projectOwner.id,
+      } ] : collaborators;
+
+
 
   return (
     <div className={styles.sidebar}>
