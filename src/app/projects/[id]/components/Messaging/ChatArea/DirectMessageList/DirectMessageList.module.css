@@ -1,6 +1,6 @@
 /* File: components/MessageList/MessageList.module.css */
 
-.messageList {
+.directMessageList {
     padding: 16px;
     overflow-y: auto;
     flex-grow: 1;

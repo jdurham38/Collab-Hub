@@ -21,6 +21,15 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
     type?: 'channel' | 'dm';
     recipient_id?: string;
   } | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const ArrowIcon = () => {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+        <path d="M0 0h24v24H0z" fill="none" />
+      </svg>
+    );
+  };
 
   const loadChannels = async () => {
     try {
@@ -44,12 +53,20 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
     console.log("Active chat updated:", activeChat);
   }, [activeChat]);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className={styles.messagingContainer}>
-      <div className={styles.sidebarContainer}>
+      <button className={`${styles.sidebarToggleButton} ${isSidebarOpen ? styles.open: ''}`} onClick={toggleSidebar}>
+        <ArrowIcon />
+      </button>
+
+      <div className={`${styles.sidebarContainer} ${isSidebarOpen ? '' : styles.hidden}`}>
         <Sidebar
           activeChat={activeChat}
-          setActiveChat={setActiveChat} // Pass down the function to update the state
+          setActiveChat={setActiveChat}
           projectId={projectId}
           currentUserId={currentUser.id}
           channelList={channelList}
@@ -59,7 +76,6 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
         />
       </div>
       <div className={styles.chatAreaContainer}>
-        {/* Correctly check for activeChat and render the appropriate chat area */}
         {activeChat && activeChat.type === 'channel' && (
           <ChatArea
             chatTitle={`#${activeChat.name}`}
@@ -70,7 +86,7 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
         )}
         {activeChat && activeChat.type === 'dm' && activeChat.recipient_id && (
           <DirectMessageChatArea
-          recipient_id={activeChat.recipient_id}
+            recipient_id={activeChat.recipient_id}
             projectId={projectId}
             currentUser={currentUser}
           />

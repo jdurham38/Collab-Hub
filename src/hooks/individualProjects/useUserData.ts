@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
 import { validatePrivileges } from '@/services/privilegesService';
-
+import { useAuth } from '@/contexts/AuthContext';
 interface User {
   id: string;
   email: string;
@@ -29,11 +29,25 @@ const useUserData = (projectId: string): UseUserDataReturn => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const supabase = getSupabaseClient();
+  const { user: authUser, loading: authLoading } = useAuth(); // Get user and loading from context
 
   useEffect(() => {
     const fetchUser = async () => {
+       if (authLoading) {
+                //If AuthProvider is loading wait until it finishes
+              return;
+            }
       setLoading(true);
       try {
+          if (!authUser?.id) {
+              setCurrentUser(null)
+             setAdminPrivileges(false);
+             setCanRemoveUser(false);
+             setCanRemoveChannel(false);
+             setCanEditProject(false);
+             setcanEditAdminAccess(false)
+              return;
+            }
         const {
           data: { user },
           error: userError,
@@ -86,7 +100,7 @@ const useUserData = (projectId: string): UseUserDataReturn => {
     };
 
     fetchUser();
-  }, [supabase, projectId]);
+  }, [supabase, projectId, authUser?.id, authLoading]);
 
   return {
     currentUser,

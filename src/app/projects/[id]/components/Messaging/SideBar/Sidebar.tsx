@@ -104,47 +104,55 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className={styles.sidebar}>
-      <h3>Channels</h3>
-      <ul>
-        {channelList.map((channel) => (
-          <ChannelListItem
-            key={channel.id}
-            channel={channel}
-            isActive={activeChat?.id === channel.id && activeChat?.type === 'channel'}
-            onClick={() => handleSetActiveChat({ ...channel, type: 'channel' })}
-          />
-        ))}
-      </ul>
-      {canCreateChannel && (
-        <button onClick={() => setIsModalOpen(true)} className={styles.addChannelButton}>
-          Add Channel
-        </button>
-      )}
+      <div className={styles.section}>
+        <div className={styles.sectionHeader}>
+            <span>Channels</span>
+            {canCreateChannel && (
+                <button onClick={() => setIsModalOpen(true)} className={styles.addButton}>
+                    +
+                </button>
+            )}
+        </div>
+        <ul className={styles.channelList}>
+            {channelList.map((channel) => (
+                <ChannelListItem
+                    key={channel.id}
+                    channel={channel}
+                    isActive={activeChat?.id === channel.id && activeChat?.type === 'channel'}
+                    onClick={() => handleSetActiveChat({ ...channel, type: 'channel' })}
+                />
+            ))}
+        </ul>
 
-      <h3>Collaborators</h3>
-      <ul className={styles.collaboratorList}>
-        {allCollaborators.map((collaborator) => (
-          <li
-            key={collaborator.userId}
-              className={`${styles.collaboratorItem} ${
-                  activeChat?.recipient_id === collaborator.userId && activeChat?.type === 'dm'
-                      ? styles.active
-                      : ''
-              }`}
-              onClick={() => {
-                  handleSetActiveChat({
-                      id: collaborator.userId,
-                      name: collaborator.username || collaborator.email,
-                      type: 'dm',
-                      recipient_id: collaborator.userId,
-                  });
-              }}
-          >
-            {collaborator.username || collaborator.email}
+      </div>
+        <div className={styles.section}>
+            <div className={styles.sectionHeader}>
+                <span>Collaborators</span>
+            </div>
+        <ul className={styles.dmList}>
+            {allCollaborators.map((collaborator) => (
+                <li
+                    key={collaborator.userId}
+                    className={`${styles.button} ${
+                        activeChat?.recipient_id === collaborator.userId && activeChat?.type === 'dm'
+                            ? styles.active
+                            : ''
+                    }`}
+                    onClick={() => {
+                        handleSetActiveChat({
+                            id: collaborator.userId,
+                            name: collaborator.username || collaborator.email,
+                            type: 'dm',
+                            recipient_id: collaborator.userId,
+                        });
+                    }}
+                >
+                    {collaborator.username || collaborator.email}
+                </li>
+            ))}
+        </ul>
+      </div>
 
-          </li>
-        ))}
-      </ul>
 
       {isModalOpen && (
         <ChannelCreationModal

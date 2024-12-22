@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore'; 
 import styles from './LoginForm.module.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm: React.FC = () => {
@@ -112,13 +112,7 @@ const LoginForm: React.FC = () => {
         )}
       </div>
 
-      {/* Toast Container */}
-      <ToastContainer
-        position="top-left"
-        autoClose={5000}
-        hideProgressBar={true}
-        theme="light"
-      />
+
     </>
   );
 };

@@ -1,12 +1,10 @@
-// /hooks/useDeleteChannel.ts
-
 import { useState } from 'react';
 import { deleteChannel } from '@/services/ProjectSettings/deleteChannel';
-import { toast } from 'react-toastify';
+
 
 interface UseDeleteChannelReturn {
   deletingChannelId: string | null;
-  deleteChannelById: (projectId: string, channelId: string) => Promise<void>;
+  deleteChannelById: (projectId: string, channelId: string) => Promise<{success:boolean, message:string}>;
   error: string | null;
 }
 
@@ -19,14 +17,15 @@ const useDeleteChannel = (): UseDeleteChannelReturn => {
     setError(null);
     try {
       const message = await deleteChannel(projectId, channelId);
-      toast.success(message);
+      
+      return {success: true, message}
     } catch (err) {
       const errorMessage =
         err instanceof Error
           ? err.message
           : 'An unexpected error occurred.';
       setError(errorMessage);
-      toast.error(errorMessage);
+      return {success: false, message: errorMessage}
     } finally {
       setDeletingChannelId(null);
     }

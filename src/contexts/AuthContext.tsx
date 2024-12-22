@@ -17,6 +17,7 @@ import styles from './Auth.module.css';
 interface AuthContextType {
   user: User | null;
   setUser: (user: User | null) => void;
+  loading: boolean; // Add loading state to context
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,59 +31,64 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Memoize Supabase client to prevent re-instantiation
   const supabase = useMemo(() => getSupabaseClient(), []);
 
-  // Initialize authentication
-  useEffect(() => {
-    const initializeAuth = async () => {
-      try {
-        console.log('Initializing authentication...');
-
-        if (session && isLoggedIn) {
-          console.log('Using persisted session:', session);
-          const userData = session.user;
-          setUser((prevUser) => {
-            // Update only if user data has changed
-            if (prevUser?.id !== userData.id) {
-              return {
-                id: userData.id,
-                email: userData.email || '',
-                username: userData.user_metadata?.username || '',
-              };
+    // Initialize authentication
+    useEffect(() => {
+        const initializeAuth = async () => {
+           setLoading(true) // Set loading to true when starting
+          try {
+            console.log('Initializing authentication...');
+    
+            if (session && isLoggedIn) {
+              console.log('Using persisted session:', session);
+              const userData = session.user;
+              setUser((prevUser) => {
+                // Update only if user data has changed
+                if (prevUser?.id !== userData.id) {
+                  return {
+                    id: userData.id,
+                    email: userData.email || '',
+                    username: userData.user_metadata?.username || '',
+                  };
+                }
+                return prevUser;
+              });
+            } else {
+              const {
+                data: { session: freshSession },
+                error,
+              } = await supabase.auth.getSession();
+    
+              if (error || !freshSession) {
+                console.log('No session found during initial check.');
+                setLoggedIn(false);
+                setUser(null);
+                  // Redirect if not logged in during initialization
+                  router.push('/');
+              } else {
+                console.log('Fresh session found:', freshSession);
+                setSession(freshSession);
+                const userData = freshSession.user;
+                setUser({
+                  id: userData.id,
+                  email: userData.email || '',
+                  username: userData.user_metadata?.username || '',
+                });
+                setLoggedIn(true);
+              }
             }
-            return prevUser;
-          });
-        } else {
-          const {
-            data: { session: freshSession },
-            error,
-          } = await supabase.auth.getSession();
-
-          if (error || !freshSession) {
-            console.log('No session found during initial check.');
-            setLoggedIn(false);
+          } catch (err) {
+            console.error('Unexpected error:', err);
             setUser(null);
-          } else {
-            console.log('Fresh session found:', freshSession);
-            setSession(freshSession);
-            const userData = freshSession.user;
-            setUser({
-              id: userData.id,
-              email: userData.email || '',
-              username: userData.user_metadata?.username || '',
-            });
-            setLoggedIn(true);
+            setLoggedIn(false);
+              // Redirect if an error occurs during initialization
+            router.push('/');
+          } finally {
+            setLoading(false); // Set loading to false when done
           }
-        }
-      } catch (err) {
-        console.error('Unexpected error:', err);
-        setUser(null);
-        setLoggedIn(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    initializeAuth();
-  }, []);
+        };
+    
+        initializeAuth();
+      }, [router, session, isLoggedIn, setLoggedIn, setSession, supabase.auth]);
 
   // Listen for auth state changes
   useEffect(() => {
@@ -114,8 +120,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Memoize context value to prevent unnecessary re-renders
   const contextValue = useMemo(
-    () => ({ user, setUser }),
-    [user] // Recompute only when `user` changes
+    () => ({ user, setUser, loading }),
+    [user, loading] // Recompute when `user` or `loading` changes
   );
 
   if (loading) {

@@ -1,131 +1,168 @@
 .messageItem {
-    margin-bottom: 12px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    max-width: 70%;
-    /* Removed position: relative; as it's no longer needed */
-  }
-  
-  .yourMessage {
-    align-self: flex-end;
-    background-color: #dcf8c6; /* Example color for user's messages */
-  }
-  
-  .otherMessage {
-    align-self: flex-start;
-    background-color: #fff;
-  }
-  
-  .messageInfo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Vertically centers items */
-    margin-bottom: 4px;
-  }
-  
-  .userInfo {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap; /* Allows wrapping if space is constrained */
-  }
-  
-  .userName {
-    font-weight: 600;
-    color: #333;
-    margin-right: 8px; /* Space between username and timestamp */
-  }
-  
-  .timestamp {
-    font-size: 0.85rem;
-    color: #666;
-  }
-  
-  .messageText {
-    margin: 0;
-    word-wrap: break-word;
-  }
-  
-  .mention {
-    color: #007bff; /* Highlight color for mentions */
-    font-weight: 600;
-  }
-  
-  .editedLabel {
-    font-size: 0.75rem;
-    color: #999;
-    margin-left: 4px;
-  }
-  
-  .options {
-    position: relative; /* Needed for the dropdown to position correctly */
-  }
-  
-  .optionsButton {
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 70%;
+  /* Removed position: relative; as it's no longer needed */
+}
+
+.yourMessage {
+  align-self: flex-end;
+  background-color: #dcf8c6; /* Example color for user's messages */
+}
+
+.otherMessage {
+  align-self: flex-start;
+  background-color: #fff;
+}
+
+.messageInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically centers items */
+  margin-bottom: 4px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; /* Allows wrapping if space is constrained */
+}
+
+.userName {
+  font-weight: 600;
+  color: #333;
+  margin-right: 8px; /* Space between username and timestamp */
+}
+
+.timestamp {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.messageText {
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.mention {
+  color: #007bff; /* Highlight color for mentions */
+  font-weight: 600;
+}
+
+.editedLabel {
+  font-size: 0.75rem;
+  color: #999;
+  margin-left: 4px;
+}
+
+.options {
+  position: relative; /* Needed for the dropdown to position correctly */
+}
+
+.optionsButton {
     background: none;
     border: none;
     color: #555;
     cursor: pointer;
+    margin-left: 10px;
     font-size: 0.85rem;
     padding: 4px 8px; /* Added padding for better click area */
-  }
-  
-  .optionsMenu {
+    line-height: 1;
+}
+.optionsText {
+  display: inline;
+}
+
+.optionsMenu {
     position: absolute;
-    top: 100%; /* Positions the menu directly below the button */
+    top: calc(100% + 4px); /* Positions below, adds some space */
     right: 0;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    min-width: 100px; /* Ensures a minimum width */
-  }
-  
-  .optionItem {
+    min-width: 120px; /* Slightly wider menu */
+    white-space: nowrap; /* Prevent text from wrapping */
+    padding: 4px 0; /* Added vertical padding */
+    overflow: hidden; /* Prevent content overflow */
+        display: flex;
+        flex-direction: column;
+}
+
+.optionItem {
     display: block;
-    padding: 8px 12px;
+    padding: 8px 12px; /* Increased vertical padding for touch targets */
     width: 100%;
     background: none;
     border: none;
     text-align: left;
     cursor: pointer;
     font-size: 0.85rem;
+    transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+.optionItem:hover {
+  background-color: #f0f0f0;
+}
+.optionItem:focus {
+        outline: none;
+        background-color: #e5e5e5; /* Slightly darker on focus for accessibility */
+    }
+.optionItem:active {
+        background-color: #dcdcdc; /* Slightly darker on active */
+    }
+
+.editContainer {
+  display: flex;
+  align-items: center;
+}
+
+.editInput {
+  flex-grow: 1;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.saveButton,
+.cancelButton {
+  padding: 8px 12px;
+  background-color: #d4a373;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.saveButton {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.cancelButton {
+  background-color: #dc3545;
+  color: #fff;
+}
+@media (max-width: 460px) {
+      .optionsButton .optionsText {
+        display: none;
+    }
+  .optionsButton {
+        font-size: 0.5rem;
+        padding: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+        line-height: 0.9; /* Adjusted line height */
+          display: flex;
+          flex-direction: column;
+      
+    }
+  .optionsButton::after{
+      content: "•\A•\A•";
+        white-space: pre;
+          line-height: 0.5; /* Adjusted line height */
+
   }
-  
-  .optionItem:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .editContainer {
-    display: flex;
-    align-items: center;
-  }
-  
-  .editInput {
-    flex-grow: 1;
-    padding: 4px 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .saveButton,
-  .cancelButton {
-    padding: 8px 12px;
-    background-color: #d4a373;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .saveButton {
-    background-color: #28a745;
-    color: #fff;
-  }
-  
-  .cancelButton {
-    background-color: #dc3545;
-    color: #fff;
-  }
-  
+}
