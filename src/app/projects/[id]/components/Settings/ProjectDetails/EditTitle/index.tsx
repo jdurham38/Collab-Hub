@@ -35,7 +35,7 @@ const EditTitle: React.FC<EditTitleProps> = ({ title, setTitle }) => {
   return (
     <div className={styles.editTitleContainer}>
       <label htmlFor="title" className={styles.label}>
-        Title:
+        <h2><b>Edit Title:</b></h2>
       </label>
       <input
         type="text"

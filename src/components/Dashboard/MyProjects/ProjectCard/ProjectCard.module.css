@@ -1,0 +1,73 @@
+/* components/dashboard/ProjectCard.module.css */
+
+.projectCard {
+    width: 300px;
+    min-width: 300px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensure banner stays within bounds */
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    margin: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.projectCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.bannerContainer {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.bannerImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.noBanner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #777;
+    width: 100%;
+    height: 100%;
+}
+
+.projectInfo {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+    text-decoration: none;
+     color: #333;
+
+}
+.title:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+
+.createdDate {
+    font-size: 0.9rem;
+    color: #777;
+}

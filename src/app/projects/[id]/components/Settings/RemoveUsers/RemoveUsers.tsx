@@ -98,13 +98,16 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+      <h2 className={styles.title}>Project Collaborators</h2>
+      </div>
        <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleRemove}
         message={`Are you sure you want to remove ${userToRemove?.username || userToRemove?.email}?`}
       />
-      {/* ... rest of your component */}
+     
             <ul className={styles.list}>
           {collaborators.map((collab) => (
             <li key={collab.userId} className={styles.listItem}>

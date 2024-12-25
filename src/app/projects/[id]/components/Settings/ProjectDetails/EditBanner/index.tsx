@@ -94,6 +94,7 @@ const EditBanner: React.FC<EditBannerProps> = ({
 
   return (
     <div className={styles.editBanner}>
+      <h2><b>Edit Banner:</b></h2>
       <h3 className={styles.title}>Select a Banner</h3>
       {isLoading && <p>Loading banners...</p>}
       {isError && <p className={styles.error}>Failed to load banners.</p>}

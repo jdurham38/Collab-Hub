@@ -1,0 +1,44 @@
+/* components/dashboard/HorizontalProjectList.module.css */
+
+.projectListContainer {
+    position: relative; /* Needed for absolute positioning of scroll indicator */
+    margin-bottom: 20px;
+}
+
+.projectList {
+    display: flex;
+    overflow-x: auto; /* Allow horizontal scrolling */
+    padding: 15px 0;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+}
+
+.projectList::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+.scrollIndicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none; /* Allows interactions with underlying content */
+  transform: translateY(-50%);
+}
+
+.scrollButton {
+  background: rgba(255, 255, 255, 0.7);
+    border: none;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: background-color 0.3s ease;
+}
+
+.scrollButton:hover {
+    background: rgba(255, 255, 255, 0.9);
+}

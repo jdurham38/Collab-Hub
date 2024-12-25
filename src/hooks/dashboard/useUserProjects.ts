@@ -2,10 +2,17 @@ import { useEffect, useState } from 'react';
 import { getUserProjects } from '@/services/Dashboard/getUserProjects';
 
 
-interface Project {
+export interface Project {
   id: string;
   title: string;
+  description: string;
+  banner_url: string;
+  tags: string[];
+  roles: string[];
   createdAt: string;
+  created_by: string;
+  created_by_username: string;
+
 }
 
 const useUserProjects = (userId: string | undefined) => {

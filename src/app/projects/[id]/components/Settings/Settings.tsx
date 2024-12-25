@@ -133,7 +133,6 @@ const Settings: React.FC<SettingsProps> = ({
       <div className={styles.contentContainer}>
         {activeTab === 'editProjectDetails' && showEditProject && (
           <div>
-            <h3>Edit Project Details</h3>
             <ProjectDetails projectId={projectId} />
             {/* Add form elements for editing project details */}
           </div>
@@ -141,7 +140,6 @@ const Settings: React.FC<SettingsProps> = ({
 
         {activeTab === 'removeUsers' && showRemoveUsers && (
           <div>
-            <h3>Remove Users</h3>
             <RemoveUsers
               projectId={projectId}
               currentUserId={currentUserId}
@@ -153,14 +151,12 @@ const Settings: React.FC<SettingsProps> = ({
 
         {activeTab === 'removeChannels' && showRemoveChannels && (
           <div>
-            <h3>Remove Channels</h3>
             <DeleteChannel projectId={projectId} />
           </div>
         )}
 
         {activeTab === 'grantAdminAccess' && showGrantAdminAccess && (
           <div>
-            <h3>Grant Admin Access</h3>
             <AdminAccess projectId={projectId}  />
           </div>
         )}

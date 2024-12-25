@@ -50,6 +50,7 @@ const EditRoles: React.FC<EditRolesProps> = ({ roles, setRoles }) => {
 
   return (
     <div className={styles.editRolesContainer}>
+      <h2><b>Edit Roles:</b></h2>
       <h3 className={styles.title}>Select Roles (Limit of 5)</h3>
 
       <div className={styles.selectedRolesContainer}>

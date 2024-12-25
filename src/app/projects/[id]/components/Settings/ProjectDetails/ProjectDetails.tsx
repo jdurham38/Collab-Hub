@@ -101,7 +101,7 @@ const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
 
   return (
     <div className={styles.projectDetailsContainer}>
-      <h1>Edit Project: {project.title}</h1>
+      <h1 className={styles.title}>Edit Project Details: {project.title}</h1>
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <EditTitle title={project.title} setTitle={(newTitle) => setProject({...project, title: newTitle})} /> {/* Pass setter function */}

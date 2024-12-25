@@ -21,10 +21,22 @@
   max-width: 400px; /* Adjust as needed */
 }
 
-.modalContent {
-    /* Add any specific styles for the content area if needed */
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333333;
+  text-align: center;
+  flex: 1
+
+}
 
 .modalButtons {
   display: flex;

@@ -46,6 +46,8 @@ export interface Project {
   tags: string[];
   roles: string[];
   created_by: string;
+  createdAt: string
+  created_by_username: string;
 }
 
 export interface Message {

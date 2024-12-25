@@ -106,7 +106,7 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Channels</h2>
+        <h2 className={styles.title}>Project Channels</h2>
       </div>
       <ul className={styles.list}>
         {channels.map((channel) => (

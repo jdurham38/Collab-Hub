@@ -20,7 +20,9 @@ const EditDescription: React.FC<EditDescriptionProps> = ({
 }) => {
   return (
     <>
+      <h2><b>Edit Description:</b></h2>
       <div className={styles.richTextEditor}>
+
         <ReactQuillWrapper
           value={description}
           onChange={setDescription}

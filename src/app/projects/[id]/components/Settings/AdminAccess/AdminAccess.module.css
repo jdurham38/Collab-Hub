@@ -10,7 +10,7 @@
 .title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  text-align: center; /* Center title for better aesthetics on mobile */
+  text-align: center;
 }
 
 .list {
@@ -21,31 +21,40 @@
 
 .listItem {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
   padding: 0.75rem 0;
-  border-bottom: 1px solid #e0e0e0;
-  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  border-bottom: 1px solid #e0e0e0; /* Remove default border-bottom */
+  flex-wrap: wrap;
+}
+
+/* Added Separator Style */
+.listItem + .listItem {
+    border-top: 1px solid black; /* Black line as separator */
 }
 
 .userLabel {
-  flex: 1 1 100%; /* Full width on small screens */
-  font-weight: 500;
-  margin-bottom: 0.5rem; /* Space below the label */
-  word-break: break-word; /* Prevent overflow with long usernames/emails */
+  flex: 1 1 100%;
+  font-weight: bold;
+  font-size: x-large;
+  margin-bottom: 0.5rem;
+  word-break: break-word;
 }
 
 .toggles {
   display: flex;
   gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap; /* Allow toggles to wrap on smaller screens */
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .toggleGroup {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem; /* Space below each toggle group */
+  margin-bottom: 0.5rem;
 }
 
 .switchLabel {
@@ -120,7 +129,7 @@ input:disabled + .slider {
 
 .error {
   color: red;
-  text-align: center; /* Center error messages for better visibility */
+  text-align: center;
 }
 
 .saveButton {
@@ -132,9 +141,8 @@ input:disabled + .slider {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  align-self: center;
-  display: block; /* Center the button horizontally */
-  width: 100%; /* Full width on small screens */
+  display: block;
+  width: 100%;
 }
 
 .saveButton:disabled {
@@ -178,7 +186,7 @@ input:disabled + .slider {
   }
 
   .switch {
-    width: 50px; /* Increase toggle size for better touch interaction */
+    width: 50px;
     height: 25px;
   }
 
@@ -190,7 +198,7 @@ input:disabled + .slider {
   }
 
   input:checked + .slider::before {
-    transform: translateX(25px); /* Adjust for increased toggle size */
+    transform: translateX(25px);
   }
 
   .saveButton {
@@ -207,61 +215,6 @@ input:disabled + .slider {
 
   .unsavedIndicator {
     font-size: 1.5rem;
-  }
-}
-
-@media (min-width: 601px) and (max-width: 1024px) {
-  /* Tablet Styles */
-  .container {
-    padding: 1rem;
-  }
-
-  .title {
-    font-size: 1.4rem;
-  }
-
-  .listItem {
-    flex-direction: row;
-  }
-
-  .toggles {
-    flex-wrap: nowrap;
-  }
-
-  .toggleGroup {
-    margin-bottom: 0;
-  }
-
-  .switch {
-    width: 45px;
-    height: 22px;
-  }
-
-  .slider::before {
-    height: 16px;
-    width: 16px;
-    left: 3px;
-    bottom: 3px;
-  }
-
-  input:checked + .slider::before {
-    transform: translateX(23px);
-  }
-
-  .saveButton {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  .loadingSpinner {
-    width: 22px;
-    height: 22px;
-    border: 3.5px solid #f3f3f3;
-    border-top: 3.5px solid #3498db;
-  }
-
-  .unsavedIndicator {
-    font-size: 1.3rem;
   }
 }
 

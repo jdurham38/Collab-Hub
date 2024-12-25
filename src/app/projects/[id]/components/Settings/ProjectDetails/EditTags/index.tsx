@@ -50,6 +50,7 @@ const EditTags: React.FC<EditTagsProps> = ({ tags, setTags }) => {
 
   return (
     <div className={styles.editTagsContainer}>
+      <h2><b>Edit Tags:</b></h2>
       <h3 className={styles.title}>Select Tags (Limit of 5)</h3>
 
       <div className={styles.selectedTagsContainer}>

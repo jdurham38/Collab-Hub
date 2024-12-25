@@ -1,0 +1,57 @@
+
+.projectDetailsContainer {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333333;
+    text-align: center;
+    flex: 1
+  
+  }
+  
+  
+  .form {
+      display: flex;
+      flex-direction: column;
+  
+  }
+  
+  /* Add margin to all direct children of the form */
+  .form > * {
+    margin-top: 15px;
+    margin-bottom: 15px; /* Adjust as needed for desired spacing */
+  }
+  
+  .error {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px; /* Match spacing for errors */
+  }
+  .success{
+      color: green;
+      text-align: center;
+      margin-bottom: 15px;
+  }
+  
+  .submitButton {
+    padding: 8px 12px;
+    background-color: #d4a373;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submitButton:hover {
+    background-color: #daca9f;   color: black;
+  }
+  
+  .submitButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }

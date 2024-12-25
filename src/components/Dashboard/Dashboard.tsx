@@ -3,37 +3,28 @@
 import React from 'react';
 import useAuthRedirect from '@/hooks/dashboard/useAuthRedirect';
 import useUserProjects from '@/hooks/dashboard/useUserProjects';
-import ProtectedComponent from '../ProtectedComponent/protected-page';
-import Link from 'next/link'; 
+import ProtectedComponent from '@/components/ProtectedComponent/protected-page';
+import HorizontalProjectList from './MyProjects/HorizontalProjectList/HorizontalProjectList';
+import styles from './dashboard.module.css';
 
 const Dashboard: React.FC = () => {
   const user = useAuthRedirect();
   const { projects, loading, error } = useUserProjects(user?.id);
 
   if (!user) {
-    // Optionally, display a loading indicator or message while redirecting
     return <div>Redirecting...</div>;
   }
 
   return (
-    <div>
+    <div className={styles.dashboardContainer}>
       <ProtectedComponent />
-      <h1>Dashboard</h1>
+      <h1 className={styles.title}>Dashboard</h1>
       {loading ? (
         <div>Loading...</div>
       ) : error ? (
-        <div style={{ color: 'red' }}>{error}</div> // Display the error message in red
+        <div className={styles.error}>{error}</div>
       ) : projects.length > 0 ? (
-        <ul>
-          {projects.map((project) => (
-            <li key={project.id}>
-              <h2>
-                <Link href={`/projects/${project.id}`}>{project.title}</Link>
-              </h2>
-              <p>Created at: {new Date(project.createdAt).toLocaleDateString()}</p>
-            </li>
-          ))}
-        </ul>
+        <HorizontalProjectList projects={projects} />
       ) : (
         <p>No projects found.</p>
       )}
