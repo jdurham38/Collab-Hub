@@ -21,13 +21,7 @@ Color Pallete
   
 6. project discovery page
     - have a search/filter to narrow a search based on requirements.
-    - have two sections:
         1. explore projects 2x3 grid
-
-6. create project creation/project preview
-
-backend
-        - within this allow for a toggle switch to enable the notion/trello dup within a project. if not enabled, the slack dup will be enabled no matter what
 
 
 7. create user explore page
@@ -44,43 +38,25 @@ backend
 
 9. create messaging page
 
-      
-
-Individual Projects page 
-
-
 
 
 
     Settings
+    Bold all title and center them
+            - Edit project details
+                1.. the save changes button
             - Remove channels
-                - enhance styling
-                - tanstack 
+                - Bold the title
             - admin access
-                - cannot see themselves/remove themselves
+                - Bold the title
+                - cannot remove themselves
                 -enhance styling
-                -tanstack
             - removing users
-                - cannot see themselves/remove themselves
+                - Bold the title
                 - enhance styling
-                -tanstack
-            - changing project details
-                - enhance styling
-                -tanstack
-
 
 Channel messaging
     - allow users to create a channel with specific users. (LATER FEATURE)
-    - test use cases
-
-
-DM 
-    - update styling to match the channel area
-    - test use cases
-
-Sidebar
-    - Enhance styling
-    - Create mobile stlying
 
 
 try implementing promise.allSettled for multiple async operations 
