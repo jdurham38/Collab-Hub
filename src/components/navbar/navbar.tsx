@@ -53,6 +53,9 @@ const Navbar = () => {
         <Link href="/dashboard" className={styles.navLink}>
           Dashboard
         </Link>
+        <Link href="/discover-projects" className={styles.navLink}>
+          Discover Projects
+        </Link>
         <button className={styles.createButton} onClick={openModal}>
           +
         </button>

@@ -1,0 +1,52 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .loading,
+  .error,
+  .noProjects {
+    text-align: center;
+    padding: 20px;
+    font-size: 1rem;
+  }
+  
+  .error {
+    color: red;
+  }
+  
+  /* Tablet Size: 2x2 Grid */
+  @media (max-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    }
+  }
+  
+  /* Mobile Size: 1x3 Grid */
+  @media (max-width: 768px) {
+    .grid {
+        grid-template-columns: 1fr; /* 1 column */
+    }
+  }
+  
+  
+  .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    
+    .pagination button {
+      padding: 8px 12px;
+      margin: 0 5px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+    
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }

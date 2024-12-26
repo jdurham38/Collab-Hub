@@ -1,0 +1,53 @@
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .banner {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  
+  .title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .description {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    color: #555;
+    flex-grow: 1;
+  }
+  
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  
+  .tag {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+  }
+  
+  .createdBy {
+    font-size: 0.8rem;
+    color: #777;
+  }

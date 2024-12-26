@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    background-color: #123123;     height: 60px;
+    background-color: #ccd5ae;     height: 60px;
   }
   
   .leftSection {
@@ -15,7 +15,7 @@
 
   .navLink {
     font-size: 16px;
-    color: #ffffff;
+    color: #000;
     cursor: pointer;
     margin-right: 1rem;
       }
@@ -27,7 +27,7 @@
   
   .createButton {
     font-size: 20px;
-    background-color: #28a745;
+    background-color: #d4a373;
     color: #ffffff;
     border: none;
     border-radius: 50%;
@@ -49,7 +49,7 @@
   
   .username {
     font-size: 16px;
-    color: #ffffff;
+    color: #000;
     margin-right: 10px;
     cursor: pointer;
   }

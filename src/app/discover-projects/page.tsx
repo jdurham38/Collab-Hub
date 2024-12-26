@@ -1,4 +1,6 @@
-import DiscoverProjects from "@/components/Projects/DiscoverProjects/discoverProjects";
+'use client'
+
+import DiscoverProjects from "@/components/DiscoverProjects/DiscoverProjects"
 
 export default function DiscoverPage(){
     return(<div>

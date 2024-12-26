@@ -10,13 +10,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log('API route /api/projects-page/fetch-all-projects HIT'); // Keep this log
+  console.log('Query parameters:', req.query); // Keep this log
+
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
   const userId = req.query.userId;
 
-  // Ensure userId is a single string, not an array
   if (Array.isArray(userId)) {
     return res
       .status(400)
@@ -28,49 +30,43 @@ export default async function handler(
   }
 
   try {
+    // Filter projects by userId using .eq()
     const { data: projects, error: projectError } = await supabase
       .from('projects')
-      .select('id, title, createdAt, banner_url, tags, created_by')
-      .eq('created_by', userId); // Filter projects by the given userId
+      .select('id, title, createdAt, banner_url, tags, created_by, roles')
+      .eq('created_by', userId); // Add this filter
 
     if (projectError) {
       console.error('Error fetching user projects:', projectError.message);
       return res.status(500).json({ error: 'Failed to fetch projects' });
     }
 
-    // Fetch user details only if projects exist
+    // Only fetch user details if projects exist
     if (projects.length > 0) {
         const { data: users, error: userError } = await supabase
-          .from('users')
-          .select('id, username')
-          .in(
-            'id',
-            projects.map((project) => project.created_by)
-          );
+            .from('users')
+            .select('id, username')
+            .in('id', projects.map((project) => project.created_by));
 
         if (userError) {
-          console.error('Error fetching user details:', userError.message);
-          return res.status(500).json({ error: 'Failed to fetch user details' });
+            console.error('Error fetching user details:', userError.message);
+            return res.status(500).json({ error: 'Failed to fetch user details' });
         }
 
         const usersMap = new Map();
-        if (users) {
-          users.forEach((user) => {
+        users.forEach((user) => {
             usersMap.set(user.id, user.username);
-          });
-        }
+        });
 
-      const projectsWithUsernames = projects.map((project) => {
-        return {
-          ...project,
-          created_by_username: usersMap.get(project.created_by) || 'Unknown User',
-        };
-      });
+        const projectsWithUsernames = projects.map((project) => ({
+            ...project,
+            created_by_username: usersMap.get(project.created_by) || 'Unknown User',
+        }));
 
-      return res.status(200).json(projectsWithUsernames);
+        return res.status(200).json(projectsWithUsernames);
     } else {
-      // Return an empty array if no projects are found for the user
-      return res.status(200).json([]);
+        // Return an empty array if no projects are found for the user
+        return res.status(200).json([]);
     }
   } catch (error) {
     console.error('Unexpected error:', error);

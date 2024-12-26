@@ -1,5 +1,9 @@
 /* components/dashboard/HorizontalProjectList.module.css */
-
+.outerContainer {
+    background-color: #faedcd; /* Set your desired background color */
+    padding: 20px; /* Add padding as needed */
+    border-radius: 10px; /* Optional: Add border radius for rounded corners */
+  }
 .projectListContainer {
     position: relative; /* Needed for absolute positioning of scroll indicator */
     margin-bottom: 20px;

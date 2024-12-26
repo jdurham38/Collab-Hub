@@ -1,0 +1,42 @@
+.filterContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-bottom: 20px
+}
+
+.filterSection{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filterTitle{
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.filterOption{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filterOption input{
+    margin: 0;
+}
+
+.clearButton{
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    align-self: flex-start;
+}
