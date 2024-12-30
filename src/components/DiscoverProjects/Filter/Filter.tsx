@@ -3,10 +3,7 @@ import styles from './ProjectFilter.module.css';
 import MultiSelectDropdown from './MultiSelectDropDown/MultiSelectDropDown';
 import { projectRoles } from '@/utils/roles';
 import { projectTags } from '@/utils/tags';
-import DateSlider from './DateSlider/DateSlider';
-
-type DateRangeValue = 0 | 1 | 7 | 30 | 'this_month' | 'last_month';
-
+import Dropdown from './Dropdown/Dropdown';
 
 // Define a type for individual project
 interface Project {
@@ -22,15 +19,30 @@ interface ProjectFilterProps {
     onFilter: (filteredProjects: Project[]) => void;
 }
 
+interface DropdownOption {
+  label: string;
+  value: string;
+}
+
+
 const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
-    const [selectedDateRange, setSelectedDateRange] = useState<DateRangeValue>(0);
+    const [selectedDateRange, setSelectedDateRange] = useState<string>('all');
     const [noProjectsMessage, setNoProjectsMessage] = useState<string | null>(null);
 
     // Extract Unique Tags and Roles
     const allTags = Object.values(projectTags).flat();
     const allRoles = Object.values(projectRoles).flat();
+
+    // Date range options
+    const dateRangeOptions: DropdownOption[] = [
+      {label: "All Time", value: "all"},
+      {label: "Today", value: "today"},
+      {label: "Yesterday", value: "yesterday"},
+      {label: "Last 7 Days", value: "last7days"},
+      {label: "Last 30 Days", value: "last30days"},
+    ]
 
     useEffect(() => {
         applyFilters();
@@ -54,49 +66,32 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => 
         }
 
         // Filter by Date Range
-        if (selectedDateRange != null) {
-            filtered = filtered.filter((project) => {
-                const projectDate = new Date(project.createdAt);
-                const now = new Date();
-                const diffInDays = Math.floor((now.getTime() - projectDate.getTime()) / (1000 * 3600 * 24));
-                console.log(
-                    "projectDate:",
-                    projectDate,
-                    "now:",
-                    now,
-                    "diffInDays:",
-                    diffInDays,
-                    "Selected Date Range",
-                    selectedDateRange,
-                );
-                if (selectedDateRange === 0) {
-                    return (
-                        projectDate.getFullYear() === now.getFullYear() &&
-                        projectDate.getMonth() === now.getMonth() &&
-                        projectDate.getDate() === now.getDate()
-                    );
-                } else if (selectedDateRange === 1) {
-                    const yesterday = new Date(now);
-                    yesterday.setDate(now.getDate() - 1);
-                    return (
-                        projectDate.getFullYear() === yesterday.getFullYear() &&
-                        projectDate.getMonth() === yesterday.getMonth() &&
-                        projectDate.getDate() === yesterday.getDate()
-                    );
-                } else if (selectedDateRange === 7) {
-                    return diffInDays <= 7;
-                } else if (selectedDateRange === 30) {
-                    return diffInDays <= 30;
-                } else if (selectedDateRange === 'this_month') {
-                    return projectDate.getMonth() === now.getMonth() && projectDate.getFullYear() === now.getFullYear();
-                } else if (selectedDateRange === 'last_month') {
-                    const lastMonth = new Date(now);
-                    lastMonth.setMonth(now.getMonth() - 1);
-                    return projectDate.getMonth() === lastMonth.getMonth() && projectDate.getFullYear() === lastMonth.getFullYear();
-                }
-                return true;
-            });
+        if(selectedDateRange !== "all") {
+          filtered = filtered.filter((project) => {
+            const projectDate = new Date(project.createdAt);
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            const sevenDaysAgo = new Date(today);
+            sevenDaysAgo.setDate(today.getDate() - 7)
+            const thirtyDaysAgo = new Date(today);
+            thirtyDaysAgo.setDate(today.getDate() - 30)
+
+             switch (selectedDateRange) {
+               case "today":
+                  return projectDate.toDateString() === today.toDateString();
+               case "yesterday":
+                   return projectDate.toDateString() === yesterday.toDateString();
+               case "last7days":
+                  return projectDate >= sevenDaysAgo && projectDate <= today;
+                case "last30days":
+                   return projectDate >= thirtyDaysAgo && projectDate <= today;
+                default:
+                  return true;
+             }
+          });
         }
+
 
         if (filtered.length === 0) {
              setNoProjectsMessage("No projects available for this filter");
@@ -109,9 +104,14 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => 
     const handleClearFilters = () => {
         setSelectedTags([]);
         setSelectedRoles([]);
-        setSelectedDateRange(0);
+        setSelectedDateRange("all");
         setNoProjectsMessage(null)
     };
+
+     const handleDateRangeChange = (value: string) => {
+        setSelectedDateRange(value)
+     }
+
 
     return (
         <div className={styles.filterContainer}>
@@ -131,12 +131,14 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => 
                     onSelect={setSelectedRoles}
                 />
             </div>
-            <div className={styles.filterSection}>
-                <DateSlider
-                    onSelect={setSelectedDateRange}
-                    selected={selectedDateRange}
-                />
-            </div>
+             <div className={styles.filterSection}>
+                <Dropdown
+                   label="Date Range"
+                   options={dateRangeOptions}
+                   selected={selectedDateRange}
+                   onSelect={handleDateRangeChange}
+                   />
+             </div>
             <button onClick={handleClearFilters} className={styles.clearButton}>
                 Clear Filters
             </button>

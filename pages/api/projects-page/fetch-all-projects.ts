@@ -34,7 +34,6 @@ export default async function handler(
     const { data: projects, error: projectError } = await supabase
       .from('projects')
       .select('id, title, createdAt, banner_url, tags, created_by, roles')
-      .eq('created_by', userId); // Add this filter
 
     if (projectError) {
       console.error('Error fetching user projects:', projectError.message);

@@ -1,0 +1,33 @@
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownHeader {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: white;
+}
+
+.dropdownList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  border: 1px solid #ccc;
+  background-color: white;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  z-index: 1000;
+  width: 100%;
+}
+
+.dropdownListItem {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdownListItem:hover {
+  background-color: #f0f0f0;
+}
