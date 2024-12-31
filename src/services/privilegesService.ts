@@ -1,4 +1,4 @@
-// services/privilegesService.ts
+
 import axios from 'axios';
 
 export interface Privileges {

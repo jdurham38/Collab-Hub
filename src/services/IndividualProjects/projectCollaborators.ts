@@ -1,4 +1,4 @@
-// File: services/projectCollaborators.ts
+
 
 import { User } from '@/utils/interfaces';
 import axios from 'axios';

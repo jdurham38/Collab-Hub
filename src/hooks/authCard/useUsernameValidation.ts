@@ -1,4 +1,4 @@
-// hooks/useUsernameValidation.ts
+
 import { useState, useEffect } from 'react';
 import { checkUsernameExists } from '@/services/signup';
 import { profanity } from '@2toad/profanity';
@@ -32,7 +32,7 @@ const useUsernameValidation = ({ username }: UseUsernameValidationProps): UseUse
       setIsChecking(true);
       setError('');
 
-      // Profanity Check
+      
       try {
         if (profanity.exists(trimmedUsername)) {
           setError('Profanity detected in username.');
@@ -48,7 +48,7 @@ const useUsernameValidation = ({ username }: UseUsernameValidationProps): UseUse
         return;
       }
 
-      // Availability Check
+      
       try {
         const usernameExists = await checkUsernameExists(trimmedUsername);
         if (usernameExists) {
@@ -69,7 +69,7 @@ const useUsernameValidation = ({ username }: UseUsernameValidationProps): UseUse
 
     const timer = setTimeout(() => {
       validateUsername();
-    }, 1500); // Debounce delay of 1.5 seconds
+    }, 1500); 
 
     return () => clearTimeout(timer);
   }, [username]);

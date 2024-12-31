@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './index.module.css'; // Ensure you have corresponding CSS
+import styles from './index.module.css'; 
 import { profanity } from '@2toad/profanity';
 
 interface EditTitleProps {
@@ -14,7 +14,7 @@ const EditTitle: React.FC<EditTitleProps> = ({ title, setTitle }) => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
-    // Enforce maximum length of 40 characters
+    
     if (value.length > 40) {
       value = value.slice(0, 40);
     }
@@ -22,7 +22,7 @@ const EditTitle: React.FC<EditTitleProps> = ({ title, setTitle }) => {
     setTitle(value);
     setCharCount(value.length);
 
-    // Validation
+    
     if (!value.trim()) {
       setErrorMessage('Project title is required.');
     } else if (profanity.exists(value)) {

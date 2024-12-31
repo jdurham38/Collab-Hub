@@ -48,11 +48,6 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
     loadChannels();
   }, [projectId]);
 
-  // Use useEffect to log the activeChat state whenever it changes
-  useEffect(() => {
-    console.log("Active chat updated:", activeChat);
-  }, [activeChat]);
-
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
-import styles from './index.module.css'; // Changed CSS file name
+import styles from './index.module.css'; 
 import Image from 'next/image';
 
 interface EditBannerProps {
@@ -39,7 +39,7 @@ const EditBanner: React.FC<EditBannerProps> = ({
   setBannerFile,
 }) => {
   const [errorMessage, setErrorMessage] = useState('');
-  const [currentBannerUrl, setCurrentBannerUrl] = useState(bannerUrl); // Local state for preview
+  const [currentBannerUrl, setCurrentBannerUrl] = useState(bannerUrl); 
 
   const {
     data: presetBanners = [],
@@ -50,13 +50,13 @@ const EditBanner: React.FC<EditBannerProps> = ({
     queryFn: fetchPresetBanners,
   });
 
-  // Update local banner URL when the prop changes
+  
   useEffect(() => {
     setCurrentBannerUrl(bannerUrl);
   }, [bannerUrl]);
 
   const handlePresetSelect = (url: string) => {
-    setCurrentBannerUrl(url); // Update local state for preview
+    setCurrentBannerUrl(url); 
     setBannerUrl(url);
     setBannerFile(null);
   };
@@ -80,14 +80,14 @@ const EditBanner: React.FC<EditBannerProps> = ({
     }
 
     const previewUrl = URL.createObjectURL(file);
-    setCurrentBannerUrl(previewUrl); // Update local state for preview
+    setCurrentBannerUrl(previewUrl); 
     setBannerUrl(previewUrl);
     setBannerFile(file);
     setErrorMessage('');
   };
 
   const handleRemoveBanner = () => {
-    setCurrentBannerUrl(''); // Update local state for preview
+    setCurrentBannerUrl(''); 
     setBannerUrl('');
     setBannerFile(null);
   };

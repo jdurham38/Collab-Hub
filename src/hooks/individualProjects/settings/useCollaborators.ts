@@ -27,7 +27,7 @@ const useCollaborators = (projectId: string): UseCollaboratorsReturn => {
     setError(null);
     try {
       const collaboratorsData = await fetchProjectCollaborators(projectId);
-      setCollaborators(collaboratorsData.collaborators); // Corrected line
+      setCollaborators(collaboratorsData.collaborators); 
     } catch (err) {
         if(axios.isAxiosError(err)){
             const axiosError = err as AxiosError<CollaboratorError>;

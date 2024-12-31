@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <div className={styles.sidebar}>
-      {/* Channels Section */}
+      {}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
           <span>Channels</span>
@@ -63,7 +63,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </ul>
       </div>
 
-      {/* Direct Messages Section */}
+      {}
       <div className={styles.section}>
         <div className={styles.sectionHeader}>
           <span>Direct Messages</span>

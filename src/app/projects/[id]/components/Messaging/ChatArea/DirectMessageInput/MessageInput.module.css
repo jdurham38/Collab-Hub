@@ -1,4 +1,4 @@
-/* File: components/MessageInput/MessageInput.module.css */
+
 
 .messageForm {
     display: flex;
@@ -7,7 +7,7 @@
   }
   
   .messageInputWrapper {
-    position: relative; /* Needed for absolute positioning of suggestions */
+    position: relative; 
   }
   
   .messageInput {
@@ -24,7 +24,7 @@
     position: absolute;
     top: 100%;
     left: 0;
-    /* Ensures suggestions appear below the textarea */
+    
   }
   
   .sendButton {

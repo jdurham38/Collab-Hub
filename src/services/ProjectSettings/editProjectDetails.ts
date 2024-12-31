@@ -1,6 +1,6 @@
-import { Project } from '@/utils/interfaces'; // Import the Project interface
+import { Project } from '@/utils/interfaces'; 
 
-// Function to fetch project details
+
 export const fetchProjectDetails = async (
   projectId: string
 ): Promise<Project> => {
@@ -12,7 +12,7 @@ export const fetchProjectDetails = async (
   return await response.json();
 };
 
-// Function to update project details
+
 export const updateProjectDetails = async (
   projectId: string,
   projectData: Partial<Project>

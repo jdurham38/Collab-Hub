@@ -21,7 +21,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 
   try {
-    // Fetch project details to get the owner's ID
     const { data: projectData, error: projectError } = await supabase
         .from('projects')
         .select('created_by')
@@ -41,7 +40,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const projectOwnerId = projectData.created_by;
 
-      // Fetch collaborators
     const { data: collaboratorsData, error: collaboratorsError } = await supabase
       .from('ProjectCollaborator')
       .select('userId, adminPrivileges, canEditProject, canRemoveChannel, canRemoveUser, canEditAdminAccess')
@@ -54,7 +52,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const userIds = collaboratorsData?.map((collab) => collab.userId) || [];
 
-    // Fetch both collaborators and project owner in one database call
       const allUserIds = [...userIds, projectOwnerId];
 
       const {data: usersData, error: usersError} = await supabase

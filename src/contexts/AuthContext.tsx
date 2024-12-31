@@ -17,7 +17,7 @@ import styles from './Auth.module.css';
 interface AuthContextType {
   user: User | null;
   setUser: (user: User | null) => void;
-  loading: boolean; // Add loading state to context
+  loading: boolean; 
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,21 +28,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Memoize Supabase client to prevent re-instantiation
+  
   const supabase = useMemo(() => getSupabaseClient(), []);
 
-    // Initialize authentication
+    
     useEffect(() => {
         const initializeAuth = async () => {
-           setLoading(true) // Set loading to true when starting
+           setLoading(true) 
           try {
-            console.log('Initializing authentication...');
     
             if (session && isLoggedIn) {
-              console.log('Using persisted session:', session);
               const userData = session.user;
               setUser((prevUser) => {
-                // Update only if user data has changed
+                
                 if (prevUser?.id !== userData.id) {
                   return {
                     id: userData.id,
@@ -59,13 +57,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               } = await supabase.auth.getSession();
     
               if (error || !freshSession) {
-                console.log('No session found during initial check.');
                 setLoggedIn(false);
                 setUser(null);
-                  // Redirect if not logged in during initialization
+                  
                   router.push('/');
               } else {
-                console.log('Fresh session found:', freshSession);
                 setSession(freshSession);
                 const userData = freshSession.user;
                 setUser({
@@ -80,21 +76,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             console.error('Unexpected error:', err);
             setUser(null);
             setLoggedIn(false);
-              // Redirect if an error occurs during initialization
+              
             router.push('/');
           } finally {
-            setLoading(false); // Set loading to false when done
+            setLoading(false); 
           }
         };
     
         initializeAuth();
       }, [router, session, isLoggedIn, setLoggedIn, setSession, supabase.auth]);
 
-  // Listen for auth state changes
+  
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        console.log('Auth state change event:', event);
         if (event === 'SIGNED_IN' && session) {
           setSession(session);
           const userData = session.user;
@@ -118,10 +113,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [router, setLoggedIn, setSession, supabase.auth]);
 
-  // Memoize context value to prevent unnecessary re-renders
+  
   const contextValue = useMemo(
     () => ({ user, setUser, loading }),
-    [user, loading] // Recompute when `user` or `loading` changes
+    [user, loading] 
   );
 
   if (loading) {

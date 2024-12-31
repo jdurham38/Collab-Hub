@@ -28,8 +28,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   const handleConfirm = () => {
     if (confirmationInput === channelName) {
       onConfirm();
-      onClose(); // Close the modal
-      setConfirmationInput(''); // Reset the input field
+      onClose(); 
+      setConfirmationInput(''); 
     } else {
       toast.error('Channel name does not match. Please try again.');
     }
@@ -39,7 +39,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}> {/* Close on overlay click */}
+    <div className={styles.modalOverlay} onClick={onClose}> {}
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <p>
           Deleting this channel will permanently delete all messages within the channel forever.
@@ -89,13 +89,13 @@ const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
       }
     }
 
-    setChannelToDelete(null); // Reset channelToDelete after handling confirmation
+    setChannelToDelete(null); 
     setModalOpen(false);
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    setChannelToDelete(null); // Reset channelToDelete when closing the modal
+    setChannelToDelete(null); 
   };
 
   if (loading) return <p className={styles.loading}>Loading channels...</p>;

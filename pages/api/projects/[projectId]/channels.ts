@@ -1,4 +1,4 @@
-// pages/api/projects/[projectId]/channels.ts
+
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';

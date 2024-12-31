@@ -34,9 +34,6 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
     }
     
     const { plan, projects } = user;
-    console.log('User plan:', plan);
-    console.log('User projects:', projects);
-
         if (plan === 'free' && projects.length >= 3) {
       return res
         .status(403)

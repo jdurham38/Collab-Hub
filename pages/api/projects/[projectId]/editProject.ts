@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient, PostgrestSingleResponse } from '@supabase/supabase-js';
-import { Project } from '@/utils/interfaces'; // Import Project interface
+import { Project } from '@/utils/interfaces'; 
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,

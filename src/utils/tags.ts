@@ -1,4 +1,4 @@
-// tags.ts
+
 export const projectTags = {
   'Software Development': [
     'Web Development',

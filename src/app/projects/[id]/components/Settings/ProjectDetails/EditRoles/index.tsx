@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from './index.module.css'; // Make sure the CSS file is named correctly
-import { projectRoles } from '@/utils/roles'; // Import your projectRoles
+import styles from './index.module.css'; 
+import { projectRoles } from '@/utils/roles'; 
 
 interface EditRolesProps {
   roles: string[];
@@ -13,7 +13,7 @@ const EditRoles: React.FC<EditRolesProps> = ({ roles, setRoles }) => {
     null
   );
 
-  // Update local selected roles when the prop 'roles' changes
+  
   useEffect(() => {
     setSelectedRoles(roles);
   }, [roles]);
@@ -28,13 +28,13 @@ const EditRoles: React.FC<EditRolesProps> = ({ roles, setRoles }) => {
       : selectedRoles;
 
     setSelectedRoles(newRoles);
-    setRoles(newRoles); // Update the parent component's state
+    setRoles(newRoles); 
   };
 
   const handleRoleRemove = (role: string) => {
     const newRoles = selectedRoles.filter((r) => r !== role);
     setSelectedRoles(newRoles);
-    setRoles(newRoles); // Update the parent component's state
+    setRoles(newRoles); 
   };
 
   const filteredRoles = Object.entries(projectRoles).flatMap(

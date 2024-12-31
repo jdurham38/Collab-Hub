@@ -20,7 +20,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const optionsRef = useRef<HTMLDivElement>(null);
 
-     //Function to Close the menu when click outside
+     
      useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
           if (optionsRef.current && !optionsRef.current.contains(event.target as Node)) {
@@ -57,7 +57,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
 
     const userName =
         message.user_id === currentUser.id
-            ? 'You' // Display "You" for the current user's messages
+            ? 'You' 
             : user
             ? user.username || user.email
             : 'Unknown User';
@@ -91,7 +91,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
                             <div className={styles.optionsMenu}>
                                 <button
                                     onClick={() => {
-                                        onEdit(message.id); // Start editing
+                                        onEdit(message.id); 
                                         setIsMenuOpen(false);
                                     }}
                                     className={styles.optionItem}

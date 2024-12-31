@@ -40,7 +40,7 @@ const useDirectMessageSubscription = ({
   const setNewMessagesCountRef = useRef<React.Dispatch<React.SetStateAction<number>>>(setNewMessagesCount);
   const [channel, setChannel] = useState<RealtimeChannel | null>(null);
 
-  // Update refs whenever the corresponding values change
+  
   useEffect(() => {
     userMapRef.current = userMap;
     setMessagesRef.current = setMessages;
@@ -50,11 +50,10 @@ const useDirectMessageSubscription = ({
     setNewMessagesCountRef.current = setNewMessagesCount;
   }, [userMap, setMessages, setUserMap, isUserAtBottom, scrollToBottom, setNewMessagesCount]);
 
-  // useCallback for fetchUserIfNeeded
+  
   const fetchUserIfNeeded = useCallback(
     async (userId: string): Promise<User> => {
       if (userMapRef.current[userId]) {
-        console.log('User found in userMap:', userMapRef.current[userId]);
         return userMapRef.current[userId];
       }
 
@@ -69,7 +68,6 @@ const useDirectMessageSubscription = ({
         return { id: userId, username: 'Unknown User', email: '' };
       }
 
-      console.log('User fetched from Supabase:', data);
       setUserMapRef.current((prev) => ({ ...prev, [data.id]: data }));
       return data;
     },
@@ -77,11 +75,6 @@ const useDirectMessageSubscription = ({
   );
 
   useEffect(() => {
-    console.log('Type of currentUserId in useEffect:', typeof currentUserId);
-    console.log('Value of currentUserId in useEffect:', currentUserId);
-    console.log('Type of recipient_id in useEffect:', typeof recipient_id);
-    console.log('Value of recipient_id in useEffect:', recipient_id);
-
     if (!initialLoadCompleted || !currentUserId || !recipient_id) {
       return;
     }
@@ -90,9 +83,8 @@ const useDirectMessageSubscription = ({
 
     const newChannel: RealtimeChannel = supabase.channel(channelName);
     
-     // Define event handlers INSIDE the useEffect
+     
      const handleInsert = async (payload: PostgresChangesPayload) => {
-       console.log('handleInsert triggered:', payload);
        const newMessage = payload.new as DirectMessage;
      
        if (
@@ -100,16 +92,9 @@ const useDirectMessageSubscription = ({
          (newMessage.sender_id === recipient_id && newMessage.recipient_id === currentUserId)
        ) {
          const user = await fetchUserIfNeeded(newMessage.sender_id);
-         console.log('User fetched in handleInsert:', user);
      
          setMessagesRef.current((prevMessages) => {
            const updatedMessages = [...prevMessages, { ...newMessage, user: user }];
-           console.log('Updated messages in handleInsert:', updatedMessages);
-    
-           console.log("Calling setMessagesRef.current with:", updatedMessages);    
-           // Log before returning to verify the new array
-           console.log("About to return updated messages from handleInsert:", updatedMessages);
-     
            if (isUserAtBottomRef.current()) {
              setTimeout(() => {
                scrollToBottomRef.current('smooth');
@@ -122,7 +107,6 @@ const useDirectMessageSubscription = ({
      };
     
      const handleUpdate = async (payload: PostgresChangesPayload) => {
-       console.log('handleUpdate triggered:', payload);
        const updatedMessage = payload.new as DirectMessage;
     
        setMessagesRef.current((prevMessages) =>
@@ -138,14 +122,13 @@ const useDirectMessageSubscription = ({
      };
     
      const handleDelete = (payload: PostgresChangesPayload) => {
-       console.log('handleDelete triggered:', payload);
        const deletedMessageId = payload.old?.id;
     
        if (deletedMessageId) {
          setMessagesRef.current((prevMessages) => prevMessages.filter((msg) => msg.id !== deletedMessageId));
        }
      };
-     // Subscribe with the correctly filtered event handlers
+     
      newChannel
        .on(
          'postgres_changes',
@@ -177,7 +160,6 @@ const useDirectMessageSubscription = ({
        )
        .subscribe((status) => {
          if (status === 'SUBSCRIBED') {
-           console.log('Subscription successful');
            setChannel(newChannel);
          } else {
            console.error(`Subscription error: ${status}`);
@@ -185,11 +167,10 @@ const useDirectMessageSubscription = ({
        });
 
 
-    // Cleanup function
+    
     return () => {
       if (channel) {
         channel.unsubscribe().then(() => {
-          console.log('Unsubscribed from direct message channel');
           supabase.removeChannel(channel);
           setChannel(null);
         });

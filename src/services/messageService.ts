@@ -1,11 +1,8 @@
-// File: services/messageService.ts
+
 
 import axios from 'axios';
 import { Message } from '@/utils/interfaces';
 
-/**
- * Fetch messages for a specific project and channel.
- */
 export const fetchMessages = async (
   projectId: string,
   channelId: string,
@@ -14,7 +11,7 @@ export const fetchMessages = async (
     const response = await axios.get(
       `/api/projects/${projectId}/channels/${channelId}/messages`,
     );
-    // Directly return the messages array (adjust if your API response is structured differently)
+    
     return response.data; 
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -27,24 +24,22 @@ export const fetchMessages = async (
   }
 };
 
-/**
- * Send a new message.
- */
+
 export const sendMessage = async (
   projectId: string,
   channelId: string,
   content: string,
-  user_id: string, // Use user_id consistently
+  user_id: string, 
 ): Promise<Message> => {
   try {
     const response = await axios.post(
       `/api/projects/${projectId}/channels/${channelId}/messages`,
       {
         content,
-        user_id, // Send as user_id
+        user_id, 
       },
     );
-    // Directly return the created message (adjust if needed)
+    
     return response.data; 
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -57,9 +52,7 @@ export const sendMessage = async (
   }
 };
 
-/**
- * Edit an existing message.
- */
+
 export const editMessage = async (
   messageId: string,
   content: string,
@@ -68,7 +61,7 @@ export const editMessage = async (
     const response = await axios.put(`/api/messages/${messageId}`, {
       content,
     });
-    // Directly return the updated message (adjust if needed)
+    
     return response.data; 
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -83,9 +76,7 @@ export const editMessage = async (
   }
 };
 
-/**
- * Delete a message.
- */
+
 export const deleteMessage = async (messageId: string): Promise<void> => {
   try {
     await axios.delete(`/api/messages/${messageId}`);

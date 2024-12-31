@@ -49,7 +49,7 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.leftSection}>
-        {/* Add Link to Dashboard */}
+        {}
         <Link href="/dashboard" className={styles.navLink}>
           Dashboard
         </Link>
@@ -67,20 +67,20 @@ const Navbar = () => {
           </span>
           {dropdownOpen && (
             <div className={styles.dropdown}>
-              {/* Add dropdown items if needed */}
+              {}
             </div>
           )}
         </div>
       </div>
 
-      {/* Modal for CreateProject */}
+      {}
       {isModalOpen && (
         <div className={styles.modalOverlay}>
           <CreateProject onClose={() => setIsModalOpen(false)} />
         </div>
       )}
 
-      {/* Plan Limit Modal */}
+      {}
       {isPlanLimitModalOpen && (
         <PlanLimitModal onClose={() => setIsPlanLimitModalOpen(false)} />
       )}

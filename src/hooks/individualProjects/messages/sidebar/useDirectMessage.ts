@@ -38,7 +38,7 @@ const useDirectMessages = (
                     .select('*')
                     .or(
                         `and(sender_id.eq.${currentUserId},recipient_id.eq.${recipient_id}),and(sender_id.eq.${recipient_id},recipient_id.eq.${currentUserId})`
-                    ); // Modified query
+                    ); 
 
 
                 if (supabaseError) {
@@ -71,7 +71,6 @@ const useDirectMessages = (
                         return { ...message, user: user };
                     });
                      setDirectMessages(messagesWithUser || []);
-                    console.log("Direct messages fetched and set:", data);
                 }
             } catch (err) {
                 if (err instanceof Error) {
@@ -90,7 +89,6 @@ const useDirectMessages = (
 
         fetchDirectMessages();
     }, [currentUserId, recipient_id, setUserMap, userMap]);
-    console.log('directMessages state in useDirectMessages:', directMessages)
     return { directMessages, isLoading, error, setDirectMessages };
 
 };

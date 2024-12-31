@@ -47,16 +47,16 @@ const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!project) return; // Handle case where project is null
+    if (!project) return; 
 
     setSaving(true);
     setError(null);
     setSuccessMessage(null);
 
     try {
-      // Create updatedProject object with modifications
+      
       const updatedProject: Project = {
-        ...project, // Spread existing project properties
+        ...project, 
         title: project.title,
         description: project.description,
         banner_url: project.banner_url,
@@ -64,7 +64,7 @@ const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
         roles: project.roles,
       };
 
-      await updateProjectDetails(projectId, updatedProject); // Send updated data to API
+      await updateProjectDetails(projectId, updatedProject); 
 
 
       setProject(updatedProject);
@@ -104,16 +104,16 @@ const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
       <h1 className={styles.title}>Edit Project Details: {project.title}</h1>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        <EditTitle title={project.title} setTitle={(newTitle) => setProject({...project, title: newTitle})} /> {/* Pass setter function */}
-        <EditDescription description={project.description} setDescription={(newDescription) => setProject({...project, description: newDescription})} /> {/* Pass setter function */}
+        <EditTitle title={project.title} setTitle={(newTitle) => setProject({...project, title: newTitle})} /> {}
+        <EditDescription description={project.description} setDescription={(newDescription) => setProject({...project, description: newDescription})} /> {}
         <EditBanner
           bannerUrl={project.banner_url}
           setBannerFile={setBannerFile}
           setBannerUrl={(newBannerUrl) => setProject({...project, banner_url: newBannerUrl})}
 
         />
-        <EditTags tags={project.tags || []} setTags={(newTags) => setProject({...project, tags: newTags})} /> {/* Pass setter function */}
-        <EditRoles roles={project.roles || []} setRoles={(newRoles) => setProject({...project, roles: newRoles})} /> {/* Pass setter function */}
+        <EditTags tags={project.tags || []} setTags={(newTags) => setProject({...project, tags: newTags})} /> {}
+        <EditRoles roles={project.roles || []} setRoles={(newRoles) => setProject({...project, roles: newRoles})} /> {}
 
           {successMessage && (
               <div className={styles.success}>{successMessage}</div>

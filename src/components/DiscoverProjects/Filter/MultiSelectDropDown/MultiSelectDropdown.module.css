@@ -16,7 +16,7 @@
 }
 
 .dropdownHeaderFocused {
-  border-color: #007bff; /* Color when the dropdown is focused */
+  border-color: #007bff; 
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 .placeholder{
@@ -28,7 +28,7 @@ color:#999
 display: flex;
 flex-wrap: wrap;
 gap: 5px;
- margin-top: 5px; /* Added margin for spacing below header */
+ margin-top: 5px; 
 }
 
 .selectedOption {
@@ -48,7 +48,7 @@ font-size: 0.8rem;
 color: #888;
 }
 .removeOption:hover {
-  color: #222; /* color change on hover */
+  color: #222; 
 }
 
 

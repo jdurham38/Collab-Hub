@@ -20,16 +20,16 @@
   
   }
   
-  /* Add margin to all direct children of the form */
+  
   .form > * {
     margin-top: 15px;
-    margin-bottom: 15px; /* Adjust as needed for desired spacing */
+    margin-bottom: 15px; 
   }
   
   .error {
     color: red;
     text-align: center;
-    margin-bottom: 15px; /* Match spacing for errors */
+    margin-bottom: 15px; 
   }
   .success{
       color: green;

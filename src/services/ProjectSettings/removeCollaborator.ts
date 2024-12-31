@@ -1,4 +1,4 @@
-// services/ProjectSettings/removeCollaborator.ts
+
 import axios from 'axios';
 
 /**
@@ -14,9 +14,9 @@ export async function removeCollaborator(
 ): Promise<void> {
   try {
     await axios.delete(`/api/projects/${projectId}/collaborators/${userId}`, {
-      data: { requesterId }, // Include requesterId in the request body
+      data: { requesterId }, 
       headers: {
-        'Content-Type': 'application/json', // Ensure the content type is JSON
+        'Content-Type': 'application/json', 
       },
     });
   } catch (error) {

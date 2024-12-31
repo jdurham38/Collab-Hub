@@ -1,4 +1,4 @@
-// roles.ts
+
 export const projectRoles = {
   'Software Development & IT': [
     'Software Engineer',

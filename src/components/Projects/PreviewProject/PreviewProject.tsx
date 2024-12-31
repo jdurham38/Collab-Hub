@@ -1,4 +1,4 @@
-// components/PreviewProject.tsx
+
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,7 +11,7 @@ import styles from './PreviewProject.module.css';
 import PreviewSettings from './PreviewSettings/PreviewSettings';
 import PreviewMessaging from './PreviewMessaging/PreviewMessaging';
 import ProjectUsers from './PreviewProjectUsers/Users';
-import useBodyClass from '@/hooks/preview/useBodyClass'; // Import the custom hook
+import useBodyClass from '@/hooks/preview/useBodyClass'; 
 
 interface PreviewProjectProps {
   onClosePreview: () => void;
@@ -28,7 +28,7 @@ const PreviewProject: React.FC<PreviewProjectProps> = ({
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'overview' | 'messaging' | 'settings'>('overview');
 
-  // Use the custom hook to manage the body class
+  
   useBodyClass('modal-open');
 
   const handleCreateProject = async () => {

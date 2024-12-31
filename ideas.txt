@@ -20,6 +20,20 @@ Color Pallete
 5. create dashboard (View Projects currently in (created/joined), view friends, view notifications/messages)
   
 6. project discovery page
+    - Project grid
+        - only call the projects within the current page so at max 6 at min 3
+        - alter the filter to make an api call to search through all projects
+    - style filtering better
+    - Project Card Updates:
+        - have an apply button for each project
+            - success message
+                1. you have successfully applied
+            - error message stating 
+                1. youre already a member of this project
+                2. you have already applied
+                3. your application was declined please try again after 7 days
+                4. other error, please try again later or contact us if there are any questions
+        - style each card better to contain all the above information/changes
 
 
 

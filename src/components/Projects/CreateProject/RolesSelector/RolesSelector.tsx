@@ -44,7 +44,7 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
     <div>
       <h3 className={styles.title}>Select Roles Needed (Limit of 5)</h3>
 
-      {/* Selected roles container */}
+      {}
       <div className={styles.selectedRolesContainer}>
         {selectedRoles.map((role) => (
           <div key={role} className={styles.selectedRole}>
@@ -79,7 +79,7 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
         ))}
       </select>
 
-      {/* Filtered roles for selection */}
+      {}
       <div className={styles.rolesContainer}>
         {filteredRoles.map(({ category, role }) => (
           <label key={`${category}-${role}`} className={styles.roleCheckboxLabel}>

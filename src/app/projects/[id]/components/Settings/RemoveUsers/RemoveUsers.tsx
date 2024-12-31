@@ -1,4 +1,4 @@
-// RemoveUsers.tsx - with confirmation modal
+
 'use client';
 
 import React, { useState } from 'react';
@@ -56,7 +56,7 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
 
   const handleRemove = async () => {
     try {
-        if (!userToRemove) return; // Safety check
+        if (!userToRemove) return; 
       if (!userIsOwner && !canRemoveUser) {
         toast.error('You do not have permission to remove collaborators.');
         return;
@@ -118,7 +118,7 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
                 collab.userId !== currentUserId && (
                   <button
                     className={styles.removeButton}
-                    onClick={() => handleRemoveClick(collab)} // Updated
+                    onClick={() => handleRemoveClick(collab)} 
                     aria-label={`Remove user ${collab.username || collab.email}`}
                   >
                     ✕

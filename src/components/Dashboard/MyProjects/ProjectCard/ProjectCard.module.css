@@ -1,4 +1,4 @@
-/* components/dashboard/ProjectCard.module.css */
+
 
 .projectCard {
     width: 300px;
@@ -6,7 +6,7 @@
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Ensure banner stays within bounds */
+    overflow: hidden; 
     display: flex;
     flex-direction: column;
     background-color: #fff;

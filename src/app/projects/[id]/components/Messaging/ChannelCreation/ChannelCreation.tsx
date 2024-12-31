@@ -19,7 +19,6 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
   const [isCreating, setIsCreating] = useState(false);
 
   const handleCreateChannel = async () => {
-    console.log('handleCreateChannel called'); // Debugging
     setError('');
     if (channelName.trim() === '') {
       setError('Channel name cannot be empty');
@@ -68,10 +67,10 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
         />
         <div className={styles.modalActions}>
           <button
-            type="button" // Explicitly set type to button
+            type="button" 
             onClick={handleCreateChannel}
             className={styles.modalButton}
-            disabled={isCreating} // Disable while creating
+            disabled={isCreating} 
           >
             {isCreating ? 'Creating...' : 'Create'}
           </button>

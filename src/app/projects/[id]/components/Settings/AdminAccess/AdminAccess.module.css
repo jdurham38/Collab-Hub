@@ -1,6 +1,6 @@
-/* AdminAccess.module.css */
 
-/* Base Styles */
+
+
 .container {
   padding: 1rem;
   background-color: #f9f9f9;
@@ -25,13 +25,13 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: 0.75rem 0;
-  border-bottom: 1px solid #e0e0e0; /* Remove default border-bottom */
+  border-bottom: 1px solid #e0e0e0; 
   flex-wrap: wrap;
 }
 
-/* Added Separator Style */
+
 .listItem + .listItem {
-    border-top: 1px solid black; /* Black line as separator */
+    border-top: 1px solid black; 
 }
 
 .userLabel {
@@ -155,7 +155,7 @@ input:disabled + .slider {
   font-size: 1.2rem;
 }
 
-/* Responsive Styles */
+
 @media (max-width: 800px) {
   .container {
     padding: 0.75rem;
@@ -218,7 +218,7 @@ input:disabled + .slider {
   }
 }
 
-/* Animation Keyframes */
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

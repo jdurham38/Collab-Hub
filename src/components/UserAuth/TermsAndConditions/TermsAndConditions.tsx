@@ -35,7 +35,7 @@ const TermsAndConditions: React.FC = () => {
 
       <section className={styles.section}>
         <h2>4. Subscription Plans</h2>
-        {/* Removed <p> and replaced it with <div> */}
+        {}
         <div className={styles.div}>
           We offer two tiers:
           <ul>

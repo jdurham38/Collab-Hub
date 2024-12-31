@@ -17,7 +17,7 @@ interface ProjectPageProps {
 const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   const { id: projectId } = params;
 
-  // Use Custom Hooks
+  
   const {
     project,
     loading: projectLoading,
@@ -45,19 +45,19 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   if (!project) return <div className={styles.error}>Project not found.</div>;
   if (!currentUser) return <div>Please log in to view this project.</div>;
 
-  // Determine which tabs are available.
-  // 'overview' and 'messaging' are always available to logged-in users.
-  // 'settings' is available if user has any admin or edit privileges (checked in Settings).
+  
+  
+  
   const tabs: Array<'overview' | 'messaging' | 'settings'> = ['overview', 'messaging'];
 
-  // We'll rely on the Settings component itself to handle visibility of its internal tabs.
-  // But we only show the "settings" tab if the user has any privileges that warrant showing settings
+  
+  
   const hasAnySettingsPrivilege = adminPrivileges || canRemoveUser || canRemoveChannel || canEditProject || canEditAdminAccess;
   if (hasAnySettingsPrivilege) {
     tabs.push('settings');
   }
 
-  // Compute userIsOwner
+  
   const userIsOwner = project.created_by === currentUser.id;
 
   return (

@@ -1,4 +1,4 @@
-// hooks/useCookieConsent.ts
+
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 
@@ -34,13 +34,11 @@ const useCookieConsent = () => {
   };
 
   const initializeAnalytics = () => {
-    console.log('Analytics initialized');
-    // Add your analytics initialization logic here
+    
   };
 
   const removeAnalytics = () => {
-    console.log('Analytics removed');
-    // Add your analytics removal logic here
+    
   };
 
   return {

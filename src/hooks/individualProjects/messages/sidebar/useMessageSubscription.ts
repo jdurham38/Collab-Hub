@@ -1,4 +1,4 @@
-// /hooks/useMessageSubscription.ts
+
 import { useEffect } from 'react';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
 

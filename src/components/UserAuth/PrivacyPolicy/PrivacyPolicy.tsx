@@ -20,7 +20,7 @@ const PrivacyPolicy: React.FC = () => {
 
       <section className={styles.section}>
         <h2>2. Information We Collect</h2>
-        {/* Replaced <p> with <div> */}
+        {}
         <div className={styles.div}>
           We collect the following information:
           <ul>
@@ -35,7 +35,7 @@ const PrivacyPolicy: React.FC = () => {
 
       <section className={styles.section}>
         <h2>3. How We Use Your Information</h2>
-        {/* Replaced <p> with <div> */}
+        {}
         <div className={styles.div}>
           Your personal information is used to:
           <ul>

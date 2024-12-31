@@ -40,20 +40,20 @@ const PreviewSettings: React.FC = () => {
         </button>
       </div>
 
-      {/* Conditional rendering based on the active tab */}
+      {}
       <div className={styles.contentContainer}>
         {activeTab === 'editProjectDetails' && (
           <div>
             <h3>Edit Project Details</h3>
             <p>Preview Mode: Content for editing project details.</p>
-            {/* Add form elements for editing project details */}
+            {}
           </div>
         )}
         {activeTab === 'removeUsers' && (
           <div>
             <h3>Remove Users</h3>
             <p>Preview Mode: Content for removing users.</p>
-            {/* Add elements for removing users */}
+            {}
           </div>
         )}
         {activeTab === 'enableDisableTabs' && (
@@ -62,14 +62,14 @@ const PreviewSettings: React.FC = () => {
             <p>Preview Mode: Content for enabling/disabling the project managemer and workspace.</p>
             <p>Note: upon disabling any active content this content will be permanently deleted.</p>
 
-            {/* Add controls for enabling/disabling tabs */}
+            {}
           </div>
         )}
         {activeTab === 'grantAdminAccess' && (
           <div>
             <h3>Administrator</h3>
             <p>Preview Mode: Content for granting admin access to enable project collaborators to have custom privledges.</p>
-            {/* Add elements for granting admin access */}
+            {}
           </div>
         )}
       </div>

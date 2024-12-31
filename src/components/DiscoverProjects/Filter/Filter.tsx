@@ -6,13 +6,13 @@ import { projectTags } from '@/utils/tags';
 import Dropdown from './Dropdown/Dropdown';
 import ProjectSearch from './Search/Search';
 
-// Define a type for individual project
+
 interface Project {
     tags: string[];
     roles: string[];
-    createdAt: string; // or Date if your date from db is not a string.
+    createdAt: string; 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any; //allows other props to be passed.
+    [key: string]: any; 
 }
 
 interface ProjectFilterProps {
@@ -33,11 +33,11 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => 
     const [noProjectsMessage, setNoProjectsMessage] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Extract Unique Tags and Roles
+    
     const allTags = Object.values(projectTags).flat();
     const allRoles = Object.values(projectRoles).flat();
 
-    // Date range options
+    
     const dateRangeOptions: DropdownOption[] = [
       {label: "All Time", value: "all"},
       {label: "Today", value: "today"},
@@ -64,21 +64,21 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => 
             );
         }
 
-        // Filter by tags
+        
         if (selectedTags.length > 0) {
             filtered = filtered.filter((project) =>
                 project.tags.some((tag) => selectedTags.includes(tag))
             );
         }
 
-        // Filter by roles
+        
         if (selectedRoles.length > 0) {
             filtered = filtered.filter((project) =>
                 project.roles.some((role) => selectedRoles.includes(role))
             );
         }
 
-        // Filter by Date Range
+        
         if(selectedDateRange !== "all") {
           filtered = filtered.filter((project) => {
             const projectDate = new Date(project.createdAt);

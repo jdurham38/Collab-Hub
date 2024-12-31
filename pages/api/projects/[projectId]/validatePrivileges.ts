@@ -1,4 +1,4 @@
-// pages/api/projects/[projectId]/validatePrivileges.ts
+
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
@@ -29,23 +29,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(500).json({ error: 'Error fetching project owner' });
       }
 
-      // Check if user is the owner
       const userIsOwner = projectOwner?.created_by === userId;
 
       if (userIsOwner) {
-        // Owner gets full privileges; you can also set them as desired
         return res.status(200).json({
           userIsOwner: true,
           adminPrivileges: true,
           canRemoveUser: true,
           canRemoveChannel: true,
           canEditProject: true,
-          canCreateChannel: true, // For example, owner can also create channel
+          canCreateChannel: true, 
           canEditAdminAccess: true,
         });
       }
 
-      // Fetch collaborator privileges if not the owner
       const { data: collaborator, error: collaboratorError } = await supabase
         .from('ProjectCollaborator')
         .select('adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject, canEditAdminAccess')

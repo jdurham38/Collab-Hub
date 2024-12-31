@@ -1,4 +1,4 @@
-// components/CookieBanner.tsx
+
 'use client';
 
 import React from 'react';
@@ -10,7 +10,7 @@ const CookieBanner: React.FC = () => {
   const { isCookieConsentGiven, handleAcceptCookies, handleDeclineCookies } = useCookieConsent();
 
   if (isCookieConsentGiven !== null) {
-    return null; // Consent already given or declined; no banner needed
+    return null; 
   }
 
   return (

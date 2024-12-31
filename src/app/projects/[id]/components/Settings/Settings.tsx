@@ -28,7 +28,7 @@ const Settings: React.FC<SettingsProps> = ({
   currentUserId,
   userIsOwner,
 }) => {
-  const [activeTab, setActiveTab] = useState<string>(''); // Start with no active tab
+  const [activeTab, setActiveTab] = useState<string>(''); 
 
   const {
     adminPrivileges,
@@ -42,7 +42,7 @@ const Settings: React.FC<SettingsProps> = ({
     setActiveTab(tabName);
   };
 
-   // Determine visibility of tabs based on user access and ownership
+   
   const showEditProject = useMemo(() => userIsOwner || adminPrivileges || canEditProject, [userIsOwner, adminPrivileges, canEditProject]);
   const showRemoveUsers = useMemo(() => userIsOwner || adminPrivileges || canRemoveUser, [userIsOwner, adminPrivileges, canRemoveUser]);
   const showRemoveChannels = useMemo(() => userIsOwner || adminPrivileges || canRemoveChannel, [userIsOwner, adminPrivileges, canRemoveChannel]);
@@ -57,7 +57,7 @@ const Settings: React.FC<SettingsProps> = ({
   };
 
 
-    // Set the initial active tab only when the component mounts and there is no active tab already set
+    
   useEffect(() => {
     if (!activeTab) {
       const firstTab = getFirstAvailableTab();
@@ -65,18 +65,11 @@ const Settings: React.FC<SettingsProps> = ({
         setActiveTab(firstTab);
       }
     }
-  }, [activeTab, getFirstAvailableTab]); // Add getFirstAvailableTab as a dependency
+  }, [activeTab, getFirstAvailableTab]); 
 
 
-    // Debugging: Log userAccess and showGrantAdminAccess
-  useEffect(() => {
-    console.log('User Access:', userAccess);
-    console.log('showGrantAdminAccess:', showGrantAdminAccess);
-    console.log('Active Tab:', activeTab);
-  }, [userAccess, showGrantAdminAccess, activeTab]);
 
-
-    // Early return if projectId is not valid
+    
     if (!projectId || typeof projectId !== 'string') {
       return <p>Loading...</p>;
     }
@@ -134,7 +127,7 @@ const Settings: React.FC<SettingsProps> = ({
         {activeTab === 'editProjectDetails' && showEditProject && (
           <div>
             <ProjectDetails projectId={projectId} />
-            {/* Add form elements for editing project details */}
+            {}
           </div>
         )}
 

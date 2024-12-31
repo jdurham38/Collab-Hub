@@ -1,4 +1,4 @@
-// components/SignupForm.tsx
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -31,12 +31,12 @@ const SignupForm: React.FC = () => {
   const [passwordError, setPasswordError] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  // Utilize the custom hook for username validation
+  
   const { isValid: isUsernameValid, isChecking: isUsernameChecking, error: usernameError } = useUsernameValidation({
     username,
   });
 
-  // Update state based on the custom hook's output
+  
   useEffect(() => {
     if (usernameError) {
       setErrorMessage(usernameError);
@@ -45,13 +45,13 @@ const SignupForm: React.FC = () => {
     }
   }, [usernameError]);
 
-  // Email Validation
+  
   const validateEmail = (emailInput: string) => {
     const valid = emailRegex.test(emailInput);
     setIsEmailValid(valid);
   };
 
-  // Password Validation
+  
   const validatePassword = (passwordInput: string) => {
     const valid = passwordRegex.test(passwordInput);
     setIsPasswordValid(valid);
@@ -67,26 +67,26 @@ const SignupForm: React.FC = () => {
     }
   };
 
-  // Handle Form Submission
+  
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
     let formIsValid = true;
 
-    // Reset messages
+    
     setErrorMessage('');
     setPasswordError('');
     setAcceptTermsError(false);
 
     const emailLower = email.toLowerCase();
 
-    // Email Validation
+    
     if (!emailRegex.test(emailLower)) {
       setErrorMessage('Please enter a valid email address.');
       formIsValid = false;
     }
 
-    // Password Validation
+    
     if (!isPasswordValid) {
       setPasswordError(
         'Password must be at least 6 characters, contain 1 uppercase letter, 1 number, and 1 special character.'
@@ -94,13 +94,13 @@ const SignupForm: React.FC = () => {
       formIsValid = false;
     }
 
-    // Username Availability
+    
     if (!isUsernameValid) {
       setErrorMessage('Sorry, this username is already taken or invalid. Please try another.');
       formIsValid = false;
     }
 
-    // Terms and Conditions
+    
     if (!acceptTerms) {
       setAcceptTermsError(true);
       formIsValid = false;
@@ -113,7 +113,7 @@ const SignupForm: React.FC = () => {
     setLoading(true);
 
     try {
-      // Check if user already exists
+      
       const userExists = await checkUserExists(emailLower);
       if (userExists) {
         setErrorMessage('This email is already registered. Try logging in instead.');
@@ -121,14 +121,14 @@ const SignupForm: React.FC = () => {
         return;
       }
 
-      // Prepare user data
+      
       const userData: UserData = {
         email: emailLower,
         password,
         username,
       };
 
-      // Perform signup
+      
       const result: SignupResponse = await signup(userData);
 
       if (result.error) {
@@ -139,14 +139,14 @@ const SignupForm: React.FC = () => {
 
       if (result.user) {
         toast.success('Signup successful! Please check your email to confirm your address.');
-        // Reset form fields
+        
         setUserName('');
         setEmail('');
         setPassword('');
         setPasswordSuccessMessage('');
         setErrorMessage('');
 
-        // Redirect to email verification page
+        
         router.push('/verify-email');
       } else {
         setErrorMessage('An unexpected error occurred during signup.');
@@ -162,7 +162,7 @@ const SignupForm: React.FC = () => {
   return (
     <>
       <form onSubmit={handleSignup} className={styles.form} noValidate>
-        {/* Username Field */}
+        {}
         <div className={styles.inputGroup}>
           <input
             type="text"
@@ -186,7 +186,7 @@ const SignupForm: React.FC = () => {
           )}
         </div>
 
-        {/* Email Field */}
+        {}
         <div className={styles.inputGroup}>
           <input
             type="email"
@@ -207,7 +207,7 @@ const SignupForm: React.FC = () => {
           )}
         </div>
 
-        {/* Password Field */}
+        {}
         <div className={styles.inputGroup}>
           <div className={styles.passwordInputWrapper}>
             <input
@@ -244,7 +244,7 @@ const SignupForm: React.FC = () => {
           )}
         </div>
 
-        {/* Terms and Conditions Checkbox */}
+        {}
         <div className={styles.checkboxContainer}>
           <input
             type="checkbox"
@@ -282,16 +282,16 @@ const SignupForm: React.FC = () => {
           </p>
         )}
 
-        {/* Submit Button */}
+        {}
         <button type="submit" disabled={loading || isUsernameChecking} className={styles.submitButton}>
           {loading ? 'Signing Up...' : 'Sign Up'}
         </button>
 
-        {/* General Error Message */}
+        {}
         {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       </form>
 
-      {/* Toast Notifications */}
+      {}
       <ToastContainer position="top-left" autoClose={5000} hideProgressBar={true} theme="light" />
     </>
   );

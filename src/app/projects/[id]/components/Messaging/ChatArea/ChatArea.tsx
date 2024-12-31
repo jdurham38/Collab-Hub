@@ -162,16 +162,16 @@ const ChatArea: React.FC<ChatAreaProps> = ({
         }
     };
     const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); // Prevent the default form submission
+        e.preventDefault(); 
         if (!newMessage.trim()) return;
 
         const wasAtBottom = isUserAtBottom();
 
         try {
             await sendMessage(projectId, channelId, newMessage.trim(), currentUser.id);
-            // Scroll to the bottom after the message has been sent and the state updated
+            
             if (wasAtBottom) {
-                // Set a timeout to ensure the DOM has been updated with the new message
+                
                 setTimeout(() => {
                     scrollToBottom('smooth');
                 }, 0);

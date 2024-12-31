@@ -3,12 +3,12 @@
   padding: 8px 12px;
   border-radius: 8px;
   max-width: 70%;
-  /* Removed position: relative; as it's no longer needed */
+  
 }
 
 .yourMessage {
   align-self: flex-end;
-  background-color: #dcf8c6; /* Example color for user's messages */
+  background-color: #dcf8c6; 
 }
 
 .otherMessage {
@@ -19,20 +19,20 @@
 .messageInfo {
   display: flex;
   justify-content: space-between;
-  align-items: center; /* Vertically centers items */
+  align-items: center; 
   margin-bottom: 4px;
 }
 
 .userInfo {
   display: flex;
   align-items: center;
-  flex-wrap: wrap; /* Allows wrapping if space is constrained */
+  flex-wrap: wrap; 
 }
 
 .userName {
   font-weight: 600;
   color: #333;
-  margin-right: 8px; /* Space between username and timestamp */
+  margin-right: 8px; 
 }
 
 .timestamp {
@@ -46,7 +46,7 @@
 }
 
 .mention {
-  color: #007bff; /* Highlight color for mentions */
+  color: #007bff; 
   font-weight: 600;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .options {
-  position: relative; /* Needed for the dropdown to position correctly */
+  position: relative; 
 }
 
 .optionsButton {
@@ -67,7 +67,7 @@
   cursor: pointer;
   margin-left: 10px;
   font-size: 0.85rem;
-  padding: 4px 8px; /* Added padding for better click area */
+  padding: 4px 8px; 
   line-height: 1;
 }
 .optionsText {
@@ -76,41 +76,41 @@
 
 .optionsMenu {
     position: absolute;
-    top: calc(100% + 4px); /* Positions below, adds some space */
+    top: calc(100% + 4px); 
     right: 0;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    min-width: 120px; /* Slightly wider menu */
-    white-space: nowrap; /* Prevent text from wrapping */
-    padding: 4px 0; /* Added vertical padding */
-    overflow: hidden; /* Prevent content overflow */
+    min-width: 120px; 
+    white-space: nowrap; 
+    padding: 4px 0; 
+    overflow: hidden; 
     display: flex;
     flex-direction: column;
 }
 
 .optionItem {
     display: block;
-    padding: 8px 12px; /* Increased vertical padding for touch targets */
+    padding: 8px 12px; 
     width: 100%;
     background: none;
     border: none;
     text-align: left;
     cursor: pointer;
     font-size: 0.85rem;
-    transition: background-color 0.2s ease; /* Smooth hover effect */
+    transition: background-color 0.2s ease; 
 }
 .optionItem:hover {
   background-color: #f0f0f0;
 }
 .optionItem:focus {
         outline: none;
-        background-color: #e5e5e5; /* Slightly darker on focus for accessibility */
+        background-color: #e5e5e5; 
     }
 .optionItem:active {
-        background-color: #dcdcdc; /* Slightly darker on active */
+        background-color: #dcdcdc; 
     }
 .editContainer {
   display: flex;

@@ -1,4 +1,4 @@
-// pages/api/channels/[channelId]/readStatus.ts
+
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';

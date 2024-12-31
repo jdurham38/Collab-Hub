@@ -45,9 +45,7 @@ const UpdatePasswordPage: React.FC = () => {
     const supabase = getSupabaseClient();
 
     try {
-      console.log('Attempting to update password...');
       const { error } = await supabase.auth.updateUser({ password: newPassword });
-      console.log('Password update response:', error);
 
       
       if (error) {

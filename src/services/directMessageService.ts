@@ -5,7 +5,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 );
 
-// Function to send a direct message
+
 export const sendDirectMessage = async (
   projectId: string,
   recipient_id: string,
@@ -27,7 +27,7 @@ export const sendDirectMessage = async (
   }
 };
 
-// Function to edit a direct message
+
 export const editDirectMessage = async (messageId: string, content: string) => {
   const { error } = await supabase
     .from('direct_messages')
@@ -40,7 +40,7 @@ export const editDirectMessage = async (messageId: string, content: string) => {
   }
 };
 
-// Function to delete a direct message
+
 export const deleteDirectMessage = async (messageId: string) => {
   const { error } = await supabase.from('direct_messages').delete().eq('id', messageId);
 

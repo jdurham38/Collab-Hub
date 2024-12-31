@@ -1,4 +1,4 @@
-// components/Settings/AdminAccess/AdminAccess.tsx
+
 
 'use client';
 
@@ -68,7 +68,7 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
       setModifiedCollaborators({});
       refetch();
     } catch (err) {
-      if(err instanceof Error){ //check the instance of err
+      if(err instanceof Error){ 
          toast.error(err.message || 'Failed to save changes.');
       } else {
          toast.error('Failed to save changes.')

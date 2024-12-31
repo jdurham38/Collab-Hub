@@ -1,4 +1,4 @@
-// /hooks/useChannels.ts
+
 
 import { useState, useEffect, useCallback } from 'react';
 import { fetchChannels } from '@/services/ProjectSettings/deleteChannel';

@@ -51,7 +51,7 @@ const Overview: React.FC<OverviewProps> = ({ projectId }) => {
           <ProjectUsers projectId={projectId} />
         </div>
 
-        {/* New Flex Container */}
+        {}
         <div className={styles.flexContainer}>
           <ProjectTags tags={project.tags} />
           <ProjectRoles roles={project.roles} />

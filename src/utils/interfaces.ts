@@ -1,4 +1,4 @@
-// utils/interfaces.ts
+
 
 export interface UserData {
   email: string;
@@ -37,7 +37,7 @@ export interface User {
   cookieConsent?: boolean;
 }
 
-// Project.ts
+
 export interface Project {
   id: string;
   title: string;
@@ -63,7 +63,7 @@ export interface Message {
   };
 }
 
-// File: /types/index.ts
+
 
 export interface Channel {
   id: string;
@@ -72,7 +72,7 @@ export interface Channel {
   description?: string;
   createdAt: string;
   updatedAt: string;
-  // Add any additional fields as necessary
+  
 }
 
 export interface Collaborator {
@@ -85,7 +85,7 @@ export interface Collaborator {
   canRemoveChannel: boolean;
   canEditProject: boolean;
   canEditAdminAccess: boolean;
-  // Add any additional fields as necessary
+  
 }
 
 export interface DirectMessage {

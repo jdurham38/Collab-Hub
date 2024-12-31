@@ -75,7 +75,7 @@ const LoginForm: React.FC = () => {
             required
           />
 
-          {/* Password Input with Toggle Button */}
+          {}
           <div className={styles.passwordInputWrapper}>
             <input
               type={showPassword ? 'text' : 'password'} 

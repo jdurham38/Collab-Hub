@@ -19,7 +19,6 @@ const Settings: React.FC = () => {
     if (error) {
       console.error('Error signing out:', error.message);
     } else {
-      console.log('Signed out successfully');
       setLoggedIn(false); 
       router.push('/'); 
     }
@@ -64,7 +63,6 @@ const Settings: React.FC = () => {
         return;
       }
 
-      console.log('Account deleted successfully.');
       alert('Account deleted successfully.');
 
       

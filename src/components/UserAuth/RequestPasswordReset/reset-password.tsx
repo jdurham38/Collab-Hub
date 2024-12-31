@@ -84,7 +84,7 @@ const ResetPasswordPage: React.FC = () => {
                   placeholder="Enter your email"
                   required
                 />
-                {/* Display error message inline */}
+                {}
                 {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 
                 <button className={styles.button} type="submit" disabled={loading}>
@@ -95,7 +95,7 @@ const ResetPasswordPage: React.FC = () => {
           </div>
         </div>
       )}
-      {/* ToastContainer should always be rendered to ensure toast works */}
+      {}
       <ToastContainer
         position="top-left"
         autoClose={5000}

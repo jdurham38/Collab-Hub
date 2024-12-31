@@ -6,7 +6,7 @@ export const getProjectUsers = async (projectId: string) => {
         params: { projectId },
       });
       
-    return response.data; // Returns { owner, users }
+    return response.data; 
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =

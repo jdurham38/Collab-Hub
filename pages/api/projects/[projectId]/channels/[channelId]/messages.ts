@@ -1,11 +1,11 @@
-// File: pages/api/projects/[projectId]/channels/[channelId]/messages.ts
+
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || '' // Use service role key for server-side operations
+  process.env.SUPABASE_ANON_KEY || '' 
 );
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(500).json({ error: 'Error fetching messages' });
         }
     
-        // Correct: Directly return the 'messages' array
+        
         return res.status(200).json(messages); 
       } catch (err) {
         console.error('Unexpected error fetching messages:', err);

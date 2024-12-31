@@ -1,4 +1,4 @@
-// /hooks/useLoadUnreadCounts.ts
+
 import { useEffect } from 'react';
 import { fetchUnreadCounts } from '@/services/unreadCountService';
 

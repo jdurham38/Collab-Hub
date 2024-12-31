@@ -20,7 +20,7 @@ const DirectMessageItem: React.FC<DirectMessageItemProps> = ({
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const optionsRef = useRef<HTMLDivElement>(null);
 
-    //Function to Close the menu when click outside
+    
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (optionsRef.current && !optionsRef.current.contains(event.target as Node)) {

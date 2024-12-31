@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
 }
 
 .filterToggleButton {
@@ -13,21 +14,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 400px; /* height of the rectangle */
-  width: 40px; /* width of the rectangle */
-  background-color: #d4a373; /* light background of the rectangle */
-   border-radius: 20px 0px 0px 20px; /* rounded corner to left side */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle box shadow */
+  height: 400px; 
+  width: 40px; 
+  background-color: #d4a373; 
+   border-radius: 20px 0px 0px 20px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   z-index: 101;
 }
 
 .filterContainer {
   position: absolute;
   top: 0;
-  right: -350px; /* Start off-screen */
-  width: 350px; /* Adjust width as needed */
+  right: -350px; 
+  width: 350px; 
   height: 100%;
-  background: white; /* Or your desired background */
+  background: white; 
   box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
   transition: right 0.3s ease-in-out;
   z-index: 100;
@@ -35,21 +36,21 @@
 }
 
 .filterVisible {
-  right: 0; /* Slide into view */
+  right: 0; 
 }
 
 .grid {
   display: grid;
   gap: 20px;
-  /* Default for mobile (1 column) */
+  
   grid-template-columns: repeat(1, 1fr);
 
-  /* Tablet (2 columns) */
+  
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Desktop (3 columns) */
+  
   @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -91,7 +92,7 @@
   z-index: 99;
 }
 
-/* Style for the arrow icon */
+
 .filterIcon {
   border: solid #000;
   border-width: 0 3px 3px 0;

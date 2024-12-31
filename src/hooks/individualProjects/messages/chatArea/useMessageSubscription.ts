@@ -82,7 +82,6 @@ const useMessageSubscription = ({
       const newChannel: RealtimeChannel = supabase.channel(channelName);
 
       const handleInsert = async (payload: PostgresChangesPayload) => {
-        console.log('handleInsert triggered:', payload);
           const newMessage = payload.new as Message;
 
           const user = await fetchUserIfNeeded(newMessage.user_id);
@@ -104,7 +103,6 @@ const useMessageSubscription = ({
       };
 
       const handleUpdate = async (payload: PostgresChangesPayload) => {
-        console.log('handleUpdate triggered:', payload);
           const updatedMessage = payload.new as Message;
 
         const user = await fetchUserIfNeeded(updatedMessage.user_id);
@@ -114,7 +112,7 @@ const useMessageSubscription = ({
                   msg.id === updatedMessage.id
                       ? {
                         ...updatedMessage,
-                        user: user, // Ensure it's 'user'
+                        user: user, 
                       }
                       : msg
               )
@@ -123,7 +121,6 @@ const useMessageSubscription = ({
 
 
         const handleDelete = (payload: PostgresChangesPayload) => {
-            console.log('handleDelete triggered:', payload);
           const deletedMessageId = payload.old?.id;
 
           if (deletedMessageId) {
@@ -162,7 +159,6 @@ const useMessageSubscription = ({
         )
         .subscribe((status) => {
           if (status === 'SUBSCRIBED') {
-            console.log('Subscription successful');
               setChannel(newChannel);
           } else {
               console.error(`Subscription error: ${status}`);
@@ -173,7 +169,6 @@ const useMessageSubscription = ({
       return () => {
           if (channel) {
           channel.unsubscribe().then(() => {
-              console.log('Unsubscribed from channel');
               supabase.removeChannel(channel);
               setChannel(null)
           })

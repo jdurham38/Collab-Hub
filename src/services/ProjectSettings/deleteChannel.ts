@@ -1,8 +1,8 @@
-// File: /services/ProjectSettings/channels.ts
+
 
 import axios from 'axios';
 import { Channel } from '@/utils/interfaces';
-// File: /types/index.ts
+
 
   
 /**
@@ -35,7 +35,7 @@ export const fetchChannels = async (projectId: string): Promise<Channel[]> => {
 export const deleteChannel = async (projectId: string, channelId: string): Promise<string> => {
   try {
     const response = await axios.delete(`/api/projects/${projectId}/channels/${channelId}/deleteChannel`);
-    return response.data.message; // Assuming the API returns a message field
+    return response.data.message; 
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage = error.response?.data?.error || 'Failed to delete channel';

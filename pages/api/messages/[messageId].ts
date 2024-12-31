@@ -1,4 +1,4 @@
-// File: pages/api/messages/[messageId].ts
+
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';

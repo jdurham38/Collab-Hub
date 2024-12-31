@@ -1,4 +1,4 @@
-// VerifyEmail.tsx
+
 import React, { useState, useEffect } from 'react';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import styles from './VerifyEmail.module.css';
@@ -40,7 +40,7 @@ const VerifyEmail: React.FC = () => {
         setErrorMessage(`Error sending verification email: ${error.message}`);
       } else {
         setSuccessMessage('Verification email sent! Please check your inbox.');
-        setCooldown(60); // Start 60-second cooldown
+        setCooldown(60); 
       }
     } catch (error) {
       console.error('Error resending verification email:', error);

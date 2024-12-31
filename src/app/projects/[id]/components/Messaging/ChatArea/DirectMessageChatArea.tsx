@@ -165,9 +165,6 @@ const DirectMessageChatArea: React.FC<DirectMessageChatAreaProps> = ({
             prevMessages.filter((msg) => msg.id !== messageId),
         );
     };
-    console.log('DirectMessageChatArea rendering...', messages);
-    console.log('Filtered messages:', filteredMessages);
-
 
 
     return (

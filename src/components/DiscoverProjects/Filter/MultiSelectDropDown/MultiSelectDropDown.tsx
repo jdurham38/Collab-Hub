@@ -40,18 +40,18 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, sele
         setSearchTerm(event.target.value);
     };
 
-    // Filter options based on the search term
+    
     const filteredOptions = options.filter(option =>
         option.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-       // Close dropdown on click outside
+       
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
                 setSearchTerm('')
-                setIsFocused(false); // Remove focus state on close
+                setIsFocused(false); 
             }
         };
 

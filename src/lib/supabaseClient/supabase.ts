@@ -1,9 +1,9 @@
-// supabaseClient.ts
+
 
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import customStorage from '@/utils/customStorage';
 
-// In-memory storage for temporary use (used when cookies are not accepted)
+
 const inMemoryStorage = {
   data: {} as Record<string, string>,
   getItem: (key: string): string | null => {
@@ -20,7 +20,7 @@ const inMemoryStorage = {
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-// Singleton instance of SupabaseClient
+
 let supabase: SupabaseClient | null = null;
 
 /**

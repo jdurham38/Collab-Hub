@@ -16,7 +16,6 @@ export default async function handler(
 
   const userId = req.query.userId;
 
-  // Ensure userId is a single string, not an array
   if (Array.isArray(userId)) {
     return res
       .status(400)
@@ -31,14 +30,13 @@ export default async function handler(
     const { data: projects, error: projectError } = await supabase
       .from('projects')
       .select('id, title, createdAt, banner_url, tags, created_by')
-      .eq('created_by', userId); // Filter projects by the given userId
+      .eq('created_by', userId);
 
     if (projectError) {
       console.error('Error fetching user projects:', projectError.message);
       return res.status(500).json({ error: 'Failed to fetch projects' });
     }
 
-    // Fetch user details only if projects exist
     if (projects.length > 0) {
         const { data: users, error: userError } = await supabase
           .from('users')
@@ -69,7 +67,6 @@ export default async function handler(
 
       return res.status(200).json(projectsWithUsernames);
     } else {
-      // Return an empty array if no projects are found for the user
       return res.status(200).json([]);
     }
   } catch (error) {

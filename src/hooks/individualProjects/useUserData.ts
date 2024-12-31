@@ -29,12 +29,12 @@ const useUserData = (projectId: string): UseUserDataReturn => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const supabase = getSupabaseClient();
-  const { user: authUser, loading: authLoading } = useAuth(); // Get user and loading from context
+  const { user: authUser, loading: authLoading } = useAuth(); 
 
   useEffect(() => {
     const fetchUser = async () => {
        if (authLoading) {
-                //If AuthProvider is loading wait until it finishes
+                
               return;
             }
       setLoading(true);
@@ -70,9 +70,9 @@ const useUserData = (projectId: string): UseUserDataReturn => {
             username: username,
           });
 
-          // Fetch User Privileges
+          
           try {
-            // validatePrivileges should now return an object with all four fields
+            
             const privileges = await validatePrivileges(projectId, user.id);
             setAdminPrivileges(privileges.adminPrivileges);
             setCanRemoveUser(privileges.canRemoveUser);
@@ -80,7 +80,7 @@ const useUserData = (projectId: string): UseUserDataReturn => {
             setCanEditProject(privileges.canEditProject);
             setcanEditAdminAccess(privileges.canEditAdminAccess);
             
-            // Also store userIsOwner somewhere
+            
 
           } catch (privError) {
             console.error('Error fetching privileges:', privError);

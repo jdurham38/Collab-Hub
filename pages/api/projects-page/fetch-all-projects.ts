@@ -10,8 +10,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log('API route /api/projects-page/fetch-all-projects HIT'); // Keep this log
-  console.log('Query parameters:', req.query); // Keep this log
 
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method Not Allowed' });
@@ -30,17 +28,17 @@ export default async function handler(
   }
 
   try {
-    // Filter projects by userId using .eq()
+    
     const { data: projects, error: projectError } = await supabase
       .from('projects')
-      .select('id, title, createdAt, banner_url, tags, created_by, roles')
+      .select('id, title, createdAt, banner_url, tags, created_by, roles, description')
 
     if (projectError) {
       console.error('Error fetching user projects:', projectError.message);
       return res.status(500).json({ error: 'Failed to fetch projects' });
     }
 
-    // Only fetch user details if projects exist
+    
     if (projects.length > 0) {
         const { data: users, error: userError } = await supabase
             .from('users')
@@ -64,7 +62,7 @@ export default async function handler(
 
         return res.status(200).json(projectsWithUsernames);
     } else {
-        // Return an empty array if no projects are found for the user
+        
         return res.status(200).json([]);
     }
   } catch (error) {

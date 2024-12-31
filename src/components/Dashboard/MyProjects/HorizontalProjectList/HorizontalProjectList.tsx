@@ -32,13 +32,13 @@ const HorizontalProjectList: React.FC<HorizontalProjectListProps> = ({ projects 
   const handleScroll = (direction: 'left' | 'right') => {
     if (containerRef.current) {
       const container = containerRef.current;
-      const scrollAmount = 300; // Adjust scroll amount
+      const scrollAmount = 300; 
       container.scrollLeft += direction === 'left' ? -scrollAmount : scrollAmount;
     }
   };
 
   return (
-    <div className={styles.outerContainer}> {/* New container for background */}
+    <div className={styles.outerContainer}> {}
       <div className={styles.projectListContainer}>
         <div className={styles.projectList} ref={containerRef}>
           {projects.map((project) => (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
-import { projectTags } from '@/utils/tags'; // Import your projectTags
+import { projectTags } from '@/utils/tags'; 
 
 interface EditTagsProps {
   tags: string[];
@@ -13,7 +13,7 @@ const EditTags: React.FC<EditTagsProps> = ({ tags, setTags }) => {
     null
   );
 
-  // Update local selected tags when the prop 'tags' change
+  
   useEffect(() => {
     setSelectedTags(tags);
   }, [tags]);
@@ -28,13 +28,13 @@ const EditTags: React.FC<EditTagsProps> = ({ tags, setTags }) => {
       : selectedTags;
 
     setSelectedTags(newTags);
-    setTags(newTags); // Update the parent component's state
+    setTags(newTags); 
   };
 
   const handleTagRemove = (tag: string) => {
     const newTags = selectedTags.filter((t) => t !== tag);
     setSelectedTags(newTags);
-    setTags(newTags); // Update the parent component's state
+    setTags(newTags); 
   };
 
   const filteredTags = Object.entries(projectTags).flatMap(

@@ -1,10 +1,44 @@
-// display all project information
-// have a button to apply, no need for a modal just apply
+import React from 'react';
+import { Project } from '@/utils/interfaces';
+import styles from './PreviewProjectModal.module.css';
+import DOMPurify from 'dompurify';
 
-// an api to get the respective projects api information
+interface ProjectPreviewProps {
+  project: Project;
+  onClose: () => void;
+}
 
-// an api for the current user to apply to be a ProjectCollaborator, needs to be accepted or declined
+const ProjectPreview: React.FC<ProjectPreviewProps> = ({ project, onClose }) => {
+  const sanitizedDescription = DOMPurify.sanitize(project.description);
 
+  return (
+    <div className={styles.overlay}>
+      <div className={styles.previewContent}>
+        <button className={styles.closeButton} onClick={onClose}>X</button>
+        <h2 className={styles.title}>{project.title}</h2>
+        <div
+          className={styles.description}
+          dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
+        />
+         <h3 className={styles.subtitle}>Roles</h3>
+        <div className={styles.tags}>
+          {project.roles.map((role) => (
+            <span key={role} className={styles.tag}>
+              {role}
+            </span>
+          ))}
+        </div>
+        <h3 className={styles.subtitle}>Tags</h3>
+        <div className={styles.tags}>
+          {project.tags.map((tag) => (
+            <span key={tag} className={styles.tag}>
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
-
-// 2 ideas, have a full modal for all information or just have a read more for the description
+export default ProjectPreview;

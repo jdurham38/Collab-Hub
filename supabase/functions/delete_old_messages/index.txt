@@ -1,16 +1,15 @@
-// cleanup_old_messages.ts
-
-// Follow this setup guide to integrate the Deno language server with your editor:
-// https://deno.land/manual/getting_started/setup_your_environment
-// This enables autocomplete, go to definition, etc.
-
-// Setup type definitions for built-in Supabase Runtime APIs
 
 
 
-console.log('Cleanup Old Messages Edge Function');
 
-// Initialize Supabase client with the service role key
+
+
+
+
+
+
+
+
 import { createClient } from 'jsr:@supabase/supabase-js@2'
 
 Deno.serve(async () => {
@@ -31,11 +30,11 @@ Deno.serve(async () => {
       supabaseServiceRoleKey
     );
 
-    // Calculate the cutoff date (14 days ago)
+    
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - 14);
 
-    // Step 1: Fetch user IDs of owners on the "free" plan
+    
     const { data: freeUsers, error: usersError } = await supabase
       .from('users')
       .select('id')
@@ -50,7 +49,6 @@ Deno.serve(async () => {
     }
 
     if (!freeUsers || freeUsers.length === 0) {
-      console.log('No users on free plan found.');
       return new Response(
         JSON.stringify({ message: 'No old messages to delete.' }),
         { status: 200 }
@@ -59,7 +57,7 @@ Deno.serve(async () => {
 
     const freeUserIds = freeUsers.map((user: { id: string }) => user.id);
 
-    // Step 2: Fetch projects where the owner is on the "free" plan
+    
     const { data: freeProjects, error: projectError } = await supabase
       .from('projects')
       .select('id')
@@ -77,19 +75,18 @@ Deno.serve(async () => {
     }
 
     if (!freeProjects || freeProjects.length === 0) {
-      console.log('No projects found with free-plan owners.');
       return new Response(
         JSON.stringify({ message: 'No old messages to delete.' }),
         { status: 200 }
       );
     }
 
-    // Extract project IDs
+    
     const freeProjectIds = freeProjects.map(
       (project: { id: string }) => project.id
     );
 
-    // Step 3: Delete messages older than 14 days for these projects
+    
     const fourteenDaysAgo = new Date(
       Date.now() - 14 * 24 * 60 * 60 * 1000
     ).toISOString();
@@ -108,7 +105,6 @@ Deno.serve(async () => {
       );
     }
 
-    console.log('Successfully deleted old messages for free-plan projects');
     return new Response(
       JSON.stringify({ message: 'Old messages deleted successfully.' }),
       { status: 200 }
@@ -121,14 +117,3 @@ Deno.serve(async () => {
     );
   }
 });
-
-/* To invoke locally:
-
-  1. Run `supabase start` (see: https://supabase.com/docs/reference/cli/supabase-start)
-  2. Make an HTTP request:
-
-  curl -i --location --request POST 'http://localhost:54321/functions/v1/cleanup_old_messages' \
-    --header 'Authorization: Bearer <YOUR_ANON_OR_SERVICE_ROLE_KEY>' \
-    --header 'Content-Type: application/json'
-
-*/

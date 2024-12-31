@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect } from 'react';
 import ProjectCard from '../ProjectCard/ProjectCard';
 import useAllProjects from '@/hooks/projectPage/fetchAllProjects';
@@ -14,15 +15,15 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ userId }) => {
     const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const projectsPerPage = 6;
-    const [isFilterVisible, setIsFilterVisible] = useState(false); // State for filter visibility
+    const [isFilterVisible, setIsFilterVisible] = useState(false); 
 
-    // Get a current list of projects to display
+    
     const indexOfLastProject = currentPage * projectsPerPage;
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const currentProjects = filteredProjects.slice(indexOfFirstProject, indexOfLastProject);
     const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
 
-     // Handle next/previous page buttons
+     
     const handleNextPage = () => {
         setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
     };
@@ -35,8 +36,8 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ userId }) => {
         setCurrentPage(1);
     }, [userId]);
 
-     // Filter projects
-    //TODO fix this any type 
+     
+    
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleFilterProjects = (filtered: any[]) => {
         setFilteredProjects(filtered)

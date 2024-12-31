@@ -27,7 +27,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ onSend, initialValue = '' }
   const sendMessage = () => {
         if (newMessage.trim() !== '') {
              onSend(newMessage);
-           setNewMessage(''); // Clear the input after sending
+           setNewMessage(''); 
            if (inputRef.current) {
                inputRef.current.style.height = 'auto';
                inputRef.current.focus();

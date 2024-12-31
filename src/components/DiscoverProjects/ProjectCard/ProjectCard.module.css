@@ -1,53 +1,117 @@
 .card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .banner {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-  }
-  
-  .info {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-  
-  .title {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-  }
-  
-  .description {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.banner {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.info {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  color: #555;
+  display: flex; 
+  align-items: flex-start; 
+  flex-wrap: wrap; 
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 0.8rem;
+}
+
+.readMore {
+  background: none;
+  border: none;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+  margin-left: 5px; 
+}
+
+.createdBy {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end; 
+  margin-top: 10px; 
+}
+
+
+.applyButton{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
     font-size: 0.9rem;
-    margin-bottom: 10px;
-    color: #555;
-    flex-grow: 1;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.applyButton:disabled {
+    background-color: #999; 
+    cursor: not-allowed;
+}
+
+.appliedText {
+    color: grey;
+    font-style: italic;
+    font-size: 0.9rem;
   }
-  
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-  }
-  
-  .tag {
-    background-color: #f0f0f0;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin-right: 5px;
-    margin-bottom: 5px;
+
+  .errorMessage {
+    color: red;
     font-size: 0.8rem;
+    margin-top: 5px;
+  }
+
+
+
+  .applyButton.ProjectCard_appliedButton__XXXX:disabled {
+    background-color: #ccc;
+    color: #888;
+    cursor: not-allowed;
   }
   
-  .createdBy {
-    font-size: 0.8rem;
-    color: #777;
-  }
+  .appliedButton {
+    background-color: #ccc; 
+    color: #888; 
+    cursor: not-allowed; 
+}

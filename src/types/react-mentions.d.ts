@@ -1,4 +1,4 @@
-// types/react-mentions.d.ts
+
 import 'react-mentions';
 
 declare module 'react-mentions' {

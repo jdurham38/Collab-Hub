@@ -18,21 +18,19 @@ export interface Project {
 const useUserProjects = (userId: string | undefined) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null); // Initialize as null
+  const [error, setError] = useState<string | null>(null); 
 
   useEffect(() => {
     if (!userId) {
-      setLoading(false); // No user ID means no projects to fetch
+      setLoading(false); 
       return;
     }
 
     const fetchUserProjects = async () => {
-      console.log('Fetching user projects...');
-
       try {
         const userProjectData = await getUserProjects(userId);
         setProjects(userProjectData);
-        setError(null); // Clear any previous errors
+        setError(null); 
       } catch (error) {
         console.error('Error fetching projects:', error);
         if (error instanceof Error) {
