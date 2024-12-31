@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import styles from './ProjectFilter.module.css';
+import styles from './Filter.module.css';
 import MultiSelectDropdown from './MultiSelectDropDown/MultiSelectDropDown';
 import { projectRoles } from '@/utils/roles';
 import { projectTags } from '@/utils/tags';
 import Dropdown from './Dropdown/Dropdown';
+import ProjectSearch from './Search/Search';
 
 // Define a type for individual project
 interface Project {
@@ -30,6 +31,7 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => 
     const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
     const [selectedDateRange, setSelectedDateRange] = useState<string>('all');
     const [noProjectsMessage, setNoProjectsMessage] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Extract Unique Tags and Roles
     const allTags = Object.values(projectTags).flat();
@@ -46,10 +48,21 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => 
 
     useEffect(() => {
         applyFilters();
-    }, [selectedTags, selectedRoles, selectedDateRange, projects]);
+    }, [selectedTags, selectedRoles, selectedDateRange, projects, searchTerm]);
+    
+    const handleSearch = (term: string) => {
+        setSearchTerm(term)
+    }
+
 
     const applyFilters = () => {
         let filtered = [...projects];
+
+        if(searchTerm){
+            filtered = filtered.filter((project) => 
+                project.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
 
         // Filter by tags
         if (selectedTags.length > 0) {
@@ -105,6 +118,7 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => 
         setSelectedTags([]);
         setSelectedRoles([]);
         setSelectedDateRange("all");
+        setSearchTerm('');
         setNoProjectsMessage(null)
     };
 
@@ -115,6 +129,7 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ projects, onFilter }) => 
 
     return (
         <div className={styles.filterContainer}>
+            <ProjectSearch onSearch={handleSearch} />
             <div className={styles.filterSection}>
                 <MultiSelectDropdown
                     label="Select Tags"

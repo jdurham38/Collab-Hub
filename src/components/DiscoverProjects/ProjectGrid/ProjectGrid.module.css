@@ -1,52 +1,106 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterToggleButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px; /* height of the rectangle */
+  width: 40px; /* width of the rectangle */
+  background-color: #d4a373; /* light background of the rectangle */
+   border-radius: 20px 0px 0px 20px; /* rounded corner to left side */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle box shadow */
+  z-index: 101;
+}
+
+.filterContainer {
+  position: absolute;
+  top: 0;
+  right: -350px; /* Start off-screen */
+  width: 350px; /* Adjust width as needed */
+  height: 100%;
+  background: white; /* Or your desired background */
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease-in-out;
+  z-index: 100;
+  padding: 20px;
+}
+
+.filterVisible {
+  right: 0; /* Slide into view */
+}
+
 .grid {
-    display: grid;
+  display: grid;
+  gap: 20px;
+  /* Default for mobile (1 column) */
+  grid-template-columns: repeat(1, 1fr);
+
+  /* Tablet (2 columns) */
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Desktop (3 columns) */
+  @media (min-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
   }
-  
-  .loading,
-  .error,
-  .noProjects {
-    text-align: center;
-    padding: 20px;
-    font-size: 1rem;
-  }
-  
-  .error {
-    color: red;
-  }
-  
-  /* Tablet Size: 2x2 Grid */
-  @media (max-width: 1024px) {
-    .grid {
-      grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    }
-  }
-  
-  /* Mobile Size: 1x3 Grid */
-  @media (max-width: 768px) {
-    .grid {
-        grid-template-columns: 1fr; /* 1 column */
-    }
-  }
-  
-  
-  .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
-    }
-    
-    .pagination button {
-      padding: 8px 12px;
-      margin: 0 5px;
-      cursor: pointer;
-      border: 1px solid #ccc;
-      background-color: #f9f9f9;
-    }
-    
-    .pagination button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 10px;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.error {
+  text-align: center;
+  color: red;
+  margin-top: 20px;
+}
+
+.noProjects {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+
+/* Style for the arrow icon */
+.filterIcon {
+  border: solid #000;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.filterIconOpen {
+  transform: rotate(-45deg);
+}

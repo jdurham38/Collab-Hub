@@ -20,8 +20,7 @@ Color Pallete
 5. create dashboard (View Projects currently in (created/joined), view friends, view notifications/messages)
   
 6. project discovery page
-    - have a search/filter to narrow a search based on requirements.
-        1. explore projects 2x3 grid
+
 
 
 7. create user explore page

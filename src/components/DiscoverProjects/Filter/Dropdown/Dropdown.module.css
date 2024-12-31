@@ -2,29 +2,32 @@
   position: relative;
   display: inline-block;
 }
-
-.dropdownHeader {
-  padding: 8px 12px;
+.dropdownHeader{
+  padding: 10px;
   border: 1px solid #ccc;
   cursor: pointer;
-  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
 }
-
+.arrow{
+  margin-left: 10px;
+}
 .dropdownList {
   position: absolute;
   top: 100%;
   left: 0;
   border: 1px solid #ccc;
   background-color: white;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  z-index: 1000;
   width: 100%;
+  z-index: 1000;
+  padding: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dropdownListItem {
-  padding: 8px 12px;
+  padding: 5px 10px;
   cursor: pointer;
 }
 
