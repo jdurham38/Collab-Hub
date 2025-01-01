@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import { Project } from '@/utils/interfaces';
 import styles from './ProjectCard.module.css';
@@ -6,6 +6,7 @@ import ProjectPreview from '../PreviewProjectModal/PreviewProjectModal';
 import DOMPurify from 'dompurify';
 import useApplyProject from '@/hooks/projectPage/useApplyProject';
 import useAuthRedirect from '@/hooks/dashboard/useAuthRedirect';
+import useCheckApplicationStatus from '@/hooks/projectPage/useCheckApplicationStatus';
 
 
 interface ProjectCardProps {
@@ -15,8 +16,10 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const user = useAuthRedirect();
-    const userId = user?.id || null; 
-    const { isApplying, hasApplied, apply, error, isLoading } = useApplyProject(project.id, userId);
+    const userId = user?.id || null;
+    const { isApplying, apply } = useApplyProject();
+    const { hasApplied, isLoading, setHasApplied } = useCheckApplicationStatus(project.id, userId);
+
 
     const handleReadMore = () => {
         setIsPreviewOpen(true);
@@ -47,14 +50,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const truncatedDescription = truncateDescription(sanitizedDescription, 25);
 
     const handleApply = async () => {
-      if (user) {
-        await apply(project.id, user.id);
-      } else {
-        console.error('User is not authenticated.');
-       
-      }
+        if (user) {
+            await apply(project.id, user.id, setHasApplied);
+        } else {
+            console.error('User is not authenticated.');
+        }
     };
-
 
 
     return (
@@ -85,17 +86,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                     ))}
                 </div>
                 <div className={styles.cardActions}>
-                      {isLoading ? (
-                            <span className={styles.loadingText}>Loading...</span>
-                        ) : hasApplied === null || hasApplied === false ? (
+                    {isLoading ? (
+                        <span className={styles.loadingText}>Loading...</span>
+                    ) : hasApplied === null || hasApplied === false ? (
                         <button onClick={handleApply} disabled={isApplying} className={styles.applyButton}>
-                           {isApplying ? 'Applying...' : 'Apply'}
-                         </button>
-                        ) : (
-                         <span className={styles.appliedText}>Applied</span>
-                        )}
-                         {error && <p className={styles.errorMessage}>Error: {error}</p>}
-                  </div>
+                            {isApplying ? 'Applying...' : 'Apply'}
+                        </button>
+                    ) : (
+                        <span className={styles.appliedText}>Applied</span>
+                    )}
+                </div>
                 <p className={styles.createdBy}>
                     Created by: {project.created_by_username}
                 </p>

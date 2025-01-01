@@ -20,20 +20,16 @@ Color Pallete
 5. create dashboard (View Projects currently in (created/joined), view friends, view notifications/messages)
   
 6. project discovery page
-    - Project grid
-        - only call the projects within the current page so at max 6 at min 3
-        - alter the filter to make an api call to search through all projects
+
     - style filtering better
     - Project Card Updates:
-        - have an apply button for each project
-            - success message
-                1. you have successfully applied
-            - error message stating 
-                1. youre already a member of this project
-                2. you have already applied
-                3. your application was declined please try again after 7 days
-                4. other error, please try again later or contact us if there are any questions
         - style each card better to contain all the above information/changes
+            - width needs to be smaller or the banner needs a larger height
+            - border around the banner
+            - seperate tags and roles into seperate containers at the bottom of the card
+            - created by and apply button need to be in opposite corners 
+            - read more button needs to be directly to the right of the truncated ...'s
+
 
 
 
@@ -45,28 +41,13 @@ Color Pallete
     - have a section where users can view project application requests
     - have a section where users can check the status on their own applications
 
-8. create project dashboard
+8. individual Projects
     - idk the details yet but pretty much make it like slack and trello
 
 
 9. create messaging page
 
 
-
-
-    Settings
-    Bold all title and center them
-            - Edit project details
-                1.. the save changes button
-            - Remove channels
-                - Bold the title
-            - admin access
-                - Bold the title
-                - cannot remove themselves
-                -enhance styling
-            - removing users
-                - Bold the title
-                - enhance styling
 
 Channel messaging
     - allow users to create a channel with specific users. (LATER FEATURE)

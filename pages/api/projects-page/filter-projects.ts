@@ -1,4 +1,4 @@
-// --- pages/api/projects-page/fetch-all-projects.ts ---
+// --- pages/api/projects-page/filter-projects.ts ---
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
@@ -16,8 +16,12 @@ export default async function handler(
     }
 
     const userId = req.query.userId;
-    const page = parseInt(req.query.page as string) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit as string) || 6; // Default to 6 projects per page
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 2;
+    const tags = req.query.tags ? (req.query.tags as string).split(',') : [];
+    const roles = req.query.roles ? (req.query.roles as string).split(',') : [];
+    const dateRange = req.query.dateRange as string || 'all';
+    const searchTerm = req.query.searchTerm as string || '';
 
     if (Array.isArray(userId)) {
         return res
@@ -31,18 +35,62 @@ export default async function handler(
 
     const startIndex = (page - 1) * limit;
 
-
     try {
-        const { data: projects, error: projectError, count } = await supabase
+        let query = supabase
             .from('projects')
             .select('id, title, createdAt, banner_url, tags, created_by, roles, description', { count: 'exact' })
-            .order('createdAt', { ascending: false })
-            .range(startIndex, startIndex + limit - 1);
+            .order('createdAt', { ascending: false });
+
+        if (searchTerm) {
+            query = query.ilike('title', `%${searchTerm}%`)
+        }
+
+        if (tags.length > 0) {
+            query = query.contains('tags', tags);
+        }
+
+        if (roles.length > 0) {
+            query = query.contains('roles', roles);
+        }
+
+        if (dateRange !== 'all') {
+            const today = new Date();
+            let startDate;
+
+            switch (dateRange) {
+                case 'today':
+                    startDate = new Date(today);
+                    break;
+                case 'yesterday':
+                    startDate = new Date(today);
+                    startDate.setDate(today.getDate() - 1);
+                    break;
+                case 'last7days':
+                    startDate = new Date(today);
+                    startDate.setDate(today.getDate() - 7);
+                    break;
+                case 'last30days':
+                    startDate = new Date(today);
+                    startDate.setDate(today.getDate() - 30);
+                    break;
+                default:
+                    startDate = new Date(today)
+            }
+            if (dateRange === "today" || dateRange === "yesterday"){
+                query = query.gte('createdAt', startDate.toISOString()).lt('createdAt',  new Date(startDate.getTime() + 24 * 60 * 60 * 1000).toISOString());
+            } else {
+                query = query.gte('createdAt', startDate.toISOString()).lte('createdAt', today.toISOString());
+            }
+        }
+
+
+        const { data: projects, error: projectError, count } = await query.range(startIndex, startIndex + limit - 1);
 
         if (projectError) {
             console.error('Error fetching user projects:', projectError.message);
             return res.status(500).json({ error: 'Failed to fetch projects' });
         }
+
 
         if (projects.length > 0) {
             const { data: users, error: userError } = await supabase

@@ -1,87 +1,92 @@
-.container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin-top: 30px;
-}
-
 .filterToggleButton {
   position: absolute;
-  top: 50%;
+  top: 10%;
   transform: translateY(-50%);
   right: 0;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 400px; 
-  width: 40px; 
-  background-color: #d4a373; 
-   border-radius: 20px 0px 0px 20px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  height: 75px;
+  width: 45px;
+  background-color: rgba(212, 163, 115);
+  border-radius: 20px 0px 0px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 101;
+  transition: transform 0.2s ease-in-out;
+}
+
+.filterToggleButton:hover {
+  transform: translateY(-50%) translateX(5px);
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+  overflow: hidden;
+}
+/* new fixed grid container */
+.grid-container {
+position: relative; /* To position the absolute filter*/
+width: 100%;
+padding-bottom: 20px;
 }
 
 .filterContainer {
-  position: absolute;
+  position: absolute; /* Position within the grid-container */
   top: 0;
-  right: -350px; 
-  width: 350px; 
-  height: 100%;
-  background: white; 
-  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+  right: -350px;
+  width: 350px;
+  border-radius: 30px;
+  background-color: rgb(255, 255, 255, 0.7);
   transition: right 0.3s ease-in-out;
   z-index: 100;
   padding: 20px;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .filterVisible {
-  right: 0; 
+  right: 0;
 }
-
+/*move grid into the grid container*/
 .grid {
-  display: grid;
-  gap: 20px;
-  
-  grid-template-columns: repeat(1, 1fr);
-
-  
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+display: grid;
+gap: 20px;
+grid-template-columns: repeat(1, 1fr);
+@media (min-width: 768px) {
+  grid-template-columns: repeat(2, 1fr);
 }
-
+@media (min-width: 1024px) {
+  grid-template-columns: repeat(3, 1fr);
+}
+}
 .pagination {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
-
 .pagination button {
   margin: 0 10px;
 }
-
 .loading {
   text-align: center;
   margin-top: 20px;
 }
-
 .error {
   text-align: center;
   color: red;
   margin-top: 20px;
 }
-
 .noProjects {
   text-align: center;
   margin-top: 20px;
 }
-
 .overlay {
   position: fixed;
   top: 0;
@@ -91,8 +96,6 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 99;
 }
-
-
 .filterIcon {
   border: solid #000;
   border-width: 0 3px 3px 0;
@@ -101,7 +104,6 @@
   transform: rotate(135deg);
   transition: transform 0.3s ease-in-out;
 }
-
 .filterIconOpen {
   transform: rotate(-45deg);
 }
