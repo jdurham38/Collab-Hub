@@ -1,13 +1,14 @@
 .filterContainer{
     display: flex;
+    font-family: 'Trebuchet MS', Arial, sans-serif;
     flex-direction: column;
     gap: 30px;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
-    height: 600px
+    height: 600px;
     
-} s
+}
 
 .filterSection{
     display: flex;

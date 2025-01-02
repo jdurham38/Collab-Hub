@@ -18,19 +18,18 @@ Color Pallete
 
 
 5. create dashboard (View Projects currently in (created/joined), view friends, view notifications/messages)
-  
+    - lets work on getting the notifications
+        - have a box on the dashboard with all notifications (/notifications)
+            - notifications will include
+            1. global Updates - not sure how ill do this probably an admin dashboard for personal use to send out an update
+            2. project requests - this is the first step to determine if i can accept or decline
+            3. application Updates - display updates on project requests
+            4. friend requests - need to build the Explore users page first
+            5. maybe project updates - if anything ill put a red circle in the corner of the project cards on the dashboard for notifications within the project
+
 6. project discovery page
-
+    - if the user is the project owner hide the apply button completely
     - style filtering better
-    - Project Card Updates:
-        - style each card better to contain all the above information/changes
-            - width needs to be smaller or the banner needs a larger height
-            - border around the banner
-            - seperate tags and roles into seperate containers at the bottom of the card
-            - created by and apply button need to be in opposite corners 
-            - read more button needs to be directly to the right of the truncated ...'s
-
-
 
 
 7. create user explore page

@@ -1,0 +1,5 @@
+.container{
+    display: flex;
+    background-color: #F0F8E1;
+      min-height: 100vh; /* Ensure the content covers the full viewport height */
+  }

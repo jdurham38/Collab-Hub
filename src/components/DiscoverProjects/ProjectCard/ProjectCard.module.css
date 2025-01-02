@@ -1,22 +1,29 @@
 .card {
-  border: 1px solid #ccc;
+  border: 3px solid #000;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   background-color: #fefae0;
-  margin: 20px
+  width:100%;
+  max-width: 450px;
+  height: 500px;
+  margin: 20px;
+  position: relative;
+  overflow-y: auto;
 }
 
 .banner {
   width: 100%;
-  height: 150px;
-  object-fit: cover;
+  height: 200px;
+
 }
 
 .info {
   padding: 15px;
+  gap: 10px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -27,16 +34,12 @@
   margin-bottom: 10px;
 }
 
-.description {
-  font-size: 0.9rem;
-  margin-bottom: 10px;
-  color: #555;
-  display: flex; 
-  align-items: flex-start; 
-  flex-wrap: wrap; 
-}
 
 .tags {
+  background-color: #ccd5ae;
+  padding: 10px;
+  width: 100%;
+  border-radius: 8px;
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 10px;
@@ -50,18 +53,37 @@
   margin-bottom: 5px;
   font-size: 0.8rem;
 }
+.descriptionContainer {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: #555;
+  flex-grow: 1;
+}
 
 .readMore {
   background: none;
   border: none;
-  color: blue;
+  color: #2929ff;
   text-decoration: underline;
   cursor: pointer;
   padding: 0;
   font-size: 0.9rem;
-  margin-left: 5px; 
+  margin-left: 5px;
+  white-space: nowrap;
 }
-
+.cardBottom {
+display: flex;
+align-items: center;
+margin-top: auto;
+padding: 15px;
+  position: relative;
+}
 .createdBy {
   font-size: 0.8rem;
   color: #777;
@@ -69,51 +91,57 @@
 
 .cardActions {
   display: flex;
-  justify-content: flex-end; 
-  margin-top: 10px; 
+  justify-content: flex-end;
+      margin-left: auto;
+
 }
 
 
 .applyButton{
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 0.9rem;
-    border-radius: 4px;
-    cursor: pointer;
+  width: 100%;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  padding: 10px;
+  background-color: #d4a373; 
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
+
+.applyButton:hover {
+  background-color: #b98558; 
+}
+
+
 .applyButton:disabled {
-    background-color: #999; 
-    cursor: not-allowed;
+  background-color: #999;
+  cursor: not-allowed;
 }
 
 .appliedText {
-    color: grey;
-    font-style: italic;
-    font-size: 0.9rem;
-  }
+  color: grey;
+  font-style: italic;
+  font-size: 0.9rem;
+}
 
-  .errorMessage {
-    color: red;
-    font-size: 0.8rem;
-    margin-top: 5px;
-  }
+.errorMessage {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
 
 
 
-  .applyButton.ProjectCard_appliedButton__XXXX:disabled {
-    background-color: #ccc;
-    color: #888;
-    cursor: not-allowed;
-  }
-  
-  .appliedButton {
-    background-color: #ccc; 
-    color: #888; 
-    cursor: not-allowed; 
+.applyButton.ProjectCard_appliedButton__XXXX:disabled {
+  background-color: #ccc;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.appliedButton {
+  background-color: #ccc;
+  color: #888;
+  cursor: not-allowed;
 }

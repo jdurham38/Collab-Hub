@@ -56,6 +56,9 @@ const Navbar = () => {
         <Link href="/discover-projects" className={styles.navLink}>
           Discover Projects
         </Link>
+        <Link href="/notifications" className={styles.navLink}>
+          Notifications
+        </Link>
         <button className={styles.createButton} onClick={openModal}>
           +
         </button>
