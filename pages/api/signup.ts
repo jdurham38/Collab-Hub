@@ -10,7 +10,7 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse) 
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { email, password, username, location } = req.body;
+  const { email, password, username, location, role } = req.body;
 
     const { data, error } = await supabase.auth.signUp({
     email,
@@ -32,7 +32,10 @@ export default async function signup(req: NextApiRequest, res: NextApiResponse) 
     {
       id: userId,
       email,
-      username,       location,           }
+      username,
+      role,
+      location,
+    }
   ]);
 
   if (insertError) {

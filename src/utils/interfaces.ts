@@ -4,6 +4,7 @@ export interface UserData {
   email: string;
   password: string;
   username?: string;
+  role: string;
 }
 
 export interface ProfileData {
@@ -26,6 +27,7 @@ export interface SignupResponse {
     id: string;
     email: string;
     username: string;
+    role: string;
   };
   error?: string;
 }

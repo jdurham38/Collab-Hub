@@ -1,155 +1,176 @@
-
 .form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form input {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    margin-bottom: 18px;
-    padding: 15px;
-    font-size: 16px;
-    border-radius: 10px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form input,
+.form select { /* Added select to apply same styles */
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  margin-bottom: 18px;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 10px;
+  width: 100%;
+  border: 1px solid #ced4da;
+  box-sizing: border-box; /*Ensures padding and border don't affect width*/
+}
+
+ .form select:focus {
+   outline: none; /* Remove default focus outline */
+   border-color: #d4a373;  /* Highlight the border color on focus */
+   box-shadow: 0 0 0 0.2rem rgba(212, 163, 115, 0.25); /* Add a subtle shadow effect */
   }
 
-  .error {
-    color: #d9534f; 
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: #f2dede; 
-    border: 1px solid #ebccd1; 
-    padding: 8px;
-    margin-bottom:10px;
-    border-radius: 4px;
-    font-size: 0.9rem;
+  .form select option {
+    padding: 10px; /* Add some padding to make it look less cramped */
+  }
+  .form select optgroup {
+    font-weight: bold; /* Make the optgroup label a bit bolder */
   }
 
-  .warning {
-    color: #000000; 
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: #fff57a; 
-    border: 1px solid #fff57a; 
-    padding: 8px;
-    margin-bottom:10px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-  }
-  .alert{
-    width: 30px;
-    height: 30px;
-  }
-  
-  .success {
-    color: #5cb85c; 
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    background-color: #dff0d8; 
-    border: 1px solid #d6e9c6; 
-    padding: 8px;
-    margin-bottom:10px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-  }
-
-  .form button[type="submit"] {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    padding: 10px;
-    font-size: 16px;
-    width: 200px;
-    cursor: pointer;
-    background-color: #d4a373;
-    border-radius: 10px;
-    margin: 0 auto;
+  .form select optgroup::before {
+    content: "";
     display: block;
-    margin-bottom: 20px;
+    height: 1px;
+    background-color: #ced4da;
+    margin-bottom: 5px;
   }
 
-  
+.error {
+  color: #d9534f; 
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-color: #f2dede; 
+  border: 1px solid #ebccd1; 
+  padding: 8px;
+  margin-bottom:10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.warning {
+  color: #000000; 
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-color: #fff57a; 
+  border: 1px solid #fff57a; 
+  padding: 8px;
+  margin-bottom:10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.alert{
+  width: 30px;
+  height: 30px;
+}
+
+.success {
+  color: #5cb85c; 
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-color: #dff0d8; 
+  border: 1px solid #d6e9c6; 
+  padding: 8px;
+  margin-bottom:10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.form button[type="submit"] {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  padding: 10px;
+  font-size: 16px;
+  width: 200px;
+  cursor: pointer;
+  background-color: #d4a373;
+  border-radius: 10px;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
+
 .form button:hover {
-  text-decoration: underline;   
-  color: #333;                  
+text-decoration: underline;   
+color: #333;                  
 }
 
 
 .passwordInputWrapper {
-  position: relative;
-  width: 100%;
+position: relative;
+width: 100%;
 }
 
 .passwordInputWrapper input {
-  padding-right: 60px; 
+padding-right: 60px; 
 }
 
 .passwordToggleButton {
-  position: absolute;
-  right: 15px; 
-  top: 38%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #333; 
+position: absolute;
+right: 15px; 
+top: 38%;
+transform: translateY(-50%);
+background: none;
+border: none;
+font-size: 20px;
+cursor: pointer;
+color: #333; 
 }
 .checkboxContainer {
-  display: flex;
-  align-items: center; 
-  margin: 10px; 
+display: flex;
+align-items: center; 
+margin: 10px; 
 }
 
 .checkboxContainer input[type="checkbox"] {
-  flex-shrink: 0; 
-  margin-right: 10px; 
-  width: 15px;
-  height: 15px;
+flex-shrink: 0; 
+margin-right: 10px; 
+width: 15px;
+height: 15px;
 }
 
 .checkboxContainer label {
-  font-size: small;
-  flex: 1; 
-  margin: 0; 
+font-size: small;
+flex: 1; 
+margin: 0; 
 }
 
 
 
 
 .link {
-  color: #007bff; 
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
+color: #007bff; 
+text-decoration: none;
+font-weight: bold;
+transition: color 0.3s ease;
 }
 
 .link:hover {
-  color: #0056b3; 
-  text-decoration: underline;
+color: #0056b3; 
+text-decoration: underline;
 }
 
 
 
 .spinnerContainer {
-  background-color: #faedcd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+background-color: #faedcd;
+display: flex;
+align-items: center;
+justify-content: center;
+height: 100vh;
 }
 
 
 .spinner {
-  background-color: #faedcd;
-  border: 16px solid #f2dede; 
-  border-top: 16px solid #d4a373; 
-  border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 2s linear infinite;
+background-color: #faedcd;
+border: 16px solid #f2dede; 
+border-top: 16px solid #d4a373; 
+border-radius: 50%;
+width: 120px;
+height: 120px;
+animation: spin 2s linear infinite;
 }
 
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
 }
-
-  

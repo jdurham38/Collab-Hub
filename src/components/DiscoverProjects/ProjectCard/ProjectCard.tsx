@@ -8,7 +8,6 @@ import useApplyProject from '@/hooks/projectPage/useApplyProject';
 import useAuthRedirect from '@/hooks/dashboard/useAuthRedirect';
 import useCheckApplicationStatus from '@/hooks/projectPage/useCheckApplicationStatus';
 
-
 interface ProjectCardProps {
     project: Project;
 }
@@ -17,9 +16,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const user = useAuthRedirect();
     const userId = user?.id || null;
+    const isProjectOwner = user?.id === project.created_by; // Use created_by_id
     const { isApplying, apply } = useApplyProject();
     const { hasApplied, isLoading, setHasApplied } = useCheckApplicationStatus(project.id, userId);
-
 
     const handleReadMore = () => {
         setIsPreviewOpen(true);
@@ -57,6 +56,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         }
     };
 
+    const createdByDisplay = isProjectOwner ? "You" : project.created_by_username;
 
     return (
         <div className={styles.card}>
@@ -67,11 +67,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <div className={styles.info}>
                 <h3 className={styles.title}>{project.title}</h3>
                 <div className={styles.descriptionContainer}>
-                <div
-                    className={styles.description}
-                    dangerouslySetInnerHTML={{ __html: truncatedDescription }}
-                />
-                {project.description.length > 25 && <button className={styles.readMore} onClick={handleReadMore}>Read More</button>}
+                    <div
+                        className={styles.description}
+                        dangerouslySetInnerHTML={{ __html: truncatedDescription }}
+                    />
+                    {project.description.length > 25 && (
+                        <button className={styles.readMore} onClick={handleReadMore}>
+                            Read More
+                        </button>
+                    )}
                 </div>
                 <div className={styles.tags}>
                     {project.roles.map((role) => (
@@ -80,7 +84,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         </span>
                     ))}
                 </div>
-
                 <div className={styles.tags}>
                     {project.tags.map((tag) => (
                         <span key={tag} className={styles.tag}>
@@ -88,25 +91,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                         </span>
                     ))}
                 </div>
-      
                 <div className={styles.cardBottom}>
                     <p className={styles.createdBy}>
-                        Created by: {project.created_by_username}
+                        Created by: {createdByDisplay}
                     </p>
                     <div className={styles.cardActions}>
-                        {isLoading ? (
-                            <span className={styles.loadingText}>Loading...</span>
-                        ) : hasApplied === null || hasApplied === false ? (
-                            <button onClick={handleApply} disabled={isApplying} className={styles.applyButton}>
-                                {isApplying ? 'Applying...' : 'Apply'}
-                            </button>
-                        ) : (
-                            <span className={styles.appliedText}>Applied</span>
-                    )}
+                        {!isProjectOwner && (
+                            <>
+                                {isLoading ? (
+                                    <span className={styles.loadingText}>Loading...</span>
+                                ) : hasApplied === null || hasApplied === false ? (
+                                    <button onClick={handleApply} disabled={isApplying} className={styles.applyButton}>
+                                        {isApplying ? 'Applying...' : 'Apply'}
+                                    </button>
+                                ) : (
+                                    <span className={styles.appliedText}>Applied</span>
+                                )}
+                            </>
+                        )}
+                    </div>
                 </div>
-                </div>
-
-                    
             </div>
         </div>
     );

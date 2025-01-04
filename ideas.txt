@@ -12,24 +12,24 @@ Color Pallete
 #faedcd
 #d4a373
 
+TOP TASKS
+3. enhance the styling of the filter - discover-projects
+4. have a box on the dashboard with all notifications (/notifications)
+
+
+
+
 
 2. setup bucket storage
     - profile images
 
 
-5. create dashboard (View Projects currently in (created/joined), view friends, view notifications/messages)
-    - lets work on getting the notifications
-        - have a box on the dashboard with all notifications (/notifications)
+5. create dashboard (view friends, view notifications/messages)
             - notifications will include
             1. global Updates - not sure how ill do this probably an admin dashboard for personal use to send out an update
-            2. project requests - this is the first step to determine if i can accept or decline
-            3. application Updates - display updates on project requests
-            4. friend requests - need to build the Explore users page first
-            5. maybe project updates - if anything ill put a red circle in the corner of the project cards on the dashboard for notifications within the project
+            2. friend requests - need to build the Explore users page first
+            3. maybe project updates - if anything ill put a red circle in the corner of the project cards on the dashboard for notifications within the project
 
-6. project discovery page
-    - if the user is the project owner hide the apply button completely
-    - style filtering better
 
 
 7. create user explore page
@@ -37,8 +37,6 @@ Color Pallete
     - display user cards in a 3x4 grid
     - once a user clicks on a user card pull in an overlay card with more details on the usern
     - in the user overlay there will be an option to send the user a message or collab request
-    - have a section where users can view project application requests
-    - have a section where users can check the status on their own applications
 
 8. individual Projects
     - idk the details yet but pretty much make it like slack and trello
