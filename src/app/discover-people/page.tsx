@@ -1,4 +1,4 @@
-import DiscoverPeople from "@/components/Dashboard/DiscoverPeople/discoverPeople";
+import DiscoverPeople from "@/components/DiscoverPeople/discoverPeople";
 
 export default function DiscoverPeoplePage(){
     return (

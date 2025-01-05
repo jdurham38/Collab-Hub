@@ -1,0 +1,41 @@
+ /* app/user/[id]/page.module.css */
+ .userProfileContainer {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    width: 400px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  .username {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .bio {
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+  .role {
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+  
+  .link {
+      margin-right: 5px;
+      text-decoration: none;
+      color: #007bff;
+  }
+  
+  .link:hover{
+      text-decoration: underline;
+  }
+  
+  .socialLinks {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+  }

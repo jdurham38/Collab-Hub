@@ -56,6 +56,9 @@ const Navbar = () => {
         <Link href="/discover-projects" className={styles.navLink}>
           Discover Projects
         </Link>
+        <Link href="/discover-people" className={styles.navLink}>
+          Discover People
+        </Link>
         <Link href="/notifications" className={styles.navLink}>
           Notifications
         </Link>

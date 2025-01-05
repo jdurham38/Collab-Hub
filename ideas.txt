@@ -17,6 +17,28 @@ TOP TASKS
 4. have a box on the dashboard with all notifications (/notifications)
 
 
+Discover Users page
+ - profile cards on grid
+    - profile picture
+    - Name
+    - role
+    - bio
+    - social tags
+    - Message and Friend Request Buttons
+    - View Full Profile
+- User Profiles
+    - profile picture
+    - Name
+    - role
+    - bio
+    - social links (linkedin, personal website, instagram, behance, twitter, tiktok)
+        - safety check for user if going to links (You are leaving Collab-Hub are you sure you want to do this?)
+    - Total Friends
+    - Total Projects Collaborated on (later feature)
+    - current projects involved in
+    - Testimonials/Reviews of the user for projects they completed
+    - Message and Friend Request Buttons
+
 
 
 
@@ -34,12 +56,25 @@ TOP TASKS
 
 7. create user explore page
     - Search/filters based on interests, location, roles, and username
-    - display user cards in a 3x4 grid
+    - display user cards in a 4x4 grid
     - once a user clicks on a user card pull in an overlay card with more details on the usern
-    - in the user overlay there will be an option to send the user a message or collab request
+    - in the user overlay there will be an option to send the user a message/ collab/ friend request
 
 8. individual Projects
     - idk the details yet but pretty much make it like slack and trello
+    - Allow only the project owner to delete the project
+    - Allow only the project owner to mark the project as completed
+    - Review System
+        - on completion send out optional review forms for all team members in project
+        - after the initial 7 days (non repeating for that project) of a collaborator being apart of a project. 
+            - send out an optional review form to the other team members.
+
+    Completing a project and re-opening
+        - Allow for a owner to re-open
+            - once re-open give the option to allow previous collaborators to re-join if they accept
+            - allow the owner to edit project details for re-opening of a project
+        - most likely need db fields within collaborators and projects for isProjectActive: bool
+        
 
 
 9. create messaging page

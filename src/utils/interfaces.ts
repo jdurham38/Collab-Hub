@@ -36,6 +36,15 @@ export interface User {
   id: string;
   email: string;
   username: string;
+  role: string;
+  shortBio: string;
+  bio: string;
+  personalWebsite: string;
+  instagramLink: string;
+  linkedinLink: string;
+  behanceLink: string;
+  twitterLink: string;
+  tiktokLink: string;
   cookieConsent?: boolean;
 }
 
