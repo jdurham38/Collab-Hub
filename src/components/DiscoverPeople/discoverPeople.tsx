@@ -1,15 +1,23 @@
-// components/DiscoverPeople/discoverPeople.tsx
+'use client';
 import React from 'react';
 import ProtectedComponent from "@/components/ProtectedComponent/protected-page";
 import styles from './DiscoverPeople.module.css';
+
+import useAuthRedirect from '@/hooks/dashboard/useAuthRedirect';
 import UserGrid from './CardGrid/UserGrid';
+
 const DiscoverPeople: React.FC = () => {
+    const user = useAuthRedirect();
+
+    if (status === "loading") {
+         return <div>Loading...</div>;
+    }
+
     return (
         <div className={styles.pageContainer}>
             <ProtectedComponent />
             <div className={styles.contentContainer}>
-                 <h2 className={styles.pageTitle}>Discover People</h2>
-                 <UserGrid />
+                 <UserGrid userId={user?.id} />
             </div>
         </div>
     );

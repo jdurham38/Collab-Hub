@@ -1,0 +1,56 @@
+/* UrlInput.module.css */
+
+.urlInputContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.labelIconContainer {
+  display: flex;
+  align-items: flex-start; /* Changed from baseline to flex-start */
+  margin-bottom: 5px;
+}
+
+.label {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #666;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.icon {
+    margin-left: 5px;
+    display: inline-flex;
+    align-items: flex-start; /* Align icon to the top of label */
+    font-size: 1.1em;
+    color: #6B7280;
+}
+
+.input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.inputFocused {
+   border-color: #007bff;
+}
+
+.error {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 5px;
+}

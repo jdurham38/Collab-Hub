@@ -19,17 +19,21 @@ const UserProfilePage: React.FC = () => {
             }
             setLoading(true);
             try {
-                const response = await fetch(`/api/users-page/users?userId=${id}`);
+                const response = await fetch(`/api/users-page/user-profile/${id}`);
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch user: ${response.statusText}`);
+                     let errorMessage = `Failed to fetch user: ${response.statusText}`;
+                     try {
+                        const errorData = await response.json();
+                        if (errorData && errorData.error) {
+                            errorMessage = errorData.error;
+                        }
+                     } catch(parseError) {
+                         console.log("error parsing error message", parseError)
+                     }
+                    throw new Error(errorMessage);
                 }
-                const { users } = await response.json();
-
-                if (users && users.length > 0) {
-                    setUserInfo(users[0]);
-                } else {
-                    setError("User not found");
-                }
+                const { user } = await response.json();
+                setUserInfo(user);
             } catch (e) {
                 let errorMessage = "An unexpected error occurred.";
                 if (e instanceof Error) {

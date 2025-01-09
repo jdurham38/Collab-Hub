@@ -124,7 +124,8 @@ const SignupForm: React.FC = () => {
                 email: emailLower,
                 password,
                 username,
-                role: selectedRole // Changed 'roles' to 'role'
+                role: selectedRole ,
+                profileImageUrl: 'https://mmcljxvypquukmlbybbv.supabase.co/storage/v1/object/public/profile-images/preset-images/default1.png'
             };
 
             const result: SignupResponse = await signup(userData);

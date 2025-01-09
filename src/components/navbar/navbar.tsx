@@ -59,9 +59,6 @@ const Navbar = () => {
         <Link href="/discover-people" className={styles.navLink}>
           Discover People
         </Link>
-        <Link href="/notifications" className={styles.navLink}>
-          Notifications
-        </Link>
         <button className={styles.createButton} onClick={openModal}>
           +
         </button>
@@ -73,7 +70,14 @@ const Navbar = () => {
           </span>
           {dropdownOpen && (
             <div className={styles.dropdown}>
-              {}
+              {<div>
+                <Link href="/notifications" className={styles.navLink}>
+                  Notifications
+                </Link>
+                <Link href="/settings" className={styles.navLink}>
+                  Settings
+                </Link>
+                </div>}
             </div>
           )}
         </div>

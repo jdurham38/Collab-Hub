@@ -20,17 +20,10 @@ TOP TASKS
 Discover Users page
  - profile cards on grid
     - profile picture
-    - Name
-    - role
-    - bio
-    - social tags
     - Message and Friend Request Buttons
     - View Full Profile
 - User Profiles
     - profile picture
-    - Name
-    - role
-    - bio
     - social links (linkedin, personal website, instagram, behance, twitter, tiktok)
         - safety check for user if going to links (You are leaving Collab-Hub are you sure you want to do this?)
     - Total Friends
@@ -38,12 +31,30 @@ Discover Users page
     - current projects involved in
     - Testimonials/Reviews of the user for projects they completed
     - Message and Friend Request Buttons
+7. create user explore page
+    - Search/filters based on interests, location, roles, and username
+    - display user cards in a 4x4 grid
+    - in the user overlay there will be an option to send the user a message/ collab/ friend request
 
 
+Settings
+- Authentication Tab
+    1. update cookie preferences
+    2. sign out
+    3. delete account
+    4. change username
+    5. change email
+    6. change password
 
+design for profile
+    - put all components in a big card
+    - profile image should be the center at the TOP
+    - short bio below
+    - role below short bio
+    - actual bio
+    - then social links 2x3 grid with social icons to the left of each link input
+    - (as soon as a user inputs new data or changes anything prmopt a cancel changes button same with save changes)
 
-2. setup bucket storage
-    - profile images
 
 
 5. create dashboard (view friends, view notifications/messages)
@@ -52,13 +63,6 @@ Discover Users page
             2. friend requests - need to build the Explore users page first
             3. maybe project updates - if anything ill put a red circle in the corner of the project cards on the dashboard for notifications within the project
 
-
-
-7. create user explore page
-    - Search/filters based on interests, location, roles, and username
-    - display user cards in a 4x4 grid
-    - once a user clicks on a user card pull in an overlay card with more details on the usern
-    - in the user overlay there will be an option to send the user a message/ collab/ friend request
 
 8. individual Projects
     - idk the details yet but pretty much make it like slack and trello

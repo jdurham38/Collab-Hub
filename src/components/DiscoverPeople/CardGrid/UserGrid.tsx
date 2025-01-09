@@ -1,13 +1,20 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import UserCard from '../UserCard/UserCard';
 import styles from './UserGrid.module.css';
 import { User } from '@/utils/interfaces';
 import { useRouter } from 'next/navigation';
 import { fetchUsers } from '@/services/DiscoverPeople/discoverPeopleService';
+import UserFilter from '../Filter/Filter';
 
 interface UserGridProps {
     userId?: string;
+}
+
+interface FilterState {
+    roles: string[];
+    dateRange: string;
+    searchTerm: string;
 }
 
 const UserGrid: React.FC<UserGridProps> = ({ userId }) => {
@@ -18,31 +25,39 @@ const UserGrid: React.FC<UserGridProps> = ({ userId }) => {
     const usersPerPage = 6;
     const [totalUsers, setTotalUsers] = useState<number>(0);
     const router = useRouter();
+    const [filters, setFilters] = useState<FilterState>({ roles: [], dateRange: '', searchTerm: '' });
+    const previousFilters = useRef<FilterState | null>(null);
+
+    const handleFilterChange = useCallback((newFilters: { roles: string[]; dateRange: string; searchTerm: string }) => {
+        setFilters(newFilters);
+    }, [setFilters]);
 
     useEffect(() => {
         const loadUsers = async () => {
             setLoading(true);
             setError(null);
             try {
-                const data = await fetchUsers(currentPage, usersPerPage, userId);
+                const data = await fetchUsers(currentPage, usersPerPage, filters, filters.searchTerm);
                 setUsers(data.users);
                 setTotalUsers(data.totalCount);
             } catch (e) {
                 let errorMessage = 'An unknown error occurred while fetching users.';
                 if (e instanceof Error) {
-                   errorMessage = e.message || 'An error occurred while fetching users.';
-                } else if (typeof e === 'string'){
+                    errorMessage = e.message || 'An error occurred while fetching users.';
+                } else if (typeof e === 'string') {
                     errorMessage = e;
                 }
-                  setError(errorMessage);
-                  console.error('Error fetching users: ', e);
+                setError(errorMessage);
+                console.error('Error fetching users: ', e);
             } finally {
                 setLoading(false);
             }
         };
-
-        loadUsers();
-    }, [currentPage, userId, usersPerPage]);
+        if(previousFilters.current === null || JSON.stringify(previousFilters.current) !== JSON.stringify(filters)){
+            loadUsers();
+            previousFilters.current = filters;
+        }
+    }, [currentPage, userId, usersPerPage, filters, filters.searchTerm]);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -62,6 +77,7 @@ const UserGrid: React.FC<UserGridProps> = ({ userId }) => {
         setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
     };
 
+
     if (loading) {
         return <div className={styles.loading}>Loading users...</div>;
     }
@@ -72,6 +88,7 @@ const UserGrid: React.FC<UserGridProps> = ({ userId }) => {
 
     return (
         <div className={styles.gridContainer}>
+            <UserFilter onFilterChange={handleFilterChange} initialFilters={filters} />
             <div className={styles.container}>
                 {users.length === 0 ? (
                     <div className={styles.noUsers}>No users found.</div>

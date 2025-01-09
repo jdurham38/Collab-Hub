@@ -1,0 +1,51 @@
+/* BioInput.module.css */
+.inputContainer {
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.label {
+    display: block; /* Makes the label a block level element */
+    margin-bottom: 0.5rem; /* spacing between the label and the dropdown */
+    font-size: 0.9rem; /* smaller font for the label */
+    color: #666;    /* darker gray color for label text */
+    text-align: left;
+}
+
+
+.textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding and border do not affect width */
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 100px; /* Minimum height for the textarea */
+}
+
+
+.textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+
+.characterCount {
+    font-size: 0.9em;
+    color: #777;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+.error {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 5px;
+}

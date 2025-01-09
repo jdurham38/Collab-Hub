@@ -5,6 +5,7 @@ export interface UserData {
   password: string;
   username?: string;
   role?: string;
+  profileImageUrl: string;
 }
 
 export interface ProfileData {
@@ -46,6 +47,7 @@ export interface User {
   twitterLink?: string;
   tiktokLink?: string;
   cookieConsent?: boolean;
+  profileImageUrl: string;
 }
 
 
