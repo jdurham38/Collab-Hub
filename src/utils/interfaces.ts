@@ -5,7 +5,7 @@ export interface UserData {
   password: string;
   username?: string;
   role?: string;
-  profileImageUrl: string;
+  profileImageUrl?: string;
 }
 
 export interface ProfileData {
@@ -47,7 +47,7 @@ export interface User {
   twitterLink?: string;
   tiktokLink?: string;
   cookieConsent?: boolean;
-  profileImageUrl: string;
+  profileImageUrl?: string;
 }
 
 
@@ -94,6 +94,7 @@ export interface Collaborator {
   adminPrivileges: boolean;
   username: string;
   email: string;
+  profileImageUrl: string;
   canRemoveUser: boolean;
   canRemoveChannel: boolean;
   canEditProject: boolean;

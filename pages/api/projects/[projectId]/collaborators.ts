@@ -56,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const {data: usersData, error: usersError} = await supabase
             .from('users')
-            .select('id, username, email')
+            .select('id, username, email, profileImageUrl')
             .in('id', allUserIds)
 
       if (usersError) {
