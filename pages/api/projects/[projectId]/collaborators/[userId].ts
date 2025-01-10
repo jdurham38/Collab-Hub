@@ -1,10 +1,9 @@
-
-import { NextApiRequest, NextApiResponse } from "next";
-import { createClient } from "@supabase/supabase-js";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
+  process.env.SUPABASE_ANON_KEY!,
 );
 interface ProjectCollaboratorUpdate {
   adminPrivileges?: boolean;
@@ -13,7 +12,10 @@ interface ProjectCollaboratorUpdate {
   canEditProject?: boolean;
   canEditAdminAccess?: boolean;
 }
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { projectId, userId } = req.query;
 
   if (typeof projectId !== 'string' || typeof userId !== 'string') {
@@ -24,7 +26,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { requesterId } = req.body || {};
 
     if (!requesterId) {
-      return res.status(400).json({ error: 'Missing requesterId in request body' });
+      return res
+        .status(400)
+        .json({ error: 'Missing requesterId in request body' });
     }
 
     try {
@@ -50,18 +54,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .single();
 
         if (requesterError) {
-          return res.status(500).json({ error: 'Error fetching requester privileges' });
+          return res
+            .status(500)
+            .json({ error: 'Error fetching requester privileges' });
         }
 
         requesterCanRemoveUser = requesterCollab?.canRemoveUser ?? false;
       }
 
       if (!userIsOwner && !requesterCanRemoveUser) {
-        return res.status(403).json({ error: 'You do not have permission to remove collaborators.' });
+        return res
+          .status(403)
+          .json({
+            error: 'You do not have permission to remove collaborators.',
+          });
       }
 
       if (userIsOwner && userId === requesterId) {
-        return res.status(400).json({ error: 'Project owner cannot be removed.' });
+        return res
+          .status(400)
+          .json({ error: 'Project owner cannot be removed.' });
       }
 
       const { error: deleteError } = await supabase
@@ -74,21 +86,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(500).json({ error: 'Error removing collaborator' });
       }
 
-      return res.status(200).json({ message: 'Collaborator removed successfully.' });
+      return res
+        .status(200)
+        .json({ message: 'Collaborator removed successfully.' });
     } catch (err) {
-      
       if (err instanceof Error) {
-        
-        return res.status(500).json({ error: `Internal Server Error: ${err.message}` });
+        return res
+          .status(500)
+          .json({ error: `Internal Server Error: ${err.message}` });
       } else {
-        
         return res.status(500).json({ error: 'Internal Server Error' });
       }
     }
   } else if (req.method === 'PATCH') {
-    const { adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject, canEditAdminAccess } = req.body;
+    const {
+      adminPrivileges,
+      canRemoveUser,
+      canRemoveChannel,
+      canEditProject,
+      canEditAdminAccess,
+    } = req.body;
 
-    
     const updateData: ProjectCollaboratorUpdate = {};
 
     if (adminPrivileges !== undefined) {
@@ -97,7 +115,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       updateData.adminPrivileges = adminPrivileges;
 
-      
       if (adminPrivileges) {
         updateData.canRemoveUser = true;
         updateData.canRemoveChannel = true;
@@ -106,7 +123,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     }
 
-    
     if (adminPrivileges !== true) {
       if (typeof canRemoveUser === 'boolean') {
         updateData.canRemoveUser = canRemoveUser;
@@ -123,7 +139,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (Object.keys(updateData).length === 0) {
-      return res.status(400).json({ error: 'No valid fields provided for update' });
+      return res
+        .status(400)
+        .json({ error: 'No valid fields provided for update' });
     }
 
     try {
@@ -143,11 +161,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(404).json({ error: 'Collaborator not found' });
       }
 
-      return res.status(200).json({ collaborator: data, message: 'Privileges updated successfully.' });
+      return res
+        .status(200)
+        .json({
+          collaborator: data,
+          message: 'Privileges updated successfully.',
+        });
     } catch (err) {
-      
       if (err instanceof Error) {
-        return res.status(500).json({ error: `Internal Server Error: ${err.message}` });
+        return res
+          .status(500)
+          .json({ error: `Internal Server Error: ${err.message}` });
       } else {
         return res.status(500).json({ error: 'Internal Server Error' });
       }

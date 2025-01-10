@@ -1,24 +1,22 @@
-
-
 .modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); 
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1; 
+  z-index: 1;
 }
 
 .modal {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);  
-  max-width: 400px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
 }
 
 .header {
@@ -34,276 +32,275 @@
   font-weight: bold;
   color: #333333;
   text-align: center;
-  flex: 1
-
+  flex: 1;
 }
 
 .modalButtons {
   display: flex;
-  justify-content: flex-end; 
-  margin-top: 15px; 
+  justify-content: flex-end;
+  margin-top: 15px;
 }
 
 .modalButtons button {
-    margin-left: 10px; 
-    padding: 8px 16px; 
-    border: none; 
-    border-radius: 4px; 
-    cursor: pointer;
+  margin-left: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
-
-
 .container {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333333;
+}
+
+.addButton {
+  padding: 8px 16px;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.addButton:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.addButton:active {
+  transform: translateY(0);
+}
+
+.error {
+  color: #f44336;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.loading {
+  font-size: 1rem;
+  color: #555555;
+  text-align: center;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.listItem:hover {
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.userLabel {
+  font-size: 1rem;
+  color: #333333;
+  word-break: break-word;
+  flex: 1;
+}
+
+.removeButton {
+  position: relative;
+  padding: 6px 12px;
+  background-color: #f44336;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeButton:hover:not(:disabled) {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+}
+
+.removeButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.removeButton:disabled {
+  background-color: #e57373;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+.saveButton {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.saveButton:hover {
+  background-color: #0069d9;
+  transform: translateY(-2px);
+}
+
+.saveButton:active {
+  transform: translateY(0);
+}
+
+.saveButton:disabled {
+  background-color: #a0c5f7;
+  cursor: not-allowed;
+}
+
+.unsavedIndicator {
+  color: orange;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 16px;
+    border-radius: 6px;
   }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
+
   .title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333333;
+    font-size: 1.25rem;
+    text-align: center;
   }
-  
+
   .addButton {
-    padding: 8px 16px;
-    background-color: #4caf50;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 0.9rem;
-  }
-  
-  .addButton:hover {
-    background-color: #45a049;
-    transform: translateY(-2px);
-  }
-  
-  .addButton:active {
-    transform: translateY(0);
-  }
-  
-  .error {
-    color: #f44336;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    text-align: center;
-  }
-  
-  .loading {
+    padding: 10px 14px;
     font-size: 1rem;
-    color: #555555;
-    text-align: center;
+    width: 100%;
+    margin-top: 10px;
   }
-  
-  .list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-  }
-  
+
   .listItem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    margin-bottom: 12px;
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .listItem:hover {
-    background-color: #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
+
   .userLabel {
+    margin-bottom: 10px;
     font-size: 1rem;
-    color: #333333;
-    word-break: break-word;
-    flex: 1;
+    flex: none;
   }
-  
+
   .removeButton {
-    position: relative;
-    padding: 6px 12px;
-    background-color: #f44336;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .removeButton:hover:not(:disabled) {
-    background-color: #d32f2f;
-    transform: translateY(-1px);
-  }
-  
-  .removeButton:active:not(:disabled) {
-    transform: translateY(0);
-  }
-  
-  .removeButton:disabled {
-    background-color: #e57373;
-    cursor: not-allowed;
-  }
-  
-  .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #ffffff;
-    border-top: 2px solid #ffffff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-left: 8px;
-  }
-  
-  .saveButton {
-    padding: 10px 20px;
-    margin-top: 20px;
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 8px 16px;
     font-size: 1rem;
     width: 100%;
   }
-  
-  .saveButton:hover {
-    background-color: #0069d9;
-    transform: translateY(-2px);
+
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid #ffffff;
+    border-top: 3px solid #ffffff;
   }
-  
-  .saveButton:active {
-    transform: translateY(0);
+
+  .saveButton {
+    padding: 12px 20px;
+    font-size: 1.1rem;
   }
-  
-  .saveButton:disabled {
-    background-color: #a0c5f7;
-    cursor: not-allowed;
+}
+
+@media (min-width: 601px) and (max-width: 1024px) {
+  .container {
+    padding: 18px;
+    max-width: 80%;
   }
-  
-  .unsavedIndicator {
-    color: orange;
-    font-size: 1.2rem;
+
+  .title {
+    font-size: 1.4rem;
+    text-align: center;
   }
-  
-  
-  
-  
-  @media (max-width: 600px) {
-    .container {
-      padding: 16px;
-      border-radius: 6px;
-    }
-  
-    .title {
-      font-size: 1.25rem;
-      text-align: center;
-    }
-  
-    .addButton {
-      padding: 10px 14px;
-      font-size: 1rem;
-      width: 100%;
-      margin-top: 10px;
-    }
-  
-    .listItem {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .userLabel {
-      margin-bottom: 10px;
-      font-size: 1rem;
-      flex: none;
-    }
-  
-    .removeButton {
-      padding: 8px 16px;
-      font-size: 1rem;
-      width: 100%;
-    }
-  
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 3px solid #ffffff;
-      border-top: 3px solid #ffffff;
-    }
-  
-    .saveButton {
-      padding: 12px 20px;
-      font-size: 1.1rem;
-    }
+
+  .addButton {
+    padding: 9px 15px;
+    font-size: 0.95rem;
   }
-  
-  
-  @media (min-width: 601px) and (max-width: 1024px) {
-    .container {
-      padding: 18px;
-      max-width: 80%;
-    }
-  
-    .title {
-      font-size: 1.4rem;
-      text-align: center;
-    }
-  
-    .addButton {
-      padding: 9px 15px;
-      font-size: 0.95rem;
-    }
-  
-    .listItem {
-      flex-direction: row;
-    }
-  
-    .removeButton {
-      padding: 7px 14px;
-      font-size: 0.95rem;
-    }
-  
-    .spinner {
-      width: 17px;
-      height: 17px;
-      border: 2.5px solid #ffffff;
-      border-top: 2.5px solid #ffffff;
-    }
-  
-    .saveButton {
-      padding: 11px 19px;
-      font-size: 1rem;
-    }
+
+  .listItem {
+    flex-direction: row;
   }
-  
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
+
+  .removeButton {
+    padding: 7px 14px;
+    font-size: 0.95rem;
   }
-  
+
+  .spinner {
+    width: 17px;
+    height: 17px;
+    border: 2.5px solid #ffffff;
+    border-top: 2.5px solid #ffffff;
+  }
+
+  .saveButton {
+    padding: 11px 19px;
+    font-size: 1rem;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

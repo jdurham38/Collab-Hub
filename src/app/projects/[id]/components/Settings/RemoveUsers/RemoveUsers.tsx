@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -15,11 +14,16 @@ interface ModalProps {
   message: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onConfirm, message }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  message,
+}) => {
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}> 
+    <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <p>{message}</p>
         <div className={styles.modalButtons}>
@@ -56,7 +60,7 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
 
   const handleRemove = async () => {
     try {
-        if (!userToRemove) return; 
+      if (!userToRemove) return;
       if (!userIsOwner && !canRemoveUser) {
         toast.error('You do not have permission to remove collaborators.');
         return;
@@ -68,14 +72,12 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
       }
 
       await removeCollaborator(projectId, userToRemove.userId, currentUserId);
-       setCollaborators((prev) =>
-       prev.filter((c) => c.userId !== userToRemove.userId)
+      setCollaborators((prev) =>
+        prev.filter((c) => c.userId !== userToRemove.userId),
       );
       toast.success('Collaborator removed successfully.');
-
-
     } catch (err) {
-      let errorMessage = 'Failed to remove collaborator'; 
+      let errorMessage = 'Failed to remove collaborator';
       if (err instanceof Error) {
         errorMessage = err.message;
       } else if (typeof err === 'string') {
@@ -89,45 +91,41 @@ const RemoveUsers: React.FC<RemoveUsersProps> = ({
     }
   };
 
-
-
-
-  if (loading) return <p className={styles.loading}>Loading collaborators...</p>;
+  if (loading)
+    return <p className={styles.loading}>Loading collaborators...</p>;
   if (error) return <p className={`${styles.error}`}>Error: {error}</p>;
-
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-      <h2 className={styles.title}>Project Collaborators</h2>
+        <h2 className={styles.title}>Project Collaborators</h2>
       </div>
-       <Modal
+      <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onConfirm={handleRemove}
         message={`Are you sure you want to remove ${userToRemove?.username || userToRemove?.email}?`}
       />
-     
-            <ul className={styles.list}>
-          {collaborators.map((collab) => (
-            <li key={collab.userId} className={styles.listItem}>
-              <span className={styles.userLabel}>
-                {collab.username || collab.email || collab.userId}
-              </span>
-              {(userIsOwner || canRemoveUser) &&
-                collab.userId !== currentUserId && (
-                  <button
-                    className={styles.removeButton}
-                    onClick={() => handleRemoveClick(collab)} 
-                    aria-label={`Remove user ${collab.username || collab.email}`}
-                  >
-                    ✕
-                  </button>
-                )}
-            </li>
-          ))}
-        </ul>
 
+      <ul className={styles.list}>
+        {collaborators.map((collab) => (
+          <li key={collab.userId} className={styles.listItem}>
+            <span className={styles.userLabel}>
+              {collab.username || collab.email || collab.userId}
+            </span>
+            {(userIsOwner || canRemoveUser) &&
+              collab.userId !== currentUserId && (
+                <button
+                  className={styles.removeButton}
+                  onClick={() => handleRemoveClick(collab)}
+                  aria-label={`Remove user ${collab.username || collab.email}`}
+                >
+                  ✕
+                </button>
+              )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

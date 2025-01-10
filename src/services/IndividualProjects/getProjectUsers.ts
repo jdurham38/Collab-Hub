@@ -2,11 +2,14 @@ import axios from 'axios';
 
 export const getProjectUsers = async (projectId: string) => {
   try {
-    const response = await axios.get('/api/individualProjects/getUsersInProject', {
+    const response = await axios.get(
+      '/api/individualProjects/getUsersInProject',
+      {
         params: { projectId },
-      });
-      
-    return response.data; 
+      },
+    );
+
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =

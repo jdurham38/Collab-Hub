@@ -33,8 +33,7 @@ const Overview: React.FC<OverviewProps> = ({ projectId }) => {
   if (isError) {
     return (
       <div className={styles.error}>
-        Error:{' '}
-        {error instanceof Error ? error.message : 'An error occurred'}
+        Error: {error instanceof Error ? error.message : 'An error occurred'}
       </div>
     );
   }

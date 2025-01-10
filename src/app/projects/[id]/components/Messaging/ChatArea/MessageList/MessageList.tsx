@@ -19,9 +19,8 @@ const MessageList: React.FC<MessageListProps> = ({
   onDelete,
   userMap,
 }) => {
-
   const sortedMessages = [...messages].sort(
-    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
   );
 
   let lastMessageDate: string | null = null;
@@ -31,7 +30,6 @@ const MessageList: React.FC<MessageListProps> = ({
       {sortedMessages.map((message) => {
         const messageDate = new Date(message.timestamp);
         const messageDateString = messageDate.toDateString();
-
 
         let showDateSeparator = false;
         if (messageDateString !== lastMessageDate) {

@@ -1,18 +1,16 @@
-
 .rolesContainer {
   background-color: #ccd5ae;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   box-sizing: border-box;
-  flex: 1;                 
-  min-width: 300px;        
-  max-width: 500px;        
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
   min-height: 300px;
-  max-height: 300px;        
+  max-height: 300px;
   border-width: 3px;
   border-color: #000;
-
 }
 
 .rolesContainer h2 {
@@ -24,7 +22,7 @@
 
 .rolesList {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -41,7 +39,7 @@
 @media (max-width: 400px) {
   .tagsContainer,
   .rolesContainer {
-    padding: 10px; 
-    width: 100%; 
+    padding: 10px;
+    width: 100%;
   }
 }

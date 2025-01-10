@@ -15,7 +15,7 @@ interface UseToggleAdminAccessReturn {
   updatePermissions: (
     projectId: string,
     userId: string,
-    fields: PermissionFields
+    fields: PermissionFields,
   ) => Promise<boolean>;
   error: string | null;
 }
@@ -27,14 +27,14 @@ const useToggleAdminAccess = (): UseToggleAdminAccessReturn => {
   const updatePermissions = async (
     projectId: string,
     userId: string,
-    fields: PermissionFields
+    fields: PermissionFields,
   ): Promise<boolean> => {
     setUpdatingUserId(userId);
     setError(null);
     try {
       const response = await axios.patch(
         `/api/projects/${projectId}/collaborators/${userId}`,
-        fields
+        fields,
       );
       const data = response.data;
       if (data && data.collaborator) {
@@ -45,9 +45,12 @@ const useToggleAdminAccess = (): UseToggleAdminAccessReturn => {
     } catch (err) {
       let errorMessage = 'An unexpected error occurred.';
       if (axios.isAxiosError(err)) {
-          errorMessage = err?.response?.data?.error || err.message || 'An unexpected error occurred.';
+        errorMessage =
+          err?.response?.data?.error ||
+          err.message ||
+          'An unexpected error occurred.';
       } else if (err instanceof Error) {
-          errorMessage = err.message;
+        errorMessage = err.message;
       }
       setError(errorMessage);
       toast.error(errorMessage);

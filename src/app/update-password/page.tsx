@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import UpdatePasswordPage from "@/components/UserAuth/UpdatePassword/update-password";
+import UpdatePasswordPage from '@/components/UserAuth/UpdatePassword/update-password';
 export default function UpdatePassword() {
   return (
     <div>

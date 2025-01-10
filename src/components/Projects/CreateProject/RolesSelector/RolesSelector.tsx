@@ -7,9 +7,14 @@ interface RolesSelectorProps {
   setSelectedRoles: (roles: string[]) => void;
 }
 
-const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelectedRoles }) => {
+const RolesSelector: React.FC<RolesSelectorProps> = ({
+  selectedRoles,
+  setSelectedRoles,
+}) => {
   const [roleSearch, setRoleSearch] = useState('');
-  const [selectedRoleCategory, setSelectedRoleCategory] = useState<string | null>(null);
+  const [selectedRoleCategory, setSelectedRoleCategory] = useState<
+    string | null
+  >(null);
 
   const handleRoleSelection = (role: string) => {
     if (selectedRoles.includes(role)) {
@@ -24,20 +29,21 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
       setSelectedRoles(newRoles);
     }
   };
-  
 
   const handleRoleRemove = (role: string) => {
     const newRoles = selectedRoles.filter((r) => r !== role);
     setSelectedRoles(newRoles);
   };
-  
 
-  const filteredRoles = Object.entries(projectRoles).flatMap(([category, rolesList]) =>
-    selectedRoleCategory && selectedRoleCategory !== category
-      ? []
-      : (rolesList as string[])
-          .filter((role) => role.toLowerCase().includes(roleSearch.toLowerCase()))
-          .map((role) => ({ category, role }))
+  const filteredRoles = Object.entries(projectRoles).flatMap(
+    ([category, rolesList]) =>
+      selectedRoleCategory && selectedRoleCategory !== category
+        ? []
+        : (rolesList as string[])
+            .filter((role) =>
+              role.toLowerCase().includes(roleSearch.toLowerCase()),
+            )
+            .map((role) => ({ category, role })),
   );
 
   return (
@@ -82,14 +88,20 @@ const RolesSelector: React.FC<RolesSelectorProps> = ({ selectedRoles, setSelecte
       {}
       <div className={styles.rolesContainer}>
         {filteredRoles.map(({ category, role }) => (
-          <label key={`${category}-${role}`} className={styles.roleCheckboxLabel}>
+          <label
+            key={`${category}-${role}`}
+            className={styles.roleCheckboxLabel}
+          >
             <input
               type="checkbox"
               checked={selectedRoles.includes(role)}
               onChange={() => handleRoleSelection(role)}
-              disabled={!selectedRoles.includes(role) && selectedRoles.length >= 5} 
+              disabled={
+                !selectedRoles.includes(role) && selectedRoles.length >= 5
+              }
             />
-            {role} <span className={styles.roleCategoryLabel}>({category})</span>
+            {role}{' '}
+            <span className={styles.roleCategoryLabel}>({category})</span>
           </label>
         ))}
       </div>

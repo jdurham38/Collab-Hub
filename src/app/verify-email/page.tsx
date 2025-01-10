@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import VerifyEmail from "@/components/UserAuth/VerifyEmail/VerifyEmail"
+import VerifyEmail from '@/components/UserAuth/VerifyEmail/VerifyEmail';
 
-export default function VerifyEmailPage(){
-  return(
+export default function VerifyEmailPage() {
+  return (
     <>
-    <VerifyEmail />
+      <VerifyEmail />
     </>
-  )
+  );
 }

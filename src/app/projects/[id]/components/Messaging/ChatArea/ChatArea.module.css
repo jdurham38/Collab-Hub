@@ -16,13 +16,12 @@
 }
 
 .chatMessages {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    background-color: #fafafa;
-    max-height: 500px;
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background-color: #fafafa;
+  max-height: 500px;
 }
-
 
 .message {
   margin-bottom: 15px;
@@ -62,7 +61,7 @@
 
 .suggestions {
   position: absolute;
-  bottom: 70px; 
+  bottom: 70px;
   left: 0;
   right: 0;
   max-height: 150px;
@@ -89,11 +88,9 @@
   border-radius: 4px;
 }
 
-
-
 .newMessagesIndicator {
   position: absolute;
-  bottom: 70px; 
+  bottom: 70px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #3b82f6;
@@ -109,7 +106,6 @@
 .newMessagesIndicator:hover {
   background-color: #2563eb;
 }
-
 
 .options {
   position: relative;

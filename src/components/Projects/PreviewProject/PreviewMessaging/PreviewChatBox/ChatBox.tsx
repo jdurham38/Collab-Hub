@@ -2,12 +2,11 @@ import React from 'react';
 import styles from './ChatBox.module.css';
 
 interface Message {
-    id: number;
-    user: string;
-    text: string;
-    timestamp: string;
-  }
-  
+  id: number;
+  user: string;
+  text: string;
+  timestamp: string;
+}
 
 interface ChatBoxProps {
   messages: Message[];
@@ -30,7 +29,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, onClose, title }) => {
             <div
               key={message.id}
               className={`${styles.message} ${
-                message.user === 'You' ? styles.yourMessage : styles.otherMessage
+                message.user === 'You'
+                  ? styles.yourMessage
+                  : styles.otherMessage
               }`}
             >
               <div className={styles.messageInfo}>

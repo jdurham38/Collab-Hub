@@ -92,7 +92,6 @@
   background-color: #d6914b;
 }
 
-
 .sidebarToggleButton {
   background: none;
   border: none;
@@ -116,7 +115,7 @@
 
 .sidebarToggleButton svg {
   width: 40px;
-  
+
   height: 70px;
   fill: #d4a373;
   transition: fill 0.2s ease;

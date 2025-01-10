@@ -1,5 +1,3 @@
-
-
 export interface UserData {
   email: string;
   password: string;
@@ -50,7 +48,6 @@ export interface User {
   profileImageUrl?: string;
 }
 
-
 export interface Project {
   id: string;
   title: string;
@@ -59,7 +56,7 @@ export interface Project {
   tags: string[];
   roles: string[];
   created_by: string;
-  createdAt: string
+  createdAt: string;
   created_by_username: string;
 }
 
@@ -76,8 +73,6 @@ export interface Message {
   };
 }
 
-
-
 export interface Channel {
   id: string;
   projectId: string;
@@ -85,7 +80,6 @@ export interface Channel {
   description?: string;
   createdAt: string;
   updatedAt: string;
-  
 }
 
 export interface Collaborator {
@@ -99,7 +93,6 @@ export interface Collaborator {
   canRemoveChannel: boolean;
   canEditProject: boolean;
   canEditAdminAccess: boolean;
-  
 }
 
 export interface DirectMessage {
@@ -113,12 +106,12 @@ export interface DirectMessage {
 }
 
 export interface ProjectInvite {
-  id: string;         
-  project_id: string; 
-  sender_id: string; 
+  id: string;
+  project_id: string;
+  sender_id: string;
   receiver_id: string;
-  status: string;     
-  created_at: Date;   
+  status: string;
+  created_at: Date;
   expires_at?: Date | null;
-  invite_token?: string;   
+  invite_token?: string;
 }

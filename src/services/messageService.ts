@@ -1,5 +1,3 @@
-
-
 import axios from 'axios';
 import { Message } from '@/utils/interfaces';
 
@@ -11,8 +9,8 @@ export const fetchMessages = async (
     const response = await axios.get(
       `/api/projects/${projectId}/channels/${channelId}/messages`,
     );
-    
-    return response.data; 
+
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
@@ -24,23 +22,22 @@ export const fetchMessages = async (
   }
 };
 
-
 export const sendMessage = async (
   projectId: string,
   channelId: string,
   content: string,
-  user_id: string, 
+  user_id: string,
 ): Promise<Message> => {
   try {
     const response = await axios.post(
       `/api/projects/${projectId}/channels/${channelId}/messages`,
       {
         content,
-        user_id, 
+        user_id,
       },
     );
-    
-    return response.data; 
+
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
@@ -52,7 +49,6 @@ export const sendMessage = async (
   }
 };
 
-
 export const editMessage = async (
   messageId: string,
   content: string,
@@ -61,8 +57,8 @@ export const editMessage = async (
     const response = await axios.put(`/api/messages/${messageId}`, {
       content,
     });
-    
-    return response.data; 
+
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const errorMessage =
@@ -75,7 +71,6 @@ export const editMessage = async (
     }
   }
 };
-
 
 export const deleteMessage = async (messageId: string): Promise<void> => {
   try {

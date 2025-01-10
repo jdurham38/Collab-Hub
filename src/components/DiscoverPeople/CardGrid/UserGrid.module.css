@@ -1,158 +1,157 @@
 .gridContainer {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 20px;
-    align-items: center;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  
-  .filterToggleButton {
-    position: absolute;
-    top: 10%;
-    transform: translateY(-50%);
-    right: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 75px;
-    width: 45px;
-    background-color: rgba(212, 163, 115);
-    border-radius: 20px 0px 0px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    z-index: 101;
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .filterToggleButton:hover {
-    transform: translateY(-50%) translateX(5px);
-  }
-  
-  .container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
-    overflow: hidden;
-    flex: 1;
-    width: 100%;
-    max-width: 1920px;
-  }
-  
-  .filterContainer {
-    position: absolute;
-    top: 0;
-    right: -350px;
-    width: 350px;
-    border-radius: 30px;
-    background-color: rgba(250, 237, 205, .8);
-    transition: right 0.3s ease-in-out;
-    z-index: 100;
-    padding: 20px;
-    height: auto;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  
-  .filterVisible {
-    right: 0;
-  }
-  
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.filterToggleButton {
+  position: absolute;
+  top: 10%;
+  transform: translateY(-50%);
+  right: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 75px;
+  width: 45px;
+  background-color: rgba(212, 163, 115);
+  border-radius: 20px 0px 0px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 101;
+  transition: transform 0.2s ease-in-out;
+}
+
+.filterToggleButton:hover {
+  transform: translateY(-50%) translateX(5px);
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  overflow: hidden;
+  flex: 1;
+  width: 100%;
+  max-width: 1920px;
+}
+
+.filterContainer {
+  position: absolute;
+  top: 0;
+  right: -350px;
+  width: 350px;
+  border-radius: 30px;
+  background-color: rgba(250, 237, 205, 0.8);
+  transition: right 0.3s ease-in-out;
+  z-index: 100;
+  padding: 20px;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.filterVisible {
+  right: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+  width: 100%;
+  justify-items: center;
+}
+
+@media (max-width: 464px) {
   .grid {
-    display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 20px;
-    width: 100%;
-      justify-items: center;
   }
-  
-  @media (max-width: 464px) {
-    .grid {
-      grid-template-columns: repeat(1, 1fr);
-    }
+}
+
+@media (min-width: 888px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  @media (min-width: 888px) {
-    .grid {
-  
-      grid-template-columns: repeat(2, 1fr);
-    }
+}
+
+@media (min-width: 1342px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  @media (min-width: 1342px) {
-    .grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-      padding: 10px;
-    border-radius: 4px;
-    background-color: rgba(212, 163, 115, .3);
-  }
-  .pagination button {
-     background-color: #fff;
-      color: #333;
-      border: 1px solid #ccc;
-      padding: 8px 16px;
-      margin: 0 5px;
-      border-radius: 4px;
-      cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  .pagination button:hover {
-     background-color: #f0f0f0;
-  }
-  .pagination button:disabled {
-      background-color: #eee;
-      color: #999;
-      cursor: not-allowed;
-      border: 1px solid #eee;
-  }
-  .pagination span {
-      margin: 0 10px;
-    }
-  .loading {
-    text-align: center;
-    margin-top: 20px;
-  }
-  .error {
-    text-align: center;
-    color: red;
-    margin-top: 20px;
-  }
-  .noUsers {
-    text-align: center;
-    margin-top: 20px;
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 99;
-  }
-  .filterIcon {
-    border: solid #000;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-    transform: rotate(135deg);
-    transition: transform 0.3s ease-in-out;
-  }
-  .filterIconOpen {
-    transform: rotate(-45deg);
-  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: rgba(212, 163, 115, 0.3);
+}
+.pagination button {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.pagination button:hover {
+  background-color: #f0f0f0;
+}
+.pagination button:disabled {
+  background-color: #eee;
+  color: #999;
+  cursor: not-allowed;
+  border: 1px solid #eee;
+}
+.pagination span {
+  margin: 0 10px;
+}
+.loading {
+  text-align: center;
+  margin-top: 20px;
+}
+.error {
+  text-align: center;
+  color: red;
+  margin-top: 20px;
+}
+.noUsers {
+  text-align: center;
+  margin-top: 20px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+.filterIcon {
+  border: solid #000;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  transition: transform 0.3s ease-in-out;
+}
+.filterIconOpen {
+  transform: rotate(-45deg);
+}

@@ -1,116 +1,119 @@
-
 .searchInput {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-    transition: border-color 0.3s;
-  }
-  
-  .searchInput:focus {
-    border-color: #0070f3;
-  }
-  
-    .categorySelect {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-    transition: border-color 0.3s;
-    background-color: #f9f9f9;
-  }
-  
-  .categorySelect:focus {
-    border-color: #0070f3;
-  }
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.searchInput:focus {
+  border-color: #0070f3;
+}
+
+.categorySelect {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+  background-color: #f9f9f9;
+}
+
+.categorySelect:focus {
+  border-color: #0070f3;
+}
 .tagsContainer {
   display: grid;
-  grid-template-rows: repeat(4, auto);   grid-auto-flow: column;   gap: 12px;
+  grid-template-rows: repeat(4, auto);
+  grid-auto-flow: column;
+  gap: 12px;
   margin-bottom: 16px;
   max-height: 400px;
   overflow-y: auto;
 }
 
-.title{
+.title {
   font-size: 20px;
   font-weight: bold;
 }
-  
+
 .tagCheckboxLabel {
   display: flex;
   align-items: center;
-  padding: 10px 14px;   border-radius: 3px;
-  font-size: 12px;   font-weight: bold;
+  padding: 10px 14px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
   color: #333;
   cursor: pointer;
   transition: background-color 0.3s;
   background-color: #d6e9c6;
   border: 1px solid #ddd;
-  max-width: 320px;   white-space: nowrap; }
+  max-width: 320px;
+  white-space: nowrap;
+}
 
 .tagCheckboxLabel:hover {
   background-color: #dff0d8;
 }
 
 .tagCheckboxLabel input {
-  margin-right: 4px; }
+  margin-right: 4px;
+}
 
 .tagCategoryLabel {
-  font-size: 11px;   color: #666;
+  font-size: 11px;
+  color: #666;
   margin-left: 4px;
   font-style: italic;
 }
 
-  .selectedTagsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-  }
-  
-  .selectedTag {
-    background-color: #d6e9c6;
-    border-radius: 3px;
-    border: 1px solid #333;
-    padding: 5px 10px;
-    margin: 5px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .removeTagButton {
-    background: none;
-    border: none;
-    color: #ff5a5a;
-    font-size: 25px;
-    margin-left: 5px;
-    cursor: pointer;
-  }
-  
-  .removeTagButton:hover {
-    color: #ff0000;
-  }
-  
-  
-    .tagsContainer::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .tagsContainer::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  .tagsContainer::-webkit-scrollbar-thumb {
-    background: #bbb;
-    border-radius: 3px;
-  }
-  
-  .tagsContainer::-webkit-scrollbar-thumb:hover {
-    background: #888;
-  }
+.selectedTagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
 
-  
-  
+.selectedTag {
+  background-color: #d6e9c6;
+  border-radius: 3px;
+  border: 1px solid #333;
+  padding: 5px 10px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.removeTagButton {
+  background: none;
+  border: none;
+  color: #ff5a5a;
+  font-size: 25px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.removeTagButton:hover {
+  color: #ff0000;
+}
+
+.tagsContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tagsContainer::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.tagsContainer::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 3px;
+}
+
+.tagsContainer::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}

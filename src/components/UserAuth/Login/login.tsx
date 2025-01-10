@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { UserData } from '@/utils/interfaces'; 
+import { UserData } from '@/utils/interfaces';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/useAuthStore'; 
+import { useAuthStore } from '@/store/useAuthStore';
 import styles from './LoginForm.module.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const LoginForm: React.FC = () => {
   const router = useRouter();
   const supabase = getSupabaseClient();
-  const { setLoggedIn } = useAuthStore(); 
+  const { setLoggedIn } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -38,26 +38,19 @@ const LoginForm: React.FC = () => {
       return;
     }
 
-    
     toast.success('Login successful!');
 
-    
     setLoggedIn(true);
 
-    
     setLoading(false);
 
-    
     setTimeout(() => {
-      
       setLoading(true);
 
-      
       router.push('/dashboard');
-    }, 1000); 
+    }, 1000);
   };
 
-  
   const handleForgotPassword = async () => {
     router.push('/reset-password');
     setLoading(false);
@@ -78,7 +71,7 @@ const LoginForm: React.FC = () => {
           {}
           <div className={styles.passwordInputWrapper}>
             <input
-              type={showPassword ? 'text' : 'password'} 
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
@@ -111,8 +104,6 @@ const LoginForm: React.FC = () => {
           </div>
         )}
       </div>
-
-
     </>
   );
 };

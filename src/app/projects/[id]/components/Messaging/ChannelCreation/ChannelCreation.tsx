@@ -32,19 +32,19 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
       onChannelCreated();
       onClose();
     } catch (err) {
-      if(err instanceof Error){
+      if (err instanceof Error) {
         if (err.message?.includes('status code 500')) {
           setError('Your plan cannot exceed 5 channels for this project.');
-        } else{
-          setError(err.message || 'Failed to create channel. Please try again.');
+        } else {
+          setError(
+            err.message || 'Failed to create channel. Please try again.',
+          );
         }
-      } else if(typeof err === 'string'){
+      } else if (typeof err === 'string') {
         setError(err);
-      } 
-      else{
-        setError('an unexpected error has occurred')
+      } else {
+        setError('an unexpected error has occurred');
       }
-    
     } finally {
       setIsCreating(false);
     }
@@ -67,14 +67,18 @@ const ChannelCreationModal: React.FC<ChannelCreationModalProps> = ({
         />
         <div className={styles.modalActions}>
           <button
-            type="button" 
+            type="button"
             onClick={handleCreateChannel}
             className={styles.modalButton}
-            disabled={isCreating} 
+            disabled={isCreating}
           >
             {isCreating ? 'Creating...' : 'Create'}
           </button>
-          <button type="button" onClick={onClose} className={styles.modalButton}>
+          <button
+            type="button"
+            onClick={onClose}
+            className={styles.modalButton}
+          >
             Cancel
           </button>
         </div>

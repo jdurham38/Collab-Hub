@@ -29,25 +29,24 @@ const useUserData = (projectId: string): UseUserDataReturn => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const supabase = getSupabaseClient();
-  const { user: authUser, loading: authLoading } = useAuth(); 
+  const { user: authUser, loading: authLoading } = useAuth();
 
   useEffect(() => {
     const fetchUser = async () => {
-       if (authLoading) {
-                
-              return;
-            }
+      if (authLoading) {
+        return;
+      }
       setLoading(true);
       try {
-          if (!authUser?.id) {
-              setCurrentUser(null)
-             setAdminPrivileges(false);
-             setCanRemoveUser(false);
-             setCanRemoveChannel(false);
-             setCanEditProject(false);
-             setcanEditAdminAccess(false)
-              return;
-            }
+        if (!authUser?.id) {
+          setCurrentUser(null);
+          setAdminPrivileges(false);
+          setCanRemoveUser(false);
+          setCanRemoveChannel(false);
+          setCanEditProject(false);
+          setcanEditAdminAccess(false);
+          return;
+        }
         const {
           data: { user },
           error: userError,
@@ -70,24 +69,19 @@ const useUserData = (projectId: string): UseUserDataReturn => {
             username: username,
           });
 
-          
           try {
-            
             const privileges = await validatePrivileges(projectId, user.id);
             setAdminPrivileges(privileges.adminPrivileges);
             setCanRemoveUser(privileges.canRemoveUser);
             setCanRemoveChannel(privileges.canRemoveChannel);
             setCanEditProject(privileges.canEditProject);
             setcanEditAdminAccess(privileges.canEditAdminAccess);
-            
-            
-
           } catch (privError) {
             console.error('Error fetching privileges:', privError);
             setError(
               privError instanceof Error
                 ? privError.message
-                : 'Failed to fetch privileges.'
+                : 'Failed to fetch privileges.',
             );
           }
         }

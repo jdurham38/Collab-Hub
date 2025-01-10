@@ -24,15 +24,14 @@ const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
   const [saving, setSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-
   useEffect(() => {
     const loadProjectDetails = async () => {
       try {
         const fetchedProject = await fetchProjectDetails(projectId);
         setProject(fetchedProject);
       } catch (err) {
-        console.error("Error fetching project details:", err);
-        setError("Failed to fetch project details.");
+        console.error('Error fetching project details:', err);
+        setError('Failed to fetch project details.');
       } finally {
         setLoading(false);
       }
@@ -41,22 +40,18 @@ const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
     loadProjectDetails();
   }, [projectId]);
 
-
-
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!project) return; 
+    if (!project) return;
 
     setSaving(true);
     setError(null);
     setSuccessMessage(null);
 
     try {
-      
       const updatedProject: Project = {
-        ...project, 
+        ...project,
         title: project.title,
         description: project.description,
         banner_url: project.banner_url,
@@ -64,26 +59,21 @@ const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
         roles: project.roles,
       };
 
-      await updateProjectDetails(projectId, updatedProject); 
-
+      await updateProjectDetails(projectId, updatedProject);
 
       setProject(updatedProject);
       setSuccessMessage('Project updated successfully!');
-
-
-
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
         setError('An unexpected error occurred.');
       }
-      console.error("Error updating project details:", err);
+      console.error('Error updating project details:', err);
     } finally {
       setSaving(false);
     }
   };
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -97,37 +87,47 @@ const ProjectDetails: React.FC<EditProjectProps> = ({ projectId }) => {
     return <div>Project not found.</div>;
   }
 
-
-
   return (
     <div className={styles.projectDetailsContainer}>
       <h1 className={styles.title}>Edit Project Details: {project.title}</h1>
 
       <form onSubmit={handleSubmit} className={styles.form}>
-        <EditTitle title={project.title} setTitle={(newTitle) => setProject({...project, title: newTitle})} /> {}
-        <EditDescription description={project.description} setDescription={(newDescription) => setProject({...project, description: newDescription})} /> {}
+        <EditTitle
+          title={project.title}
+          setTitle={(newTitle) => setProject({ ...project, title: newTitle })}
+        />{' '}
+        {}
+        <EditDescription
+          description={project.description}
+          setDescription={(newDescription) =>
+            setProject({ ...project, description: newDescription })
+          }
+        />{' '}
+        {}
         <EditBanner
           bannerUrl={project.banner_url}
           setBannerFile={setBannerFile}
-          setBannerUrl={(newBannerUrl) => setProject({...project, banner_url: newBannerUrl})}
-
+          setBannerUrl={(newBannerUrl) =>
+            setProject({ ...project, banner_url: newBannerUrl })
+          }
         />
-        <EditTags tags={project.tags || []} setTags={(newTags) => setProject({...project, tags: newTags})} /> {}
-        <EditRoles roles={project.roles || []} setRoles={(newRoles) => setProject({...project, roles: newRoles})} /> {}
-
-          {successMessage && (
-              <div className={styles.success}>{successMessage}</div>
-          )}
-
-          {error && (
-              <div className={styles.error}>{error}</div>
-          )}
-
-
+        <EditTags
+          tags={project.tags || []}
+          setTags={(newTags) => setProject({ ...project, tags: newTags })}
+        />{' '}
+        {}
+        <EditRoles
+          roles={project.roles || []}
+          setRoles={(newRoles) => setProject({ ...project, roles: newRoles })}
+        />{' '}
+        {}
+        {successMessage && (
+          <div className={styles.success}>{successMessage}</div>
+        )}
+        {error && <div className={styles.error}>{error}</div>}
         <button type="submit" disabled={saving} className={styles.submitButton}>
           {saving ? 'Saving...' : 'Save Changes'}
         </button>
-
       </form>
     </div>
   );

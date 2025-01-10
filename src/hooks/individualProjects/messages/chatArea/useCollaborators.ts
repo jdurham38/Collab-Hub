@@ -4,13 +4,12 @@ import { Collaborator, User } from '@/utils/interfaces';
 import axios, { AxiosError } from 'axios';
 
 export interface UseCollaboratorsResult {
-    collaborators: Collaborator[] | null;
-    isLoading: boolean;
-    error: string | null;
-    filteredCollaborators: Collaborator[] | null;
-    projectOwner?: User | null;
-    userIsOwner?: boolean;
-
+  collaborators: Collaborator[] | null;
+  isLoading: boolean;
+  error: string | null;
+  filteredCollaborators: Collaborator[] | null;
+  projectOwner?: User | null;
+  userIsOwner?: boolean;
 }
 
 interface CollaboratorError {
@@ -20,17 +19,17 @@ interface CollaboratorError {
 
 const useCollaborators = (
   projectId: string,
-  filterText?: string
+  filterText?: string,
 ): UseCollaboratorsResult => {
   const [collaborators, setCollaborators] = useState<Collaborator[] | null>(
-    null
+    null,
   );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-    const [userIsOwner, setUserIsOwner] = useState<boolean>(false);
-    const [projectOwner, setProjectOwner] = useState<User | null>(null);
+  const [userIsOwner, setUserIsOwner] = useState<boolean>(false);
+  const [projectOwner, setProjectOwner] = useState<User | null>(null);
 
-    const [filteredCollaborators, setFilteredCollaborators] = useState<
+  const [filteredCollaborators, setFilteredCollaborators] = useState<
     Collaborator[] | null
   >(null);
 
@@ -38,11 +37,12 @@ const useCollaborators = (
     const fetchCollaboratorsData = async () => {
       setIsLoading(true);
       try {
-        const {collaborators, projectOwner, userIsOwner} = await fetchProjectCollaborators(projectId);
-          setCollaborators(collaborators);
-          setProjectOwner(projectOwner);
-          setUserIsOwner(userIsOwner);
-          setError(null);
+        const { collaborators, projectOwner, userIsOwner } =
+          await fetchProjectCollaborators(projectId);
+        setCollaborators(collaborators);
+        setProjectOwner(projectOwner);
+        setUserIsOwner(userIsOwner);
+        setError(null);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           const axiosError = err as AxiosError<CollaboratorError>;
@@ -71,7 +71,7 @@ const useCollaborators = (
   useEffect(() => {
     if (collaborators && filterText) {
       const filtered = collaborators.filter((user) =>
-          user.username.toLowerCase().startsWith(filterText.toLowerCase())
+        user.username.toLowerCase().startsWith(filterText.toLowerCase()),
       );
       setFilteredCollaborators(filtered);
     } else {
@@ -79,7 +79,14 @@ const useCollaborators = (
     }
   }, [collaborators, filterText]);
 
-  return { collaborators, isLoading, error, filteredCollaborators, projectOwner, userIsOwner };
+  return {
+    collaborators,
+    isLoading,
+    error,
+    filteredCollaborators,
+    projectOwner,
+    userIsOwner,
+  };
 };
 
 export default useCollaborators;

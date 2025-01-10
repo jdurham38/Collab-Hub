@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
-import { useAuthStore } from '@/store/useAuthStore'; 
+import { useAuthStore } from '@/store/useAuthStore';
 import ProtectedComponent from '@/components/ProtectedComponent/protected-page';
 
 const SecuritySettings: React.FC = () => {
@@ -11,32 +11,30 @@ const SecuritySettings: React.FC = () => {
   const [email, setEmail] = useState('');
   const router = useRouter();
   const supabase = getSupabaseClient();
-  const { setLoggedIn } = useAuthStore(); 
+  const { setLoggedIn } = useAuthStore();
 
-  
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error('Error signing out:', error.message);
     } else {
-      setLoggedIn(false); 
-      router.push('/'); 
+      setLoggedIn(false);
+      router.push('/');
     }
   };
 
-  
   const handleDeleteAccount = async () => {
     const confirmed = window.confirm(
-      'Are you sure you want to delete your account? This action cannot be undone.'
+      'Are you sure you want to delete your account? This action cannot be undone.',
     );
     if (!confirmed) return;
 
     try {
-      
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error: signInError } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
       if (signInError || !data?.session) {
         console.error('Error authenticating user:', signInError?.message);
@@ -46,7 +44,6 @@ const SecuritySettings: React.FC = () => {
 
       const accessToken = data.session.access_token;
 
-      
       const response = await fetch('/api/delete-account', {
         method: 'POST',
         headers: {
@@ -65,8 +62,7 @@ const SecuritySettings: React.FC = () => {
 
       alert('Account deleted successfully.');
 
-      
-      setLoggedIn(false); 
+      setLoggedIn(false);
       router.push('/');
       window.location.href = '/';
     } catch (error) {

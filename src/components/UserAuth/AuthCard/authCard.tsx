@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import React, { useState } from 'react';
 import LoginForm from '../Login/login';
 import SignupForm from '../Signup/signup';
@@ -16,14 +16,18 @@ const AuthCard: React.FC = () => {
 
   return (
     <div className={styles.overlay}>
-      <div className={`${styles.cardContainer} ${isFlipped ? styles.flipped : ''}`}>
+      <div
+        className={`${styles.cardContainer} ${isFlipped ? styles.flipped : ''}`}
+      >
         <div className={`${styles.card} ${styles.front}`}>
           <div className={styles.content}>
             <div className={styles.description}>
-              <h2 className={styles.heading} >Welcome Back!</h2>
-              <p className={styles.paragraph} >We’re glad to see you again! Enter your email and password to access your account and pick up right where you left off.</p>
+              <h2 className={styles.heading}>Welcome Back!</h2>
+              <p className={styles.paragraph}>
+                We’re glad to see you again! Enter your email and password to
+                access your account and pick up right where you left off.
+              </p>
               <Image src={logo} alt="Logo" className={styles.logo} />
-
             </div>
             <div className={styles.formContainer}>
               <LoginForm />
@@ -42,10 +46,15 @@ const AuthCard: React.FC = () => {
               </button>
             </div>
             <div className={styles.description}>
-              <h2 className={styles.heading} >Join Us!</h2>
-              <p className={styles.paragraph} >Creating an account is quick and easy. Choose a unique username, enter your email, and create a secure password. Don&apos;t forget to accept our Terms and Conditions to get started. We&apos;ll walk you through every step to ensure your account is secure and ready.</p>
+              <h2 className={styles.heading}>Join Us!</h2>
+              <p className={styles.paragraph}>
+                Creating an account is quick and easy. Choose a unique username,
+                enter your email, and create a secure password. Don&apos;t
+                forget to accept our Terms and Conditions to get started.
+                We&apos;ll walk you through every step to ensure your account is
+                secure and ready.
+              </p>
               <Image src={logo} alt="Logo" className={styles.logo} />
-
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './index.module.css'; 
+import styles from './index.module.css';
 import { profanity } from '@2toad/profanity';
 
 interface EditTitleProps {
@@ -14,7 +14,6 @@ const EditTitle: React.FC<EditTitleProps> = ({ title, setTitle }) => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
-    
     if (value.length > 40) {
       value = value.slice(0, 40);
     }
@@ -22,7 +21,6 @@ const EditTitle: React.FC<EditTitleProps> = ({ title, setTitle }) => {
     setTitle(value);
     setCharCount(value.length);
 
-    
     if (!value.trim()) {
       setErrorMessage('Project title is required.');
     } else if (profanity.exists(value)) {
@@ -35,7 +33,9 @@ const EditTitle: React.FC<EditTitleProps> = ({ title, setTitle }) => {
   return (
     <div className={styles.editTitleContainer}>
       <label htmlFor="title" className={styles.label}>
-        <h2><b>Edit Title:</b></h2>
+        <h2>
+          <b>Edit Title:</b>
+        </h2>
       </label>
       <input
         type="text"

@@ -1,11 +1,12 @@
-
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const COOKIE_CONSENT_KEY = 'cookieConsent';
 
 const useCookieConsent = () => {
-  const isCookieConsentGiven = useAuthStore((state) => state.isCookieConsentGiven);
+  const isCookieConsentGiven = useAuthStore(
+    (state) => state.isCookieConsentGiven,
+  );
   const setCookieConsent = useAuthStore((state) => state.setCookieConsent);
 
   useEffect(() => {
@@ -33,13 +34,9 @@ const useCookieConsent = () => {
     removeAnalytics();
   };
 
-  const initializeAnalytics = () => {
-    
-  };
+  const initializeAnalytics = () => {};
 
-  const removeAnalytics = () => {
-    
-  };
+  const removeAnalytics = () => {};
 
   return {
     isCookieConsentGiven,

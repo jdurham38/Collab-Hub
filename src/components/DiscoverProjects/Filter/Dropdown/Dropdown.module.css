@@ -2,7 +2,7 @@
   position: relative;
   display: inline-block;
 }
-.dropdownHeader{
+.dropdownHeader {
   padding: 10px;
   border: 1px solid #ccc;
   cursor: pointer;
@@ -12,7 +12,7 @@
   background-color: #f9f9f9;
   border-radius: 8px;
 }
-.arrow{
+.arrow {
   margin-left: 10px;
 }
 .dropdownList {

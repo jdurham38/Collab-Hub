@@ -28,7 +28,7 @@ const Settings: React.FC<SettingsProps> = ({
   currentUserId,
   userIsOwner,
 }) => {
-  const [activeTab, setActiveTab] = useState<string>(''); 
+  const [activeTab, setActiveTab] = useState<string>('');
 
   const {
     adminPrivileges,
@@ -42,37 +42,48 @@ const Settings: React.FC<SettingsProps> = ({
     setActiveTab(tabName);
   };
 
-   
-  const showEditProject = useMemo(() => userIsOwner || adminPrivileges || canEditProject, [userIsOwner, adminPrivileges, canEditProject]);
-  const showRemoveUsers = useMemo(() => userIsOwner || adminPrivileges || canRemoveUser, [userIsOwner, adminPrivileges, canRemoveUser]);
-  const showRemoveChannels = useMemo(() => userIsOwner || adminPrivileges || canRemoveChannel, [userIsOwner, adminPrivileges, canRemoveChannel]);
-  const showGrantAdminAccess = useMemo(() => userIsOwner || adminPrivileges || canEditAdminAccess, [userIsOwner, adminPrivileges, canEditAdminAccess]);
+  const showEditProject = useMemo(
+    () => userIsOwner || adminPrivileges || canEditProject,
+    [userIsOwner, adminPrivileges, canEditProject],
+  );
+  const showRemoveUsers = useMemo(
+    () => userIsOwner || adminPrivileges || canRemoveUser,
+    [userIsOwner, adminPrivileges, canRemoveUser],
+  );
+  const showRemoveChannels = useMemo(
+    () => userIsOwner || adminPrivileges || canRemoveChannel,
+    [userIsOwner, adminPrivileges, canRemoveChannel],
+  );
+  const showGrantAdminAccess = useMemo(
+    () => userIsOwner || adminPrivileges || canEditAdminAccess,
+    [userIsOwner, adminPrivileges, canEditAdminAccess],
+  );
 
-  const getFirstAvailableTab = () => {
-    if (showEditProject) return 'editProjectDetails';
-    if (showRemoveUsers) return 'removeUsers';
-    if (showRemoveChannels) return 'removeChannels';
-    if (showGrantAdminAccess) return 'grantAdminAccess';
-    return '';
-  };
-
-
-    
   useEffect(() => {
     if (!activeTab) {
+      const getFirstAvailableTab = () => {
+        if (showEditProject) return 'editProjectDetails';
+        if (showRemoveUsers) return 'removeUsers';
+        if (showRemoveChannels) return 'removeChannels';
+        if (showGrantAdminAccess) return 'grantAdminAccess';
+        return '';
+      };
       const firstTab = getFirstAvailableTab();
       if (firstTab) {
         setActiveTab(firstTab);
       }
     }
-  }, [activeTab, getFirstAvailableTab]); 
+  }, [
+    activeTab,
+    showEditProject,
+    showRemoveUsers,
+    showRemoveChannels,
+    showGrantAdminAccess,
+  ]);
 
-
-
-    
-    if (!projectId || typeof projectId !== 'string') {
-      return <p>Loading...</p>;
-    }
+  if (!projectId || typeof projectId !== 'string') {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className={styles.settingsContainer}>
@@ -150,7 +161,7 @@ const Settings: React.FC<SettingsProps> = ({
 
         {activeTab === 'grantAdminAccess' && showGrantAdminAccess && (
           <div>
-            <AdminAccess projectId={projectId}  />
+            <AdminAccess projectId={projectId} />
           </div>
         )}
       </div>

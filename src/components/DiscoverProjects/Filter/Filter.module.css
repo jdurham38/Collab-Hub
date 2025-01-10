@@ -1,43 +1,42 @@
-.filterContainer{
-    display: flex;
-    font-family: 'Trebuchet MS', Arial, sans-serif;
-    flex-direction: column;
-    gap: 30px;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    height: 600px;
-    
+.filterContainer {
+  display: flex;
+  font-family: 'Trebuchet MS', Arial, sans-serif;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  height: 600px;
 }
 
-.filterSection{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.filterTitle{
-    font-weight: bold;
-    margin-bottom: 5px;
+.filterTitle {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-.filterOption{
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.filterOption {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.filterOption input{
-    margin: 0;
+.filterOption input {
+  margin: 0;
 }
 
-.clearButton{
-    padding: 8px 12px;
-    cursor: pointer;
-    background-color: #e74c3c;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
-    align-self: center;
+.clearButton {
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  align-self: center;
 }

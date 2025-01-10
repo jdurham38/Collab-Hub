@@ -9,20 +9,18 @@ import styles from './ProjectPage.module.css';
 import ProjectBanner from './components/ProjectDetails/Banner/Banner';
 import useProjectData from '@/hooks/individualProjects/useProjectData';
 import useUserData from '@/hooks/individualProjects/useUserData';
+import { useParams } from 'next/navigation'
 
-interface ProjectPageProps {
-  params: { id: string };
-}
 
-const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
-  const { id: projectId } = params;
+const ProjectPage: React.FC = () => {
+    const params = useParams()
+    const projectId = params?.id; // Use the optional chaining here
 
-  
-  const {
-    project,
-    loading: projectLoading,
-    error: projectError,
-  } = useProjectData(projectId);
+    const {
+      project,
+      loading: projectLoading,
+      error: projectError,
+    } = useProjectData(projectId as string);
 
   const {
     currentUser,
@@ -33,9 +31,11 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
     canEditAdminAccess,
     loading: userLoading,
     error: userError,
-  } = useUserData(projectId);
+  } = useUserData(projectId as string);
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'messaging' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'messaging' | 'settings'
+  >('overview');
 
   const loading = projectLoading || userLoading;
   const error = projectError || userError;
@@ -45,19 +45,21 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   if (!project) return <div className={styles.error}>Project not found.</div>;
   if (!currentUser) return <div>Please log in to view this project.</div>;
 
-  
-  
-  
-  const tabs: Array<'overview' | 'messaging' | 'settings'> = ['overview', 'messaging'];
+  const tabs: Array<'overview' | 'messaging' | 'settings'> = [
+    'overview',
+    'messaging',
+  ];
 
-  
-  
-  const hasAnySettingsPrivilege = adminPrivileges || canRemoveUser || canRemoveChannel || canEditProject || canEditAdminAccess;
+  const hasAnySettingsPrivilege =
+    adminPrivileges ||
+    canRemoveUser ||
+    canRemoveChannel ||
+    canEditProject ||
+    canEditAdminAccess;
   if (hasAnySettingsPrivilege) {
     tabs.push('settings');
   }
 
-  
   const userIsOwner = project.created_by === currentUser.id;
 
   return (
@@ -71,13 +73,13 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
       />
 
       <div className={styles.tabContent}>
-        {activeTab === 'overview' && <Overview projectId={projectId} />}
+        {activeTab === 'overview' && <Overview projectId={projectId as string} />}
         {activeTab === 'messaging' && (
-          <ProjectMessaging projectId={projectId} currentUser={currentUser} />
+          <ProjectMessaging projectId={projectId as string} currentUser={currentUser} />
         )}
         {activeTab === 'settings' && hasAnySettingsPrivilege && (
           <Settings
-            projectId={projectId}
+            projectId={projectId as string}
             userAccess={{
               adminPrivileges,
               canRemoveUser,

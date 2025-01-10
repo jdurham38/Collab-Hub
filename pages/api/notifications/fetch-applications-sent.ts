@@ -3,12 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
+  process.env.SUPABASE_ANON_KEY!,
 );
 
 export default async function getApplicantProjectRequests(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method Not Allowed' });
@@ -45,7 +45,7 @@ export default async function getApplicantProjectRequests(
         if (projectError) {
           console.error(
             `Error fetching project data for projectId ${request.projectId}:`,
-            projectError
+            projectError,
           );
           return { ...request, error: 'Error fetching project data' };
         }
@@ -54,22 +54,22 @@ export default async function getApplicantProjectRequests(
           ...request,
           projectTitle: projectData?.title,
         };
-      })
+      }),
     );
 
     return res.status(200).json(projectsWithTitles);
   } catch (error) {
-        if (error instanceof Error) {
-             console.error('Unexpected error:', error);
-                return res.status(500).json({
-                error: 'An unexpected error occurred',
-                details: error.message,
-            });
-        } else {
-            console.error('Unexpected error:', error);
-             return res.status(500).json({
-               error: 'An unexpected error occurred',
-            });
-        }
+    if (error instanceof Error) {
+      console.error('Unexpected error:', error);
+      return res.status(500).json({
+        error: 'An unexpected error occurred',
+        details: error.message,
+      });
+    } else {
+      console.error('Unexpected error:', error);
+      return res.status(500).json({
+        error: 'An unexpected error occurred',
+      });
+    }
   }
 }

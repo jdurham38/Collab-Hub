@@ -3,10 +3,13 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
+  process.env.SUPABASE_ANON_KEY!,
 );
 
-export default async function createProject(req: NextApiRequest, res: NextApiResponse) {
+export default async function createProject(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
@@ -18,12 +21,12 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
   }
 
   try {
-        const { data: user, error: userError } = await supabase
+    const { data: user, error: userError } = await supabase
       .from('users')
       .select('plan, projects!projects_created_by_fkey(id)')
       .eq('id', userId)
       .single();
-  
+
     if (userError) {
       console.error('Error fetching user data:', userError);
       throw userError;
@@ -32,15 +35,15 @@ export default async function createProject(req: NextApiRequest, res: NextApiRes
     if (!user) {
       return res.status(404).json({ error: 'User not found.' });
     }
-    
+
     const { plan, projects } = user;
-        if (plan === 'free' && projects.length >= 3) {
+    if (plan === 'free' && projects.length >= 3) {
       return res
         .status(403)
         .json({ error: 'Free plan users can only create up to 3 projects.' });
     }
 
-        const { data: projectData, error: projectError } = await supabase
+    const { data: projectData, error: projectError } = await supabase
       .from('projects')
       .insert([
         {

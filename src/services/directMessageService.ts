@@ -2,15 +2,14 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
 );
-
 
 export const sendDirectMessage = async (
   projectId: string,
   recipient_id: string,
   content: string,
-  senderId: string
+  senderId: string,
 ) => {
   const { error } = await supabase.from('direct_messages').insert([
     {
@@ -27,7 +26,6 @@ export const sendDirectMessage = async (
   }
 };
 
-
 export const editDirectMessage = async (messageId: string, content: string) => {
   const { error } = await supabase
     .from('direct_messages')
@@ -40,9 +38,11 @@ export const editDirectMessage = async (messageId: string, content: string) => {
   }
 };
 
-
 export const deleteDirectMessage = async (messageId: string) => {
-  const { error } = await supabase.from('direct_messages').delete().eq('id', messageId);
+  const { error } = await supabase
+    .from('direct_messages')
+    .delete()
+    .eq('id', messageId);
 
   if (error) {
     console.error('Error deleting direct message:', error);

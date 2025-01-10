@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { User } from '@/utils/interfaces';
 
@@ -9,7 +7,11 @@ interface UserListItemProps {
   onClick: (user: User) => void;
 }
 
-const UserListItem: React.FC<UserListItemProps> = ({ user, isActive, onClick }) => {
+const UserListItem: React.FC<UserListItemProps> = ({
+  user,
+  isActive,
+  onClick,
+}) => {
   return (
     <li
       className={`user-list-item ${isActive ? 'active' : ''}`}

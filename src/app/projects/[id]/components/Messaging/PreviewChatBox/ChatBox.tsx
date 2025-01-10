@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
 import styles from './ChatBox.module.css';
@@ -26,13 +25,19 @@ interface ChatBoxProps {
   currentUser: User;
 }
 
-const ChatBox: React.FC<ChatBoxProps> = ({ messages, onClose, title, projectId, currentUser }) => {
+const ChatBox: React.FC<ChatBoxProps> = ({
+  messages,
+  onClose,
+  title,
+  projectId,
+  currentUser,
+}) => {
   const [newMessage, setNewMessage] = useState('');
 
   const sendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (newMessage.trim() === '') return;
-    const supabase=getSupabaseClient();
+    const supabase = getSupabaseClient();
     const { error } = await supabase.from('messages').insert([
       {
         project_id: projectId,
@@ -62,11 +67,15 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, onClose, title, projectId, 
             <div
               key={message.id}
               className={`${styles.message} ${
-                message.user_id === currentUser.id ? styles.yourMessage : styles.otherMessage
+                message.user_id === currentUser.id
+                  ? styles.yourMessage
+                  : styles.otherMessage
               }`}
             >
               <div className={styles.messageInfo}>
-                <span className={styles.userName}>{message.users.username}</span>
+                <span className={styles.userName}>
+                  {message.users.username}
+                </span>
                 <span className={styles.timestamp}>
                   {new Date(message.timestamp).toLocaleTimeString([], {
                     hour: '2-digit',
@@ -96,4 +105,3 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, onClose, title, projectId, 
 };
 
 export default ChatBox;
-

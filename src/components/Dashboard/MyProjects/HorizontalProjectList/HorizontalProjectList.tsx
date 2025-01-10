@@ -9,7 +9,9 @@ interface HorizontalProjectListProps {
   projects: Project[];
 }
 
-const HorizontalProjectList: React.FC<HorizontalProjectListProps> = ({ projects }) => {
+const HorizontalProjectList: React.FC<HorizontalProjectListProps> = ({
+  projects,
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showScrollIndicator, setShowScrollIndicator] = useState(false);
 
@@ -32,13 +34,16 @@ const HorizontalProjectList: React.FC<HorizontalProjectListProps> = ({ projects 
   const handleScroll = (direction: 'left' | 'right') => {
     if (containerRef.current) {
       const container = containerRef.current;
-      const scrollAmount = 300; 
-      container.scrollLeft += direction === 'left' ? -scrollAmount : scrollAmount;
+      const scrollAmount = 300;
+      container.scrollLeft +=
+        direction === 'left' ? -scrollAmount : scrollAmount;
     }
   };
 
   return (
-    <div className={styles.outerContainer}> {}
+    <div className={styles.outerContainer}>
+      {' '}
+      {}
       <div className={styles.projectListContainer}>
         <div className={styles.projectList} ref={containerRef}>
           {projects.map((project) => (
@@ -47,10 +52,16 @@ const HorizontalProjectList: React.FC<HorizontalProjectListProps> = ({ projects 
         </div>
         {showScrollIndicator && (
           <div className={styles.scrollIndicator}>
-            <button className={styles.scrollButton} onClick={() => handleScroll('left')}>
+            <button
+              className={styles.scrollButton}
+              onClick={() => handleScroll('left')}
+            >
               {'<'}
             </button>
-            <button className={styles.scrollButton} onClick={() => handleScroll('right')}>
+            <button
+              className={styles.scrollButton}
+              onClick={() => handleScroll('right')}
+            >
               {'>'}
             </button>
           </div>

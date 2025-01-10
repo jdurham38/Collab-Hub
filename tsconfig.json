@@ -22,6 +22,14 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/UserAuth/TermsAndCondit", "types/**/*.d.ts", "src/**/*"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/components/UserAuth/TermsAndCondit",
+    "types/**/*.d.ts",
+    "src/**/*"
+  ],
   "exclude": ["node_modules"]
 }

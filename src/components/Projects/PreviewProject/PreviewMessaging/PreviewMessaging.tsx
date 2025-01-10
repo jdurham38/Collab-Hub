@@ -28,26 +28,49 @@ const PreviewMessaging: React.FC = () => {
     general: {
       type: 'channel',
       messages: [
-        { id: 1, user: 'Alice', text: 'Welcome to the general channel!', timestamp: '9:00 AM' },
+        {
+          id: 1,
+          user: 'Alice',
+          text: 'Welcome to the general channel!',
+          timestamp: '9:00 AM',
+        },
         { id: 2, user: 'Bob', text: 'Hi everyone!', timestamp: '9:05 AM' },
       ],
     },
     random: {
       type: 'channel',
       messages: [
-        { id: 1, user: 'Carol', text: 'Random thoughts go here.', timestamp: '10:00 AM' },
+        {
+          id: 1,
+          user: 'Carol',
+          text: 'Random thoughts go here.',
+          timestamp: '10:00 AM',
+        },
       ],
     },
     eve: {
       type: 'dm',
       messages: [
-        { id: 1, user: 'You', text: 'Hey Eve, how are you?', timestamp: '11:00 AM' },
-        { id: 2, user: 'Eve', text: 'I am good, thanks!', timestamp: '11:05 AM' },
+        {
+          id: 1,
+          user: 'You',
+          text: 'Hey Eve, how are you?',
+          timestamp: '11:00 AM',
+        },
+        {
+          id: 2,
+          user: 'Eve',
+          text: 'I am good, thanks!',
+          timestamp: '11:05 AM',
+        },
       ],
     },
   });
 
-  const [channelList, setChannelList] = useState<string[]>(['general', 'random']);
+  const [channelList, setChannelList] = useState<string[]>([
+    'general',
+    'random',
+  ]);
   const [dmList, setDmList] = useState<string[]>(['Eve']);
 
   const addNewChannel = () => {
@@ -61,7 +84,12 @@ const PreviewMessaging: React.FC = () => {
         [newChannel]: {
           type: 'channel',
           messages: [
-            { id: 1, user: 'Dave', text: `Welcome to ${newChannel}!`, timestamp: '1:00 PM' },
+            {
+              id: 1,
+              user: 'Dave',
+              text: `Welcome to ${newChannel}!`,
+              timestamp: '1:00 PM',
+            },
           ],
         },
       }));
@@ -81,8 +109,18 @@ const PreviewMessaging: React.FC = () => {
         [newUser.toLowerCase()]: {
           type: 'dm',
           messages: [
-            { id: 1, user: 'You', text: `Hello ${newUser}, welcome aboard!`, timestamp: '12:00 PM' },
-            { id: 2, user: newUser, text: 'Thanks! Glad to be here.', timestamp: '12:05 PM' },
+            {
+              id: 1,
+              user: 'You',
+              text: `Hello ${newUser}, welcome aboard!`,
+              timestamp: '12:00 PM',
+            },
+            {
+              id: 2,
+              user: newUser,
+              text: 'Thanks! Glad to be here.',
+              timestamp: '12:05 PM',
+            },
           ],
         },
       }));

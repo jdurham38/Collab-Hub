@@ -1,5 +1,3 @@
-
-
 import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -25,7 +23,6 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
   const supabase = getSupabaseClient();
   const { isLoggedIn, session } = useAuthStore();
 
-  
   const {
     title,
     description,
@@ -38,14 +35,12 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     resetProject,
   } = useProjectStore();
 
-  
   const [bannerUrl, setBannerUrl] = useState<string>('');
   const [bannerFile, setBannerFile] = useState<File | null>(null);
 
   const [showPreview, setShowPreview] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  
   const [errors, setErrors] = useState({
     titleError: '',
     descriptionError: '',
@@ -70,43 +65,38 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
         tags.length === 0
           ? 'Please select at least one tag.'
           : tags.length > 5
-          ? 'You can select up to 5 tags only.'
-          : '',
+            ? 'You can select up to 5 tags only.'
+            : '',
       rolesError:
         roles.length === 0
           ? 'Please select at least one role.'
           : roles.length > 5
-          ? 'You can select up to 5 roles only.'
-          : '',
+            ? 'You can select up to 5 roles only.'
+            : '',
     };
-  
+
     setErrors(newErrors);
-  
-    
+
     return Object.values(newErrors).every((error) => !error);
   };
 
-  
-    const handleClose = () => {
-      
-      resetProject();
-      
-      setBannerUrl('');
-      setBannerFile(null);
-      
-      setErrors({
-        titleError: '',
-        descriptionError: '',
-        bannerError: '',
-        tagsError: '',
-        rolesError: '',
-      });
-      
-      onClose();
-    };
+  const handleClose = () => {
+    resetProject();
 
-  
-  
+    setBannerUrl('');
+    setBannerFile(null);
+
+    setErrors({
+      titleError: '',
+      descriptionError: '',
+      bannerError: '',
+      tagsError: '',
+      rolesError: '',
+    });
+
+    onClose();
+  };
+
   const handleCreateProject = async () => {
     if (!isLoggedIn || !session) {
       toast.error('You must be logged in to create a project.');
@@ -141,14 +131,15 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
       onClose();
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : 'An unexpected error occurred.';
+        error instanceof Error
+          ? error.message
+          : 'An unexpected error occurred.';
       toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  
   const handleClickOutside = (event: React.MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       handleClose();
@@ -163,7 +154,6 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     setShowPreview(true);
   };
 
-  
   const handleTitleChange = (value: string) => {
     setTitle(value);
     setErrors((prevErrors) => ({ ...prevErrors, titleError: '' }));
@@ -198,14 +188,14 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
     <PreviewProject
       onClosePreview={() => setShowPreview(false)}
       onCreateProject={handleCreateProject}
-      bannerUrl={bannerUrl} 
+      bannerUrl={bannerUrl}
     />
   ) : (
     <div className={styles.overlay} onClick={handleClickOutside}>
       <div
         className={styles.createProjectModal}
         ref={modalRef}
-        onClick={(event) => event.stopPropagation()} 
+        onClick={(event) => event.stopPropagation()}
       >
         <div className={styles.createProjectContent}>
           <div className={styles.modalHeader}>
@@ -216,7 +206,9 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
           </div>
           <div className={styles.inputContainer}>
             <Title title={title} setTitle={handleTitleChange} />
-            {errors.titleError && <p className={styles.error}>{errors.titleError}</p>}
+            {errors.titleError && (
+              <p className={styles.error}>{errors.titleError}</p>
+            )}
           </div>
           <div className={styles.inputContainer}>
             <Description
@@ -239,10 +231,15 @@ const CreateProject: React.FC<CreateProjectProps> = ({ onClose }) => {
           </div>
           <div className={styles.inputContainer}>
             <TagsSelector selectedTags={tags} setSelectedTags={handleSetTags} />
-            {errors.tagsError && <p className={styles.error}>{errors.tagsError}</p>}
+            {errors.tagsError && (
+              <p className={styles.error}>{errors.tagsError}</p>
+            )}
           </div>
           <div className={styles.inputContainer}>
-            <RolesSelector selectedRoles={roles} setSelectedRoles={handleSetRoles} />
+            <RolesSelector
+              selectedRoles={roles}
+              setSelectedRoles={handleSetRoles}
+            />
             {errors.rolesError && (
               <p className={styles.error}>{errors.rolesError}</p>
             )}

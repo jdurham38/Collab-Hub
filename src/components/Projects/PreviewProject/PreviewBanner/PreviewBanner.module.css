@@ -8,12 +8,11 @@
   min-height: 200px;
   overflow: hidden;
   border-radius: 20px;
-  margin: 100px auto 0; 
+  margin: 100px auto 0;
   box-sizing: border-box;
   border-width: 4px;
   border-color: #ccd5ae;
 }
-
 
 .titleOverlay {
   position: absolute;
@@ -29,11 +28,10 @@
   box-sizing: border-box;
 }
 
-
 @media (max-width: 768px) {
   .bannerContainer {
-    width: 90%; 
-    margin: 100px auto 0; 
+    width: 90%;
+    margin: 100px auto 0;
     height: 200px;
   }
 
@@ -49,8 +47,8 @@
 
 @media (max-width: 480px) {
   .bannerContainer {
-    width: 95%; 
-    margin: 100px auto 0; 
+    width: 95%;
+    margin: 100px auto 0;
     height: 200px;
   }
 

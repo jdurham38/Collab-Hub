@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
-import styles from './index.module.css'; 
+import styles from './index.module.css';
 import Image from 'next/image';
 
 interface EditBannerProps {
@@ -39,7 +39,7 @@ const EditBanner: React.FC<EditBannerProps> = ({
   setBannerFile,
 }) => {
   const [errorMessage, setErrorMessage] = useState('');
-  const [currentBannerUrl, setCurrentBannerUrl] = useState(bannerUrl); 
+  const [currentBannerUrl, setCurrentBannerUrl] = useState(bannerUrl);
 
   const {
     data: presetBanners = [],
@@ -50,13 +50,12 @@ const EditBanner: React.FC<EditBannerProps> = ({
     queryFn: fetchPresetBanners,
   });
 
-  
   useEffect(() => {
     setCurrentBannerUrl(bannerUrl);
   }, [bannerUrl]);
 
   const handlePresetSelect = (url: string) => {
-    setCurrentBannerUrl(url); 
+    setCurrentBannerUrl(url);
     setBannerUrl(url);
     setBannerFile(null);
   };
@@ -80,21 +79,23 @@ const EditBanner: React.FC<EditBannerProps> = ({
     }
 
     const previewUrl = URL.createObjectURL(file);
-    setCurrentBannerUrl(previewUrl); 
+    setCurrentBannerUrl(previewUrl);
     setBannerUrl(previewUrl);
     setBannerFile(file);
     setErrorMessage('');
   };
 
   const handleRemoveBanner = () => {
-    setCurrentBannerUrl(''); 
+    setCurrentBannerUrl('');
     setBannerUrl('');
     setBannerFile(null);
   };
 
   return (
     <div className={styles.editBanner}>
-      <h2><b>Edit Banner:</b></h2>
+      <h2>
+        <b>Edit Banner:</b>
+      </h2>
       <h3 className={styles.title}>Select a Banner</h3>
       {isLoading && <p>Loading banners...</p>}
       {isError && <p className={styles.error}>Failed to load banners.</p>}

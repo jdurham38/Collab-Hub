@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React from 'react';
 import useAuthRedirect from '@/hooks/dashboard/useAuthRedirect';
 import ProjectGrid from './ProjectGrid/ProjectGrid';

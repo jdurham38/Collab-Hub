@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import ResetPasswordPage from "@/components/UserAuth/RequestPasswordReset/reset-password";
+import ResetPasswordPage from '@/components/UserAuth/RequestPasswordReset/reset-password';
 export default function ResetPassword() {
   return (
     <div>

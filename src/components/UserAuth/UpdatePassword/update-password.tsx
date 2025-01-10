@@ -9,8 +9,8 @@ import { IoAlertCircleOutline } from 'react-icons/io5';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>\\/?]).{6,}$/;
+const passwordRegex =
+  /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>\\/?]).{6,}$/;
 
 const UpdatePasswordPage: React.FC = () => {
   const router = useRouter();
@@ -21,7 +21,6 @@ const UpdatePasswordPage: React.FC = () => {
   const [passwordSuccessMessage, setPasswordSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  
   const validatePassword = (password: string) => {
     const isValid = passwordRegex.test(password);
     setIsPasswordValid(isValid);
@@ -37,7 +36,9 @@ const UpdatePasswordPage: React.FC = () => {
     e.preventDefault();
 
     if (!isPasswordValid) {
-      setErrorMessage('Password must be at least 6 characters, contain 1 uppercase letter, 1 number, and 1 special character');
+      setErrorMessage(
+        'Password must be at least 6 characters, contain 1 uppercase letter, 1 number, and 1 special character',
+      );
       return;
     }
 
@@ -45,29 +46,31 @@ const UpdatePasswordPage: React.FC = () => {
     const supabase = getSupabaseClient();
 
     try {
-      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
 
-      
       if (error) {
         if (error.status === 422) {
-          setErrorMessage('You cannot reuse a previous password. Please try a new one.');
+          setErrorMessage(
+            'You cannot reuse a previous password. Please try a new one.',
+          );
         } else {
           setErrorMessage('Error updating password. Please try again.');
         }
-        setLoading(false); 
+        setLoading(false);
         return;
       }
 
-      
       toast.success('Password updated successfully');
-      
+
       setTimeout(() => {
-        router.push('/'); 
-      }, 3000); 
+        router.push('/');
+      }, 3000);
     } catch (err) {
       console.error('Unexpected error:', err);
       setErrorMessage('An unexpected error occurred. Please try again later.');
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -83,9 +86,11 @@ const UpdatePasswordPage: React.FC = () => {
             <div className={styles.description}>
               <h2>Update Your Password</h2>
               <p>
-                Create a strong and secure password to protect your account. Your new password should
-                include at least one uppercase letter, one number, and one special character, and be at
-                least 6 characters long. As you type, we&apos;ll guide you on how secure your password is.
+                Create a strong and secure password to protect your account.
+                Your new password should include at least one uppercase letter,
+                one number, and one special character, and be at least 6
+                characters long. As you type, we&apos;ll guide you on how secure
+                your password is.
               </p>
             </div>
             <div className={styles.formContainer}>
@@ -114,18 +119,29 @@ const UpdatePasswordPage: React.FC = () => {
                 {!isPasswordValid && (
                   <p className={styles.warning}>
                     <IoAlertCircleOutline className={styles.alert} />
-                    Password must be at least 6 characters, contain 1 uppercase letter, 1 number, and 1
-                    special character
+                    Password must be at least 6 characters, contain 1 uppercase
+                    letter, 1 number, and 1 special character
                   </p>
                 )}
-                {passwordSuccessMessage && <p className={styles.success}>{passwordSuccessMessage}</p>}
+                {passwordSuccessMessage && (
+                  <p className={styles.success}>{passwordSuccessMessage}</p>
+                )}
 
-                <button className={styles.button} type="submit" disabled={loading || !isPasswordValid}>
+                <button
+                  className={styles.button}
+                  type="submit"
+                  disabled={loading || !isPasswordValid}
+                >
                   {loading ? 'Updating...' : 'Update Password'}
                 </button>
                 {errorMessage && <p className={styles.error}>{errorMessage}</p>}
               </form>
-              <ToastContainer position="top-left" autoClose={5000} hideProgressBar theme="light" />
+              <ToastContainer
+                position="top-left"
+                autoClose={5000}
+                hideProgressBar
+                theme="light"
+              />
             </div>
           </div>
         </div>

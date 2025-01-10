@@ -4,18 +4,14 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   box-sizing: border-box;
-  flex: 1;                 
-  min-width: 300px;        
-  max-width: 500px;        
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
   min-height: 300px;
-  max-height: 300px;        
+  max-height: 300px;
   border-width: 3px;
   border-color: #000;
-
 }
-
-
-
 
 .descriptionContainer h2 {
   font-size: 24px;

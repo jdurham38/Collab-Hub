@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { getSupabaseClient } from '@/lib/supabaseClient/supabase';
 import styles from './VerifyEmail.module.css';
@@ -16,7 +15,9 @@ const VerifyEmail: React.FC = () => {
     e.preventDefault();
 
     if (cooldown > 0) {
-      setErrorMessage(`Please wait ${cooldown} second${cooldown !== 1 ? 's' : ''} before resending the email.`);
+      setErrorMessage(
+        `Please wait ${cooldown} second${cooldown !== 1 ? 's' : ''} before resending the email.`,
+      );
       setSuccessMessage('');
       return;
     }
@@ -32,15 +33,15 @@ const VerifyEmail: React.FC = () => {
         type: 'signup',
         email: emailLower,
         options: {
-          emailRedirectTo: 'http://localhost:3000'
-        }
+          emailRedirectTo: 'http://localhost:3000',
+        },
       });
 
       if (error) {
         setErrorMessage(`Error sending verification email: ${error.message}`);
       } else {
         setSuccessMessage('Verification email sent! Please check your inbox.');
-        setCooldown(60); 
+        setCooldown(60);
       }
     } catch (error) {
       console.error('Error resending verification email:', error);
@@ -68,15 +69,19 @@ const VerifyEmail: React.FC = () => {
             <div className={styles.description}>
               <h2>Please Verify Your Email</h2>
               <p>
-                We have sent a confirmation email to your email address. Please check your inbox and
-                click on the confirmation link to verify your email.
+                We have sent a confirmation email to your email address. Please
+                check your inbox and click on the confirmation link to verify
+                your email.
               </p>
-              <p>If you did not receive an email, please check your spam folder.</p>
+              <p>
+                If you did not receive an email, please check your spam folder.
+              </p>
             </div>
             <div className={styles.formContainer}>
               <form onSubmit={handleResendVerification}>
                 <p>
-                  Still don&apos;t see the email? Please enter your email to resend the verification link:
+                  Still don&apos;t see the email? Please enter your email to
+                  resend the verification link:
                 </p>
                 <label htmlFor="email" className={styles.label}>
                   Email Address:
@@ -90,15 +95,22 @@ const VerifyEmail: React.FC = () => {
                   required
                   className={styles.input}
                 />
-                <button type="submit" disabled={loading || cooldown > 0} className={styles.button}>
+                <button
+                  type="submit"
+                  disabled={loading || cooldown > 0}
+                  className={styles.button}
+                >
                   {loading ? 'Sending...' : 'Resend Verification Email'}
                 </button>
                 {cooldown > 0 && (
                   <p className={styles.error}>
-                    You can resend the email in {cooldown} second{cooldown !== 1 ? 's' : ''}.
+                    You can resend the email in {cooldown} second
+                    {cooldown !== 1 ? 's' : ''}.
                   </p>
                 )}
-                {successMessage && <p className={styles.success}>{successMessage}</p>}
+                {successMessage && (
+                  <p className={styles.success}>{successMessage}</p>
+                )}
                 {errorMessage && <p className={styles.error}>{errorMessage}</p>}
               </form>
             </div>

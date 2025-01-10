@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import React from 'react';
@@ -14,7 +12,8 @@ interface AdminAccessProps {
 }
 
 const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
-  const { collaborators, loading, error, refetch } = useCollaborators(projectId);
+  const { collaborators, loading, error, refetch } =
+    useCollaborators(projectId);
   const { updatePermissions } = useToggleAdminAccess();
 
   const [modifiedCollaborators, setModifiedCollaborators] = React.useState<{
@@ -30,7 +29,7 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
       canRemoveChannel: boolean;
       canEditProject: boolean;
       canEditAdminAccess: boolean;
-    }>
+    }>,
   ) => {
     setModifiedCollaborators((prev) => {
       const existingChanges = prev[userId] || {};
@@ -58,9 +57,11 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
         async ([userId, fields]) => {
           const success = await updatePermissions(projectId, userId, fields);
           if (!success) {
-            throw new Error(`Failed to update privileges for user ID: ${userId}`);
+            throw new Error(
+              `Failed to update privileges for user ID: ${userId}`,
+            );
           }
-        }
+        },
       );
 
       await Promise.all(updatePromises);
@@ -68,33 +69,38 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
       setModifiedCollaborators({});
       refetch();
     } catch (err) {
-      if(err instanceof Error){ 
-         toast.error(err.message || 'Failed to save changes.');
+      if (err instanceof Error) {
+        toast.error(err.message || 'Failed to save changes.');
       } else {
-         toast.error('Failed to save changes.')
+        toast.error('Failed to save changes.');
       }
     } finally {
       setIsSaving(false);
     }
   };
 
-  if (loading) return <p className={styles.statusMessage}>Loading collaborators...</p>;
-  if (error) return <p className={`${styles.statusMessage} ${styles.error}`}>Error: {error}</p>;
-  if (collaborators.length === 0) return <p className={styles.statusMessage}>No collaborators found.</p>;
+  if (loading)
+    return <p className={styles.statusMessage}>Loading collaborators...</p>;
+  if (error)
+    return (
+      <p className={`${styles.statusMessage} ${styles.error}`}>
+        Error: {error}
+      </p>
+    );
+  if (collaborators.length === 0)
+    return <p className={styles.statusMessage}>No collaborators found.</p>;
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Collaborators</h2>
       <ul className={styles.list}>
         {collaborators.map((collaborator) => {
-          const {
-            userId,
-            username,
-            email,
-           
-          } = collaborator;
+          const { userId, username, email } = collaborator;
 
-          const mergedCollaborator = { ...collaborator, ...modifiedCollaborators[userId] };
+          const mergedCollaborator = {
+            ...collaborator,
+            ...modifiedCollaborators[userId],
+          };
           const {
             adminPrivileges: mergedAdminPrivileges,
             canRemoveUser: mergedCanRemoveUser,
@@ -118,7 +124,11 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
           };
 
           const handlePermissionChange = (
-            field: 'canRemoveUser' | 'canRemoveChannel' | 'canEditProject' | 'canEditAdminAccess'
+            field:
+              | 'canRemoveUser'
+              | 'canRemoveChannel'
+              | 'canEditProject'
+              | 'canEditAdminAccess',
           ) => {
             if (mergedAdminPrivileges) {
               return;
@@ -131,7 +141,9 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
 
           return (
             <li key={userId} className={styles.listItem}>
-              <span className={styles.userLabel}>{username || email || userId}</span>
+              <span className={styles.userLabel}>
+                {username || email || userId}
+              </span>
               <div className={styles.toggles}>
                 <div className={styles.toggleGroup}>
                   <label className={styles.switchLabel}>Full Privileges</label>
@@ -147,7 +159,9 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
                 </div>
 
                 <div className={styles.toggleGroup}>
-                  <label className={styles.switchLabel}>Can Remove Collaborators</label>
+                  <label className={styles.switchLabel}>
+                    Can Remove Collaborators
+                  </label>
                   <label className={styles.switch}>
                     <input
                       type="checkbox"
@@ -160,12 +174,16 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
                 </div>
 
                 <div className={styles.toggleGroup}>
-                  <label className={styles.switchLabel}>Can Remove Channels</label>
+                  <label className={styles.switchLabel}>
+                    Can Remove Channels
+                  </label>
                   <label className={styles.switch}>
                     <input
                       type="checkbox"
                       checked={mergedCanRemoveChannel}
-                      onChange={() => handlePermissionChange('canRemoveChannel')}
+                      onChange={() =>
+                        handlePermissionChange('canRemoveChannel')
+                      }
                       disabled={disabled || mergedAdminPrivileges}
                     />
                     <span className={styles.slider}></span>
@@ -173,7 +191,9 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
                 </div>
 
                 <div className={styles.toggleGroup}>
-                  <label className={styles.switchLabel}>Can Edit The Project</label>
+                  <label className={styles.switchLabel}>
+                    Can Edit The Project
+                  </label>
                   <label className={styles.switch}>
                     <input
                       type="checkbox"
@@ -186,19 +206,25 @@ const AdminAccess: React.FC<AdminAccessProps> = ({ projectId }) => {
                 </div>
 
                 <div className={styles.toggleGroup}>
-                  <label className={styles.switchLabel}>Can Edit Admin Access</label>
+                  <label className={styles.switchLabel}>
+                    Can Edit Admin Access
+                  </label>
                   <label className={styles.switch}>
                     <input
                       type="checkbox"
                       checked={mergedCanEditAdminAccess}
-                      onChange={() => handlePermissionChange('canEditAdminAccess')}
+                      onChange={() =>
+                        handlePermissionChange('canEditAdminAccess')
+                      }
                       disabled={disabled || mergedAdminPrivileges}
                     />
                     <span className={styles.slider}></span>
                   </label>
                 </div>
 
-                {hasChanges && <span className={styles.unsavedIndicator}>•</span>}
+                {hasChanges && (
+                  <span className={styles.unsavedIndicator}>•</span>
+                )}
               </div>
             </li>
           );

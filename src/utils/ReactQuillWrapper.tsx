@@ -1,4 +1,3 @@
-
 'use client';
 
 import dynamic from 'next/dynamic';
@@ -48,7 +47,7 @@ const ReactQuillWrapper: React.FC<ReactQuillWrapperProps> = ({
       setErrorMessage('Description cannot exceed 200 characters.');
     } else {
       setErrorMessage('');
-      onChange(newValue); 
+      onChange(newValue);
       setCharCount(text.length);
     }
   };

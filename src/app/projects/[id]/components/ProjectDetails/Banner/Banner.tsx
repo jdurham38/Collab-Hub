@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Banner.module.css';
 import Image from 'next/image';
-import Title from '../Title/Title'
+import Title from '../Title/Title';
 interface ProjectBannerProps {
   bannerUrl: string;
   title: string;
@@ -13,7 +13,9 @@ const ProjectBanner: React.FC<ProjectBannerProps> = ({ bannerUrl, title }) => (
       <Image
         src={bannerUrl}
         alt="Project Banner"
-        layout="fill"         objectFit="cover"       />
+        layout="fill"
+        objectFit="cover"
+      />
     ) : (
       <p>No banner selected</p>
     )}

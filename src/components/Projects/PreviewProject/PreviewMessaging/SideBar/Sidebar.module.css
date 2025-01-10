@@ -1,68 +1,65 @@
-
-
 .sidebar {
-    width: 200px;
-    background-color: #f5f5f5;
-    padding: 15px;
-    box-sizing: border-box;
-    border-right: 1px solid #ddd;
-    overflow-y: auto;
-  }
-  
-  .section {
-    margin-bottom: 20px;
-  }
-  
-  .sectionHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .sectionHeader span {
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .addButton {
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    color: #333;
-  }
-  
-  .channelList,
-  .dmList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .channelList li,
-  .dmList li {
-    margin-bottom: 10px;
-  }
-  
-  .button {
-    background-color: transparent;
-    border: none;
-    color: #524c4c;
-    text-align: left;
-    width: 100%;
-    padding: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .button:hover {
-    background-color: #daca9f;
-    color: #000000;
+  width: 200px;
+  background-color: #f5f5f5;
+  padding: 15px;
+  box-sizing: border-box;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
 
-  }
-  
-  .active {
-    background-color: #d6914b;
-    color: #fff;
-  }
+.section {
+  margin-bottom: 20px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sectionHeader span {
+  font-weight: bold;
+  color: #333;
+}
+
+.addButton {
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.channelList,
+.dmList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.channelList li,
+.dmList li {
+  margin-bottom: 10px;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  color: #524c4c;
+  text-align: left;
+  width: 100%;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #daca9f;
+  color: #000000;
+}
+
+.active {
+  background-color: #d6914b;
+  color: #fff;
+}

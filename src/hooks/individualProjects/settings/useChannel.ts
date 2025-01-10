@@ -1,5 +1,3 @@
-
-
 import { useState, useEffect, useCallback } from 'react';
 import { fetchChannels } from '@/services/ProjectSettings/deleteChannel';
 import { Channel } from '@/utils/interfaces';
@@ -17,30 +15,27 @@ const useChannels = (projectId: string): UseChannelsReturn => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  
-    const getChannels = useCallback(async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await fetchChannels(projectId);
-        setChannels(data);
-      } catch (err) {
-        const errorMessage =
-          err instanceof Error
-            ? err.message
-            : 'An unexpected error occurred.';
-        setError(errorMessage);
-        toast.error(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    }, [projectId]);
+  const getChannels = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchChannels(projectId);
+      setChannels(data);
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'An unexpected error occurred.';
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
 
   useEffect(() => {
     getChannels();
   }, [getChannels]);
 
-  return { channels, loading, error, refetch: getChannels};
+  return { channels, loading, error, refetch: getChannels };
 };
 
 export default useChannels;

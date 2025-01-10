@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import Settings from "@/components/Settings/main";
+import Settings from '@/components/Settings/main';
 
 export default function SettingsPage() {
   return (

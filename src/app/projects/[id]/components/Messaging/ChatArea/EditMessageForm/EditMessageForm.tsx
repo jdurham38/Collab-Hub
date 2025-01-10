@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import styles from './EditMessageForm.module.css';
 
@@ -33,8 +31,16 @@ const EditMessageForm: React.FC<EditMessageFormProps> = ({
         className={styles.textArea}
       />
       <div className={styles.buttons}>
-        <button type="submit" className={styles.saveButton}>Save</button>
-        <button type="button" onClick={onCancel} className={styles.cancelButton}>Cancel</button>
+        <button type="submit" className={styles.saveButton}>
+          Save
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          className={styles.cancelButton}
+        >
+          Cancel
+        </button>
       </div>
     </form>
   );

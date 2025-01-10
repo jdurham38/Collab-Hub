@@ -1,15 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient, PostgrestSingleResponse } from '@supabase/supabase-js';
-import { Project } from '@/utils/interfaces'; 
+import { Project } from '@/utils/interfaces';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
+  process.env.SUPABASE_ANON_KEY!,
 );
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   const { projectId } = req.query;
 
@@ -33,7 +33,7 @@ export default async function handler(
 async function handleGetRequest(
   req: NextApiRequest,
   res: NextApiResponse,
-  projectId: string
+  projectId: string,
 ) {
   try {
     const { data, error }: PostgrestSingleResponse<Project> = await supabase
@@ -62,7 +62,7 @@ async function handleGetRequest(
 async function handlePutRequest(
   req: NextApiRequest,
   res: NextApiResponse,
-  projectId: string
+  projectId: string,
 ) {
   const { title, description, banner_url, tags, roles } = req.body;
 

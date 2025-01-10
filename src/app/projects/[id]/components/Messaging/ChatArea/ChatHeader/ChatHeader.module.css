@@ -1,18 +1,15 @@
-
-
 .chatHeader {
-    padding: 16px;
-    background-color: #f5f5f5; 
-    border-bottom: 1px solid #ddd; 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .title {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #333; 
-  }
-  
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}

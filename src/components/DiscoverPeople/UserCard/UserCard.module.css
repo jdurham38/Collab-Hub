@@ -1,5 +1,3 @@
-
-
 .card {
   border: 3px solid #000;
   font-family: 'Trebuchet MS', Arial, sans-serif;
@@ -9,7 +7,7 @@
   display: flex;
   flex-direction: column;
   background-color: #fefae0;
-  width:100%;
+  width: 100%;
   max-width: 350px;
   height: 350px;
   margin: 20px;
@@ -26,112 +24,105 @@
   text-align: center;
 }
 
-
-
 .cardBottom {
   display: flex;
   align-items: center;
   margin-top: auto;
   padding: 15px;
-    position: relative;
-  }
-  .createdBy {
-    font-size: 0.8rem;
-    color: #777;
-  }
+  position: relative;
+}
+.createdBy {
+  font-size: 0.8rem;
+  color: #777;
+}
 
-  .cardActions {
-    display: flex;
-    justify-content: flex-end;
-        margin-left: auto;
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+}
 
-  }
+.errorMessage {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 5px;
+}
 
-
-  .errorMessage {
-    color: red;
-    font-size: 0.8rem;
-    margin-top: 5px;
-  }
-
-  .imageContainer {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 10px;
-  }
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
 
 .profileImage {
-    border: 2px solid #333;
-    border-radius: 50%;
-    padding: 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  border: 2px solid #333;
+  border-radius: 50%;
+  padding: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 
 .circularImage {
-    border-radius: 50%;
-    object-fit: cover;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .buttonContainer {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
-  }
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
 
 .button {
-    background-color: #e9edc9;
-    color: black;
-    padding: 10px;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    font-size: 1rem;
-    border-radius: 20px; 
-    transition: background-color 0.2s;
+  background-color: #e9edc9;
+  color: black;
+  padding: 10px;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 20px;
+  transition: background-color 0.2s;
 }
 
 .button:hover {
-    background-color: #ccd5ae;
+  background-color: #ccd5ae;
 }
 
-  
-  .textContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 10px;
-      align-items: center;
-  }
-    .nameAndRole{
-       display: flex;
-       justify-content: center;
-       gap:10px;
-        align-items: center;
-        font-size: .8rem;
-       width: 100%;
-       margin-bottom: 8px;
-    }
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+.nameAndRole {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.8rem;
+  width: 100%;
+  margin-bottom: 8px;
+}
 
-    .nameAndRoleItem {
-        background-color: #ccd5ae;
-         padding: 5px 10px;
-         border-radius: 20px;
-
-    }
-    .textItem {
-       background-color: #ccd5ae; 
-       padding: 5px 10px; 
-       border-radius: 20px; 
-        width: 100%;
-       max-width: 200px;
-     }
-    .bioContainer {
-      background-color: #ccd5ae; 
-      padding: 5px 10px; 
-      border-radius: 20px; 
-       width: 100%;
-       display:flex;
-       justify-content: center;
-    }
+.nameAndRoleItem {
+  background-color: #ccd5ae;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+.textItem {
+  background-color: #ccd5ae;
+  padding: 5px 10px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 200px;
+}
+.bioContainer {
+  background-color: #ccd5ae;
+  padding: 5px 10px;
+  border-radius: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

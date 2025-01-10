@@ -1,10 +1,6 @@
-
-
 import axios from 'axios';
 import { Channel } from '@/utils/interfaces';
 
-
-  
 /**
  * Fetches all channels associated with a specific project.
  * @param projectId - The ID of the project.
@@ -17,7 +13,8 @@ export const fetchChannels = async (projectId: string): Promise<Channel[]> => {
     return response.data.channels;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const errorMessage = error.response?.data?.error || 'Failed to fetch channels';
+      const errorMessage =
+        error.response?.data?.error || 'Failed to fetch channels';
       throw new Error(errorMessage);
     } else {
       throw new Error('An unexpected error has occurred');
@@ -32,13 +29,19 @@ export const fetchChannels = async (projectId: string): Promise<Channel[]> => {
  * @returns A promise that resolves to a success message.
  * @throws An error if the deletion operation fails.
  */
-export const deleteChannel = async (projectId: string, channelId: string): Promise<string> => {
+export const deleteChannel = async (
+  projectId: string,
+  channelId: string,
+): Promise<string> => {
   try {
-    const response = await axios.delete(`/api/projects/${projectId}/channels/${channelId}/deleteChannel`);
-    return response.data.message; 
+    const response = await axios.delete(
+      `/api/projects/${projectId}/channels/${channelId}/deleteChannel`,
+    );
+    return response.data.message;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const errorMessage = error.response?.data?.error || 'Failed to delete channel';
+      const errorMessage =
+        error.response?.data?.error || 'Failed to delete channel';
       throw new Error(errorMessage);
     } else {
       throw new Error('An unexpected error has occurred');

@@ -6,14 +6,13 @@ import styles from './ResetPassword.module.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const supabase = getSupabaseClient();
 
 const ResetPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); 
+  const [errorMessage, setErrorMessage] = useState('');
 
   const validateEmail = (email: string) => {
     return emailRegex.test(email);
@@ -22,18 +21,16 @@ const ResetPasswordPage: React.FC = () => {
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setErrorMessage(''); 
+    setErrorMessage('');
 
-    
     if (!validateEmail(email)) {
       setErrorMessage('Invalid email format');
       setLoading(false);
       return;
     }
 
-    
     const { data: userData, error: userCheckError } = await supabase
-      .from('users') 
+      .from('users')
       .select('email')
       .eq('email', email)
       .single();
@@ -44,15 +41,14 @@ const ResetPasswordPage: React.FC = () => {
       return;
     }
 
-    
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/update-password`, 
+      redirectTo: `${window.location.origin}/update-password`,
     });
 
     if (error) {
       setErrorMessage('Error sending password reset email');
     } else {
-      toast.success('Password reset email sent successfully!'); 
+      toast.success('Password reset email sent successfully!');
     }
 
     setLoading(false);
@@ -69,7 +65,11 @@ const ResetPasswordPage: React.FC = () => {
           <div className={styles.card}>
             <div className={styles.description}>
               <h2>Reset Your Password</h2>
-              <p>We understand that forgetting a password can be stressful. Enter your email, and we’ll send you a link to securely reset your password so you can get back to what matters most.</p>
+              <p>
+                We understand that forgetting a password can be stressful. Enter
+                your email, and we’ll send you a link to securely reset your
+                password so you can get back to what matters most.
+              </p>
             </div>
             <div className={styles.formContainer}>
               <form onSubmit={handleResetPassword} className={styles.form}>
@@ -79,7 +79,7 @@ const ResetPasswordPage: React.FC = () => {
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    setErrorMessage(''); 
+                    setErrorMessage('');
                   }}
                   placeholder="Enter your email"
                   required
@@ -87,7 +87,11 @@ const ResetPasswordPage: React.FC = () => {
                 {}
                 {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 
-                <button className={styles.button} type="submit" disabled={loading}>
+                <button
+                  className={styles.button}
+                  type="submit"
+                  disabled={loading}
+                >
                   {loading ? 'Sending...' : 'Send Reset Email'}
                 </button>
               </form>

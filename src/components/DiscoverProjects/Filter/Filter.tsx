@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import styles from './Filter.module.css';
 import MultiSelectDropdown from './MultiSelectDropDown/MultiSelectDropDown';
@@ -19,10 +18,9 @@ interface ProjectFilterProps {
       roles: string[];
       dateRange: string;
     },
-    searchTerm: string
+    searchTerm: string,
   ) => void;
 }
-
 
 const ProjectFilter: React.FC<ProjectFilterProps> = ({ onFilterChange }) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -41,34 +39,49 @@ const ProjectFilter: React.FC<ProjectFilterProps> = ({ onFilterChange }) => {
     { label: 'Last 30 Days', value: 'last30days' },
   ];
 
-    const handleSearch = (term: string) => {
-      setSearchTerm(term);
-        onFilterChange({tags: selectedTags, roles: selectedRoles, dateRange: selectedDateRange}, term);
-    };
+  const handleSearch = (term: string) => {
+    setSearchTerm(term);
+    onFilterChange(
+      {
+        tags: selectedTags,
+        roles: selectedRoles,
+        dateRange: selectedDateRange,
+      },
+      term,
+    );
+  };
 
   const handleClearFilters = () => {
     setSelectedTags([]);
     setSelectedRoles([]);
     setSelectedDateRange('all');
     setSearchTerm('');
-       onFilterChange({tags: [], roles: [], dateRange: 'all'}, '');
+    onFilterChange({ tags: [], roles: [], dateRange: 'all' }, '');
   };
 
   const handleDateRangeChange = (value: string) => {
     setSelectedDateRange(value);
-        onFilterChange({tags: selectedTags, roles: selectedRoles, dateRange: value}, searchTerm);
+    onFilterChange(
+      { tags: selectedTags, roles: selectedRoles, dateRange: value },
+      searchTerm,
+    );
   };
 
   const handleTagSelect = (tags: string[]) => {
     setSelectedTags(tags);
-      onFilterChange({tags: tags, roles: selectedRoles, dateRange: selectedDateRange}, searchTerm);
+    onFilterChange(
+      { tags: tags, roles: selectedRoles, dateRange: selectedDateRange },
+      searchTerm,
+    );
   };
 
   const handleRoleSelect = (roles: string[]) => {
     setSelectedRoles(roles);
-        onFilterChange({tags: selectedTags, roles: roles, dateRange: selectedDateRange}, searchTerm);
+    onFilterChange(
+      { tags: selectedTags, roles: roles, dateRange: selectedDateRange },
+      searchTerm,
+    );
   };
-
 
   return (
     <div className={styles.filterContainer}>

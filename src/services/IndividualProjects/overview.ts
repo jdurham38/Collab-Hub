@@ -9,14 +9,14 @@ export const getProjectOverview = async (projectId: string) => {
     return response.data.project;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const errorMessage = error.response?.data?.error || 'Failed to fetch project overview.';
+      const errorMessage =
+        error.response?.data?.error || 'Failed to fetch project overview.';
       throw new Error(errorMessage);
     } else {
       throw new Error('An unexpected error occurred.');
     }
   }
 };
-
 
 export const getBanner = async (projectId: string) => {
   try {
@@ -27,7 +27,8 @@ export const getBanner = async (projectId: string) => {
     return response.data.project;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      const errorMessage = error.response?.data?.error || 'Failed to fetch project url.';
+      const errorMessage =
+        error.response?.data?.error || 'Failed to fetch project url.';
       throw new Error(errorMessage);
     } else {
       throw new Error('An unexpected error occurred.');

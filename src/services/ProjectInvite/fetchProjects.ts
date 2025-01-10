@@ -2,7 +2,9 @@ import axios from 'axios';
 
 export const getCreatorProjects = async (userId: string) => {
   try {
-    const response = await axios.get(`/api/projects/creator-projects?userId=${userId}`);
+    const response = await axios.get(
+      `/api/projects/creator-projects?userId=${userId}`,
+    );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

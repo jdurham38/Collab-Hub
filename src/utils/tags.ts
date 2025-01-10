@@ -1,4 +1,3 @@
-
 export const projectTags = {
   'Software Development': [
     'Web Development',

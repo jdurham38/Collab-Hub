@@ -6,7 +6,7 @@ import { checkPlanAndProjects } from '@/services/navServices';
 import { toast, ToastContainer } from 'react-toastify';
 import CreateProject from '../Projects/CreateProject/CreateProject';
 import axios from 'axios';
-import Link from 'next/link'; 
+import Link from 'next/link';
 const Navbar = () => {
   const { session, isLoggedIn } = useAuthStore();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -26,21 +26,24 @@ const Navbar = () => {
     try {
       const userId = session.user.id;
 
-            await checkPlanAndProjects(userId);
+      await checkPlanAndProjects(userId);
 
-            setIsModalOpen(true);
+      setIsModalOpen(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 403) {
           setIsPlanLimitModalOpen(true);
         } else {
           toast.error(
-            error.response?.data?.error || 'An error occurred. Please try again.'
+            error.response?.data?.error ||
+              'An error occurred. Please try again.',
           );
         }
       } else {
-                const errorMessage =
-          error instanceof Error ? error.message : 'An unexpected error occurred.';
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred.';
         toast.error(errorMessage);
       }
     }
@@ -70,14 +73,16 @@ const Navbar = () => {
           </span>
           {dropdownOpen && (
             <div className={styles.dropdown}>
-              {<div>
-                <Link href="/notifications" className={styles.navLink}>
-                  Notifications
-                </Link>
-                <Link href="/settings" className={styles.navLink}>
-                  Settings
-                </Link>
-                </div>}
+              {
+                <div>
+                  <Link href="/notifications" className={styles.navLink}>
+                    Notifications
+                  </Link>
+                  <Link href="/settings" className={styles.navLink}>
+                    Settings
+                  </Link>
+                </div>
+              }
             </div>
           )}
         </div>

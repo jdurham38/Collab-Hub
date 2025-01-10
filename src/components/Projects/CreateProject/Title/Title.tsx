@@ -14,24 +14,20 @@ const Title: React.FC<TitleProps> = ({ title, setTitle }) => {
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
 
-    
     if (value.length > 40) {
       value = value.slice(0, 40);
     }
 
-    
     setTitle(value);
 
-    
     setCharCount(value.length);
 
-    
     if (!value.trim()) {
       setErrorMessage('Project title is required.');
     } else if (profanity.exists(value)) {
       setErrorMessage('Profanity detected in title.');
     } else {
-      setErrorMessage(''); 
+      setErrorMessage('');
     }
   };
 
@@ -43,7 +39,7 @@ const Title: React.FC<TitleProps> = ({ title, setTitle }) => {
         value={title}
         onChange={handleTitleChange}
         className={styles.input}
-        maxLength={40} 
+        maxLength={40}
       />
       <div className={styles.titleInfo}>
         <p className={styles.charCount}>{charCount}/40 characters</p>

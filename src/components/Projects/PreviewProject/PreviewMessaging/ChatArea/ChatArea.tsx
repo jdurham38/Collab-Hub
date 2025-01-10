@@ -9,10 +9,9 @@ interface Message {
 }
 
 interface ChatAreaProps {
-    messages: Message[];
-    chatTitle: string;
-  }
-  
+  messages: Message[];
+  chatTitle: string;
+}
 
 const ChatArea: React.FC<ChatAreaProps> = ({ messages, chatTitle }) => {
   return (

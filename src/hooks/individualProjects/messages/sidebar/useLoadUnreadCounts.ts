@@ -1,10 +1,9 @@
-
 import { useEffect } from 'react';
 import { fetchUnreadCounts } from '@/services/unreadCountService';
 
 const useLoadUnreadCounts = (
   currentUserId: string,
-  setUnreadCount: (channelId: string, count: number) => void
+  setUnreadCount: (channelId: string, count: number) => void,
 ) => {
   useEffect(() => {
     const loadUnreadCounts = async () => {

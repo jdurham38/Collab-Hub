@@ -7,7 +7,8 @@
   color: #fff;
   padding: 1em;
   border-radius: 10px;
-  max-width: 90%;   width: 100%;
+  max-width: 90%;
+  width: 100%;
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -32,7 +33,9 @@
 
 .buttonContainer {
   display: flex;
-  flex-wrap: wrap;   gap: 0.5em;   justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  justify-content: center;
 }
 
 .button {
@@ -43,7 +46,9 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 0.9rem;
-  flex: 1;   max-width: 150px; }
+  flex: 1;
+  max-width: 150px;
+}
 
 .button:hover {
   background-color: #99ccff;
@@ -51,7 +56,9 @@
 
 @media (max-width: 600px) {
   .cookieBanner {
-    max-width: 95%;     padding: 0.8em;   }
+    max-width: 95%;
+    padding: 0.8em;
+  }
 
   .buttonContainer {
     flex-direction: column;
@@ -59,5 +66,7 @@
   }
 
   .button {
-    width: 100%;     max-width: none;   }
+    width: 100%;
+    max-width: none;
+  }
 }

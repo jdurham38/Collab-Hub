@@ -1,14 +1,15 @@
-
-
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || '' 
+  process.env.SUPABASE_ANON_KEY || '',
 );
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { projectId, channelId } = req.query;
 
   if (typeof projectId !== 'string' || typeof channelId !== 'string') {
@@ -23,27 +24,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           .select('*, users(username, email)')
           .eq('channel_id', channelId)
           .order('timestamp', { ascending: true });
-    
+
         if (error) {
           console.error('Error fetching messages:', error.message);
           return res.status(500).json({ error: 'Error fetching messages' });
         }
-    
-        
-        return res.status(200).json(messages); 
+
+        return res.status(200).json(messages);
       } catch (err) {
         console.error('Unexpected error fetching messages:', err);
         return res.status(500).json({ error: 'Internal Server Error' });
       }
 
     case 'POST':
-
-
-
       try {
         const { content, user_id } = req.body;
         if (!content || !user_id) {
-          return res.status(400).json({ error: 'Content and user_id are required' });
+          return res
+            .status(400)
+            .json({ error: 'Content and user_id are required' });
         }
         const { error } = await supabase.from('messages').insert([
           {
@@ -68,6 +67,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     default:
       res.setHeader('Allow', ['GET', 'POST']);
-      return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+      return res
+        .status(405)
+        .json({ error: `Method ${req.method} Not Allowed` });
   }
 }

@@ -1,14 +1,15 @@
-
-
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || ''
+  process.env.SUPABASE_ANON_KEY || '',
 );
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { channelId } = req.query;
   const { userId } = req.body;
 
@@ -24,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           channel_id: channelId,
           last_read_at: new Date().toISOString(),
         },
-        { onConflict: 'user_id,channel_id' }
+        { onConflict: 'user_id,channel_id' },
       );
 
       if (error) {

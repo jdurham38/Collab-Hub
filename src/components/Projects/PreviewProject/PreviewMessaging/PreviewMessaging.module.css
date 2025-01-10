@@ -1,17 +1,12 @@
-
 .messagingContainer {
   display: flex;
-  height: 500px; 
+  height: 500px;
   background-color: #ffffff;
   border-radius: 8px;
   margin-top: 20px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-
-
-
 
 .messagingContainer h2 {
   font-size: 24px;
@@ -20,7 +15,6 @@
   font-weight: bold;
 }
 
-
 .description {
   font-size: 16px;
   color: #333333;
@@ -28,13 +22,11 @@
   line-height: 1.5;
 }
 
-
 .buttonContainer {
   display: flex;
   gap: 10px;
   margin-bottom: 16px;
 }
-
 
 .messageButton {
   background-color: #d4a373;
@@ -52,14 +44,12 @@
   background-color: #d6914b;
 }
 
-
 .note {
   font-size: 14px;
   color: #999999;
   font-style: italic;
   line-height: 1.5;
 }
-
 
 @media (max-width: 768px) {
   .messagingContainer {

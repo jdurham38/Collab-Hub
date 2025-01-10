@@ -5,122 +5,137 @@ import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 
 interface ApplicantProjectRequest {
-    id: string;
-    projectId: string;
-    status: string;
-    projectTitle?: string;
-    error?: string;
+  id: string;
+  projectId: string;
+  status: string;
+  projectTitle?: string;
+  error?: string;
 }
 
 const ApplicationsSent: React.FC = () => {
-    const [projectRequests, setProjectRequests] = useState<ApplicantProjectRequest[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const user = useAuthRedirect();
+  const [projectRequests, setProjectRequests] = useState<
+    ApplicantProjectRequest[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const user = useAuthRedirect();
 
-    useEffect(() => {
-        const fetchRequests = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                if (user?.id) {
-                    const data = await applicantRequestService.fetchApplicantProjectRequests(user.id);
-                    setProjectRequests(data);
-                }
-            } catch (e) {
-              if (e instanceof Error) {
-                setError(e.message);
-              } else {
-                 setError('An unexpected error occurred');
-              }
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchRequests();
-    }, [user?.id]);
-
-    const handleWithdraw = async (requestId: string) => {
-        try {
-            await applicantRequestService.deleteProjectRequest(requestId);
-            toast.success('Project request withdrawn!');
-            if (user?.id) {
-                const data = await applicantRequestService.fetchApplicantProjectRequests(user.id);
-                setProjectRequests(data);
-            }
-        } catch (e) {
-           if (e instanceof AxiosError) {
-              toast.error(e.response?.data?.message || 'Failed to withdraw project request');
-            } else if (e instanceof Error) {
-                toast.error(e.message || 'Failed to withdraw project request');
-            } else {
-               toast.error('Failed to withdraw project request');
-            }
+  useEffect(() => {
+    const fetchRequests = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        if (user?.id) {
+          const data =
+            await applicantRequestService.fetchApplicantProjectRequests(
+              user.id,
+            );
+          setProjectRequests(data);
         }
+      } catch (e) {
+        if (e instanceof Error) {
+          setError(e.message);
+        } else {
+          setError('An unexpected error occurred');
+        }
+      } finally {
+        setLoading(false);
+      }
     };
 
-    const handleDelete = async (requestId: string) => {
-       try {
-            await applicantRequestService.deleteProjectRequest(requestId);
-            toast.success('Project request deleted!');
-             if(user?.id) {
-                const data = await applicantRequestService.fetchApplicantProjectRequests(user.id);
-                setProjectRequests(data);
-            }
-        }  catch (e) {
-             if (e instanceof AxiosError) {
-              toast.error(e.response?.data?.message || 'Failed to delete project request');
-            } else if (e instanceof Error) {
-                 toast.error(e.message || 'Failed to delete project request');
-            } else {
-              toast.error('Failed to delete project request');
-            }
-        }
-    };
+    fetchRequests();
+  }, [user?.id]);
 
-    if (loading) {
-        return <p>Loading project applications...</p>;
+  const handleWithdraw = async (requestId: string) => {
+    try {
+      await applicantRequestService.deleteProjectRequest(requestId);
+      toast.success('Project request withdrawn!');
+      if (user?.id) {
+        const data =
+          await applicantRequestService.fetchApplicantProjectRequests(user.id);
+        setProjectRequests(data);
+      }
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        toast.error(
+          e.response?.data?.message || 'Failed to withdraw project request',
+        );
+      } else if (e instanceof Error) {
+        toast.error(e.message || 'Failed to withdraw project request');
+      } else {
+        toast.error('Failed to withdraw project request');
+      }
     }
+  };
 
-    if (error) {
-        return <p>Error: {error}</p>;
+  const handleDelete = async (requestId: string) => {
+    try {
+      await applicantRequestService.deleteProjectRequest(requestId);
+      toast.success('Project request deleted!');
+      if (user?.id) {
+        const data =
+          await applicantRequestService.fetchApplicantProjectRequests(user.id);
+        setProjectRequests(data);
+      }
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        toast.error(
+          e.response?.data?.message || 'Failed to delete project request',
+        );
+      } else if (e instanceof Error) {
+        toast.error(e.message || 'Failed to delete project request');
+      } else {
+        toast.error('Failed to delete project request');
+      }
     }
+  };
 
-    return (
-        <div>
-            <h1>Applications Sent</h1>
-            {projectRequests.length === 0 ? (
-                <p>No project applications found.</p>
-            ) : (
-                <ul>
-                    {projectRequests.map((request) => (
-                        <li key={request.id}>
-                            <p>
-                                <strong>Project Title:</strong> {request.projectTitle}
-                            </p>
-                            <p>
-                                <strong>Status:</strong> {request.status}
-                            </p>
-                            {request.error && (
-                                <p>
-                                    <strong>Error:</strong> {request.error}
-                                </p>
-                            )}
-                            <div>
-                                {request.status === 'pending' ? (
-                                    <button onClick={() => handleWithdraw(request.id)}>Withdraw</button>
-                                ) : (
-                                    <button onClick={() => handleDelete(request.id)}>Delete</button>
-                                )}
-                            </div>
-                            <hr />
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
+  if (loading) {
+    return <p>Loading project applications...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  return (
+    <div>
+      <h1>Applications Sent</h1>
+      {projectRequests.length === 0 ? (
+        <p>No project applications found.</p>
+      ) : (
+        <ul>
+          {projectRequests.map((request) => (
+            <li key={request.id}>
+              <p>
+                <strong>Project Title:</strong> {request.projectTitle}
+              </p>
+              <p>
+                <strong>Status:</strong> {request.status}
+              </p>
+              {request.error && (
+                <p>
+                  <strong>Error:</strong> {request.error}
+                </p>
+              )}
+              <div>
+                {request.status === 'pending' ? (
+                  <button onClick={() => handleWithdraw(request.id)}>
+                    Withdraw
+                  </button>
+                ) : (
+                  <button onClick={() => handleDelete(request.id)}>
+                    Delete
+                  </button>
+                )}
+              </div>
+              <hr />
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };
 
 export default ApplicationsSent;

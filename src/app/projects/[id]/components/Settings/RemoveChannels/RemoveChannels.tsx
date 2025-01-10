@@ -28,21 +28,23 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   const handleConfirm = () => {
     if (confirmationInput === channelName) {
       onConfirm();
-      onClose(); 
-      setConfirmationInput(''); 
+      onClose();
+      setConfirmationInput('');
     } else {
       toast.error('Channel name does not match. Please try again.');
     }
   };
 
-
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}> {}
+    <div className={styles.modalOverlay} onClick={onClose}>
+      {' '}
+      {}
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <p>
-          Deleting this channel will permanently delete all messages within the channel forever.
+          Deleting this channel will permanently delete all messages within the
+          channel forever.
         </p>
         <p>Please type the channel name to confirm:</p>
         <input
@@ -52,7 +54,10 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         />
         <div className={styles.modalButtons}>
           <button onClick={onClose}>Cancel</button>
-          <button onClick={handleConfirm} disabled={confirmationInput !== channelName}>
+          <button
+            onClick={handleConfirm}
+            disabled={confirmationInput !== channelName}
+          >
             Confirm
           </button>
         </div>
@@ -63,45 +68,50 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
 
 const DeleteChannel: React.FC<DeleteChannelProps> = ({ projectId }) => {
   const { channels, loading, error, refetch } = useChannels(projectId);
-  const { deletingChannelId, deleteChannelById, error: deleteError } = useDeleteChannel();
+  const {
+    deletingChannelId,
+    deleteChannelById,
+    error: deleteError,
+  } = useDeleteChannel();
   const [modalOpen, setModalOpen] = useState(false);
-  const [channelToDelete, setChannelToDelete] = useState<{ id: string; name: string } | null>(null);
-
-
+  const [channelToDelete, setChannelToDelete] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const handleDelete = async (channelId: string, channelName: string) => {
     setChannelToDelete({ id: channelId, name: channelName });
     setModalOpen(true);
   };
 
-
-
   const handleConfirmDelete = async () => {
-
     if (channelToDelete) {
       await deleteChannelById(projectId, channelToDelete.id);
 
       if (!deleteError) {
         refetch();
-        toast.success(`Channel "${channelToDelete.name}" deleted successfully.`);
+        toast.success(
+          `Channel "${channelToDelete.name}" deleted successfully.`,
+        );
       } else {
-        toast.error(`Failed to delete channel "${channelToDelete.name}". Please try again.`);
+        toast.error(
+          `Failed to delete channel "${channelToDelete.name}". Please try again.`,
+        );
       }
     }
 
-    setChannelToDelete(null); 
+    setChannelToDelete(null);
     setModalOpen(false);
   };
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    setChannelToDelete(null); 
+    setChannelToDelete(null);
   };
 
   if (loading) return <p className={styles.loading}>Loading channels...</p>;
   if (error) return <p className={styles.error}>Error: {error}</p>;
   if (channels.length === 0) return <p>No channels found.</p>;
-
 
   return (
     <div className={styles.container}>

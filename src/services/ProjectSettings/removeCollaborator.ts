@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 /**
@@ -10,13 +9,13 @@ import axios from 'axios';
 export async function removeCollaborator(
   projectId: string,
   userId: string,
-  requesterId: string
+  requesterId: string,
 ): Promise<void> {
   try {
     await axios.delete(`/api/projects/${projectId}/collaborators/${userId}`, {
-      data: { requesterId }, 
+      data: { requesterId },
       headers: {
-        'Content-Type': 'application/json', 
+        'Content-Type': 'application/json',
       },
     });
   } catch (error) {

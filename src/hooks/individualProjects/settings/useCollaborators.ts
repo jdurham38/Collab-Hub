@@ -27,21 +27,23 @@ const useCollaborators = (projectId: string): UseCollaboratorsReturn => {
     setError(null);
     try {
       const collaboratorsData = await fetchProjectCollaborators(projectId);
-      setCollaborators(collaboratorsData.collaborators); 
+      setCollaborators(collaboratorsData.collaborators);
     } catch (err) {
-        if(axios.isAxiosError(err)){
-            const axiosError = err as AxiosError<CollaboratorError>;
-             const errorMessage =
-                axiosError.response?.data?.message ||
-                axiosError.message ||
-              'Failed to fetch collaborators.';
-            setError(errorMessage);
-            toast.error(errorMessage);
-      } else{
-          const errorMessage =
-            err instanceof Error ? err.message : "An unexpected error has occurred";
-          setError(errorMessage);
-          toast.error(errorMessage);
+      if (axios.isAxiosError(err)) {
+        const axiosError = err as AxiosError<CollaboratorError>;
+        const errorMessage =
+          axiosError.response?.data?.message ||
+          axiosError.message ||
+          'Failed to fetch collaborators.';
+        setError(errorMessage);
+        toast.error(errorMessage);
+      } else {
+        const errorMessage =
+          err instanceof Error
+            ? err.message
+            : 'An unexpected error has occurred';
+        setError(errorMessage);
+        toast.error(errorMessage);
       }
     } finally {
       setLoading(false);

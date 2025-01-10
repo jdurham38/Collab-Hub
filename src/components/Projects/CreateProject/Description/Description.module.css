@@ -2,21 +2,31 @@
   margin-bottom: 16px;
   background-color: #f9f9f9;
   border-radius: 20px;
-  overflow: hidden;   border: 1px solid #ccc; }
+  overflow: hidden;
+  border: 1px solid #ccc;
+}
 
 .ql-container {
-  border: none;   border-radius: 0;   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  border: none;
+  border-radius: 0;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
   background-color: #fff;
-  min-height: 300px; }
+  min-height: 300px;
+}
 
 .ql-toolbar {
-  border: none;   border-radius: 0;   background-color: #f9f9f9;
+  border: none;
+  border-radius: 0;
+  background-color: #f9f9f9;
 }
 
 .ql-editor {
-  min-height: 250px;   font-size: 14px;
+  min-height: 250px;
+  font-size: 14px;
   line-height: 1.5;
-  border-radius: 0; }
+  border-radius: 0;
+}
 
 .ql-container.ql-snow,
 .ql-toolbar.ql-snow {

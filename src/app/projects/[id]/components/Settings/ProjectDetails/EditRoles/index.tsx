@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from './index.module.css'; 
-import { projectRoles } from '@/utils/roles'; 
+import styles from './index.module.css';
+import { projectRoles } from '@/utils/roles';
 
 interface EditRolesProps {
   roles: string[];
@@ -9,11 +9,10 @@ interface EditRolesProps {
 
 const EditRoles: React.FC<EditRolesProps> = ({ roles, setRoles }) => {
   const [roleSearch, setRoleSearch] = useState('');
-  const [selectedRoleCategory, setSelectedRoleCategory] = useState<string | null>(
-    null
-  );
+  const [selectedRoleCategory, setSelectedRoleCategory] = useState<
+    string | null
+  >(null);
 
-  
   useEffect(() => {
     setSelectedRoles(roles);
   }, [roles]);
@@ -24,17 +23,17 @@ const EditRoles: React.FC<EditRolesProps> = ({ roles, setRoles }) => {
     const newRoles = selectedRoles.includes(role)
       ? selectedRoles.filter((r) => r !== role)
       : selectedRoles.length < 5
-      ? [...selectedRoles, role]
-      : selectedRoles;
+        ? [...selectedRoles, role]
+        : selectedRoles;
 
     setSelectedRoles(newRoles);
-    setRoles(newRoles); 
+    setRoles(newRoles);
   };
 
   const handleRoleRemove = (role: string) => {
     const newRoles = selectedRoles.filter((r) => r !== role);
     setSelectedRoles(newRoles);
-    setRoles(newRoles); 
+    setRoles(newRoles);
   };
 
   const filteredRoles = Object.entries(projectRoles).flatMap(
@@ -43,14 +42,16 @@ const EditRoles: React.FC<EditRolesProps> = ({ roles, setRoles }) => {
         ? []
         : (rolesList as string[])
             .filter((role) =>
-              role.toLowerCase().includes(roleSearch.toLowerCase())
+              role.toLowerCase().includes(roleSearch.toLowerCase()),
             )
-            .map((role) => ({ category, role }))
+            .map((role) => ({ category, role })),
   );
 
   return (
     <div className={styles.editRolesContainer}>
-      <h2><b>Edit Roles:</b></h2>
+      <h2>
+        <b>Edit Roles:</b>
+      </h2>
       <h3 className={styles.title}>Select Roles (Limit of 5)</h3>
 
       <div className={styles.selectedRolesContainer}>
@@ -97,7 +98,9 @@ const EditRoles: React.FC<EditRolesProps> = ({ roles, setRoles }) => {
               type="checkbox"
               checked={selectedRoles.includes(role)}
               onChange={() => handleRoleSelection(role)}
-              disabled={!selectedRoles.includes(role) && selectedRoles.length >= 5}
+              disabled={
+                !selectedRoles.includes(role) && selectedRoles.length >= 5
+              }
             />
             {role}{' '}
             <span className={styles.roleCategoryLabel}>({category})</span>

@@ -4,7 +4,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);   display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -15,7 +16,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);   display: flex;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -25,9 +27,10 @@
   border-radius: 8px;
   width: 100%;
   max-width: 600px;
-  padding-top:30px;
-  padding-bottom:30px;
-  background-color: rgba(0, 0, 0, 0.5);   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,21 +38,19 @@
   border-radius: 20px;
 }
 
-
-
-
 .createProjectContent {
   background-color: #faedcd;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
   border-radius: 8px;
   padding: 20px;
   width: 90%;
   max-width: 600px;
   max-height: 80vh;
-  overflow-y: auto;   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   position: relative;
   border-radius: 20px;
-
 }
 
 .modalHeader {
@@ -62,18 +63,22 @@
 .modalTitle {
   font-size: 24px;
   font-weight: bold;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .asterisk {
   color: red;
-  font-size: 24px;   font-weight: bold;
-  margin-right: 8px;   align-self: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 8px;
+  align-self: center;
 }
 
 .inputContainer {
   position: relative;
-  margin-bottom: 16px; }
+  margin-bottom: 16px;
+}
 
 .closeButton {
   position: absolute;
@@ -85,12 +90,15 @@
   cursor: pointer;
   color: #ff0000;
   transition: color 0.3s;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .buttonContainer {
   display: flex;
-  justify-content: center;   margin-top: 16px; }
+  justify-content: center;
+  margin-top: 16px;
+}
 
 .previewButton {
   padding: 8px 12px;
@@ -103,21 +111,21 @@
 }
 
 .previewButton:hover {
-  background-color: #daca9f;   color: black;
+  background-color: #daca9f;
+  color: black;
 }
-
 
 .closeButton:hover {
   color: #ff9898;
   color: black;
-
 }
 
 .error {
   color: red;
   font-size: 0.9rem;
   margin-top: 4px;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
 }
 
 .spinnerContainer {
@@ -126,7 +134,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(250, 237, 205, 0.8);   display: flex;
+  background-color: rgba(250, 237, 205, 0.8);
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;

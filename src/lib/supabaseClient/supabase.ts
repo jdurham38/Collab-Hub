@@ -1,8 +1,5 @@
-
-
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import customStorage from '@/utils/customStorage';
-
 
 const inMemoryStorage = {
   data: {} as Record<string, string>,
@@ -20,7 +17,6 @@ const inMemoryStorage = {
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-
 let supabase: SupabaseClient | null = null;
 
 /**
@@ -30,7 +26,8 @@ let supabase: SupabaseClient | null = null;
 export const getSupabaseClient = (): SupabaseClient => {
   if (!supabase) {
     const useInMemoryStorage =
-      typeof window !== 'undefined' && localStorage.getItem('cookieConsent') !== 'accepted';
+      typeof window !== 'undefined' &&
+      localStorage.getItem('cookieConsent') !== 'accepted';
 
     supabase = createClient(supabaseUrl, supabaseAnonKey, {
       auth: {

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   createContext,
@@ -17,7 +17,7 @@ import styles from './Auth.module.css';
 interface AuthContextType {
   user: User | null;
   setUser: (user: User | null) => void;
-  loading: boolean; 
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,65 +28,60 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  
   const supabase = useMemo(() => getSupabaseClient(), []);
 
-    
-    useEffect(() => {
-        const initializeAuth = async () => {
-           setLoading(true) 
-          try {
-    
-            if (session && isLoggedIn) {
-              const userData = session.user;
-              setUser((prevUser) => {
-                
-                if (prevUser?.id !== userData.id) {
-                  return {
-                    id: userData.id,
-                    email: userData.email || '',
-                    username: userData.user_metadata?.username || '',
-                  };
-                }
-                return prevUser;
-              });
-            } else {
-              const {
-                data: { session: freshSession },
-                error,
-              } = await supabase.auth.getSession();
-    
-              if (error || !freshSession) {
-                setLoggedIn(false);
-                setUser(null);
-                  
-                  router.push('/');
-              } else {
-                setSession(freshSession);
-                const userData = freshSession.user;
-                setUser({
-                  id: userData.id,
-                  email: userData.email || '',
-                  username: userData.user_metadata?.username || '',
-                });
-                setLoggedIn(true);
-              }
+  useEffect(() => {
+    const initializeAuth = async () => {
+      setLoading(true);
+      try {
+        if (session && isLoggedIn) {
+          const userData = session.user;
+          setUser((prevUser) => {
+            if (prevUser?.id !== userData.id) {
+              return {
+                id: userData.id,
+                email: userData.email || '',
+                username: userData.user_metadata?.username || '',
+              };
             }
-          } catch (err) {
-            console.error('Unexpected error:', err);
-            setUser(null);
-            setLoggedIn(false);
-              
-            router.push('/');
-          } finally {
-            setLoading(false); 
-          }
-        };
-    
-        initializeAuth();
-      }, [router, session, isLoggedIn, setLoggedIn, setSession, supabase.auth]);
+            return prevUser;
+          });
+        } else {
+          const {
+            data: { session: freshSession },
+            error,
+          } = await supabase.auth.getSession();
 
-  
+          if (error || !freshSession) {
+            setLoggedIn(false);
+            setUser(null);
+
+            router.push('/');
+          } else {
+            setSession(freshSession);
+            const userData = freshSession.user;
+            setUser({
+              id: userData.id,
+              email: userData.email || '',
+              username: userData.user_metadata?.username || '',
+            });
+            setLoggedIn(true);
+          }
+        }
+      } catch (err) {
+        console.error('Unexpected error:', err);
+        setUser(null);
+        setLoggedIn(false);
+
+        router.push('/');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, [router, session, isLoggedIn, setLoggedIn, setSession, supabase.auth]);
+
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
@@ -105,7 +100,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setLoggedIn(false);
           router.push('/');
         }
-      }
+      },
     );
 
     return () => {
@@ -113,10 +108,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
   }, [router, setLoggedIn, setSession, supabase.auth]);
 
-  
   const contextValue = useMemo(
     () => ({ user, setUser, loading }),
-    [user, loading] 
+    [user, loading],
   );
 
   if (loading) {

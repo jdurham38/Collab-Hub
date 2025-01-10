@@ -13,31 +13,68 @@ interface NavItem {
 }
 
 const SideNav: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<number>(0); 
+  const [activeTab, setActiveTab] = useState<number>(0);
 
   const navItems: NavItem[] = [
-    { title: 'Project Requests', component: () => <div><ProjectRequestList/></div> }, 
-    { title: 'Application Updates', component: () => <div><ApplicationsSent /></div> }, 
-    { title: 'Invites Sent', component: () => <div><InvitesSent /></div> }, 
-    { title: 'Invites Received', component: () => <div><InvitesReceived /></div> }, 
-    { title: 'Friend Requests', component: () => <div>Friend Requests Content</div> }, 
-    { title: 'Project Updates', component: () => <div>Project Updates Content</div> }, 
-    { title: 'Gloabal Updates', component: () => <div>Global Updates Content</div> }, 
+    {
+      title: 'Project Requests',
+      component: () => (
+        <div>
+          <ProjectRequestList />
+        </div>
+      ),
+    },
+    {
+      title: 'Application Updates',
+      component: () => (
+        <div>
+          <ApplicationsSent />
+        </div>
+      ),
+    },
+    {
+      title: 'Invites Sent',
+      component: () => (
+        <div>
+          <InvitesSent />
+        </div>
+      ),
+    },
+    {
+      title: 'Invites Received',
+      component: () => (
+        <div>
+          <InvitesReceived />
+        </div>
+      ),
+    },
+    {
+      title: 'Friend Requests',
+      component: () => <div>Friend Requests Content</div>,
+    },
+    {
+      title: 'Project Updates',
+      component: () => <div>Project Updates Content</div>,
+    },
+    {
+      title: 'Gloabal Updates',
+      component: () => <div>Global Updates Content</div>,
+    },
   ];
 
   return (
     <div className={styles.container}>
       <div className={styles.navItems}>
-      {navItems.map((item, index) => (
-        <div
-          key={index}
-          className={`${styles.navItem} ${activeTab === index ? styles.active : ''}`}
-          onClick={() => setActiveTab(index)}
-        >
-          {item.title}
-        </div>
-      ))}
-        </div>
+        {navItems.map((item, index) => (
+          <div
+            key={index}
+            className={`${styles.navItem} ${activeTab === index ? styles.active : ''}`}
+            onClick={() => setActiveTab(index)}
+          >
+            {item.title}
+          </div>
+        ))}
+      </div>
 
       <div className={styles.contentContainer}>
         {React.createElement(navItems[activeTab].component)}

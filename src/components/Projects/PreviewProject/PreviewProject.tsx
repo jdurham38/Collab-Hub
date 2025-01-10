@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,24 +10,25 @@ import styles from './PreviewProject.module.css';
 import PreviewSettings from './PreviewSettings/PreviewSettings';
 import PreviewMessaging from './PreviewMessaging/PreviewMessaging';
 import ProjectUsers from './PreviewProjectUsers/Users';
-import useBodyClass from '@/hooks/preview/useBodyClass'; 
+import useBodyClass from '@/hooks/preview/useBodyClass';
 
 interface PreviewProjectProps {
   onClosePreview: () => void;
   onCreateProject: () => Promise<void>;
-  bannerUrl: string; 
+  bannerUrl: string;
 }
 
 const PreviewProject: React.FC<PreviewProjectProps> = ({
   onClosePreview,
   onCreateProject,
-  bannerUrl, 
+  bannerUrl,
 }) => {
   const { title, description, tags, roles } = useProjectStore();
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'messaging' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'messaging' | 'settings'
+  >('overview');
 
-  
   useBodyClass('modal-open');
 
   const handleCreateProject = async () => {
@@ -49,10 +49,7 @@ const PreviewProject: React.FC<PreviewProjectProps> = ({
 
   return (
     <div className={styles.modalOverlay} onClick={onClosePreview}>
-      <div
-        className={styles.previewModal}
-        onClick={(e) => e.stopPropagation()} 
-      >
+      <div className={styles.previewModal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.previewHeader}>
           <button
             onClick={onClosePreview}

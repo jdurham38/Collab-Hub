@@ -1,13 +1,11 @@
-
 'use client';
 import React from 'react';
 import styles from './Description.module.css';
 import dynamic from 'next/dynamic';
 
-const ReactQuillWrapper = dynamic(
-  () => import('@/utils/ReactQuillWrapper'),
-  { ssr: false }
-);
+const ReactQuillWrapper = dynamic(() => import('@/utils/ReactQuillWrapper'), {
+  ssr: false,
+});
 
 interface DescriptionProps {
   description: string;

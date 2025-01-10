@@ -10,12 +10,12 @@ const PlanLimitModal: React.FC<PlanLimitModalProps> = ({ onClose }) => {
   const router = useRouter();
 
   const handleUpgradePlan = () => {
-        router.push('/upgrade-plan');
+    router.push('/upgrade-plan');
     onClose();
   };
 
   const handleReturnToDashboard = () => {
-        router.push('/dashboard');
+    router.push('/dashboard');
     onClose();
   };
 
@@ -30,7 +30,10 @@ const PlanLimitModal: React.FC<PlanLimitModalProps> = ({ onClose }) => {
           <button className={styles.upgradeButton} onClick={handleUpgradePlan}>
             Upgrade Plan
           </button>
-          <button className={styles.dashboardButton} onClick={handleReturnToDashboard}>
+          <button
+            className={styles.dashboardButton}
+            onClick={handleReturnToDashboard}
+          >
             Return to Dashboard
           </button>
         </div>

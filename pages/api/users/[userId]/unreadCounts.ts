@@ -1,14 +1,15 @@
-
-
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || ''
+  process.env.SUPABASE_ANON_KEY || '',
 );
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { userId } = req.query;
 
   if (typeof userId !== 'string') {
@@ -17,9 +18,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'GET') {
     try {
-      const { data: unreadData, error } = await supabase.rpc('get_unread_counts', {
-        p_user_id: userId,
-      });
+      const { data: unreadData, error } = await supabase.rpc(
+        'get_unread_counts',
+        {
+          p_user_id: userId,
+        },
+      );
 
       if (error) {
         console.error('Error fetching unread counts:', error.message);

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './DirectMessageList.module.css'; 
+import styles from './DirectMessageList.module.css';
 import DirectMessageItem from './DirectMessageItem';
 import DateSeparator from '../DateSeperator/DateSeperator';
 import { DirectMessage, User } from '@/utils/interfaces';
@@ -20,7 +20,7 @@ const DirectMessageList: React.FC<DirectMessageListProps> = ({
   userMap,
 }) => {
   const sortedMessages = [...messages].sort(
-    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
   );
 
   let lastMessageDate: string | null = null;

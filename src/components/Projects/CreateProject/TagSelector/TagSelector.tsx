@@ -6,9 +6,14 @@ interface TagsSelectorProps {
   selectedTags: string[];
   setSelectedTags: (tags: string[]) => void;
 }
-const TagsSelector: React.FC<TagsSelectorProps> = ({ selectedTags, setSelectedTags }) => {
+const TagsSelector: React.FC<TagsSelectorProps> = ({
+  selectedTags,
+  setSelectedTags,
+}) => {
   const [tagSearch, setTagSearch] = useState('');
-  const [selectedTagCategory, setSelectedTagCategory] = useState<string | null>(null);
+  const [selectedTagCategory, setSelectedTagCategory] = useState<string | null>(
+    null,
+  );
 
   const handleTagSelection = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -23,18 +28,21 @@ const TagsSelector: React.FC<TagsSelectorProps> = ({ selectedTags, setSelectedTa
       setSelectedTags(newTags);
     }
   };
-  
+
   const handleTagRemove = (tag: string) => {
     const newTags = selectedTags.filter((t) => t !== tag);
     setSelectedTags(newTags);
   };
-  
-  const filteredTags = Object.entries(projectTags).flatMap(([category, tagsList]) =>
-    selectedTagCategory && selectedTagCategory !== category
-      ? []
-      : (tagsList as string[])
-          .filter((tag) => tag.toLowerCase().includes(tagSearch.toLowerCase()))
-          .map((tag) => ({ category, tag }))
+
+  const filteredTags = Object.entries(projectTags).flatMap(
+    ([category, tagsList]) =>
+      selectedTagCategory && selectedTagCategory !== category
+        ? []
+        : (tagsList as string[])
+            .filter((tag) =>
+              tag.toLowerCase().includes(tagSearch.toLowerCase()),
+            )
+            .map((tag) => ({ category, tag })),
   );
 
   return (
@@ -82,7 +90,7 @@ const TagsSelector: React.FC<TagsSelectorProps> = ({ selectedTags, setSelectedTa
               type="checkbox"
               checked={selectedTags.includes(tag)}
               onChange={() => handleTagSelection(tag)}
-              disabled={!selectedTags.includes(tag) && selectedTags.length >= 5} 
+              disabled={!selectedTags.includes(tag) && selectedTags.length >= 5}
             />
             {tag} <span className={styles.tagCategoryLabel}>({category})</span>
           </label>

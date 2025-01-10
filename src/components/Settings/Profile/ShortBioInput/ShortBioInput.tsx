@@ -1,7 +1,6 @@
-
-"use client";
+'use client';
 import React, { useState, useEffect } from 'react';
-import styles from './ShortBioInput.module.css'; 
+import styles from './ShortBioInput.module.css';
 
 interface ShortBioInputProps {
   value: string | null;
@@ -9,7 +8,9 @@ interface ShortBioInputProps {
 }
 
 const ShortBioInput: React.FC<ShortBioInputProps> = ({ value, onChange }) => {
-  const [shortBioLength, setShortBioLength] = useState<number>(value ? value.length : 0);
+  const [shortBioLength, setShortBioLength] = useState<number>(
+    value ? value.length : 0,
+  );
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

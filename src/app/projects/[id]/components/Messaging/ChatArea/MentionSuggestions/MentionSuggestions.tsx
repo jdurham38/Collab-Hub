@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import styles from './MentionSuggestions.module.css';
 import { User } from '@/utils/interfaces';

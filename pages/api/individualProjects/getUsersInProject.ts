@@ -3,12 +3,12 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 export default async function getUsersInProject(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method Not Allowed' });
@@ -23,7 +23,7 @@ export default async function getUsersInProject(
   }
 
   try {
-        const { data: project, error: projectError } = await supabase
+    const { data: project, error: projectError } = await supabase
       .from('projects')
       .select(
         `
@@ -39,7 +39,7 @@ export default async function getUsersInProject(
           username,
           createdAt
         )
-      `
+      `,
       )
       .eq('id', projectId)
       .single();
@@ -53,9 +53,9 @@ export default async function getUsersInProject(
       return res.status(404).json({ error: 'Project not found.' });
     }
 
-        const owner = project.users;
+    const owner = project.users;
 
-        const { data: collaborators, error: collaboratorsError } = await supabase
+    const { data: collaborators, error: collaboratorsError } = await supabase
       .from('ProjectCollaborator')
       .select(
         `
@@ -66,7 +66,7 @@ export default async function getUsersInProject(
           username,
           createdAt
         )
-      `
+      `,
       )
       .eq('projectId', projectId);
 
@@ -75,7 +75,8 @@ export default async function getUsersInProject(
       return res.status(500).json({ error: 'Failed to fetch collaborators.' });
     }
 
-        const users = collaborators?.map((collaborator) => collaborator.users) || [];
+    const users =
+      collaborators?.map((collaborator) => collaborator.users) || [];
 
     return res.status(200).json({ owner, users });
   } catch (error) {

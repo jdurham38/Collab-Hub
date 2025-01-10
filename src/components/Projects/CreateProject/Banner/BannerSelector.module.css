@@ -1,5 +1,3 @@
-
-
 .presetBanners {
   display: flex;
   gap: 8px;
@@ -10,20 +8,23 @@
   background-color: #f9f9f9;
   padding: 10px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
 .bannerSelector {
   margin-bottom: 16px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; }
+  align-items: flex-start;
+}
 
 .title {
   display: flex;
-  justify-content: flex-start;   width: 100%;   font-size: 20px;
+  justify-content: flex-start;
+  width: 100%;
+  font-size: 20px;
   font-weight: bold;
 }
-
 
 .bannerOption {
   width: auto;
@@ -69,7 +70,8 @@
   width: auto;
   display: flex;
   flex-direction: column;
-  align-self: center;   margin-top: 16px;
+  align-self: center;
+  margin-top: 16px;
 }
 
 .uploadLabel {
@@ -82,11 +84,9 @@
   text-align: center;
 }
 .uploadLabel:hover {
-  background-color: #daca9f; 
+  background-color: #daca9f;
   color: black;
-
 }
-
 
 .uploadInput {
   display: none;
@@ -102,8 +102,8 @@
   text-align: center;
   padding: 20px;
   border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);   background-color: #ffffff;
-
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
 }
 
 .previewImage {
@@ -128,28 +128,31 @@
 .removeBannerButton:hover {
   background-color: #ff5a5a;
   color: black;
-
 }
 
 @media (max-width: 768px) {
   .presetBanners {
-    max-width: auto;     padding: 10px 0;
+    max-width: auto;
+    padding: 10px 0;
     overflow-x: auto;
     display: flex;
     align-self: center;
-
   }
 
   .bannerOption {
-    width: auto;     height: auto;   }
+    width: auto;
+    height: auto;
+  }
 
   .title {
     font-size: 18px;
-    text-align: left;     padding-left: 10px;
+    text-align: left;
+    padding-left: 10px;
   }
 
   .uploadSection {
-    width: auto;     display: flex;
-    justify-content: center;   }
-
+    width: auto;
+    display: flex;
+    justify-content: center;
+  }
 }

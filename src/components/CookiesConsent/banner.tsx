@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -7,19 +6,26 @@ import useCookieConsent from '@/hooks/cookies/useCookieConsent';
 import styles from './CookieBanner.module.css';
 
 const CookieBanner: React.FC = () => {
-  const { isCookieConsentGiven, handleAcceptCookies, handleDeclineCookies } = useCookieConsent();
+  const { isCookieConsentGiven, handleAcceptCookies, handleDeclineCookies } =
+    useCookieConsent();
 
   if (isCookieConsentGiven !== null) {
-    return null; 
+    return null;
   }
 
   return (
-    <div className={styles.cookieBanner} role="dialog" aria-modal="true" aria-labelledby="cookie-banner-heading">
+    <div
+      className={styles.cookieBanner}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cookie-banner-heading"
+    >
       <h2 id="cookie-banner-heading" className={styles.heading}>
         We Value Your Privacy
       </h2>
       <p className={styles.message}>
-        We use cookies to enhance your experience, provide analytics, and remember your preferences. Please read our{' '}
+        We use cookies to enhance your experience, provide analytics, and
+        remember your preferences. Please read our{' '}
         <Link href="/cookies-policy" className={styles.link}>
           Cookies Policy
         </Link>

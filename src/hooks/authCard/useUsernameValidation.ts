@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { checkUsernameExists } from '@/services/signup';
 import { profanity } from '@2toad/profanity';
@@ -13,7 +12,9 @@ interface UseUsernameValidationReturn {
   error: string;
 }
 
-const useUsernameValidation = ({ username }: UseUsernameValidationProps): UseUsernameValidationReturn => {
+const useUsernameValidation = ({
+  username,
+}: UseUsernameValidationProps): UseUsernameValidationReturn => {
   const [isValid, setIsValid] = useState<boolean>(false);
   const [isChecking, setIsChecking] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -32,7 +33,6 @@ const useUsernameValidation = ({ username }: UseUsernameValidationProps): UseUse
       setIsChecking(true);
       setError('');
 
-      
       try {
         if (profanity.exists(trimmedUsername)) {
           setError('Profanity detected in username.');
@@ -48,7 +48,6 @@ const useUsernameValidation = ({ username }: UseUsernameValidationProps): UseUse
         return;
       }
 
-      
       try {
         const usernameExists = await checkUsernameExists(trimmedUsername);
         if (usernameExists) {
@@ -59,7 +58,10 @@ const useUsernameValidation = ({ username }: UseUsernameValidationProps): UseUse
           setError('');
         }
       } catch (availabilityError: unknown) {
-        console.error('Error checking username availability:', availabilityError);
+        console.error(
+          'Error checking username availability:',
+          availabilityError,
+        );
         setError('Error checking username availability.');
         setIsValid(false);
       } finally {
@@ -69,7 +71,7 @@ const useUsernameValidation = ({ username }: UseUsernameValidationProps): UseUse
 
     const timer = setTimeout(() => {
       validateUsername();
-    }, 1500); 
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, [username]);

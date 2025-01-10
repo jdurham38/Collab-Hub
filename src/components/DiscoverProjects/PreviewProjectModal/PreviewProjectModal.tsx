@@ -8,19 +8,24 @@ interface ProjectPreviewProps {
   onClose: () => void;
 }
 
-const ProjectPreview: React.FC<ProjectPreviewProps> = ({ project, onClose }) => {
+const ProjectPreview: React.FC<ProjectPreviewProps> = ({
+  project,
+  onClose,
+}) => {
   const sanitizedDescription = DOMPurify.sanitize(project.description);
 
   return (
     <div className={styles.overlay}>
       <div className={styles.previewContent}>
-        <button className={styles.closeButton} onClick={onClose}>X</button>
+        <button className={styles.closeButton} onClick={onClose}>
+          X
+        </button>
         <h2 className={styles.title}>{project.title}</h2>
         <div
           className={styles.description}
           dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
         />
-         <h3 className={styles.subtitle}>Roles</h3>
+        <h3 className={styles.subtitle}>Roles</h3>
         <div className={styles.tags}>
           {project.roles.map((role) => (
             <span key={role} className={styles.tag}>

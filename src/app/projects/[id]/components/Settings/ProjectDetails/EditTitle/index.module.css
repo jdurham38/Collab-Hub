@@ -1,32 +1,30 @@
-
 .titleContainer {
-    margin-bottom: 40px;
-      
-    }
-    
-    .input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    
-    .titleInfo {
-      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .charCount {
-      font-size: 14px;
-      color: #666;
-    }
-    
-    .error {
-      color: red;
-      font-size: 14px;
-      margin-top: 4px;
-    }
-    
+  margin-bottom: 40px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.titleInfo {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.charCount {
+  font-size: 14px;
+  color: #666;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+}

@@ -1,6 +1,4 @@
-
-
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -42,14 +40,18 @@ const BannerSelector: React.FC<BannerSelectorProps> = ({
 }) => {
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { data: presetBanners = [], isLoading, isError } = useQuery({
+  const {
+    data: presetBanners = [],
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['presetBanners'],
     queryFn: fetchPresetBanners,
   });
 
   const handlePresetSelect = (url: string) => {
     setBannerUrl(url);
-    setBannerFile(null); 
+    setBannerFile(null);
   };
 
   const handleFileSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,14 +66,14 @@ const BannerSelector: React.FC<BannerSelectorProps> = ({
       return;
     }
 
-    const maxSize = 5 * 1024 * 1024; 
+    const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       setErrorMessage('File size exceeds the maximum limit of 5MB.');
       return;
     }
 
-    setBannerUrl(URL.createObjectURL(file)); 
-    setBannerFile(file); 
+    setBannerUrl(URL.createObjectURL(file));
+    setBannerFile(file);
     setErrorMessage('');
   };
 

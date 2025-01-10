@@ -1,13 +1,11 @@
-
 'use client';
 import React from 'react';
 import styles from './index.module.css';
 import dynamic from 'next/dynamic';
 
-const ReactQuillWrapper = dynamic(
-  () => import('@/utils/ReactQuillWrapper'),
-  { ssr: false }
-);
+const ReactQuillWrapper = dynamic(() => import('@/utils/ReactQuillWrapper'), {
+  ssr: false,
+});
 
 interface EditDescriptionProps {
   description: string;
@@ -20,9 +18,10 @@ const EditDescription: React.FC<EditDescriptionProps> = ({
 }) => {
   return (
     <>
-      <h2><b>Edit Description:</b></h2>
+      <h2>
+        <b>Edit Description:</b>
+      </h2>
       <div className={styles.richTextEditor}>
-
         <ReactQuillWrapper
           value={description}
           onChange={setDescription}

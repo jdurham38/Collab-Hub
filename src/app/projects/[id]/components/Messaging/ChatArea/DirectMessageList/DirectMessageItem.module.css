@@ -3,12 +3,11 @@
   padding: 8px 12px;
   border-radius: 8px;
   max-width: 70%;
-  
 }
 
 .yourMessage {
   align-self: flex-end;
-  background-color: #dcf8c6; 
+  background-color: #dcf8c6;
 }
 
 .otherMessage {
@@ -19,20 +18,20 @@
 .messageInfo {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
   margin-bottom: 4px;
 }
 
 .userInfo {
   display: flex;
   align-items: center;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
 }
 
 .userName {
   font-weight: 600;
   color: #333;
-  margin-right: 8px; 
+  margin-right: 8px;
 }
 
 .timestamp {
@@ -46,7 +45,7 @@
 }
 
 .mention {
-  color: #007bff; 
+  color: #007bff;
   font-weight: 600;
 }
 
@@ -57,7 +56,7 @@
 }
 
 .options {
-  position: relative; 
+  position: relative;
 }
 
 .optionsButton {
@@ -67,7 +66,7 @@
   cursor: pointer;
   margin-left: 10px;
   font-size: 0.85rem;
-  padding: 4px 8px; 
+  padding: 4px 8px;
   line-height: 1;
 }
 .optionsText {
@@ -75,43 +74,43 @@
 }
 
 .optionsMenu {
-    position: absolute;
-    top: calc(100% + 4px); 
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    min-width: 120px; 
-    white-space: nowrap; 
-    padding: 4px 0; 
-    overflow: hidden; 
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  min-width: 120px;
+  white-space: nowrap;
+  padding: 4px 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .optionItem {
-    display: block;
-    padding: 8px 12px; 
-    width: 100%;
-    background: none;
-    border: none;
-    text-align: left;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background-color 0.2s ease; 
+  display: block;
+  padding: 8px 12px;
+  width: 100%;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease;
 }
 .optionItem:hover {
   background-color: #f0f0f0;
 }
 .optionItem:focus {
-        outline: none;
-        background-color: #e5e5e5; 
-    }
+  outline: none;
+  background-color: #e5e5e5;
+}
 .optionItem:active {
-        background-color: #dcdcdc; 
-    }
+  background-color: #dcdcdc;
+}
 .editContainer {
   display: flex;
   align-items: center;
@@ -145,22 +144,21 @@
   color: #fff;
 }
 @media (max-width: 460px) {
-      .optionsButton .optionsText {
-      display: none;
+  .optionsButton .optionsText {
+    display: none;
   }
   .optionsButton {
-        font-size: 0.5rem;
-        padding: 0;
-        margin-left: 5px;
-        margin-right: 5px;
-        line-height: 0.9;
-          display: flex;
-          flex-direction: column;
-      
-    }
-  .optionsButton::after{
-    content: "•\A•\A•";
-        white-space: pre;
-     line-height: 0.9;
+    font-size: 0.5rem;
+    padding: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+    line-height: 0.9;
+    display: flex;
+    flex-direction: column;
+  }
+  .optionsButton::after {
+    content: '•\A•\A•';
+    white-space: pre;
+    line-height: 0.9;
   }
 }

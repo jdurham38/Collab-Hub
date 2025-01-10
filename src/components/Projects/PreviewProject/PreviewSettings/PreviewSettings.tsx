@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import styles from './PreviewSettings.module.css';
 
 const PreviewSettings: React.FC = () => {
-  
   const [activeTab, setActiveTab] = useState<string>('editProjectDetails');
 
-  
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
@@ -59,8 +57,14 @@ const PreviewSettings: React.FC = () => {
         {activeTab === 'enableDisableTabs' && (
           <div>
             <h3>Enable/Disable Content</h3>
-            <p>Preview Mode: Content for enabling/disabling the project managemer and workspace.</p>
-            <p>Note: upon disabling any active content this content will be permanently deleted.</p>
+            <p>
+              Preview Mode: Content for enabling/disabling the project managemer
+              and workspace.
+            </p>
+            <p>
+              Note: upon disabling any active content this content will be
+              permanently deleted.
+            </p>
 
             {}
           </div>
@@ -68,7 +72,10 @@ const PreviewSettings: React.FC = () => {
         {activeTab === 'grantAdminAccess' && (
           <div>
             <h3>Administrator</h3>
-            <p>Preview Mode: Content for granting admin access to enable project collaborators to have custom privledges.</p>
+            <p>
+              Preview Mode: Content for granting admin access to enable project
+              collaborators to have custom privledges.
+            </p>
             {}
           </div>
         )}

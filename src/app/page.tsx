@@ -12,7 +12,7 @@ export default function Entry() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-        if (isLoggedIn) {
+    if (isLoggedIn) {
       router.push('/dashboard');
     } else {
       setLoading(false);

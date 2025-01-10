@@ -1,4 +1,3 @@
-
 import { useEffect } from 'react';
 import getSupabaseClient from '@/lib/supabaseClient/supabase';
 
@@ -10,7 +9,7 @@ interface ActiveChat {
 const useMessageSubscription = (
   currentUserId: string,
   incrementUnreadCount: (channelId: string) => void,
-  activeChat: ActiveChat | null
+  activeChat: ActiveChat | null,
 ) => {
   useEffect(() => {
     const supabase = getSupabaseClient();
@@ -28,7 +27,7 @@ const useMessageSubscription = (
           ) {
             incrementUnreadCount(newMessage.channel_id);
           }
-        }
+        },
       )
       .subscribe();
 

@@ -1,8 +1,7 @@
-import { Project } from '@/utils/interfaces'; 
-
+import { Project } from '@/utils/interfaces';
 
 export const fetchProjectDetails = async (
-  projectId: string
+  projectId: string,
 ): Promise<Project> => {
   const response = await fetch(`/api/projects/${projectId}/editProject`);
   if (!response.ok) {
@@ -12,10 +11,9 @@ export const fetchProjectDetails = async (
   return await response.json();
 };
 
-
 export const updateProjectDetails = async (
   projectId: string,
-  projectData: Partial<Project>
+  projectData: Partial<Project>,
 ): Promise<void> => {
   const response = await fetch(`/api/projects/${projectId}/editProject`, {
     method: 'PUT',

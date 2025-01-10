@@ -1,14 +1,15 @@
-
-
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || ''
+  process.env.SUPABASE_ANON_KEY || '',
 );
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { projectId } = req.query;
   const { userId } = req.body;
 
@@ -38,24 +39,33 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           canRemoveUser: true,
           canRemoveChannel: true,
           canEditProject: true,
-          canCreateChannel: true, 
+          canCreateChannel: true,
           canEditAdminAccess: true,
         });
       }
 
       const { data: collaborator, error: collaboratorError } = await supabase
         .from('ProjectCollaborator')
-        .select('adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject, canEditAdminAccess')
+        .select(
+          'adminPrivileges, canRemoveUser, canRemoveChannel, canEditProject, canEditAdminAccess',
+        )
         .eq('projectId', projectId)
         .eq('userId', userId)
         .single();
 
       if (collaboratorError) {
-        console.error('Error fetching collaborator:', collaboratorError.message);
+        console.error(
+          'Error fetching collaborator:',
+          collaboratorError.message,
+        );
         return res.status(500).json({ error: 'Error fetching collaborator' });
       }
 
-      const canCreateChannel = collaborator?.adminPrivileges || collaborator?.canEditProject || collaborator?.canEditAdminAccess || false;
+      const canCreateChannel =
+        collaborator?.adminPrivileges ||
+        collaborator?.canEditProject ||
+        collaborator?.canEditAdminAccess ||
+        false;
 
       return res.status(200).json({
         userIsOwner: false,

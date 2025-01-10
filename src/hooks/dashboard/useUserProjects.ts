@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getUserProjects } from '@/services/Dashboard/getUserProjects';
 
-
 export interface Project {
   id: string;
   title: string;
@@ -12,17 +11,16 @@ export interface Project {
   createdAt: string;
   created_by: string;
   created_by_username: string;
-
 }
 
 const useUserProjects = (userId: string | undefined) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null); 
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!userId) {
-      setLoading(false); 
+      setLoading(false);
       return;
     }
 
@@ -30,7 +28,7 @@ const useUserProjects = (userId: string | undefined) => {
       try {
         const userProjectData = await getUserProjects(userId);
         setProjects(userProjectData);
-        setError(null); 
+        setError(null);
       } catch (error) {
         console.error('Error fetching projects:', error);
         if (error instanceof Error) {

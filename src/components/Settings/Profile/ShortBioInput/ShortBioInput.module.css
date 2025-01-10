@@ -1,45 +1,42 @@
-
 .inputContainer {
-    display: flex;
-    align-self: center;
-    flex-direction: column;
-    margin-bottom: 15px;
-    width: 100%;
-    max-width: 400px; 
-
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .label {
-    display: block; 
-    margin-bottom: 0.5rem; 
-    font-size: 0.9rem; 
-    color: #666;    
-    text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: left;
 }
 
-
 .input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1em;
-    color: #333;
-    transition: border-color 0.3s ease;
-    width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  color: #333;
+  transition: border-color 0.3s ease;
+  width: 100%;
 }
 
 .input:focus {
-    outline: none;
-    border-color: #007bff;
+  outline: none;
+  border-color: #007bff;
 }
 
 .characterCount {
-    font-size: 0.9em;
-    color: #777;
-    margin-top: 5px;
-    margin-bottom: 5px;
+  font-size: 0.9em;
+  color: #777;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .error {
-    color: #dc3545;
+  color: #dc3545;
 }

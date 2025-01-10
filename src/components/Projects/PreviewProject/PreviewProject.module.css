@@ -1,9 +1,6 @@
-
-
 body.modal-open {
   overflow: hidden;
 }
-
 
 .modalOverlay {
   position: fixed;
@@ -11,13 +8,12 @@ body.modal-open {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; 
+  z-index: 1000;
 }
-
 
 .previewModal {
   background-color: #faedcd;
@@ -26,7 +22,7 @@ body.modal-open {
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden; 
+  overflow: hidden;
   border-radius: 8px;
   position: relative;
 }
@@ -34,25 +30,22 @@ body.modal-open {
 .previewHeader {
   display: flex;
   flex-direction: row;
-  align-items: center; 
-  justify-content: center; 
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   padding: 20px;
   width: 100%;
   background-color: #d6e9c6;
   font-family: 'Trebuchet MS', Arial, sans-serif;
-  text-align: center; 
+  text-align: center;
 }
 
-
-
 .previewContainer {
-  flex: 1; 
-  overflow-y: auto; 
+  flex: 1;
+  overflow-y: auto;
   padding: 20px;
   font-family: 'Trebuchet MS', Arial, sans-serif;
 }
-
 
 .tabContainer {
   display: flex;
@@ -60,12 +53,10 @@ body.modal-open {
   margin: 20px 0;
 }
 
-
 .tabContent {
   width: 100%;
   box-sizing: border-box;
 }
-
 
 .tabButtons {
   display: flex;
@@ -87,15 +78,15 @@ body.modal-open {
 
 .flexContainer {
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
   margin-top: 20px;
   gap: 20px;
-  max-width: 1000px;      
-  margin-left: auto;      
+  max-width: 1000px;
+  margin-left: auto;
   margin-right: auto;
-  width: 100%;            
+  width: 100%;
 }
 
 .tabButton:hover {
@@ -107,7 +98,6 @@ body.modal-open {
   background-color: #d6914b;
   color: #ffffff;
 }
-
 
 .createButton,
 .editButton {
@@ -134,7 +124,6 @@ body.modal-open {
   cursor: not-allowed;
 }
 
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -143,7 +132,6 @@ body.modal-open {
     transform: rotate(360deg);
   }
 }
-
 
 .spinnerContainer {
   position: absolute;
@@ -159,7 +147,6 @@ body.modal-open {
   z-index: 10;
 }
 
-
 .spinner {
   border: 16px solid #f2dede;
   border-top: 16px solid #d4a373;
@@ -169,7 +156,6 @@ body.modal-open {
   animation: spin 2s linear infinite;
 }
 
-
 .spinnerMessage {
   margin-top: 20px;
   font-size: 18px;
@@ -177,7 +163,6 @@ body.modal-open {
   text-align: center;
   color: #333;
 }
-
 
 @media (max-width: 748px) {
   .previewModal {

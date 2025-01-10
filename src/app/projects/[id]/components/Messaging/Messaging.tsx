@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Sidebar from './SideBar/Sidebar';
 import ChatArea from './ChatArea/ChatArea';
 import DirectMessageChatArea from './ChatArea/DirectMessageChatArea';
@@ -13,8 +13,13 @@ interface ProjectMessagingProps {
   currentUser: User;
 }
 
-const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentUser }) => {
-  const [channelList, setChannelList] = useState<Array<{ id: string; name: string }>>([]);
+const ProjectMessaging: React.FC<ProjectMessagingProps> = ({
+  projectId,
+  currentUser,
+}) => {
+  const [channelList, setChannelList] = useState<
+    Array<{ id: string; name: string }>
+  >([]);
   const [activeChat, setActiveChat] = useState<{
     id: string;
     name: string;
@@ -22,16 +27,18 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
     recipient_id?: string;
   } | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const isInitialMount = useRef(true); // Added useRef to track mount
+
   const ArrowIcon = () => {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
         <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
         <path d="M0 0h24v24H0z" fill="none" />
       </svg>
     );
   };
 
-  const loadChannels = async () => {
+  const loadChannels = useCallback(async () => {
     try {
       const data = await fetchChannels(projectId);
       setChannelList(data);
@@ -42,11 +49,14 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
     } catch (err) {
       console.error('Error fetching channels:', err);
     }
-  };
+  }, [projectId, setChannelList, setActiveChat, activeChat]);
 
   useEffect(() => {
-    loadChannels();
-  }, [projectId]);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      loadChannels();
+    }
+  }, [projectId, loadChannels]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -54,11 +64,16 @@ const ProjectMessaging: React.FC<ProjectMessagingProps> = ({ projectId, currentU
 
   return (
     <div className={styles.messagingContainer}>
-      <button className={`${styles.sidebarToggleButton} ${isSidebarOpen ? styles.open: ''}`} onClick={toggleSidebar}>
+      <button
+        className={`${styles.sidebarToggleButton} ${isSidebarOpen ? styles.open : ''}`}
+        onClick={toggleSidebar}
+      >
         <ArrowIcon />
       </button>
 
-      <div className={`${styles.sidebarContainer} ${isSidebarOpen ? '' : styles.hidden}`}>
+      <div
+        className={`${styles.sidebarContainer} ${isSidebarOpen ? '' : styles.hidden}`}
+      >
         <Sidebar
           activeChat={activeChat}
           setActiveChat={setActiveChat}
