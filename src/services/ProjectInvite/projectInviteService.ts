@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { ProjectInvite } from '@/utils/interfaces';
 
 const API_URL = '/api/project-invites'; // Base URL
@@ -91,7 +91,7 @@ export const projectInviteService = {
     },
 };
 
-// Updated error handling function
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function handleAxiosError(error: AxiosError<ErrorResponse>): ApiResponse<any> {
     if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<ErrorResponse>;
