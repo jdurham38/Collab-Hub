@@ -17,25 +17,13 @@ TOP TASKS
 4. have a box on the dashboard with all notifications (/notifications)
 
 
-Discover Users page
- - profile cards on grid
-    - profile picture
-    - Message and Friend Request Buttons
-    - View Full Profile
-- User Profiles
-    - profile picture
-    - social links (linkedin, personal website, instagram, behance, twitter, tiktok)
-        - safety check for user if going to links (You are leaving Collab-Hub are you sure you want to do this?)
-    - Total Friends
-    - Total Projects Collaborated on (later feature)
-    - current projects involved in
-    - Testimonials/Reviews of the user for projects they completed
-    - Message and Friend Request Buttons
-7. create user explore page
-    - Search/filters based on interests, location, roles, and username
-    - display user cards in a 4x4 grid
-    - in the user overlay there will be an option to send the user a message/ collab/ friend request
 
+- User Profiles
+    - invite to project
+        - if invites sent for all projects dont show any project, show a message telling the user they already invited this user to all projects
+        - if the user doesnt have any projects gray out the button
+    - develop messaging page
+    - develop friend requests
 
 Settings
 - Authentication Tab
@@ -46,15 +34,10 @@ Settings
     5. change email
     6. change password
 
-design for profile
-    - put all components in a big card
-    - profile image should be the center at the TOP
-    - short bio below
-    - role below short bio
-    - actual bio
-    - then social links 2x3 grid with social icons to the left of each link input
-    - (as soon as a user inputs new data or changes anything prmopt a cancel changes button same with save changes)
-
+notifications
+    - For Invites Sent dont delete the record or add a new field to show the invite as completed but declined or accepted
+    - after doing the above allow the user to delete it at their own time.
+    - Allow the sender to withdraw their invite
 
 
 5. create dashboard (view friends, view notifications/messages)
@@ -65,7 +48,7 @@ design for profile
 
 
 8. individual Projects
-    - idk the details yet but pretty much make it like slack and trello
+    - idk the details yet but pretty much make it like notion with a kanban board
     - Allow only the project owner to delete the project
     - Allow only the project owner to mark the project as completed
     - Review System

@@ -21,30 +21,43 @@ export default async function getUserById(
     }
 
     try {
-        const { data: user, error } = await supabase
+        // Fetch user data
+        const { data: user, error: userError } = await supabase
             .from('users')
             .select('username, createdAt, role, shortBio, bio, tiktokLink, linkedinLink, instagramLink, twitterLink, behanceLink, profileImageUrl, id')
             .eq('id', id)
             .single();
 
-        if (error) {
-            console.error('Error fetching user:', error);
-            return res.status(500).json({ error: error.message });
+        if (userError) {
+            console.error('Error fetching user:', userError);
+            return res.status(500).json({ error: userError.message });
         }
 
         if (!user) {
-           return res.status(404).json({ error: 'User not found' });
+            return res.status(404).json({ error: 'User not found' });
         }
 
+        // Fetch collaborator count
+        const { count, error: collaboratorError } = await supabase
+            .from('ProjectCollaborator')
+            .select('*', { count: 'exact' }) // Use '*' and `count: 'exact'` to get the total row count
+            .eq('userId', id);
 
-        return res.status(200).json({ user });
+        if (collaboratorError) {
+             console.error('Error fetching collaborator count:', collaboratorError);
+             return res.status(500).json({ error: collaboratorError.message });
+        }
+
+        const projectCount = count || 0;
+
+        return res.status(200).json({ user, projectCount }); // Return both user data and project count
 
     } catch (e) {
         let errorMessage = 'An unexpected error occurred';
         if (e instanceof Error) {
-             errorMessage = e.message || 'An error occurred during database operation.';
+            errorMessage = e.message || 'An error occurred during database operation.';
         } else if (typeof e === 'string') {
-             errorMessage = e;
+            errorMessage = e;
         }
         console.error('Error during database operation:', e);
         return res.status(500).json({ error: errorMessage });

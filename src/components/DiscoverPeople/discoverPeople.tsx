@@ -7,6 +7,7 @@ import useAuthRedirect from '@/hooks/dashboard/useAuthRedirect';
 import UserGrid from './CardGrid/UserGrid';
 
 const DiscoverPeople: React.FC = () => {
+    
     const user = useAuthRedirect();
 
     if (status === "loading") {

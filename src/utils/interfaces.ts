@@ -111,3 +111,14 @@ export interface DirectMessage {
   timestamp: string;
   edited: boolean;
 }
+
+export interface ProjectInvite {
+  id: string;         
+  project_id: string; 
+  sender_id: string; 
+  receiver_id: string;
+  status: string;     
+  created_at: Date;   
+  expires_at?: Date | null;
+  invite_token?: string;   
+}
