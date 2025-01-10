@@ -30,10 +30,10 @@ const InvitesReceived: React.FC = () => {
             try {
                 const response = await projectInviteService.listProjectInvites(
                     undefined,
-                     user.id // fetch all invites associated with the user
+                     user.id 
                 );
                 if (response.data) {
-                    // Filter to only show invites where the user is the receiver
+                    
                   const filteredInvites = response.data.filter((invite) => invite.receiver_id === user.id);
                   setInvites(filteredInvites);
                    } else {
@@ -64,7 +64,7 @@ const InvitesReceived: React.FC = () => {
         try {
             const response = await projectInviteService.updateProjectInvite(id, status, user.id);
              if (response.data) {
-                // Remove the invite from the UI upon successful update
+                
               setInvites((currentInvites) =>
                 currentInvites.filter((invite) => invite.id !== id)
              );

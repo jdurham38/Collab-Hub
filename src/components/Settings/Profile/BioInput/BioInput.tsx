@@ -1,7 +1,7 @@
-// BioInput.tsx
+
 "use client";
 import React, { useState, useEffect } from 'react';
-import styles from './BioInput.module.css'; // Assuming your styles are here
+import styles from './BioInput.module.css'; 
 
 interface BioInputProps {
   value: string | null;

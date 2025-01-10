@@ -25,7 +25,7 @@ const useApplyProject = (): UseApplyProjectResult => {
         try {
             await applyToProject(projectId, userId);
             toast.success('You have successfully applied!');
-            setHasApplied(true); // Optimistically update hasApplied
+            setHasApplied(true); 
         } catch (e: unknown) {
              const apiError = e as ApiError;
             setError(apiError?.message || 'An error occurred while applying.');

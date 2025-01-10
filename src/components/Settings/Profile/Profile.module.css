@@ -2,9 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Ensure it takes up at least the full viewport height */
-    padding: 20px; /* Add some padding around the container */
-    box-sizing: border-box; /* Include padding and border in the total element size */
+    min-height: 100vh; 
+    padding: 20px; 
+    box-sizing: border-box; 
 }
 .card {
     padding: 2rem;
@@ -98,7 +98,7 @@
 }
 
 
-/* Grid Container for Url Inputs */
+
 .urlInputsGrid {
     display: grid;
     grid-template-columns: repeat(1, 2fr);
@@ -112,7 +112,7 @@
     }
 }
 
-/* Style for button container */
+
 .form > div:last-child {
     display: flex;
     justify-content: center;

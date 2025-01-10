@@ -1,4 +1,4 @@
-//[userId].ts
+
 
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
@@ -27,7 +27,7 @@ export default async function handler(
     }
 }
 
-// GET /api/project-invites/{id}
+
 async function handleGetById(
     req: NextApiRequest,
     res: NextApiResponse,
@@ -61,7 +61,7 @@ async function handleGetById(
     }
 }
 
-// PATCH /api/project-invites/{id}
+
 async function handlePatch(
     req: NextApiRequest,
     res: NextApiResponse,
@@ -90,7 +90,7 @@ async function handlePatch(
             return res.status(401).json({ error: 'Unauthorized user to change status' });
         }
         if (status === 'accepted') {
-               // Create ProjectCollaborator record
+               
               const { error: collaboratorError } = await supabase
                 .from('ProjectCollaborator')
                 .insert([
@@ -109,7 +109,7 @@ async function handlePatch(
                 console.error('Error creating project collaborator:', collaboratorError);
                 return res.status(500).json({ error: 'Failed to create project collaborator' });
              }
-             // Delete the invite since its been accepted and user is a collaborator
+             
              const { error: deleteError } = await supabase
                 .from('project_invites')
                 .delete()
@@ -121,7 +121,7 @@ async function handlePatch(
             return res.status(200).json({ message: 'Invite accepted, and collaborator created' });
 
         } else if (status === 'rejected') {
-            // Delete the invite if it's rejected
+            
              const { error: deleteError } = await supabase
                 .from('project_invites')
                 .delete()
@@ -146,7 +146,7 @@ async function handlePatch(
     }
 }
 
-// DELETE /api/project-invites/{id}
+
 async function handleDelete(
     req: NextApiRequest,
     res: NextApiResponse,

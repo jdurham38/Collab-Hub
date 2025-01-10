@@ -1,4 +1,4 @@
-// --- components/ProjectGrid/ProjectGrid.tsx ---
+
 'use client';
 import React, { useState, useEffect } from 'react';
 import ProjectCard from '../ProjectCard/ProjectCard';
@@ -101,7 +101,7 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ userId }) => {
     };
 
     return (
-        <div className={styles.gridContainer}> {/* New grid container */}
+        <div className={styles.gridContainer}> {}
             <div className={styles.container}>
                 {renderOverlay()}
                 <div className={styles.filterToggleButton} onClick={toggleFilter}>
@@ -121,7 +121,7 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ userId }) => {
                 {projects.length === 0 && filteredProjects.length === 0 && (
                     <div className={styles.noProjects}>No projects found.</div>
                 )}
-                 <div className={styles.grid}> {/* Grid moved inside the gridContainer */}
+                 <div className={styles.grid}> {}
                     {filteredProjects.map((project) => (
                         <ProjectCard key={project.id} project={project} />
                     ))}

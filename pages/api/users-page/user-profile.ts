@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client outside the handler for efficiency
+
 const supabase: SupabaseClient = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!

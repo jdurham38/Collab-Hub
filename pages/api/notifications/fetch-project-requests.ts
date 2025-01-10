@@ -48,7 +48,6 @@ export default async function getProjectRequestsWithTitles(
 
         const projectsWithTitles = await Promise.all(
             projectRequests.map(async (request) => {
-                 // Fetch project data
                 const { data: projectData, error: projectError } = await supabase
                   .from('projects')
                   .select('title, created_by')

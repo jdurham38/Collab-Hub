@@ -4,7 +4,7 @@
     padding: 10px;
     width: fit-content;
     background-color: #F8F8F8;
-      min-height: 100vh; /* Ensure the content covers the full viewport height */
+      min-height: 100vh; 
   }
   .navItems{
       display: flex;

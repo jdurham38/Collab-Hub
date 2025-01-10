@@ -30,7 +30,7 @@ const EditProfile: React.FC = () => {
         twitterLink: null,
         tiktokLink: null,
         role: '',
-        profileImageUrl: '', // Added profileImageUrl
+        profileImageUrl: '', 
     });
 
     const [initialFormData, setInitialFormData] = useState<ProfileUpdateData>(
@@ -44,9 +44,9 @@ const EditProfile: React.FC = () => {
     const user = useAuthRedirect();
     const userId = user?.id || '';
 
-    const [profileUrl, setProfileUrl] = useState<string>(''); // State for profile URL
+    const [profileUrl, setProfileUrl] = useState<string>(''); 
     const [initialProfileUrl, setInitialProfileUrl] = useState('');
-    const [, setProfileFile] = useState<File | null>(null); // State for profile file
+    const [, setProfileFile] = useState<File | null>(null); 
 
     const [urlErrors, setUrlErrors] = useState({
         personalWebsite: null,
@@ -76,7 +76,7 @@ const EditProfile: React.FC = () => {
                      setInitialFormData(result.user);
                     setFormData(result.user);
                     setInitialProfileUrl(result.user.profileImageUrl || "");
-                    setProfileUrl(result.user.profileImageUrl || ""); //set profile url on load
+                    setProfileUrl(result.user.profileImageUrl || ""); 
 
                 } else {
                     setErrorMessage(result.error);
@@ -108,12 +108,12 @@ const EditProfile: React.FC = () => {
         setFormData((prevFormData) => ({ ...prevFormData, role: newRole }));
     };
 
-    //callback for handling profile image url
+    
     const handleProfileUrlChange = (url: string) => {
          setProfileUrl(url);
         setFormData((prevFormData) => ({
             ...prevFormData,
-            profileImageUrl: url, //updates the profileImageUrl when the profile url is set
+            profileImageUrl: url, 
         }));
     };
 
@@ -138,10 +138,10 @@ const EditProfile: React.FC = () => {
                 twitterLink: normalizeUrl(formData.twitterLink),
                 tiktokLink: normalizeUrl(formData.tiktokLink),
             };
-            // Prepare data for the profile update API call
+            
             const profileUpdateData = {
                 ...formattedFormData,
-                profileUrl: formData.profileImageUrl || null,  //use profileImageUrl here
+                profileUrl: formData.profileImageUrl || null,  
             };
 
             const result:
@@ -153,12 +153,12 @@ const EditProfile: React.FC = () => {
             setLoading(false);
 
             if ('user' in result) {
-                // Handle successful update
+                
                 setSuccessMessage('Profile updated successfully');
                 setInitialFormData(result.user);
                 console.log('Profile updated successfully', result.user);
             } else {
-                // Handle error
+                
                 setErrorMessage(result.error);
                 console.error('Profile update failed:', result.error);
             }

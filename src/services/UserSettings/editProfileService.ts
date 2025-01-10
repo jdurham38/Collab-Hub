@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
-// Define a type for the profile data that can be sent for updates
+
 export interface ProfileUpdateData {
     role?: string;
     shortBio?: string | null;
@@ -14,7 +14,7 @@ export interface ProfileUpdateData {
     profileImageUrl?: string | null;
 }
 
-// Define a type for the response body after the update
+
 export interface ProfileUpdateResponse {
     user: {
         id: string;
@@ -32,25 +32,25 @@ export interface ProfileUpdateResponse {
     };
 }
 
-// Define a type for the error response
+
 export interface ProfileUpdateErrorResponse {
     error: string;
 }
 
-// Generic function to handle API errors
+
 function handleApiError(error: AxiosError): ProfileUpdateErrorResponse {
     let errorMessage: string = 'An unexpected error occurred.';
     if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
+        
+        
         errorMessage =
             (error.response.data as ProfileUpdateErrorResponse).error ||
             `API Error: ${error.response.status}`;
     } else if (error.request) {
-        // The request was made but no response was received
+        
         errorMessage = 'Network Error: No response received from the server.';
     } else {
-        // Something happened in setting up the request that triggered an Error
+        
         errorMessage = error.message;
     }
     console.error('API Error:', error);
@@ -76,7 +76,7 @@ const editProfileService = {
             if (axios.isAxiosError(error)) {
                 return handleApiError(error);
             }
-            // This is a non-Axios error, so we can't assume much about it.
+            
             console.error('An unexpected error occurred:', error);
             return { error: 'An unexpected error occurred.' };
         }
@@ -104,7 +104,7 @@ const editProfileService = {
             if (axios.isAxiosError(error)) {
                 return handleApiError(error);
             }
-            // This is a non-Axios error, so we can't assume much about it.
+            
             console.error('An unexpected error occurred:', error);
             return { error: 'An unexpected error occurred.' };
         }

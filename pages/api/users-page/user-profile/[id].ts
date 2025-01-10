@@ -21,7 +21,7 @@ export default async function getUserById(
     }
 
     try {
-        // Fetch user data
+        
         const { data: user, error: userError } = await supabase
             .from('users')
             .select('username, createdAt, role, shortBio, bio, tiktokLink, linkedinLink, instagramLink, twitterLink, behanceLink, profileImageUrl, id')
@@ -37,10 +37,10 @@ export default async function getUserById(
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // Fetch collaborator count
+        
         const { count, error: collaboratorError } = await supabase
             .from('ProjectCollaborator')
-            .select('*', { count: 'exact' }) // Use '*' and `count: 'exact'` to get the total row count
+            .select('*', { count: 'exact' }) 
             .eq('userId', id);
 
         if (collaboratorError) {
@@ -50,7 +50,7 @@ export default async function getUserById(
 
         const projectCount = count || 0;
 
-        return res.status(200).json({ user, projectCount }); // Return both user data and project count
+        return res.status(200).json({ user, projectCount }); 
 
     } catch (e) {
         let errorMessage = 'An unexpected error occurred';

@@ -1,4 +1,4 @@
-// --- hooks/projectPage/fetchAllProjects.tsx ---
+
 'use client';
 import { useEffect, useState } from 'react';
 import { fetchFilteredProjects } from '@/services/DiscoverProjects/fetchProject';

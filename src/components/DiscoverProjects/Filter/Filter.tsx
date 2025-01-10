@@ -1,4 +1,4 @@
-// --- components/Filter/Filter.tsx ---
+
 import React, { useState } from 'react';
 import styles from './Filter.module.css';
 import MultiSelectDropdown from './MultiSelectDropDown/MultiSelectDropDown';

@@ -20,10 +20,10 @@ const UserProfilePage: React.FC = () => {
     const [userInfo, setUserInfo] = useState<User & { projectCount?: number, friendCount?: number} | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [isOverlayOpen, setIsOverlayOpen] = useState(false); // State for the overlay
+    const [isOverlayOpen, setIsOverlayOpen] = useState(false); 
 
 
-      // For Testimonials
+      
     const [testimonialIndex, setTestimonialIndex] = useState(0);
     const testimonials = [
         'Great collaborator',

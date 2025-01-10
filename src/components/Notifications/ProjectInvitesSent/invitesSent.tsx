@@ -24,10 +24,10 @@ const InvitesSent: React.FC = () => {
             try {
                 const response = await projectInviteService.listProjectInvites(
                     undefined,
-                    user.id // fetch all invites associated with the user
+                    user.id 
                 );
                 if (response.data) {
-                   // Filter to only show invites where the user is the sender
+                   
                   const filteredInvites = response.data.filter(
                     (invite) => invite.sender_id === user.id
                    );

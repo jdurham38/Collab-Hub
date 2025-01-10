@@ -73,7 +73,7 @@ const ProjectRequestList: React.FC = () => {
         try {
             await projectRequestService.declineProjectRequest(requestId)
             toast.success('Project request declined!');
-            // Refetch data after accept or decline
+            
             if(user?.id) {
                 const data = await projectRequestService.fetchProjectRequests(user.id);
                 setProjectRequests(data);

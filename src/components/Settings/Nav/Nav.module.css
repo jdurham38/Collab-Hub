@@ -19,11 +19,11 @@
     max-height: 100vh;
     transition: transform 0.3s ease;
     position: fixed;
-    top: 10%;    /* Align with the button */
+    top: 10%;    
     left: 0;
     z-index: 1;
     overflow-y: auto;
-    transform: translateY(-50%);  /* Center relative to the top 10% */
+    transform: translateY(-50%);  
 }
 
 .navHeader {
@@ -83,7 +83,7 @@
     transform: rotate(-45deg);
 }
 
-/* Existing styles for the toggle button */
+
 .filterToggleButton {
     position: absolute;
     top: 20%;

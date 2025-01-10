@@ -1,4 +1,4 @@
-// --- pages/api/projects-page/fetch-all-projects.ts ---
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 
@@ -16,8 +16,8 @@ export default async function handler(
     }
 
     const userId = req.query.userId;
-    const page = parseInt(req.query.page as string) || 1; // Default to page 1
-    const limit = parseInt(req.query.limit as string) || 6; // Default to 6 projects per page
+    const page = parseInt(req.query.page as string) || 1; 
+    const limit = parseInt(req.query.limit as string) || 6; 
 
     if (Array.isArray(userId)) {
         return res

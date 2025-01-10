@@ -13,16 +13,16 @@ interface NavItem {
 }
 
 const SideNav: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<number>(0); // Start with Project Requests active
+  const [activeTab, setActiveTab] = useState<number>(0); 
 
   const navItems: NavItem[] = [
-    { title: 'Project Requests', component: () => <div><ProjectRequestList/></div> }, // Dummy component
-    { title: 'Application Updates', component: () => <div><ApplicationsSent /></div> }, // Dummy component
-    { title: 'Invites Sent', component: () => <div><InvitesSent /></div> }, // Dummy component
-    { title: 'Invites Received', component: () => <div><InvitesReceived /></div> }, // Dummy component
-    { title: 'Friend Requests', component: () => <div>Friend Requests Content</div> }, // Dummy component
-    { title: 'Project Updates', component: () => <div>Project Updates Content</div> }, // Dummy component
-    { title: 'Gloabal Updates', component: () => <div>Global Updates Content</div> }, // Dummy component
+    { title: 'Project Requests', component: () => <div><ProjectRequestList/></div> }, 
+    { title: 'Application Updates', component: () => <div><ApplicationsSent /></div> }, 
+    { title: 'Invites Sent', component: () => <div><InvitesSent /></div> }, 
+    { title: 'Invites Received', component: () => <div><InvitesReceived /></div> }, 
+    { title: 'Friend Requests', component: () => <div>Friend Requests Content</div> }, 
+    { title: 'Project Updates', component: () => <div>Project Updates Content</div> }, 
+    { title: 'Gloabal Updates', component: () => <div>Global Updates Content</div> }, 
   ];
 
   return (

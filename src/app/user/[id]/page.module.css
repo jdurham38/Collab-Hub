@@ -1,4 +1,4 @@
-/* app/user/[id]/page.module.css */
+
 .userProfileContainer {
   border: 1px solid #ddd;
   border-radius: 50px;
@@ -71,7 +71,7 @@
   box-sizing: border-box;
   padding-bottom: 10px;
   margin-bottom: 40px;
-  border-bottom: 2px solid #eee; /* Border below social links */
+  border-bottom: 2px solid #eee; 
 }
 
 .socialLinks {
@@ -149,8 +149,8 @@ gap: 10px;
   display: flex;
   justify-content: space-around;
   gap: 10px;
-  padding-top: 10px; /* spacing before the border */
-  border-top: 2px solid #eee; /* Border below testimonials */
+  padding-top: 10px; 
+  border-top: 2px solid #eee; 
 }
   
 .userButton {

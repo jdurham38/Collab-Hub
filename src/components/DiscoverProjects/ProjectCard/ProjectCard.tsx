@@ -16,7 +16,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
     const user = useAuthRedirect();
     const userId = user?.id || null;
-    const isProjectOwner = user?.id === project.created_by; // Use created_by_id
+    const isProjectOwner = user?.id === project.created_by; 
     const { isApplying, apply } = useApplyProject();
     const { hasApplied, isLoading, setHasApplied } = useCheckApplicationStatus(project.id, userId);
 

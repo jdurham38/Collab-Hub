@@ -1,19 +1,19 @@
-/* ShortBioInput.module.css */
+
 .inputContainer {
     display: flex;
     align-self: center;
     flex-direction: column;
     margin-bottom: 15px;
     width: 100%;
-    max-width: 400px; /* add a max width here to ensure that the dropdown doesn't stretch too wide */
+    max-width: 400px; 
 
 }
 
 .label {
-    display: block; /* Makes the label a block level element */
-    margin-bottom: 0.5rem; /* spacing between the label and the dropdown */
-    font-size: 0.9rem; /* smaller font for the label */
-    color: #666;    /* darker gray color for label text */
+    display: block; 
+    margin-bottom: 0.5rem; 
+    font-size: 0.9rem; 
+    color: #666;    
     text-align: left;
 }
 

@@ -27,7 +27,7 @@ export default async function handler(
     }
 
     try {
-         // 1. Fetch project IDs where the user is a collaborator
+         
         const { data: collaboratorProjects, error: collaboratorError } = await supabase
             .from('ProjectCollaborator')
             .select('projectId')
@@ -40,7 +40,7 @@ export default async function handler(
 
         const collaboratorProjectIds = collaboratorProjects?.map(item => item.projectId) || [];
 
-        // 2. Fetch projects created by the user
+        
         const { data: createdProjects, error: createdProjectError } = await supabase
             .from('projects')
             .select('id')
@@ -54,7 +54,7 @@ export default async function handler(
         const createdProjectIds = createdProjects?.map(project => project.id) || [];
 
 
-        // Combine all unique project IDs
+        
        const allProjectIds = Array.from(new Set([...collaboratorProjectIds, ...createdProjectIds]));
 
 
@@ -63,7 +63,7 @@ export default async function handler(
         }
 
 
-       // 3. Fetch all projects with unique IDs
+       
         const { data: projects, error: projectError } = await supabase
             .from('projects')
             .select('id, title, createdAt, banner_url, tags, created_by')

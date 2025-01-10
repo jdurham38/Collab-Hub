@@ -1,4 +1,4 @@
-// --- pages/api/projects-page/filter-projects.ts ---
+
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
 

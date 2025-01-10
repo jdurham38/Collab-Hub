@@ -184,7 +184,7 @@ const SignupForm: React.FC = () => {
                     )}
                 </div>
 
-                             {/* Role Select */}
+                             {}
                              <div className={styles.inputGroup}>
                      <select
                           value={selectedRole}
@@ -209,7 +209,7 @@ const SignupForm: React.FC = () => {
                         </p>
                       )}
                 </div>
-              {/* End Role Select */}
+              {}
 
                 <div className={styles.inputGroup}>
                     <input

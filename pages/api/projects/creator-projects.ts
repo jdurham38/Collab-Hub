@@ -41,7 +41,7 @@ export default async function handler(
         const createdProjectIds = createdProjects?.map(project => project.id) || [];
 
 
-        // Combine all unique project IDs
+        
        const allProjectIds = Array.from(new Set([...createdProjectIds]));
 
 
@@ -50,7 +50,7 @@ export default async function handler(
         }
 
 
-       // 3. Fetch all projects with unique IDs
+       
         const { data: projects, error: projectError } = await supabase
             .from('projects')
             .select('id, title, createdAt, banner_url, tags, created_by')

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { createClient } from '@supabase/supabase-js';
-import { ProjectInvite } from '@/utils/interfaces'; // Import the interface
+import { ProjectInvite } from '@/utils/interfaces'; 
 
 const supabase = createClient(
     process.env.SUPABASE_URL!,
@@ -23,7 +23,7 @@ export default async function handler(
     }
 }
 
-// POST /api/project-invites/send-invite
+
 async function handlePost(
     req: NextApiRequest,
     res: NextApiResponse,
@@ -33,7 +33,7 @@ async function handlePost(
         return res.status(400).json({ error: 'Project ID, receiver ID, and sender_id are required' });
     }
   try {
-      const newInvite: Omit<ProjectInvite, 'id' | 'invite_token'> = { // omit id and invite token
+      const newInvite: Omit<ProjectInvite, 'id' | 'invite_token'> = { 
            project_id,
            sender_id,
            receiver_id,
@@ -65,7 +65,7 @@ async function handlePost(
     }
 }
 
-// GET /api/project-invites
+
 async function handleGet(
     req: NextApiRequest,
     res: NextApiResponse,

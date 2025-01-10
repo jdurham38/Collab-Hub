@@ -1,7 +1,7 @@
-// ShortBioInput.tsx
+
 "use client";
 import React, { useState, useEffect } from 'react';
-import styles from './ShortBioInput.module.css'; // Assuming your styles are here
+import styles from './ShortBioInput.module.css'; 
 
 interface ShortBioInputProps {
   value: string | null;

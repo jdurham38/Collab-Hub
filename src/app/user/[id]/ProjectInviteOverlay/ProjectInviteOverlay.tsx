@@ -18,7 +18,7 @@ const ProjectInviteOverlay: React.FC<ProjectInviteOverlayProps> = ({ receiverId,
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
-    const user: User | null = useAuthRedirect(); // Get the User object
+    const user: User | null = useAuthRedirect(); 
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -30,7 +30,7 @@ const ProjectInviteOverlay: React.FC<ProjectInviteOverlayProps> = ({ receiverId,
               }
             try {
                 const projectsData = await getCreatorProjects(user.id);
-                 // Directly use the array that is returned from the API
+                 
                  setProjects(projectsData);
 
             } catch (e) {

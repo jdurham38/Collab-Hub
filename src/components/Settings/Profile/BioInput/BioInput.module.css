@@ -1,4 +1,4 @@
-/* BioInput.module.css */
+
 .inputContainer {
     display: flex;
     align-self: center;
@@ -8,10 +8,10 @@
 }
 
 .label {
-    display: block; /* Makes the label a block level element */
-    margin-bottom: 0.5rem; /* spacing between the label and the dropdown */
-    font-size: 0.9rem; /* smaller font for the label */
-    color: #666;    /* darker gray color for label text */
+    display: block; 
+    margin-bottom: 0.5rem; 
+    font-size: 0.9rem; 
+    color: #666;    
     text-align: left;
 }
 
@@ -24,9 +24,9 @@
     color: #333;
     transition: border-color 0.3s ease;
     width: 100%;
-    box-sizing: border-box; /* Ensure padding and border do not affect width */
-    resize: vertical; /* Allow vertical resizing */
-    min-height: 100px; /* Minimum height for the textarea */
+    box-sizing: border-box; 
+    resize: vertical; 
+    min-height: 100px; 
 }
 
 

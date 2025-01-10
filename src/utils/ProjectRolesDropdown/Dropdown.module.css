@@ -1,40 +1,40 @@
-/* Dropdown.module.css */
+
 
 .wrapper {
     width: 100%;
     display: flex;
-    justify-content: center; /* Centers horizontally */
+    justify-content: center; 
 }
 
 .dropdownContainer {
     display: flex;
-    flex-direction: column; /* Changed to column layout */
-    align-items: flex-start; /* aligns all the elements to the start */
+    flex-direction: column; 
+    align-items: flex-start; 
     width: 100%;
-    max-width: 300px; /* add a max width here to ensure that the dropdown doesn't stretch too wide */
+    max-width: 300px; 
 }
 
 .label {
-    display: block; /* Makes the label a block level element */
-    margin-bottom: 0.5rem; /* spacing between the label and the dropdown */
-    font-size: 0.9rem; /* smaller font for the label */
-    color: #666;    /* darker gray color for label text */
+    display: block; 
+    margin-bottom: 0.5rem; 
+    font-size: 0.9rem; 
+    color: #666;    
     text-align: left;
 }
 
 
 .dropdown {
-    display: block; /* ensures the select takes up full width*/
+    display: block; 
     width: 100%;
-    padding: 0.8rem 1rem; /* more comfortable padding */
+    padding: 0.8rem 1rem; 
     border: 1px solid #ccc;
-    border-radius: 0.375rem; /* rounded corners */
+    border-radius: 0.375rem; 
     font-size: 1rem;
     color: #333;
     background-color: #fff;
-    transition: border-color 0.2s ease-in-out; /* Smooth transition */
-    appearance: none; /* Remove browser defaults */
-    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23333'/%3E%3C/svg%3E"); /* Custom dropdown arrow */
+    transition: border-color 0.2s ease-in-out; 
+    appearance: none; 
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%23333'/%3E%3C/svg%3E"); 
     background-repeat: no-repeat;
     background-position: right 0.7rem center;
     background-size: 1rem;
@@ -42,8 +42,8 @@
 
 .dropdown:focus {
     outline: none;
-    border-color: #007bff; /* highlighted border on focus */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* subtle focus highlight */
+    border-color: #007bff; 
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
 }
 
 .dropdown option, .dropdown optgroup {
@@ -55,14 +55,14 @@
     background-color: #f0f0f0;
 }
 
-/* Disabled style */
+
 .dropdown:disabled {
     background-color: #f9f9f9;
     color: #999;
     cursor: not-allowed;
 }
 
-/* Style for the prompt/disabled option */
+
 .dropdown option[disabled]{
     color: #999;
 }

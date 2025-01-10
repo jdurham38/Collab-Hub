@@ -62,7 +62,7 @@ const ProfileImage: React.FC<ProfileSelectorProps> = ({
         setLoaded(prevLoaded => [...prevLoaded, url]);
     }, [loaded]);
 
-    //Lazy load with intersection observer
+    
     const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {

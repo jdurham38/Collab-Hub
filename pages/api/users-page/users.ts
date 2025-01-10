@@ -36,13 +36,13 @@ export default async function getAllUsers(
         .select('username, createdAt, role, shortBio, profileImageUrl, id', { count: 'exact' });
 
 
-   // Filter by roles
+   
     if (role) {
         const roleList = Array.isArray(role) ? role : (role as string).split(',');
         const roleFilters = roleList.map(r => `role.ilike.%${r.trim()}%`);
         query = query.or(roleFilters.join(','))
     }
-    // Filter by Date Range
+    
     if (createdAt !== 'all') {
         let startDate: Date | null = null;
         let endDate: Date | null = null;
@@ -72,7 +72,7 @@ export default async function getAllUsers(
             }
     }
 
-    // Filter by search term
+    
     if (searchTerm) {
         query = query.or(
             `username.ilike.%${searchTerm}%, shortBio.ilike.%${searchTerm}%`

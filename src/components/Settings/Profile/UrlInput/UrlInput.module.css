@@ -1,4 +1,4 @@
-/* UrlInput.module.css */
+
 
 .urlInputContainer {
     display: flex;
@@ -9,7 +9,7 @@
 
 .labelIconContainer {
   display: flex;
-  align-items: flex-start; /* Changed from baseline to flex-start */
+  align-items: flex-start; 
   margin-bottom: 5px;
 }
 
@@ -24,7 +24,7 @@
 .icon {
     margin-left: 5px;
     display: inline-flex;
-    align-items: flex-start; /* Align icon to the top of label */
+    align-items: flex-start; 
     font-size: 1.1em;
     color: #6B7280;
 }

@@ -1,16 +1,16 @@
 import axios, { AxiosError } from 'axios';
 import { ProjectInvite } from '@/utils/interfaces';
 
-const API_URL = '/api/project-invites'; // Base URL
+const API_URL = '/api/project-invites'; 
 const SEND_INVITE_URL = '/api/project-invites/send-invite';
-const USER_INVITES_URL = '/api/project-invites/user-invites'; // added this url
+const USER_INVITES_URL = '/api/project-invites/user-invites'; 
 
 interface ApiResponse<T> {
     data: T | null;
     error: string | null;
 }
 
-// Define type for the Error Response that is being returned from API
+
 interface ErrorResponse {
     error: string;
 }
@@ -66,7 +66,7 @@ export const projectInviteService = {
         status?: string
     ): Promise<ApiResponse<ProjectInvite[]>> => {
         try {
-            const response = await axios.get<ProjectInvite[]>(USER_INVITES_URL, { // Use the user-invites url
+            const response = await axios.get<ProjectInvite[]>(USER_INVITES_URL, { 
                 params: {
                     project_id,
                     user_id,
@@ -97,21 +97,21 @@ function handleAxiosError(error: AxiosError<ErrorResponse>): ApiResponse<any> {
         const axiosError = error as AxiosError<ErrorResponse>;
 
         if (axiosError.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
+            
+            
             console.error('Axios error with response:', axiosError.response);
-            // Explicitly cast response.data to the ErrorResponse interface
+            
              const errorResponse = axiosError.response.data as ErrorResponse;
             return { data: null, error: errorResponse?.error || `Error ${axiosError.response.status}: ${axiosError.response.statusText}` };
 
 
         } else if (axiosError.request) {
-            // The request was made but no response was received
+            
             console.error('Axios error with no response:', axiosError.request);
             return { data: null, error: 'Network error. No response was received.' };
 
         } else {
-            // Something happened in setting up the request that triggered an Error
+            
             console.error('Axios error during request setup:', axiosError.message);
             return { data: null, error: `Error during request setup: ${axiosError.message}` };
         }
