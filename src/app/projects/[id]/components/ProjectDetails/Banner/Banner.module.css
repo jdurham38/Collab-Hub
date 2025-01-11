@@ -28,6 +28,11 @@
   box-sizing: border-box;
 }
 
+.bannerImage {
+  object-fit: cover; 
+  width: 100%;
+  height: 100%;
+}
 @media (max-width: 768px) {
   .bannerContainer {
     width: 90%;

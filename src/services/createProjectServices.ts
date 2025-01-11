@@ -1,6 +1,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import axiosClient from '@/lib/axiosClient';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 export const uploadBanner = async (
   supabase: SupabaseClient,
@@ -8,7 +9,8 @@ export const uploadBanner = async (
 ): Promise<string> => {
   try {
     const fileExt = bannerFile.name.split('.').pop();
-    const fileName = `${Date.now()}.${fileExt}`;
+     // Use uuid to avoid problems with Date.now()
+    const fileName = `${uuidv4()}.${fileExt}`;
     const filePath = `custom-banners/${fileName}`;
 
     const { error: uploadError } = await supabase.storage

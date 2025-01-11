@@ -34,6 +34,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             src={banner_url}
             alt="Project Banner"
             className={styles.bannerImage}
+            width={100}
+            height={100}
           />
         ) : (
           <div className={styles.noBanner}>No Banner</div>

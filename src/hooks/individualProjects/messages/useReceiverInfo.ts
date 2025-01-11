@@ -3,11 +3,8 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { User } from '@/utils/interfaces';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-);
+import getSupabaseClient from '@/lib/supabaseClient/supabase';
+const supabase = getSupabaseClient()
 
 const useReceiverInfo = (recipientId: string) => {
   const [receiver, setReceiver] = useState<User | null>(null);

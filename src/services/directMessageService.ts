@@ -1,10 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
+import getSupabaseClient from '@/lib/supabaseClient/supabase';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-);
-
+const supabase = getSupabaseClient();
 export const sendDirectMessage = async (
   projectId: string,
   recipient_id: string,

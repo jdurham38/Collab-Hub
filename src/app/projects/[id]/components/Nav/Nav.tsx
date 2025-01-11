@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import styles from './Nav.module.css';
 
 type TabName = 'overview' | 'messaging' | 'settings';
@@ -11,11 +11,15 @@ interface NavProps {
   availableTabs: TabName[];
 }
 
-const Nav: React.FC<NavProps> = ({
+const Nav: React.FC<NavProps> = memo(({
   activeTab,
   setActiveTab,
   availableTabs,
 }) => {
+    const handleTabClick = useCallback((tab: TabName) => {
+      setActiveTab(tab)
+    }, [setActiveTab]);
+
   return (
     <div className={styles.tabContainer}>
       <div className={styles.tabButtons}>
@@ -23,7 +27,7 @@ const Nav: React.FC<NavProps> = ({
           <button
             key={tab}
             className={`${styles.tabButton} ${activeTab === tab ? styles.active : ''}`}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => handleTabClick(tab)}
           >
             {}
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -32,6 +36,6 @@ const Nav: React.FC<NavProps> = ({
       </div>
     </div>
   );
-};
+});
 
 export default Nav;

@@ -8,7 +8,6 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchProjectCollaborators } from '@/services/collaboratorService';
 import useCanCreateChannel from '@/hooks/individualProjects/messages/sidebar/useCanCreateChannel';
 import useLoadUnreadCounts from '@/hooks/individualProjects/messages/sidebar/useLoadUnreadCounts';
-import useMessageSubscription from '@/hooks/individualProjects/messages/sidebar/useMessageSubscription';
 
 interface Channel {
   id: string;
@@ -47,7 +46,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const canCreateChannel = useCanCreateChannel(projectId, currentUserId);
   useLoadUnreadCounts(currentUserId, setUnreadCount);
-  useMessageSubscription(currentUserId, incrementUnreadCount, activeChat);
 
   const {
     data: collaboratorsData,

@@ -13,8 +13,10 @@ const ProjectBanner: React.FC<ProjectBannerProps> = ({ bannerUrl, title }) => (
       <Image
         src={bannerUrl}
         alt="Project Banner"
-        layout="fill"
-        objectFit="cover"
+        className={styles.bannerImage}
+        fill
+        style={{objectFit: 'cover'}}
+        priority
       />
     ) : (
       <p>No banner selected</p>
