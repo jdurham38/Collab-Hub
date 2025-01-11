@@ -1,4 +1,3 @@
-'use client';
 import localFont from 'next/font/local';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
@@ -11,6 +10,7 @@ import QueryProvider from '@/utils/QueryProvider';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
+
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
   variable: '--font-geist-sans',
