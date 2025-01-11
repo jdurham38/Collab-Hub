@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QueryProvider from '@/utils/QueryProvider';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
   variable: '--font-geist-sans',
@@ -36,6 +36,7 @@ export default function RootLayout({
           <QueryProvider>
             <AuthProvider>
               <ClientAuthWrapper>{children}</ClientAuthWrapper>
+              <SpeedInsights />
               <CookieBanner />
             </AuthProvider>
             <ToastContainer />
