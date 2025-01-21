@@ -4,13 +4,17 @@ import React from 'react';
 import Link from 'next/link';
 import useCookieConsent from '@/hooks/cookies/useCookieConsent';
 import styles from './CookieBanner.module.css';
+import { Analytics } from "@vercel/analytics/react"; // Import Analytics
 
 const CookieBanner: React.FC = () => {
-  const { isCookieConsentGiven, handleAcceptCookies, handleDeclineCookies } =
-    useCookieConsent();
+  const { isCookieConsentGiven, handleAcceptCookies, handleDeclineCookies, analyticsEnabled, Analytics: AnalyticsComponent } = useCookieConsent();
 
   if (isCookieConsentGiven !== null) {
-    return null;
+    return (
+      <>
+       {analyticsEnabled && <AnalyticsComponent />}
+      </>
+    );
   }
 
   return (

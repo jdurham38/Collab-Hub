@@ -61,7 +61,6 @@
 .filterVisible {
   right: 0;
 }
-
 .grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);

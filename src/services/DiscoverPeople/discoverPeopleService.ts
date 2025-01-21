@@ -16,6 +16,7 @@ export const fetchUsers = async (
   limit: number,
   filters?: FilterState,
   searchTerm?: string,
+  currentUserId?:string
 ): Promise<FetchUsersResponse> => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,7 +32,9 @@ export const fetchUsers = async (
     if (searchTerm) {
       params.searchTerm = searchTerm;
     }
-
+     if (currentUserId) {
+      params.currentUserId = currentUserId;
+    }
     const response = await axios.get('/api/users-page/users', {
       params,
     });

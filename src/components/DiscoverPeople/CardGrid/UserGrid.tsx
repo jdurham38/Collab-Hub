@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { fetchUsers } from '@/services/DiscoverPeople/discoverPeopleService';
 import UserFilter from '../Filter/Filter';
 
+
 interface UserGridProps {
   userId?: string;
 }
@@ -31,6 +32,7 @@ const UserGrid: React.FC<UserGridProps> = ({ userId }) => {
     searchTerm: '',
   });
   const previousFilters = useRef<FilterState | null>(null);
+    const [isFilterVisible, setIsFilterVisible] = useState(false); // State for filter visibility
 
   const handleFilterChange = useCallback(
     (newFilters: {
@@ -43,40 +45,47 @@ const UserGrid: React.FC<UserGridProps> = ({ userId }) => {
     [setFilters],
   );
 
-  useEffect(() => {
+    const toggleFilterVisibility = () => {
+    setIsFilterVisible(!isFilterVisible);
+  };
+
+    useEffect(() => {
     const loadUsers = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await fetchUsers(
-          currentPage,
-          usersPerPage,
-          filters,
-          filters.searchTerm,
-        );
-        setUsers(data.users);
-        setTotalUsers(data.totalCount);
-      } catch (e) {
-        let errorMessage = 'An unknown error occurred while fetching users.';
-        if (e instanceof Error) {
-          errorMessage = e.message || 'An error occurred while fetching users.';
-        } else if (typeof e === 'string') {
-          errorMessage = e;
+        setLoading(true);
+        setError(null);
+        try {
+           // Fetch the users and apply filter locally since the fetch function is returning all users
+           const data = await fetchUsers(
+              currentPage,
+              usersPerPage,
+              filters,
+              filters.searchTerm,
+            );
+           const filteredUsers = data.users.filter(user => user.id !== userId)
+            setUsers(filteredUsers);
+            setTotalUsers(data.totalCount);
+        } catch (e) {
+            let errorMessage = 'An unknown error occurred while fetching users.';
+            if (e instanceof Error) {
+            errorMessage = e.message || 'An error occurred while fetching users.';
+            } else if (typeof e === 'string') {
+                errorMessage = e;
+            }
+            setError(errorMessage);
+            console.error('Error fetching users: ', e);
+        } finally {
+          setLoading(false);
         }
-        setError(errorMessage);
-        console.error('Error fetching users: ', e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (
+      };
+       if (
       previousFilters.current === null ||
       JSON.stringify(previousFilters.current) !== JSON.stringify(filters)
     ) {
       loadUsers();
       previousFilters.current = filters;
     }
-  }, [currentPage, userId, usersPerPage, filters, filters.searchTerm]);
+    }, [currentPage, userId, usersPerPage, filters, filters.searchTerm]);
+
 
   useEffect(() => {
     setCurrentPage(1);
@@ -106,10 +115,26 @@ const UserGrid: React.FC<UserGridProps> = ({ userId }) => {
 
   return (
     <div className={styles.gridContainer}>
-      <UserFilter
-        onFilterChange={handleFilterChange}
-        initialFilters={filters}
-      />
+           <div
+                className={styles.filterToggleButton}
+                 onClick={toggleFilterVisibility}
+            >
+              <span className={`${styles.filterIcon} ${isFilterVisible ? styles.filterIconOpen : ''}`}></span>
+           </div>
+
+          <div
+            className={`${styles.filterContainer} ${
+              isFilterVisible ? styles.filterVisible : ''
+            }`}
+            >
+            <UserFilter
+                    onFilterChange={handleFilterChange}
+                    initialFilters={filters}
+            />
+        </div>
+
+
+
       <div className={styles.container}>
         {users.length === 0 ? (
           <div className={styles.noUsers}>No users found.</div>

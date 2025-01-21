@@ -30,7 +30,48 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       .status(400)
       .json({ error: 'Project ID, receiver ID, and sender_id are required' });
   }
+
   try {
+    // Check if the user is already a collaborator on the project
+    const { data: existingCollaborator, error: collaboratorError } = await supabase
+      .from('ProjectCollaborator')
+      .select('*')
+      .eq('projectid', project_id)
+      .eq('userid', receiver_id)
+      .single();
+
+    if (collaboratorError && collaboratorError.message !== 'No rows found') {
+        console.error('Error checking for existing collaborator:', collaboratorError);
+        return res.status(500).json({ error: 'Error checking for existing collaborator' });
+    }
+
+    if(existingCollaborator){
+      return res.status(409).json({
+          error: 'User is already a collaborator on this project',
+          existingCollaborator
+      })
+    }
+
+    // Check if an invite already exists for this project and receiver
+    const { data: existingInvite, error: existingInviteError } = await supabase
+      .from('project_invites')
+      .select('*')
+      .eq('project_id', project_id)
+      .eq('receiver_id', receiver_id)
+      .single();
+
+    if (existingInviteError && existingInviteError.message !== 'No rows found') {
+      console.error('Error checking for existing invite:', existingInviteError);
+      return res.status(500).json({ error: 'Error checking for existing invite' });
+    }
+
+    if (existingInvite) {
+      return res.status(409).json({
+        error: 'An invite already exists for this user in this project.',
+        existingInvite,
+      });
+    }
+
     const newInvite: Omit<ProjectInvite, 'id' | 'invite_token'> = {
       project_id,
       sender_id,
@@ -63,7 +104,6 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
     return res.status(500).json({ error: errorMessage });
   }
 }
-
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   const { project_id, user_id, status } = req.query;
   try {

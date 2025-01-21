@@ -13,8 +13,14 @@ import { FaSquareXTwitter } from 'react-icons/fa6';
 import { AiFillTikTok } from 'react-icons/ai';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import ProjectInviteOverlay from './ProjectInviteOverlay/ProjectInviteOverlay';
+import { useAuth } from '@/contexts/AuthContext';
 
 const UserProfilePage: React.FC = () => {
+  const { user } = useAuth();
+  
+  
+      if(!user) return <div>Not Authenticated</div>
+  
   const params = useParams();
   const id = params?.id as string;
   const [userInfo, setUserInfo] = useState<

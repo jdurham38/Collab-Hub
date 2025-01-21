@@ -25,12 +25,24 @@
   border-radius: 20px 0px 0px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 101;
+  
   transition: transform 0.2s ease-in-out;
 }
-
 .filterToggleButton:hover {
   transform: translateY(-50%) translateX(5px);
 }
+.filterIcon {
+  border: solid #000;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  transition: transform 0.3s ease-in-out;
+}
+.filterIconOpen {
+  transform: rotate(-45deg);
+}
+
 
 .container {
   position: relative;
@@ -44,18 +56,20 @@
 }
 
 .filterContainer {
-  position: absolute;
-  top: 0;
-  right: -350px;
-  width: 350px;
-  border-radius: 30px;
-  background-color: rgba(250, 237, 205, 0.8);
-  transition: right 0.3s ease-in-out;
-  z-index: 100;
-  padding: 20px;
-  height: auto;
-  max-height: 90vh;
-  overflow-y: auto;
+    position: absolute;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    border-radius: 30px;
+    background-color: rgba(250, 237, 205, 0.8);
+    transition: right 0.3s ease-in-out;
+    z-index: 100;
+    padding: 20px;
+    height: auto;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex; /* Added flex display */
+    flex-direction: column; /* Stack content vertically */
 }
 
 .filterVisible {

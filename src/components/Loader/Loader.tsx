@@ -5,8 +5,7 @@ const Loader = () => {
   return (
     <StyledWrapper>
       <div className="loader">
-        <span>uiverse</span>
-        <span>uiverse</span>
+
       </div>
     </StyledWrapper>
   );

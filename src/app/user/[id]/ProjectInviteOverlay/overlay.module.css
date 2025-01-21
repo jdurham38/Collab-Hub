@@ -1,10 +1,12 @@
+/* overlay.module.css */
+
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,41 +14,50 @@
 }
 
 .overlayContent {
-  background-color: white;
+  background: rgba(250, 237, 205);
   padding: 20px;
   border-radius: 8px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+
+.overlayContent h2 {
+  margin-bottom: 15px;
+  background-color: white;
+  border-radius: 20px;
+  font-size: large;
+  font-weight: bold;
+    text-align: center; /* Center the text */
+    padding: 20px; /* add some padding to the text */
+  display: inline-block;
 }
 
 .projectList {
   list-style: none;
   padding: 0;
+  margin-bottom: 20px;
 }
 
 .projectList li {
-  margin-bottom: 10px;
-}
-
-.projectList label {
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 2px solid black;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   cursor: pointer;
+  user-select: none; /* Prevent text selection */
 }
 
-.projectList input[type='checkbox'] {
+.projectList li input[type="checkbox"] {
   margin-right: 10px;
 }
 
+
 .buttonGroup {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
-  gap: 10px;
+  justify-content: center;
 }
+
 .inviteButton,
 .cancelButton {
   padding: 10px 15px;
@@ -54,13 +65,67 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
+  margin-left: 5px;
 }
 
-.inviteButton {
-  background-color: #5cb85c;
-  color: white;
-}
 .cancelButton {
-  background-color: #d9534f;
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #e74c3c;
+  border: none;
   color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  align-self: center;
+}
+
+.cancelButton:hover{
+  background-color: #e74c3c;
+  color: black;
+
+}
+.inviteButton {
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #d4a373;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  align-self: center;
+}
+
+
+.inviteButton:hover {
+  background-color: #d4a373;
+  color: black;
+}
+
+.invited {
+  background-color: #f0f0f0; /* Light gray background */
+  color: #999; /* Gray text color */
+}
+.invitedText{
+  margin-left: 5px;
+  color: gray;
+  font-size: 0.9rem;
+}
+
+.invited {
+  background-color: #f0f0f0; /* Light gray background */
+  color: #999; /* Gray text color */
+}
+.invitedText{
+  margin-left: 5px;
+  color: gray;
+  font-size: 0.9rem;
+}
+.collaborator{
+background-color: #f0f0f0; /* Light gray background */
+color: #999; /* Gray text color */
+}
+.collaboratorText{
+margin-left: 5px;
+color: gray;
+font-size: 0.9rem;
 }

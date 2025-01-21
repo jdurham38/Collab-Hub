@@ -10,9 +10,13 @@ import ProjectBanner from './components/ProjectDetails/Banner/Banner';
 import useProjectData from '@/hooks/individualProjects/useProjectData';
 import useUserData from '@/hooks/individualProjects/useUserData';
 import { useParams } from 'next/navigation'
-
+import { useAuth } from '@/contexts/AuthContext';
 
 const ProjectPage: React.FC = () => {
+  
+  
+  
+
     const params = useParams()
     const projectId = params?.id; // Use the optional chaining here
 

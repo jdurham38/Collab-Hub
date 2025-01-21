@@ -24,15 +24,22 @@ const UserFilter: React.FC<UserFilterProps> = ({
     searchTerm: initialFilters?.searchTerm || '',
   });
 
-  const handleRoleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedRoles = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value,
-    );
-    setLocalFilters((prevFilters) => ({
-      ...prevFilters,
-      roles: selectedRoles,
-    }));
+
+  const handleRoleChange = (role: string) => {
+    setLocalFilters((prevFilters) => {
+      const roles = [...prevFilters.roles];
+      if (roles.includes(role)) {
+        return {
+          ...prevFilters,
+          roles: roles.filter((r) => r !== role),
+        };
+      } else {
+        return {
+          ...prevFilters,
+          roles: [...roles, role],
+        };
+      }
+    });
   };
 
   const handleDateRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -53,6 +60,7 @@ const UserFilter: React.FC<UserFilterProps> = ({
     onFilterChange(localFilters);
   };
 
+
   const handleClearFilters = () => {
     setLocalFilters({ roles: [], dateRange: '', searchTerm: '' });
     onFilterChange({ roles: [], dateRange: '', searchTerm: '' });
@@ -70,30 +78,8 @@ const UserFilter: React.FC<UserFilterProps> = ({
 
   return (
     <div className={styles.filterContainer}>
+
       <div className={styles.filterGroup}>
-        <h3>Role Filter</h3>
-        <select
-          multiple
-          value={localFilters.roles}
-          onChange={handleRoleChange}
-          className={styles.roleSelect}
-        >
-          {allRoles.map((role) => (
-            <option key={role} value={role}>
-              {role}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className={styles.filterGroup}>
-        <h3>Date Range Filter</h3>
-        <select value={localFilters.dateRange} onChange={handleDateRangeChange}>
-          <option value="">All Time</option>
-          <option value="last7Days">Last 7 Days</option>
-          <option value="last30Days">Last 30 Days</option>
-          <option value="lastYear">Last Year</option>
-        </select>
-      </div>
       <div className={styles.filterGroup}>
         <h3>Search Users</h3>
         <input
@@ -103,6 +89,33 @@ const UserFilter: React.FC<UserFilterProps> = ({
           onChange={handleSearchTermChange}
         />
       </div>
+        <h3>Date User Created At</h3>
+        <select value={localFilters.dateRange} onChange={handleDateRangeChange}>
+          <option value="">All Time</option>
+          <option value="last7Days">Last 7 Days</option>
+          <option value="last30Days">Last 30 Days</option>
+          <option value="lastYear">Last Year</option>
+        </select>
+      </div>
+      <div className={styles.filterGroup}>
+        <h3>Roles</h3>
+           <div className={styles.dropdownContent}>
+                <div className={styles.scrollableContent}>
+                {allRoles.map((role) => (
+                    <label key={role} className={styles.checkboxLabel}>
+                        <input
+                            type="checkbox"
+                            value={role}
+                            checked={localFilters.roles.includes(role)}
+                            onChange={() => handleRoleChange(role)}
+                        />
+                        {role}
+                    </label>
+                ))}
+            </div>
+            </div>
+      </div>
+     
       <div className={styles.filterButtonContainer}>
         <button onClick={handleApplyFilters} className={styles.applyButton}>
           Apply Filters

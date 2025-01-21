@@ -13,15 +13,11 @@ Color Pallete
 #d4a373
 
 TOP TASKS
-3. enhance the styling of the filter - discover-projects
-4. have a box on the dashboard with all notifications (/notifications)
+1. have a box on the dashboard with all notifications (/notifications)
+    - project request is done but not optimized
+    - need to do it for apps sent, invites sent, invites received then display all notifs on the side nav then take each notification and display on dashboard
 
 
-
-- User Profiles
-    - invite to project
-        - if invites sent for all projects dont show any project, show a message telling the user they already invited this user to all projects
-        - if the user doesnt have any projects gray out the button
     - develop messaging page
     - develop friend requests
 

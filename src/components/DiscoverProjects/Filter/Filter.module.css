@@ -40,3 +40,9 @@
   font-weight: bold;
   align-self: center;
 }
+
+.clearButton:hover{
+  background-color: #e74c3c;
+  color: black;
+
+}

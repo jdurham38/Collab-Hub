@@ -1,15 +1,16 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { User } from '@/utils/interfaces';
 import styles from './UserCard.module.css';
 import Image from 'next/image';
-
+import ProjectInviteOverlay from '@/app/user/[id]/ProjectInviteOverlay/ProjectInviteOverlay';
 interface UserCardProps {
   userInfo: User;
   onViewProfile?: (id: string) => void;
 }
 
 const UserCard: React.FC<UserCardProps> = ({ userInfo, onViewProfile }) => {
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
   const handleViewProfile = () => {
     if (onViewProfile) {
       onViewProfile(userInfo.id);
@@ -17,10 +18,13 @@ const UserCard: React.FC<UserCardProps> = ({ userInfo, onViewProfile }) => {
       console.log('onViewProfile is not provided, no navigation');
     }
   };
-
-  const handleInviteProject = () => {
-    console.log('implement invite to project');
-  };
+  
+    const openOverlay = () => {
+        setIsOverlayOpen(true);
+    };
+    const closeOverlay = () => {
+        setIsOverlayOpen(false);
+    };
 
   return (
     <div className={styles.card}>
@@ -60,9 +64,10 @@ const UserCard: React.FC<UserCardProps> = ({ userInfo, onViewProfile }) => {
           <button className={styles.button} onClick={handleViewProfile}>
             View Profile
           </button>
-          <button className={styles.button} onClick={handleInviteProject}>
-            Invite to Project
-          </button>
+            <button className={styles.button} onClick={openOverlay}>Invite</button>
+           {isOverlayOpen && (
+          <ProjectInviteOverlay receiverId={userInfo.id} onClose={closeOverlay} />
+        )}
         </div>
       </div>
     </div>

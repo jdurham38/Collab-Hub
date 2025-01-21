@@ -20,10 +20,12 @@ export default async function getAllUsers(
     role = '',
     createdAt = 'all',
     searchTerm = '',
+    currentUserId = '', // Added currentUserId from request
   } = req.query;
 
   const pageNumber = parseInt(page as string, 10);
   const limitNumber = parseInt(limit as string, 10);
+
 
   if (
     isNaN(pageNumber) ||
@@ -33,14 +35,20 @@ export default async function getAllUsers(
   ) {
     return res.status(400).json({ error: 'Invalid page or limit parameters.' });
   }
-
-  const startIndex = (pageNumber - 1) * limitNumber;
-
-  let query = supabase
+    
+    const startIndex = (pageNumber - 1) * limitNumber;
+    let query = supabase
     .from('users')
-    .select('username, createdAt, role, shortBio, profileImageUrl, id', {
+      .select('username, createdAt, role, shortBio, profileImageUrl, id', {
       count: 'exact',
     });
+
+
+    if(currentUserId && typeof currentUserId === 'string'){
+        query = query.neq('id', currentUserId)
+    }
+
+
 
   if (role) {
     const roleList = Array.isArray(role) ? role : (role as string).split(',');

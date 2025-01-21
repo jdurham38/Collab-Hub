@@ -71,6 +71,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         src={project.banner_url}
         alt={project.title}
         className={styles.banner}
+        width={100}
+        height={100}
+        priority
       />
       <div className={styles.info}>
         <h3 className={styles.title}>{project.title}</h3>
