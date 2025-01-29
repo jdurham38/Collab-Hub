@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-const API_BASE_URL = '/api/notifications';
+const API_BASE_URL = '/api/notifications/projectRequests';
 
 const projectRequestService = {
     fetchProjectRequests: async (userId: string) => {

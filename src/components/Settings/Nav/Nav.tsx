@@ -27,7 +27,7 @@ const UserNav: React.FC = () => {
         ),
       },
       {
-        title: 'Account',
+        title: 'Security',
         component: () => (
           <Suspense fallback={<div>Loading...</div>}>
             <SecuritySettings />
@@ -35,17 +35,14 @@ const UserNav: React.FC = () => {
         ),
       },
       {
-        title: 'Friend Requests',
-        component: () => <div>Friend Requests Content</div>,
+        title: 'Plan',
+        component: () => (
+          <Suspense fallback={<div>Loading...</div>}>
+            <div> Billing info/plan upgrade</div>
+          </Suspense>
+        ),
       },
-      {
-        title: 'Project Updates',
-        component: () => <div>Project Updates Content</div>,
-      },
-      {
-        title: 'Gloabal Updates',
-        component: () => <div>Global Updates Content</div>,
-      },
+     
     ],
     [],
   );

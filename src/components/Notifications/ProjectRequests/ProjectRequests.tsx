@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-
+import projectRequestService from '@/services/Notifications/ProjectRequests/applicationRequests';
 interface ProjectRequest {
     projectId: string;
     userId: string;
@@ -17,11 +17,16 @@ interface ProjectRequest {
 
 interface ProjectRequestListProps {
     projectRequests: ProjectRequest[];
+    onProjectRequestChange: () => void;
 }
 
-const ProjectRequestList: React.FC<ProjectRequestListProps> = ({ projectRequests }) => {
+const ProjectRequestList: React.FC<ProjectRequestListProps> = ({
+    projectRequests,
+    onProjectRequestChange,
+}) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         if (projectRequests) {
             setLoading(false);
@@ -29,15 +34,19 @@ const ProjectRequestList: React.FC<ProjectRequestListProps> = ({ projectRequests
     }, [projectRequests]);
 
     const handleAccept = async (request: ProjectRequest) => {
+        if (!request.id || !request.projectId || !request.userId) {
+            toast.error('Request ID, Project ID, or User ID is missing');
+            return;
+        }
+
         try {
-            // No need to fetch requests again, SideNav will handle updates
-            if (request.id) {
-                //  No need to fetch requests again, SideNav will handle updates
-            } else {
-                toast.error('Request ID is missing');
-                return;
-            }
+            await projectRequestService.acceptProjectRequest(
+                request.projectId,
+                request.userId,
+                request.id,
+            );
             toast.success('Project request accepted!');
+            onProjectRequestChange(); // Notify parent to refetch
         } catch (e) {
             if (e instanceof AxiosError) {
                 toast.error(
@@ -50,10 +59,17 @@ const ProjectRequestList: React.FC<ProjectRequestListProps> = ({ projectRequests
             }
         }
     };
+
     const handleDecline = async (requestId: string) => {
+        if (!requestId) {
+            toast.error('Request ID is missing');
+            return;
+        }
+
         try {
-            // No need to fetch requests again, SideNav will handle updates
+            await projectRequestService.declineProjectRequest(requestId);
             toast.success('Project request declined!');
+            onProjectRequestChange(); // Notify parent to refetch
         } catch (e) {
             if (e instanceof AxiosError) {
                 toast.error(

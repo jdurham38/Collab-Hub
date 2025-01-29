@@ -25,9 +25,10 @@ export default async function acceptProjectRequest(
   }
 
   try {
+    // Update the ProjectRequest to Accepted and set isReadSender to false
     const { error: updateRequestError } = await supabase
       .from('ProjectRequest')
-      .update({ status: 'Accepted' })
+      .update({ status: 'Accepted', isReadSender: false }) // Added isReadSender: false
       .eq('id', requestId);
 
     if (updateRequestError) {
@@ -39,6 +40,7 @@ export default async function acceptProjectRequest(
           details: updateRequestError.message,
         });
     }
+
 
     const { error: collaboratorError } = await supabase
       .from('ProjectCollaborator')

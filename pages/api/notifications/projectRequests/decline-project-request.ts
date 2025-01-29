@@ -23,9 +23,10 @@ export default async function declineProjectRequest(
   }
 
   try {
+    // Update the ProjectRequest to Declined and set isReadSender to false
     const { error: updateRequestError } = await supabase
       .from('ProjectRequest')
-      .update({ status: 'Declined' })
+      .update({ status: 'Declined', isReadSender: false }) // Added isReadSender: false
       .eq('id', requestId);
 
     if (updateRequestError) {

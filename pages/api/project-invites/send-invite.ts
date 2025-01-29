@@ -32,25 +32,26 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    // Check if the user is already a collaborator on the project
+     // Check if the user is already a collaborator on the project
     const { data: existingCollaborator, error: collaboratorError } = await supabase
-      .from('ProjectCollaborator')
-      .select('*')
-      .eq('projectid', project_id)
-      .eq('userid', receiver_id)
-      .single();
+        .from('ProjectCollaborator')
+        .select('*')
+        .eq('projectId', project_id)
+        .eq('userId', receiver_id)
+        .maybeSingle(); // Changed from .single() to .maybeSingle()
 
-    if (collaboratorError && collaboratorError.message !== 'No rows found') {
+    if (collaboratorError) {
         console.error('Error checking for existing collaborator:', collaboratorError);
         return res.status(500).json({ error: 'Error checking for existing collaborator' });
     }
 
-    if(existingCollaborator){
-      return res.status(409).json({
-          error: 'User is already a collaborator on this project',
-          existingCollaborator
-      })
+     if (existingCollaborator) {
+         return res.status(409).json({
+              error: 'User is already a collaborator on this project',
+              existingCollaborator
+         })
     }
+
 
     // Check if an invite already exists for this project and receiver
     const { data: existingInvite, error: existingInviteError } = await supabase
@@ -58,9 +59,9 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
       .select('*')
       .eq('project_id', project_id)
       .eq('receiver_id', receiver_id)
-      .single();
+        .maybeSingle(); // Changed from .single() to .maybeSingle()
 
-    if (existingInviteError && existingInviteError.message !== 'No rows found') {
+    if (existingInviteError) {
       console.error('Error checking for existing invite:', existingInviteError);
       return res.status(500).json({ error: 'Error checking for existing invite' });
     }
@@ -104,6 +105,7 @@ async function handlePost(req: NextApiRequest, res: NextApiResponse) {
     return res.status(500).json({ error: errorMessage });
   }
 }
+
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   const { project_id, user_id, status } = req.query;
   try {

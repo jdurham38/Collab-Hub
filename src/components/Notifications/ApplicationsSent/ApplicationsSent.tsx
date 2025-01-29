@@ -1,5 +1,5 @@
 import useAuthRedirect from '@/hooks/dashboard/useAuthRedirect';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import applicantRequestService from '@/services/Notifications/ApplicationsSent/applicationsSent';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
@@ -10,6 +10,7 @@ interface ApplicantProjectRequest {
     status: string;
     projectTitle?: string;
     error?: string;
+    isReadSender?: boolean;
 }
 
 const ApplicationsSent: React.FC = () => {
@@ -19,6 +20,9 @@ const ApplicationsSent: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const user = useAuthRedirect();
+    const isMounted = useRef(false);
+    const userIdRef = useRef<string | null>(null);
+    const projectRequestRef = useRef<ApplicantProjectRequest[]>([]);
 
 
     const fetchRequests = useCallback(async () => {
@@ -30,7 +34,9 @@ const ApplicationsSent: React.FC = () => {
                     await applicantRequestService.fetchApplicantProjectRequests(
                         user.id,
                     );
+                  projectRequestRef.current = data;
                 setProjectRequests(data);
+                userIdRef.current = user.id;
             }
         } catch (e) {
             if (e instanceof Error) {
@@ -43,9 +49,19 @@ const ApplicationsSent: React.FC = () => {
         }
     }, [user?.id]);
 
-    useEffect(() => {
-        fetchRequests();
-    }, [fetchRequests]);
+
+   useEffect(() => {
+      if (isMounted.current) {
+        if (user?.id && user.id !== userIdRef.current) {
+          fetchRequests();
+        }
+        else if (user?.id){
+            setProjectRequests(projectRequestRef.current);
+        }
+      } else if(user?.id){
+          isMounted.current = true;
+       }
+  }, [fetchRequests, user?.id]);
 
     const handleWithdraw = async (requestId: string) => {
         try {

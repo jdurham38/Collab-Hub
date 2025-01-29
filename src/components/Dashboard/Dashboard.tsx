@@ -7,12 +7,11 @@ import ProtectedComponent from '@/components/ProtectedComponent/protected-page';
 import HorizontalProjectList from './MyProjects/HorizontalProjectList/HorizontalProjectList';
 import styles from './dashboard.module.css';
 import { useRouter } from 'next/navigation';
-import useProjectRequestNotifications from '@/hooks/notifications/useProjectRequestNotifications';
+import useNotificationCount from '@/hooks/dashboard/useNotificationsCount';
 const Dashboard: React.FC = () => {
-  const user = useAuthRedirect();
+    const user = useAuthRedirect();
     const { projects, loading, error } = useUserProjects(user?.id);
-    const { requestCount, loading: requestLoading, error: requestError} = useProjectRequestNotifications()
-
+    const { totalNotifications, loading: notificationLoading } = useNotificationCount();
     const router = useRouter();
 
     if (!user) {
@@ -22,40 +21,36 @@ const Dashboard: React.FC = () => {
     const handleNotificationsClick = () => {
         router.push('/notifications');
     };
-    
-  return (
-    <div className={styles.dashboardContainer}>
-      <ProtectedComponent />
-      <h1 className={styles.title}>Dashboard</h1>
-      {loading ? (
-        <div>Loading...</div>
-      ) : error ? (
-        <div className={styles.error}>{error}</div>
-      ) : projects.length > 0 ? (
-        <HorizontalProjectList projects={projects} />
-      ) : (
-        <p>No projects found.</p>
-      )}
-
-        <div
-            onClick={handleNotificationsClick}
-            className={styles.notificationCard}
-        >
-             Notifications
-            {requestLoading ? (
-                    <div>Loading...</div>
-                ) : requestError ? (
-                    <div className={styles.error}>{requestError}</div>
-                ) : requestCount > 0 && (
-                    <span className={styles.notificationCount}>
-                     {requestCount}
-                 </span>
+   return (
+        <div className={styles.dashboardContainer}>
+            <ProtectedComponent />
+            <h1 className={styles.title}>Dashboard</h1>
+            {loading ? (
+                <div>Loading...</div>
+            ) : error ? (
+                <div className={styles.error}>{error}</div>
+            ) : projects.length > 0 ? (
+                <HorizontalProjectList projects={projects} />
+            ) : (
+                <p>No projects found.</p>
             )}
 
+            <div
+                onClick={handleNotificationsClick}
+                className={styles.notificationCard}
+            >
+                Notifications
+                {!notificationLoading && totalNotifications > 0 && (
+                    <span className={styles.notificationCount}>
+                        {totalNotifications}
+                    </span>
+                )}
+                {notificationLoading && (
+                    <div>Loading</div>
+                )}
+            </div>
         </div>
-
-    </div>
-  );
+    );
 };
 
 export default Dashboard;

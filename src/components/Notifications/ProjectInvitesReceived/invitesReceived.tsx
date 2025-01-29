@@ -1,3 +1,4 @@
+// components/ProjectInvitesReceived/invitesReceived.tsx
 'use client';
 import React, { useState, useEffect } from 'react';
 import { ProjectInvite, User } from '@/utils/interfaces';
@@ -8,54 +9,57 @@ import styles from './invitesReceived.module.css';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 
+
 interface InviteActions {
-  status: 'accepted' | 'rejected';
+  status: 'accepted' | 'declined';
   id: string;
 }
-
-const InvitesReceived: React.FC = () => {
+interface InvitesReceivedProps {
+    onInvitesChange: () => void;
+}
+const InvitesReceived: React.FC<InvitesReceivedProps> = ({onInvitesChange}) => {
   const [invites, setInvites] = useState<ProjectInvite[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const user: User | null = useAuthRedirect();
 
-  useEffect(() => {
-    const fetchReceivedInvites = async () => {
-      setLoading(true);
-      if (!user?.id) {
-        setLoading(false);
-        setError('User session not found');
-        return;
-      }
-      try {
-        const response = await projectInviteService.listProjectInvites(
-          undefined,
-          user.id,
-        );
-        if (response.data) {
-          const filteredInvites = response.data.filter(
-            (invite) => invite.receiver_id === user.id,
-          );
-          setInvites(filteredInvites);
-        } else {
-          setError(response.error || 'Failed to fetch invites.');
-        }
-      } catch (e) {
-        let errorMessage = 'An unexpected error occurred.';
-        if (e instanceof Error) {
-          errorMessage =
-            e.message || 'An error occurred while fetching received invites.';
-        } else if (typeof e === 'string') {
-          errorMessage = e;
-        }
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
-      }
-    };
+    useEffect(() => {
+      const fetchReceivedInvites = async () => {
+          setLoading(true);
+          if (!user?.id) {
+            setLoading(false);
+            setError('User session not found');
+            return;
+         }
+          try {
+            const response = await projectInviteService.listProjectInvites(
+              undefined,
+              user.id,
+            );
+           if (response.data) {
+               const filteredInvites = response.data.filter(
+                   (invite) => invite.receiver_id === user.id,
+                );
+             setInvites(filteredInvites);
+            } else {
+               setError(response.error || 'Failed to fetch invites.');
+            }
+          } catch (e) {
+              let errorMessage = 'An unexpected error occurred.';
+              if (e instanceof Error) {
+               errorMessage =
+                   e.message || 'An error occurred while fetching received invites.';
+             } else if (typeof e === 'string') {
+              errorMessage = e;
+            }
+             setError(errorMessage);
+          } finally {
+             setLoading(false);
+          }
+      };
 
-    fetchReceivedInvites();
-  }, [user]);
+      fetchReceivedInvites();
+    }, [user]);
 
   const handleInviteAction = async ({ id, status }: InviteActions) => {
     if (!user?.id) {
@@ -68,25 +72,26 @@ const InvitesReceived: React.FC = () => {
         status,
         user.id,
       );
-      if (response.data) {
-        setInvites((currentInvites) =>
-          currentInvites.filter((invite) => invite.id !== id),
-        );
-        toast.success(
-          status === 'accepted' ? 'Invite accepted!' : 'Invite rejected!',
-        );
+        if (response.data) {
+         setInvites((currentInvites) =>
+            currentInvites.filter((invite) => invite.id !== id),
+         );
+           onInvitesChange()
+           toast.success(
+            status === 'accepted' ? 'Invite accepted!' : 'Invite declined!',
+          );
       } else {
-        toast.error(response.error || 'Failed to update invite');
-      }
-    } catch (e) {
-      let errorMessage = 'An unexpected error occurred.';
+         toast.error(response.error || 'Failed to update invite');
+       }
+   } catch (e) {
+       let errorMessage = 'An unexpected error occurred.';
       if (e instanceof Error) {
         errorMessage =
-          e.message || 'An error occurred while updating the invite.';
+           e.message || 'An error occurred while updating the invite.';
       } else if (typeof e === 'string') {
         errorMessage = e;
       }
-      toast.error(errorMessage);
+       toast.error(errorMessage);
     }
   };
 
@@ -144,7 +149,7 @@ const InvitesReceived: React.FC = () => {
                 <button
                   className={styles.rejectButton}
                   onClick={() =>
-                    handleInviteAction({ id: invite.id, status: 'rejected' })
+                    handleInviteAction({ id: invite.id, status: 'declined' })
                   }
                 >
                   Reject
